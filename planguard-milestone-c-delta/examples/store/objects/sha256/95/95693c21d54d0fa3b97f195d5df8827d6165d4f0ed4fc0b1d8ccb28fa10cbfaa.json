@@ -1,0 +1,64 @@
+{
+  "artifact_id": "qexec_0a35ec5388834d218c9b0f1458169939",
+  "artifact_kind": "query_execution",
+  "content_hash": "sha256:95693c21d54d0fa3b97f195d5df8827d6165d4f0ed4fc0b1d8ccb28fa10cbfaa",
+  "created_at": "2026-07-23T11:24:41.232659Z",
+  "extensions": {},
+  "payload": {
+    "connection": {
+      "alias": "default",
+      "vendor": "postgresql"
+    },
+    "context": {
+      "operation_segment": "mark-visible"
+    },
+    "many": false,
+    "origin": {
+      "application_frame": null,
+      "stack": [],
+      "stack_fingerprint": null
+    },
+    "outcome": {
+      "exception_message": null,
+      "exception_type": null,
+      "row_count": 1,
+      "status": "succeeded"
+    },
+    "parameter_binding_fingerprint": "binding:17b5a72e8013e5ce83f9e82ea2ed982c90d7121d9c03c12231795818819cbbe8",
+    "parameters": [
+      {
+        "container": null,
+        "length": null,
+        "preserved_value": null,
+        "type_name": "int",
+        "value_hash": "hmac-sha256:51f794a737463ef73826000cea4242b6f74d24b3114b05e339a5cae932682a71"
+      }
+    ],
+    "raw_sql_mode": "preserve",
+    "run_id": "run_demo_c_001",
+    "sequence_number": 13,
+    "sql": "UPDATE plan_item SET last_viewed_at = NOW() WHERE id = %s",
+    "timing": {
+      "duration_ms": 0.8,
+      "started_offset_ms": 0.443089000126929
+    },
+    "transaction": {
+      "autocommit": false,
+      "depth": 1,
+      "transaction_id": "run_demo_c_001:txn:1"
+    }
+  },
+  "producer": {
+    "build": "milestone-c",
+    "name": "planguard",
+    "version": "0.3.0"
+  },
+  "provenance": {
+    "code_revision": "milestone-c-demo",
+    "configuration_ref": null,
+    "derivation_key": "query-capture.v1",
+    "input_refs": [],
+    "notes": []
+  },
+  "schema_version": "planguard.query-execution.v1"
+}

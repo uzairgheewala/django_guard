@@ -1,0 +1,65 @@
+{
+  "artifact_id": "qexec_1f16a22fe948431289eb6f4e4f03ef63",
+  "artifact_kind": "query_execution",
+  "content_hash": "sha256:c916fa2f724058008b382b8418b435ec5b2734311e87ff70bfd764572081f7a6",
+  "created_at": "2026-07-23T11:24:41.231645Z",
+  "extensions": {},
+  "payload": {
+    "connection": {
+      "alias": "default",
+      "vendor": "postgresql"
+    },
+    "context": {
+      "operation_segment": "serialize-plan-item",
+      "relation": "course"
+    },
+    "many": false,
+    "origin": {
+      "application_frame": null,
+      "stack": [],
+      "stack_fingerprint": null
+    },
+    "outcome": {
+      "exception_message": null,
+      "exception_type": null,
+      "row_count": 1,
+      "status": "succeeded"
+    },
+    "parameter_binding_fingerprint": "binding:526acf8c12ec85c0c4c00d639e22cc34d603a090beb1b8e7526e6912a6cdc116",
+    "parameters": [
+      {
+        "container": null,
+        "length": null,
+        "preserved_value": null,
+        "type_name": "int",
+        "value_hash": "hmac-sha256:efd0ced193a7c59c4e66c3a002f5777f25c6328f43e812b3b66a44bb01cfb4ca"
+      }
+    ],
+    "raw_sql_mode": "preserve",
+    "run_id": "run_demo_c_001",
+    "sequence_number": 2,
+    "sql": "SELECT id, subject, number, title FROM course WHERE id = %s",
+    "timing": {
+      "duration_ms": 1.5,
+      "started_offset_ms": 0.0
+    },
+    "transaction": {
+      "autocommit": false,
+      "depth": 1,
+      "transaction_id": "run_demo_c_001:txn:1"
+    }
+  },
+  "producer": {
+    "build": "milestone-c",
+    "name": "planguard",
+    "version": "0.3.0"
+  },
+  "provenance": {
+    "code_revision": "milestone-c-demo",
+    "configuration_ref": null,
+    "derivation_key": "query-capture.v1",
+    "input_refs": [],
+    "notes": []
+  },
+  "schema_version": "planguard.query-execution.v1"
+}

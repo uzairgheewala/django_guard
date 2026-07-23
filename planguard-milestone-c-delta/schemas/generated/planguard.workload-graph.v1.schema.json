@@ -1,0 +1,406 @@
+{
+  "$defs": {
+    "ArtifactReference": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "artifact_kind": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Artifact Kind",
+          "type": "string"
+        },
+        "content_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "schema_version": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Schema Version"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "artifact_kind",
+        "content_hash",
+        "schema_version"
+      ],
+      "title": "ArtifactReference",
+      "type": "object"
+    },
+    "InferenceMethod": {
+      "enum": [
+        "observed",
+        "derived",
+        "inferred"
+      ],
+      "title": "InferenceMethod",
+      "type": "string"
+    },
+    "ProducerIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "build": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Build"
+        },
+        "name": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "version": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "build",
+        "name",
+        "version"
+      ],
+      "title": "ProducerIdentity",
+      "type": "object"
+    },
+    "Provenance": {
+      "additionalProperties": false,
+      "properties": {
+        "code_revision": {
+          "anyOf": [
+            {
+              "maxLength": 256,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Code Revision"
+        },
+        "configuration_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "derivation_key": {
+          "anyOf": [
+            {
+              "maxLength": 256,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Derivation Key"
+        },
+        "input_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Input Refs",
+          "type": "array"
+        },
+        "notes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "code_revision",
+        "configuration_ref",
+        "derivation_key",
+        "input_refs",
+        "notes"
+      ],
+      "title": "Provenance",
+      "type": "object"
+    },
+    "WorkloadEdge": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "additionalProperties": true,
+          "title": "Attributes",
+          "type": "object"
+        },
+        "confidence": {
+          "default": 1.0,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "edge_id": {
+          "maxLength": 256,
+          "minLength": 1,
+          "title": "Edge Id",
+          "type": "string"
+        },
+        "evidence_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Evidence Refs",
+          "type": "array"
+        },
+        "from_node": {
+          "maxLength": 256,
+          "minLength": 1,
+          "title": "From Node",
+          "type": "string"
+        },
+        "inference_method": {
+          "$ref": "#/$defs/InferenceMethod",
+          "default": "observed"
+        },
+        "kind": {
+          "$ref": "#/$defs/WorkloadEdgeKind"
+        },
+        "to_node": {
+          "maxLength": 256,
+          "minLength": 1,
+          "title": "To Node",
+          "type": "string"
+        }
+      },
+      "required": [
+        "attributes",
+        "confidence",
+        "edge_id",
+        "evidence_refs",
+        "from_node",
+        "inference_method",
+        "kind",
+        "to_node"
+      ],
+      "title": "WorkloadEdge",
+      "type": "object"
+    },
+    "WorkloadEdgeKind": {
+      "enum": [
+        "contains",
+        "emits",
+        "member_of",
+        "temporally_precedes",
+        "same_origin",
+        "same_transaction",
+        "repeated_within",
+        "possible_result_drives",
+        "supports",
+        "affects",
+        "matches_motif"
+      ],
+      "title": "WorkloadEdgeKind",
+      "type": "string"
+    },
+    "WorkloadGraphPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "capability_gaps": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Capability Gaps",
+          "type": "array"
+        },
+        "edges": {
+          "items": {
+            "$ref": "#/$defs/WorkloadEdge"
+          },
+          "title": "Edges",
+          "type": "array"
+        },
+        "family_scheme_key": {
+          "title": "Family Scheme Key",
+          "type": "string"
+        },
+        "graph_version": {
+          "default": "workload-graph.v1",
+          "title": "Graph Version",
+          "type": "string"
+        },
+        "nodes": {
+          "items": {
+            "$ref": "#/$defs/WorkloadNode"
+          },
+          "title": "Nodes",
+          "type": "array"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "capability_gaps",
+        "edges",
+        "family_scheme_key",
+        "graph_version",
+        "nodes",
+        "run_id"
+      ],
+      "title": "WorkloadGraphPayload",
+      "type": "object"
+    },
+    "WorkloadNode": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "attributes": {
+          "additionalProperties": true,
+          "title": "Attributes",
+          "type": "object"
+        },
+        "kind": {
+          "$ref": "#/$defs/WorkloadNodeKind"
+        },
+        "label": {
+          "maxLength": 512,
+          "minLength": 1,
+          "title": "Label",
+          "type": "string"
+        },
+        "node_id": {
+          "maxLength": 256,
+          "minLength": 1,
+          "title": "Node Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "artifact_ref",
+        "attributes",
+        "kind",
+        "label",
+        "node_id"
+      ],
+      "title": "WorkloadNode",
+      "type": "object"
+    },
+    "WorkloadNodeKind": {
+      "enum": [
+        "operation",
+        "query_execution",
+        "query_family",
+        "transaction",
+        "finding",
+        "evidence",
+        "episode"
+      ],
+      "title": "WorkloadNodeKind",
+      "type": "string"
+    }
+  },
+  "$id": "https://planguard.dev/schemas/planguard.workload-graph.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifact_id": {
+      "title": "Artifact Id",
+      "type": "string"
+    },
+    "artifact_kind": {
+      "const": "workload_graph",
+      "default": "workload_graph",
+      "title": "Artifact Kind",
+      "type": "string"
+    },
+    "content_hash": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "title": "Content Hash",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "extensions": {
+      "additionalProperties": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Extensions",
+      "type": "object"
+    },
+    "payload": {
+      "$ref": "#/$defs/WorkloadGraphPayload"
+    },
+    "producer": {
+      "$ref": "#/$defs/ProducerIdentity"
+    },
+    "provenance": {
+      "$ref": "#/$defs/Provenance"
+    },
+    "schema_version": {
+      "const": "planguard.workload-graph.v1",
+      "default": "planguard.workload-graph.v1",
+      "title": "Schema Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "artifact_id",
+    "artifact_kind",
+    "content_hash",
+    "created_at",
+    "extensions",
+    "payload",
+    "producer",
+    "provenance",
+    "schema_version"
+  ],
+  "title": "WorkloadGraphArtifact",
+  "type": "object"
+}

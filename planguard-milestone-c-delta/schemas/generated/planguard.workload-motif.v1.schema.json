@@ -1,0 +1,407 @@
+{
+  "$defs": {
+    "ArtifactReference": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "artifact_kind": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Artifact Kind",
+          "type": "string"
+        },
+        "content_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "schema_version": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Schema Version"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "artifact_kind",
+        "content_hash",
+        "schema_version"
+      ],
+      "title": "ArtifactReference",
+      "type": "object"
+    },
+    "MotifConstraintDefinition": {
+      "additionalProperties": false,
+      "properties": {
+        "constraint_key": {
+          "title": "Constraint Key",
+          "type": "string"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "kind": {
+          "title": "Kind",
+          "type": "string"
+        },
+        "parameters": {
+          "additionalProperties": true,
+          "title": "Parameters",
+          "type": "object"
+        }
+      },
+      "required": [
+        "constraint_key",
+        "description",
+        "kind",
+        "parameters"
+      ],
+      "title": "MotifConstraintDefinition",
+      "type": "object"
+    },
+    "MotifEdgePattern": {
+      "additionalProperties": false,
+      "properties": {
+        "allowed_kinds": {
+          "items": {
+            "$ref": "#/$defs/WorkloadEdgeKind"
+          },
+          "title": "Allowed Kinds",
+          "type": "array"
+        },
+        "from_role": {
+          "title": "From Role",
+          "type": "string"
+        },
+        "minimum_confidence": {
+          "default": 0.0,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Minimum Confidence",
+          "type": "number"
+        },
+        "to_role": {
+          "title": "To Role",
+          "type": "string"
+        }
+      },
+      "required": [
+        "allowed_kinds",
+        "from_role",
+        "minimum_confidence",
+        "to_role"
+      ],
+      "title": "MotifEdgePattern",
+      "type": "object"
+    },
+    "MotifNodeRole": {
+      "additionalProperties": false,
+      "properties": {
+        "allowed_kinds": {
+          "items": {
+            "$ref": "#/$defs/WorkloadNodeKind"
+          },
+          "title": "Allowed Kinds",
+          "type": "array"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "role_key": {
+          "title": "Role Key",
+          "type": "string"
+        }
+      },
+      "required": [
+        "allowed_kinds",
+        "description",
+        "role_key"
+      ],
+      "title": "MotifNodeRole",
+      "type": "object"
+    },
+    "ProducerIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "build": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Build"
+        },
+        "name": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "version": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "build",
+        "name",
+        "version"
+      ],
+      "title": "ProducerIdentity",
+      "type": "object"
+    },
+    "Provenance": {
+      "additionalProperties": false,
+      "properties": {
+        "code_revision": {
+          "anyOf": [
+            {
+              "maxLength": 256,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Code Revision"
+        },
+        "configuration_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "derivation_key": {
+          "anyOf": [
+            {
+              "maxLength": 256,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Derivation Key"
+        },
+        "input_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Input Refs",
+          "type": "array"
+        },
+        "notes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "code_revision",
+        "configuration_ref",
+        "derivation_key",
+        "input_refs",
+        "notes"
+      ],
+      "title": "Provenance",
+      "type": "object"
+    },
+    "WorkloadEdgeKind": {
+      "enum": [
+        "contains",
+        "emits",
+        "member_of",
+        "temporally_precedes",
+        "same_origin",
+        "same_transaction",
+        "repeated_within",
+        "possible_result_drives",
+        "supports",
+        "affects",
+        "matches_motif"
+      ],
+      "title": "WorkloadEdgeKind",
+      "type": "string"
+    },
+    "WorkloadMotifPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "constraints": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/MotifConstraintDefinition"
+          },
+          "title": "Constraints",
+          "type": "array"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "edge_patterns": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/MotifEdgePattern"
+          },
+          "title": "Edge Patterns",
+          "type": "array"
+        },
+        "mechanism_keys": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Mechanism Keys",
+          "type": "array"
+        },
+        "motif_key": {
+          "title": "Motif Key",
+          "type": "string"
+        },
+        "node_roles": {
+          "items": {
+            "$ref": "#/$defs/MotifNodeRole"
+          },
+          "title": "Node Roles",
+          "type": "array"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        }
+      },
+      "required": [
+        "constraints",
+        "description",
+        "edge_patterns",
+        "mechanism_keys",
+        "motif_key",
+        "node_roles",
+        "title"
+      ],
+      "title": "WorkloadMotifPayload",
+      "type": "object"
+    },
+    "WorkloadNodeKind": {
+      "enum": [
+        "operation",
+        "query_execution",
+        "query_family",
+        "transaction",
+        "finding",
+        "evidence",
+        "episode"
+      ],
+      "title": "WorkloadNodeKind",
+      "type": "string"
+    }
+  },
+  "$id": "https://planguard.dev/schemas/planguard.workload-motif.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifact_id": {
+      "title": "Artifact Id",
+      "type": "string"
+    },
+    "artifact_kind": {
+      "const": "workload_motif",
+      "default": "workload_motif",
+      "title": "Artifact Kind",
+      "type": "string"
+    },
+    "content_hash": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "title": "Content Hash",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "extensions": {
+      "additionalProperties": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Extensions",
+      "type": "object"
+    },
+    "payload": {
+      "$ref": "#/$defs/WorkloadMotifPayload"
+    },
+    "producer": {
+      "$ref": "#/$defs/ProducerIdentity"
+    },
+    "provenance": {
+      "$ref": "#/$defs/Provenance"
+    },
+    "schema_version": {
+      "const": "planguard.workload-motif.v1",
+      "default": "planguard.workload-motif.v1",
+      "title": "Schema Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "artifact_id",
+    "artifact_kind",
+    "content_hash",
+    "created_at",
+    "extensions",
+    "payload",
+    "producer",
+    "provenance",
+    "schema_version"
+  ],
+  "title": "WorkloadMotifArtifact",
+  "type": "object"
+}

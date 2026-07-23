@@ -1,0 +1,978 @@
+"""Canonical PlanGuard artifact contracts through Milestone B.
+
+The module intentionally keeps persisted contracts together so the generated
+JSON Schema and TypeScript boundary are derived from one source of truth.
+Runtime engines live in dedicated modules and consume these immutable models.
+"""
+
+from __future__ import annotations
+
+from datetime import datetime
+from enum import StrEnum
+from typing import Annotated, Any, Generic, Literal, TypeAlias, TypeVar
+
+from pydantic import BaseModel, ConfigDict, Field, TypeAdapter, field_validator, model_validator
+
+from planguard.canonical import canonical_data, content_hash
+from planguard.ids import new_artifact_id, validate_artifact_id
+from planguard.time import utc_now
+
+JsonObject: TypeAlias = dict[str, Any]
+JsonValue: TypeAlias = Any
+
+
+class FrozenModel(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid",
+        frozen=True,
+        validate_assignment=True,
+        use_enum_values=False,
+    )
+
+
+class CapabilityState(StrEnum):
+    SUPPORTED = "supported"
+    PARTIAL = "partial"
+    UNSUPPORTED = "unsupported"
+    UNKNOWN = "unknown"
+
+
+class RunStatus(StrEnum):
+    CREATED = "created"
+    RUNNING = "running"
+    COMPLETED = "completed"
+    FAILED = "failed"
+    INCOMPLETE = "incomplete"
+
+
+class ParseQuality(StrEnum):
+    FULL = "full"
+    PARTIAL = "partial"
+    FALLBACK = "fallback"
+    FAILED = "failed"
+
+
+class SeverityLevel(StrEnum):
+    INFO = "info"
+    LOW = "low"
+    MEDIUM = "medium"
+    HIGH = "high"
+    CRITICAL = "critical"
+
+
+class ConfidenceLevel(StrEnum):
+    LOW = "low"
+    MEDIUM = "medium"
+    HIGH = "high"
+
+
+class EvaluationStatus(StrEnum):
+    PASSED = "passed"
+    FAILED = "failed"
+    WARNED = "warned"
+    NOT_EVALUATED = "not_evaluated"
+
+
+class DetectorStatus(StrEnum):
+    EXECUTED = "executed"
+    NOT_APPLICABLE = "not_applicable"
+    NOT_EVALUATED = "not_evaluated"
+    FAILED = "failed"
+    CAPABILITY_MISSING = "capability_missing"
+
+
+class ProducerIdentity(FrozenModel):
+    name: str = Field(min_length=1, max_length=128)
+    version: str = Field(min_length=1, max_length=64)
+    build: str | None = Field(default=None, max_length=128)
+
+
+class ArtifactReference(FrozenModel):
+    artifact_id: str
+    artifact_kind: str = Field(min_length=1, max_length=128)
+    schema_version: str | None = Field(default=None, max_length=128)
+    content_hash: str | None = Field(default=None, pattern=r"^sha256:[0-9a-f]{64}$")
+
+    @field_validator("artifact_id")
+    @classmethod
+    def validate_id(cls, value: str) -> str:
+        return validate_artifact_id(value)
+
+
+class Provenance(FrozenModel):
+    input_refs: tuple[ArtifactReference, ...] = ()
+    configuration_ref: ArtifactReference | None = None
+    code_revision: str | None = Field(default=None, max_length=256)
+    derivation_key: str | None = Field(default=None, max_length=256)
+    notes: tuple[str, ...] = ()
+
+
+class CapabilityStatus(FrozenModel):
+    state: CapabilityState
+    reason: str | None = None
+    details: JsonObject = Field(default_factory=dict)
+
+    @field_validator("details")
+    @classmethod
+    def validate_details(cls, value: JsonObject) -> JsonObject:
+        canonical_data(value)
+        return value
+
+
+class CapabilityGap(FrozenModel):
+    capability: str = Field(min_length=1, max_length=256)
+    status: Literal["unsupported", "partial", "unknown"]
+    reason: str
+    subject_ref: ArtifactReference | None = None
+    impact: tuple[str, ...] = ()
+    details: JsonObject = Field(default_factory=dict)
+
+    @field_validator("details")
+    @classmethod
+    def validate_details(cls, value: JsonObject) -> JsonObject:
+        canonical_data(value)
+        return value
+
+
+PayloadT = TypeVar("PayloadT", bound=BaseModel)
+
+
+class ArtifactDocument(FrozenModel, Generic[PayloadT]):
+    """Versioned immutable artifact envelope."""
+
+    schema_version: str = Field(min_length=1, max_length=128)
+    artifact_kind: str = Field(min_length=1, max_length=128)
+    artifact_id: str = Field(default_factory=lambda: new_artifact_id("art"))
+    created_at: datetime = Field(default_factory=utc_now)
+    producer: ProducerIdentity
+    provenance: Provenance = Field(default_factory=Provenance)
+    payload: PayloadT
+    extensions: dict[str, JsonObject] = Field(default_factory=dict)
+    content_hash: str | None = Field(default=None, pattern=r"^sha256:[0-9a-f]{64}$")
+
+    @field_validator("artifact_id")
+    @classmethod
+    def validate_id(cls, value: str) -> str:
+        return validate_artifact_id(value)
+
+    @field_validator("created_at")
+    @classmethod
+    def require_aware_timestamp(cls, value: datetime) -> datetime:
+        if value.tzinfo is None or value.utcoffset() is None:
+            raise ValueError("Artifact timestamps must be timezone-aware")
+        return value
+
+    @field_validator("extensions")
+    @classmethod
+    def validate_extensions(cls, value: dict[str, JsonObject]) -> dict[str, JsonObject]:
+        for namespace, payload in value.items():
+            if not namespace or namespace.startswith(".") or namespace.endswith("."):
+                raise ValueError(f"Invalid extension namespace: {namespace!r}")
+            canonical_data(payload)
+        return value
+
+    def hash_material(self) -> JsonObject:
+        return self.model_dump(mode="python", exclude={"content_hash"}, exclude_none=False)
+
+    def compute_content_hash(self) -> str:
+        return content_hash(self.hash_material())
+
+    def seal(self) -> "ArtifactDocument[PayloadT]":
+        expected = self.compute_content_hash()
+        if self.content_hash == expected:
+            return self
+        return self.model_copy(update={"content_hash": expected})
+
+    def verify_integrity(self) -> bool:
+        return self.content_hash is not None and self.content_hash == self.compute_content_hash()
+
+    @model_validator(mode="after")
+    def validate_existing_hash(self) -> "ArtifactDocument[PayloadT]":
+        if self.content_hash is not None and not self.verify_integrity():
+            raise ValueError("Artifact content_hash does not match canonical document content")
+        return self
+
+    def reference(self) -> ArtifactReference:
+        return ArtifactReference(
+            artifact_id=self.artifact_id,
+            artifact_kind=self.artifact_kind,
+            schema_version=self.schema_version,
+            content_hash=self.content_hash,
+        )
+
+
+# ---------------------------------------------------------------------------
+# Milestone A contracts retained without breaking v1 persisted documents.
+# ---------------------------------------------------------------------------
+
+
+class RunSummary(FrozenModel):
+    name: str = Field(min_length=1, max_length=256)
+    mode: str = Field(min_length=1, max_length=64)
+    started_at: datetime | None = None
+    completed_at: datetime | None = None
+    status: RunStatus
+    tags: tuple[str, ...] = ()
+
+
+class ArtifactInventory(FrozenModel):
+    by_kind: dict[str, int] = Field(default_factory=dict)
+    total_count: int = Field(default=0, ge=0)
+
+    @model_validator(mode="after")
+    def validate_total(self) -> "ArtifactInventory":
+        if sum(self.by_kind.values()) != self.total_count:
+            raise ValueError("Artifact inventory total_count must equal the by_kind sum")
+        if any(count < 0 for count in self.by_kind.values()):
+            raise ValueError("Artifact inventory counts must be non-negative")
+        return self
+
+
+class BundleIntegrity(FrozenModel):
+    bundle_hash: str | None = Field(default=None, pattern=r"^sha256:[0-9a-f]{64}$")
+    verified: bool = False
+    missing_refs: tuple[ArtifactReference, ...] = ()
+
+
+class RunManifestPayload(FrozenModel):
+    run: RunSummary
+    environment_ref: ArtifactReference | None = None
+    capture_policy_ref: ArtifactReference | None = None
+    scenario_instance_ref: ArtifactReference | None = None
+    artifact_inventory: ArtifactInventory = Field(default_factory=ArtifactInventory)
+    capability_status: dict[str, CapabilityStatus] = Field(default_factory=dict)
+    capability_gap_refs: tuple[ArtifactReference, ...] = ()
+    integrity: BundleIntegrity = Field(default_factory=BundleIntegrity)
+
+
+class RuntimeComponent(FrozenModel):
+    name: str
+    version: str | None = None
+    details: JsonObject = Field(default_factory=dict)
+
+
+class DatabaseIdentity(FrozenModel):
+    vendor: str = "unknown"
+    version: str | None = None
+    database_hash: str | None = None
+    connection_aliases: tuple[str, ...] = ()
+
+
+class EnvironmentProfilePayload(FrozenModel):
+    operating_system: str | None = None
+    architecture: str | None = None
+    python_version: str
+    runtime_components: tuple[RuntimeComponent, ...] = ()
+    database: DatabaseIdentity = Field(default_factory=DatabaseIdentity)
+    environment_variables: dict[str, str] = Field(default_factory=dict)
+    machine_profile: JsonObject = Field(default_factory=dict)
+    notes: tuple[str, ...] = ()
+
+
+class RawSqlMode(StrEnum):
+    OMIT = "omit"
+    REDACT = "redact"
+    PRESERVE = "preserve"
+
+
+class ParameterCaptureMode(StrEnum):
+    NONE = "none"
+    SHAPE = "shape"
+    SHAPE_AND_HASH = "shape_and_hash"
+    PRESERVE = "preserve"
+
+
+class OriginCaptureMode(StrEnum):
+    NONE = "none"
+    FIRST_APPLICATION_FRAME = "first_application_frame"
+    TRIMMED_APPLICATION_STACK = "trimmed_application_stack"
+    FULL_STACK = "full_stack"
+
+
+class CaptureLimits(FrozenModel):
+    max_query_count: int = Field(default=100_000, ge=0)
+    max_raw_sql_bytes: int = Field(default=1_000_000, ge=0)
+    max_stack_depth: int = Field(default=32, ge=0)
+    max_artifact_bytes: int = Field(default=100_000_000, ge=0)
+
+
+class CapturePolicyPayload(FrozenModel):
+    policy_key: str = Field(min_length=1, max_length=256)
+    raw_sql_mode: RawSqlMode = RawSqlMode.REDACT
+    parameter_capture_mode: ParameterCaptureMode = ParameterCaptureMode.SHAPE_AND_HASH
+    origin_capture_mode: OriginCaptureMode = OriginCaptureMode.FIRST_APPLICATION_FRAME
+    include_connection_aliases: tuple[str, ...] = ()
+    exclude_module_patterns: tuple[str, ...] = ()
+    application_roots: tuple[str, ...] = ()
+    limits: CaptureLimits = Field(default_factory=CaptureLimits)
+    hmac_key_id: str | None = None
+    notes: tuple[str, ...] = ()
+
+
+class CapabilityGapPayload(FrozenModel):
+    gaps: tuple[CapabilityGap, ...]
+
+
+# ---------------------------------------------------------------------------
+# Capture and query observation contracts.
+# ---------------------------------------------------------------------------
+
+
+class SourceFrame(FrozenModel):
+    module: str | None = None
+    file: str | None = None
+    line: int | None = Field(default=None, ge=1)
+    function: str | None = None
+
+
+class QueryOrigin(FrozenModel):
+    application_frame: SourceFrame | None = None
+    stack: tuple[SourceFrame, ...] = ()
+    stack_fingerprint: str | None = None
+
+
+class ParameterDescriptor(FrozenModel):
+    type_name: str
+    container: str | None = None
+    length: int | None = Field(default=None, ge=0)
+    value_hash: str | None = None
+    preserved_value: JsonValue | None = None
+
+    @field_validator("preserved_value")
+    @classmethod
+    def validate_preserved_value(cls, value: JsonValue | None) -> JsonValue | None:
+        canonical_data(value)
+        return value
+
+
+class QueryConnection(FrozenModel):
+    alias: str
+    vendor: str = "unknown"
+
+
+class QueryTiming(FrozenModel):
+    started_offset_ms: float = Field(ge=0)
+    duration_ms: float = Field(ge=0)
+
+
+class QueryTransaction(FrozenModel):
+    transaction_id: str | None = None
+    depth: int = Field(default=0, ge=0)
+    autocommit: bool | None = None
+
+
+class QueryOutcome(FrozenModel):
+    status: Literal["succeeded", "failed"]
+    row_count: int | None = None
+    exception_type: str | None = None
+    exception_message: str | None = None
+
+
+class QueryExecutionPayload(FrozenModel):
+    run_id: str
+    sequence_number: int = Field(ge=1)
+    connection: QueryConnection
+    timing: QueryTiming
+    raw_sql_mode: RawSqlMode
+    sql: str | None = None
+    parameters: tuple[ParameterDescriptor, ...] = ()
+    parameter_binding_fingerprint: str | None = None
+    origin: QueryOrigin = Field(default_factory=QueryOrigin)
+    transaction: QueryTransaction = Field(default_factory=QueryTransaction)
+    outcome: QueryOutcome
+    many: bool = False
+    context: JsonObject = Field(default_factory=dict)
+
+    @field_validator("run_id")
+    @classmethod
+    def validate_run_id(cls, value: str) -> str:
+        return validate_artifact_id(value)
+
+
+class QueryFeatures(FrozenModel):
+    statement_kind: str = "unknown"
+    relations: tuple[str, ...] = ()
+    projected_columns: tuple[str, ...] = ()
+    predicate_columns: tuple[str, ...] = ()
+    join_count: int = Field(default=0, ge=0)
+    aggregate_count: int = Field(default=0, ge=0)
+    has_group_by: bool = False
+    has_order_by: bool = False
+    has_limit: bool = False
+    has_offset: bool = False
+    has_cte: bool = False
+    has_subquery: bool = False
+    has_locking_clause: bool = False
+
+
+class QueryTemplatePayload(FrozenModel):
+    dialect: str
+    canonical_sql: str
+    lexical_fingerprint: str
+    structural_shape_fingerprint: str
+    statement_kind: str
+    features: QueryFeatures = Field(default_factory=QueryFeatures)
+    parse_quality: ParseQuality
+    diagnostics: tuple[str, ...] = ()
+
+
+class FamilySchemePayload(FrozenModel):
+    family_scheme_key: str
+    title: str
+    dimensions: tuple[str, ...]
+    missing_value_policy: Literal["preserve_unknown", "reject", "omit_dimension"] = (
+        "preserve_unknown"
+    )
+    description: str | None = None
+
+
+class ParameterRegime(FrozenModel):
+    regime_key: str
+    member_count: int = Field(ge=0)
+    details: JsonObject = Field(default_factory=dict)
+
+
+class FamilyAggregates(FrozenModel):
+    execution_count: int = Field(ge=0)
+    distinct_parameter_bindings: int = Field(ge=0)
+    total_duration_ms: float = Field(ge=0)
+    mean_duration_ms: float = Field(ge=0)
+    median_duration_ms: float = Field(ge=0)
+    maximum_duration_ms: float = Field(ge=0)
+    failed_execution_count: int = Field(default=0, ge=0)
+
+
+class FamilyTemporalRange(FrozenModel):
+    first_sequence: int = Field(ge=1)
+    last_sequence: int = Field(ge=1)
+    span_ms: float = Field(ge=0)
+
+
+class ObservedQueryFamilyPayload(FrozenModel):
+    run_id: str
+    family_scheme_key: str
+    query_template_ref: ArtifactReference
+    dimension_values: dict[str, str]
+    member_execution_refs: tuple[ArtifactReference, ...]
+    aggregates: FamilyAggregates
+    temporal: FamilyTemporalRange
+    parameter_regimes: tuple[ParameterRegime, ...] = ()
+
+    @field_validator("run_id")
+    @classmethod
+    def validate_run_id(cls, value: str) -> str:
+        return validate_artifact_id(value)
+
+
+# ---------------------------------------------------------------------------
+# Analysis, detector, evidence, and finding contracts.
+# ---------------------------------------------------------------------------
+
+
+class EvidenceClaim(FrozenModel):
+    claim_key: str
+    status: Literal["supported", "contradicted", "unknown"]
+    subject_refs: tuple[ArtifactReference, ...] = ()
+    values: JsonObject = Field(default_factory=dict)
+    explanation: str | None = None
+
+
+class EvidencePayload(FrozenModel):
+    run_id: str
+    claims: tuple[EvidenceClaim, ...]
+
+    @field_validator("run_id")
+    @classmethod
+    def validate_run_id(cls, value: str) -> str:
+        return validate_artifact_id(value)
+
+
+class Score(FrozenModel):
+    level: SeverityLevel | ConfidenceLevel
+    score: float = Field(ge=0, le=1)
+
+
+class FindingExplanation(FrozenModel):
+    summary: str
+    details: tuple[str, ...] = ()
+
+
+class RemediationGuidance(FrozenModel):
+    category: str
+    guidance: tuple[str, ...] = ()
+
+
+class FindingPayload(FrozenModel):
+    run_id: str
+    detector_key: str
+    mechanism_key: str
+    title: str
+    severity: Score
+    confidence: Score
+    subject_refs: tuple[ArtifactReference, ...]
+    evidence_refs: tuple[ArtifactReference, ...] = ()
+    claims: tuple[EvidenceClaim, ...] = ()
+    explanation: FindingExplanation
+    remediation: RemediationGuidance
+    limitations: tuple[str, ...] = ()
+    metadata: JsonObject = Field(default_factory=dict)
+
+    @field_validator("run_id")
+    @classmethod
+    def validate_run_id(cls, value: str) -> str:
+        return validate_artifact_id(value)
+
+
+class DetectorReceiptPayload(FrozenModel):
+    run_id: str
+    detector_key: str
+    detector_version: str
+    status: DetectorStatus
+    started_at: datetime
+    completed_at: datetime
+    finding_refs: tuple[ArtifactReference, ...] = ()
+    required_capabilities: tuple[str, ...] = ()
+    missing_capabilities: tuple[str, ...] = ()
+    error: str | None = None
+    statistics: JsonObject = Field(default_factory=dict)
+
+    @field_validator("run_id")
+    @classmethod
+    def validate_run_id(cls, value: str) -> str:
+        return validate_artifact_id(value)
+
+
+# ---------------------------------------------------------------------------
+# Generic selector and policy contracts.
+# ---------------------------------------------------------------------------
+
+
+class SelectorOperator(StrEnum):
+    ALL = "all"
+    ANY = "any"
+    NOT = "not"
+    EQUALS = "equals"
+    NOT_EQUALS = "not_equals"
+    GREATER_THAN = "greater_than"
+    GREATER_OR_EQUAL = "greater_or_equal"
+    LESS_THAN = "less_than"
+    LESS_OR_EQUAL = "less_or_equal"
+    CONTAINS = "contains"
+    EXISTS = "exists"
+    IN_SET = "in_set"
+
+
+class SelectorExpression(FrozenModel):
+    operator: SelectorOperator
+    field: str | None = None
+    value: JsonValue | None = None
+    children: tuple["SelectorExpression", ...] = ()
+
+    @field_validator("value")
+    @classmethod
+    def validate_value(cls, value: JsonValue | None) -> JsonValue | None:
+        canonical_data(value)
+        return value
+
+    @model_validator(mode="after")
+    def validate_shape(self) -> "SelectorExpression":
+        logical = {SelectorOperator.ALL, SelectorOperator.ANY, SelectorOperator.NOT}
+        if self.operator in logical:
+            if not self.children:
+                raise ValueError(f"{self.operator} requires children")
+            if self.operator == SelectorOperator.NOT and len(self.children) != 1:
+                raise ValueError("not requires exactly one child")
+        elif not self.field:
+            raise ValueError(f"{self.operator} requires a field")
+        return self
+
+
+class BudgetRule(FrozenModel):
+    rule_key: str
+    subject_kind: Literal["run", "family", "finding", "detector_receipt"]
+    metric: str | None = None
+    selector: SelectorExpression | None = None
+    operator: Literal[
+        "less_or_equal",
+        "less_than",
+        "greater_or_equal",
+        "greater_than",
+        "equals",
+        "no_matches",
+        "has_matches",
+    ]
+    threshold: float | int | str | None = None
+    disposition: Literal["fail", "warn"] = "fail"
+    message: str | None = None
+
+
+class BudgetPolicyPayload(FrozenModel):
+    policy_key: str
+    title: str
+    rules: tuple[BudgetRule, ...]
+    description: str | None = None
+    tags: tuple[str, ...] = ()
+
+
+class RuleEvaluation(FrozenModel):
+    rule_key: str
+    status: EvaluationStatus
+    measured_value: JsonValue | None = None
+    threshold: JsonValue | None = None
+    matched_subject_refs: tuple[ArtifactReference, ...] = ()
+    evidence_refs: tuple[ArtifactReference, ...] = ()
+    message: str
+
+    @field_validator("measured_value", "threshold")
+    @classmethod
+    def validate_json_value(cls, value: JsonValue | None) -> JsonValue | None:
+        canonical_data(value)
+        return value
+
+
+class BudgetEvaluationPayload(FrozenModel):
+    run_id: str
+    policy_ref: ArtifactReference
+    status: EvaluationStatus
+    rule_evaluations: tuple[RuleEvaluation, ...]
+    evaluated_at: datetime
+
+    @field_validator("run_id")
+    @classmethod
+    def validate_run_id(cls, value: str) -> str:
+        return validate_artifact_id(value)
+
+
+class AnalysisSummaryPayload(FrozenModel):
+    run_id: str
+    query_count: int = Field(ge=0)
+    query_template_count: int = Field(ge=0)
+    family_count_by_scheme: dict[str, int] = Field(default_factory=dict)
+    total_database_time_ms: float = Field(ge=0)
+    finding_count_by_severity: dict[str, int] = Field(default_factory=dict)
+    query_execution_refs: tuple[ArtifactReference, ...] = ()
+    query_template_refs: tuple[ArtifactReference, ...] = ()
+    family_refs: tuple[ArtifactReference, ...] = ()
+    evidence_refs: tuple[ArtifactReference, ...] = ()
+    finding_refs: tuple[ArtifactReference, ...] = ()
+    detector_receipt_refs: tuple[ArtifactReference, ...] = ()
+    budget_evaluation_refs: tuple[ArtifactReference, ...] = ()
+
+    @field_validator("run_id")
+    @classmethod
+    def validate_run_id(cls, value: str) -> str:
+        return validate_artifact_id(value)
+
+
+
+# ---------------------------------------------------------------------------
+# Milestone C workload graph, motif, and episode contracts.
+# ---------------------------------------------------------------------------
+
+
+class WorkloadNodeKind(StrEnum):
+    OPERATION = "operation"
+    QUERY_EXECUTION = "query_execution"
+    QUERY_FAMILY = "query_family"
+    TRANSACTION = "transaction"
+    FINDING = "finding"
+    EVIDENCE = "evidence"
+    EPISODE = "episode"
+
+
+class WorkloadEdgeKind(StrEnum):
+    CONTAINS = "contains"
+    EMITS = "emits"
+    MEMBER_OF = "member_of"
+    TEMPORALLY_PRECEDES = "temporally_precedes"
+    SAME_ORIGIN = "same_origin"
+    SAME_TRANSACTION = "same_transaction"
+    REPEATED_WITHIN = "repeated_within"
+    POSSIBLE_RESULT_DRIVES = "possible_result_drives"
+    SUPPORTS = "supports"
+    AFFECTS = "affects"
+    MATCHES_MOTIF = "matches_motif"
+
+
+class InferenceMethod(StrEnum):
+    OBSERVED = "observed"
+    DERIVED = "derived"
+    INFERRED = "inferred"
+
+
+class WorkloadNode(FrozenModel):
+    node_id: str = Field(min_length=1, max_length=256)
+    kind: WorkloadNodeKind
+    label: str = Field(min_length=1, max_length=512)
+    artifact_ref: ArtifactReference | None = None
+    attributes: JsonObject = Field(default_factory=dict)
+
+    @field_validator("attributes")
+    @classmethod
+    def validate_attributes(cls, value: JsonObject) -> JsonObject:
+        canonical_data(value)
+        return value
+
+
+class WorkloadEdge(FrozenModel):
+    edge_id: str = Field(min_length=1, max_length=256)
+    from_node: str = Field(min_length=1, max_length=256)
+    to_node: str = Field(min_length=1, max_length=256)
+    kind: WorkloadEdgeKind
+    confidence: float = Field(default=1.0, ge=0, le=1)
+    inference_method: InferenceMethod = InferenceMethod.OBSERVED
+    evidence_refs: tuple[ArtifactReference, ...] = ()
+    attributes: JsonObject = Field(default_factory=dict)
+
+    @field_validator("attributes")
+    @classmethod
+    def validate_edge_attributes(cls, value: JsonObject) -> JsonObject:
+        canonical_data(value)
+        return value
+
+
+class WorkloadGraphPayload(FrozenModel):
+    run_id: str
+    family_scheme_key: str
+    graph_version: str = "workload-graph.v1"
+    nodes: tuple[WorkloadNode, ...]
+    edges: tuple[WorkloadEdge, ...]
+    capability_gaps: tuple[str, ...] = ()
+
+    @field_validator("run_id")
+    @classmethod
+    def validate_run_id(cls, value: str) -> str:
+        return validate_artifact_id(value)
+
+    @model_validator(mode="after")
+    def validate_graph(self) -> "WorkloadGraphPayload":
+        node_ids = [node.node_id for node in self.nodes]
+        if len(node_ids) != len(set(node_ids)):
+            raise ValueError("Workload graph node IDs must be unique")
+        known = set(node_ids)
+        edge_ids: set[str] = set()
+        for edge in self.edges:
+            if edge.edge_id in edge_ids:
+                raise ValueError("Workload graph edge IDs must be unique")
+            edge_ids.add(edge.edge_id)
+            if edge.from_node not in known or edge.to_node not in known:
+                raise ValueError("Workload graph edges must reference known nodes")
+        return self
+
+
+class MotifNodeRole(FrozenModel):
+    role_key: str
+    allowed_kinds: tuple[WorkloadNodeKind, ...]
+    description: str | None = None
+
+
+class MotifEdgePattern(FrozenModel):
+    from_role: str
+    to_role: str
+    allowed_kinds: tuple[WorkloadEdgeKind, ...]
+    minimum_confidence: float = Field(default=0.0, ge=0, le=1)
+
+
+class MotifConstraintDefinition(FrozenModel):
+    constraint_key: str
+    kind: str
+    parameters: JsonObject = Field(default_factory=dict)
+    description: str | None = None
+
+
+class WorkloadMotifPayload(FrozenModel):
+    motif_key: str
+    title: str
+    description: str
+    node_roles: tuple[MotifNodeRole, ...]
+    edge_patterns: tuple[MotifEdgePattern, ...] = ()
+    constraints: tuple[MotifConstraintDefinition, ...] = ()
+    mechanism_keys: tuple[str, ...] = ()
+
+
+class ConstraintEvaluation(FrozenModel):
+    constraint_key: str
+    status: Literal["satisfied", "not_satisfied", "unknown", "not_evaluated"]
+    values: JsonObject = Field(default_factory=dict)
+    explanation: str | None = None
+
+
+class WorkloadEpisodePayload(FrozenModel):
+    run_id: str
+    motif_key: str
+    title: str
+    family_scheme_key: str
+    node_bindings: dict[str, str]
+    edge_ids: tuple[str, ...] = ()
+    constraint_evaluations: tuple[ConstraintEvaluation, ...] = ()
+    match_confidence: float = Field(ge=0, le=1)
+    subject_refs: tuple[ArtifactReference, ...] = ()
+    metadata: JsonObject = Field(default_factory=dict)
+
+    @field_validator("run_id")
+    @classmethod
+    def validate_run_id(cls, value: str) -> str:
+        return validate_artifact_id(value)
+
+
+# ---------------------------------------------------------------------------
+# Concrete artifacts.
+# ---------------------------------------------------------------------------
+
+
+class RunManifestArtifact(ArtifactDocument[RunManifestPayload]):
+    schema_version: Literal["planguard.run-manifest.v1"] = "planguard.run-manifest.v1"
+    artifact_kind: Literal["run_manifest"] = "run_manifest"
+    artifact_id: str = Field(default_factory=lambda: new_artifact_id("run"))
+
+
+class EnvironmentProfileArtifact(ArtifactDocument[EnvironmentProfilePayload]):
+    schema_version: Literal["planguard.environment-profile.v1"] = (
+        "planguard.environment-profile.v1"
+    )
+    artifact_kind: Literal["environment_profile"] = "environment_profile"
+    artifact_id: str = Field(default_factory=lambda: new_artifact_id("env"))
+
+
+class CapturePolicyArtifact(ArtifactDocument[CapturePolicyPayload]):
+    schema_version: Literal["planguard.capture-policy.v1"] = "planguard.capture-policy.v1"
+    artifact_kind: Literal["capture_policy"] = "capture_policy"
+    artifact_id: str = Field(default_factory=lambda: new_artifact_id("cap"))
+
+
+class CapabilityGapArtifact(ArtifactDocument[CapabilityGapPayload]):
+    schema_version: Literal["planguard.capability-gap.v1"] = "planguard.capability-gap.v1"
+    artifact_kind: Literal["capability_gap"] = "capability_gap"
+    artifact_id: str = Field(default_factory=lambda: new_artifact_id("gap"))
+
+
+class QueryExecutionArtifact(ArtifactDocument[QueryExecutionPayload]):
+    schema_version: Literal["planguard.query-execution.v1"] = "planguard.query-execution.v1"
+    artifact_kind: Literal["query_execution"] = "query_execution"
+    artifact_id: str = Field(default_factory=lambda: new_artifact_id("qexec"))
+
+
+class QueryTemplateArtifact(ArtifactDocument[QueryTemplatePayload]):
+    schema_version: Literal["planguard.query-template.v1"] = "planguard.query-template.v1"
+    artifact_kind: Literal["query_template"] = "query_template"
+    artifact_id: str = Field(default_factory=lambda: new_artifact_id("qtpl"))
+
+
+class FamilySchemeArtifact(ArtifactDocument[FamilySchemePayload]):
+    schema_version: Literal["planguard.family-scheme.v1"] = "planguard.family-scheme.v1"
+    artifact_kind: Literal["family_scheme"] = "family_scheme"
+    artifact_id: str = Field(default_factory=lambda: new_artifact_id("fsch"))
+
+
+class ObservedQueryFamilyArtifact(ArtifactDocument[ObservedQueryFamilyPayload]):
+    schema_version: Literal["planguard.observed-query-family.v1"] = (
+        "planguard.observed-query-family.v1"
+    )
+    artifact_kind: Literal["observed_query_family"] = "observed_query_family"
+    artifact_id: str = Field(default_factory=lambda: new_artifact_id("qfam"))
+
+
+class EvidenceArtifact(ArtifactDocument[EvidencePayload]):
+    schema_version: Literal["planguard.evidence.v1"] = "planguard.evidence.v1"
+    artifact_kind: Literal["evidence"] = "evidence"
+    artifact_id: str = Field(default_factory=lambda: new_artifact_id("evd"))
+
+
+class FindingArtifact(ArtifactDocument[FindingPayload]):
+    schema_version: Literal["planguard.finding.v1"] = "planguard.finding.v1"
+    artifact_kind: Literal["finding"] = "finding"
+    artifact_id: str = Field(default_factory=lambda: new_artifact_id("fnd"))
+
+
+class DetectorReceiptArtifact(ArtifactDocument[DetectorReceiptPayload]):
+    schema_version: Literal["planguard.detector-receipt.v1"] = (
+        "planguard.detector-receipt.v1"
+    )
+    artifact_kind: Literal["detector_receipt"] = "detector_receipt"
+    artifact_id: str = Field(default_factory=lambda: new_artifact_id("drc"))
+
+
+class BudgetPolicyArtifact(ArtifactDocument[BudgetPolicyPayload]):
+    schema_version: Literal["planguard.budget-policy.v1"] = "planguard.budget-policy.v1"
+    artifact_kind: Literal["budget_policy"] = "budget_policy"
+    artifact_id: str = Field(default_factory=lambda: new_artifact_id("bpol"))
+
+
+class BudgetEvaluationArtifact(ArtifactDocument[BudgetEvaluationPayload]):
+    schema_version: Literal["planguard.budget-evaluation.v1"] = (
+        "planguard.budget-evaluation.v1"
+    )
+    artifact_kind: Literal["budget_evaluation"] = "budget_evaluation"
+    artifact_id: str = Field(default_factory=lambda: new_artifact_id("beval"))
+
+
+class AnalysisSummaryArtifact(ArtifactDocument[AnalysisSummaryPayload]):
+    schema_version: Literal["planguard.analysis-summary.v1"] = (
+        "planguard.analysis-summary.v1"
+    )
+    artifact_kind: Literal["analysis_summary"] = "analysis_summary"
+    artifact_id: str = Field(default_factory=lambda: new_artifact_id("asum"))
+
+
+
+class WorkloadGraphArtifact(ArtifactDocument[WorkloadGraphPayload]):
+    schema_version: Literal["planguard.workload-graph.v1"] = "planguard.workload-graph.v1"
+    artifact_kind: Literal["workload_graph"] = "workload_graph"
+    artifact_id: str = Field(default_factory=lambda: new_artifact_id("wkg"))
+
+
+class WorkloadMotifArtifact(ArtifactDocument[WorkloadMotifPayload]):
+    schema_version: Literal["planguard.workload-motif.v1"] = "planguard.workload-motif.v1"
+    artifact_kind: Literal["workload_motif"] = "workload_motif"
+    artifact_id: str = Field(default_factory=lambda: new_artifact_id("wmotif"))
+
+
+class WorkloadEpisodeArtifact(ArtifactDocument[WorkloadEpisodePayload]):
+    schema_version: Literal["planguard.workload-episode.v1"] = "planguard.workload-episode.v1"
+    artifact_kind: Literal["workload_episode"] = "workload_episode"
+    artifact_id: str = Field(default_factory=lambda: new_artifact_id("wep"))
+
+AnyArtifact: TypeAlias = Annotated[
+    RunManifestArtifact
+    | EnvironmentProfileArtifact
+    | CapturePolicyArtifact
+    | CapabilityGapArtifact
+    | QueryExecutionArtifact
+    | QueryTemplateArtifact
+    | FamilySchemeArtifact
+    | ObservedQueryFamilyArtifact
+    | EvidenceArtifact
+    | FindingArtifact
+    | DetectorReceiptArtifact
+    | BudgetPolicyArtifact
+    | BudgetEvaluationArtifact
+    | AnalysisSummaryArtifact
+    | WorkloadGraphArtifact
+    | WorkloadMotifArtifact
+    | WorkloadEpisodeArtifact,
+    Field(discriminator="artifact_kind"),
+]
+
+ANY_ARTIFACT_ADAPTER = TypeAdapter(AnyArtifact)
+
+ARTIFACT_MODELS: tuple[type[ArtifactDocument[Any]], ...] = (
+    RunManifestArtifact,
+    EnvironmentProfileArtifact,
+    CapturePolicyArtifact,
+    CapabilityGapArtifact,
+    QueryExecutionArtifact,
+    QueryTemplateArtifact,
+    FamilySchemeArtifact,
+    ObservedQueryFamilyArtifact,
+    EvidenceArtifact,
+    FindingArtifact,
+    DetectorReceiptArtifact,
+    BudgetPolicyArtifact,
+    BudgetEvaluationArtifact,
+    AnalysisSummaryArtifact,
+    WorkloadGraphArtifact,
+    WorkloadMotifArtifact,
+    WorkloadEpisodeArtifact,
+)
+
+SelectorExpression.model_rebuild()

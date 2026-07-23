@@ -1,0 +1,8 @@
+{
+  "artifact_id": "wep_d3959d6750d9e83f3412fa42e7db5bea",
+  "artifact_kind": "workload_episode",
+  "content_hash": "sha256:820b768ff321dedc66a78260e8314799ad53caa6d314eecb71c6b6b02f1ee25a",
+  "created_at": "2026-07-23T11:24:41.242731+00:00",
+  "path": "artifacts/wep_d3959d6750d9e83f3412fa42e7db5bea.json",
+  "schema_version": "planguard.workload-episode.v1"
+}

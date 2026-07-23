@@ -1,0 +1,8 @@
+{
+  "artifact_id": "qfam_487175538313caf66b4a9b4fb582da03",
+  "artifact_kind": "observed_query_family",
+  "content_hash": "sha256:45575b101adf464a1ac3bd8acb3d0ee4b4b3457b14aaa36d28a8bebdf5343cbd",
+  "created_at": "2026-07-23T11:24:41.235019+00:00",
+  "path": "artifacts/qfam_487175538313caf66b4a9b4fb582da03.json",
+  "schema_version": "planguard.observed-query-family.v1"
+}

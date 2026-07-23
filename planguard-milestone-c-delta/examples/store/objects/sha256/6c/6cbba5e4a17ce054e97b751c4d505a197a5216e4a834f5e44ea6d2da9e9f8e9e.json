@@ -1,0 +1,48 @@
+{
+  "artifact_id": "wmotif_0a48523b2ec90104abe21eb01f4d5afe",
+  "artifact_kind": "workload_motif",
+  "content_hash": "sha256:6cbba5e4a17ce054e97b751c4d505a197a5216e4a834f5e44ea6d2da9e9f8e9e",
+  "created_at": "2026-07-23T11:24:41.242100Z",
+  "extensions": {},
+  "payload": {
+    "constraints": [
+      {
+        "constraint_key": "repeated",
+        "description": null,
+        "kind": "execution_count_gt",
+        "parameters": {
+          "value": 1
+        }
+      }
+    ],
+    "description": "One exact-execution family contains more than one member.",
+    "edge_patterns": [],
+    "mechanism_keys": [
+      "redundant-execution"
+    ],
+    "motif_key": "exact-duplicate-cluster.v1",
+    "node_roles": [
+      {
+        "allowed_kinds": [
+          "query_family"
+        ],
+        "description": null,
+        "role_key": "family"
+      }
+    ],
+    "title": "Exact duplicate query cluster"
+  },
+  "producer": {
+    "build": "milestone-c",
+    "name": "planguard",
+    "version": "0.3.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": "builtin-workload-motif.v1",
+    "input_refs": [],
+    "notes": []
+  },
+  "schema_version": "planguard.workload-motif.v1"
+}

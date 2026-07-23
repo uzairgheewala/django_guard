@@ -1,0 +1,63 @@
+{
+  "artifact_id": "wmotif_1f1d6218d818da3a477de3236cc54130",
+  "artifact_kind": "workload_motif",
+  "content_hash": "sha256:874f12bd9738adf4885bfc32de442e6fcbe7c6367d272b6084cdf85fa8518d93",
+  "created_at": "2026-07-23T11:24:41.242282Z",
+  "extensions": {},
+  "payload": {
+    "constraints": [
+      {
+        "constraint_key": "cardinality-alignment",
+        "description": null,
+        "kind": "edge_present",
+        "parameters": {}
+      }
+    ],
+    "description": "A parent result cardinality plausibly drives a later repeated lookup family.",
+    "edge_patterns": [
+      {
+        "allowed_kinds": [
+          "possible_result_drives"
+        ],
+        "from_role": "parent",
+        "minimum_confidence": 0.5,
+        "to_role": "child_family"
+      }
+    ],
+    "mechanism_keys": [
+      "round-trip-amplification",
+      "relation-fanout"
+    ],
+    "motif_key": "parent-driven-repeated-lookup.v1",
+    "node_roles": [
+      {
+        "allowed_kinds": [
+          "query_execution"
+        ],
+        "description": null,
+        "role_key": "parent"
+      },
+      {
+        "allowed_kinds": [
+          "query_family"
+        ],
+        "description": null,
+        "role_key": "child_family"
+      }
+    ],
+    "title": "Parent-driven repeated lookup"
+  },
+  "producer": {
+    "build": "milestone-c",
+    "name": "planguard",
+    "version": "0.3.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": "builtin-workload-motif.v1",
+    "input_refs": [],
+    "notes": []
+  },
+  "schema_version": "planguard.workload-motif.v1"
+}
