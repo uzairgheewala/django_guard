@@ -1,0 +1,10 @@
+pydantic<3,>=2.13
+
+[api]
+Django<5.3,>=5.2.15
+
+[dev]
+Django<5.3,>=5.2.15
+hypothesis<7,>=6.140
+pytest<10,>=9
+pytest-cov<8,>=7

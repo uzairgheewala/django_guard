@@ -1,0 +1,34 @@
+{
+  "artifact_id": "mut_d664fd28d89750e4e79f64e5861e2030",
+  "artifact_kind": "mutation_definition",
+  "content_hash": "sha256:a2cbd4417c4a040c7cd16387dfc2eb797276707bc8e3e50d6f425f4a10e8e978",
+  "created_at": "1970-01-01T00:00:00Z",
+  "extensions": {},
+  "payload": {
+    "adapter_key": "academic-lab.v1",
+    "compatible_template_keys": [
+      "relation-access-fanout.v1",
+      "nested-relation-fanout.v1"
+    ],
+    "description": "Remove batching/eager relation loading from the active variant.",
+    "mutation_class": "application",
+    "mutation_key": "remove-eager-loading.v1",
+    "parameter_domain": {},
+    "required_capabilities": [],
+    "reversible": true,
+    "title": "Remove eager loading"
+  },
+  "producer": {
+    "build": "workbench-api",
+    "name": "planguard",
+    "version": "0.7.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": "academic-mutation.v1",
+    "input_refs": [],
+    "notes": []
+  },
+  "schema_version": "planguard.mutation-definition.v1"
+}

@@ -1,0 +1,10 @@
+[console_scripts]
+planguard = planguard.cli:main
+
+[planguard.plugins]
+academic-lab = planguard.plugins.builtin:academic_lab_plugin
+filesystem-store = planguard.plugins.builtin:filesystem_store_plugin
+reporters = planguard.plugins.builtin:reporter_plugin
+
+[pytest11]
+planguard = planguard.pytest_plugin.plugin

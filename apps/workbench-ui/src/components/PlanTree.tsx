@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import type { ReactNode } from "react";
 import type { ArtifactDocumentLike } from "../lib/api";
 
 interface PlanNode {
@@ -30,7 +31,7 @@ export function PlanTree({ plan }: { plan: ArtifactDocumentLike }) {
   const byId = useMemo(() => new Map(nodes.map((node) => [node.node_id, node])), [nodes]);
   const selectedNode = byId.get(selected);
 
-  function renderNode(nodeId: string, depth = 0): JSX.Element | null {
+  function renderNode(nodeId: string, depth = 0): ReactNode {
     const node = byId.get(nodeId);
     if (!node) return null;
     const spill = (node.temp_read_blocks ?? 0) + (node.temp_written_blocks ?? 0) > 0;

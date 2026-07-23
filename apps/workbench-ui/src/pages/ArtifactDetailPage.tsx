@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import type { MaterializedArtifact } from "../generated/artifact-types";
 import { JsonTree } from "../components/JsonTree";
-import { getArtifact, verifyArtifact } from "../lib/api";
+import { getArtifact, getRelatedArtifacts, verifyArtifact, type RelatedArtifactsResponse } from "../lib/api";
 
 type Tab = "overview" | "provenance" | "extensions" | "raw";
 
@@ -11,14 +11,16 @@ export function ArtifactDetailPage() {
   const [artifact, setArtifact] = useState<MaterializedArtifact | null>(null);
   const [verified, setVerified] = useState<boolean | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [related, setRelated] = useState<RelatedArtifactsResponse>({ inputs: [], derived: [] });
   const [tab, setTab] = useState<Tab>("overview");
 
   useEffect(() => {
     setError(null);
-    Promise.all([getArtifact(artifactId), verifyArtifact(artifactId)])
-      .then(([document, integrity]) => {
+    Promise.all([getArtifact(artifactId), verifyArtifact(artifactId), getRelatedArtifacts(artifactId)])
+      .then(([document, integrity, relationships]) => {
         setArtifact(document);
         setVerified(integrity.verified);
+        setRelated(relationships);
       })
       .catch((reason: unknown) => setError(reason instanceof Error ? reason.message : String(reason)));
   }, [artifactId]);
@@ -95,6 +97,8 @@ export function ArtifactDetailPage() {
               ))}
             </ul>
           )}
+          <h3>Derived artifacts</h3>
+          {related.derived.length === 0 ? <p className="muted">No indexed artifact currently declares this document as an input.</p> : <ul className="reference-list">{related.derived.map((reference) => <li key={reference.artifact_id}><Link to={`/artifacts/${reference.artifact_id}`}>{reference.artifact_id}</Link><span>{reference.artifact_kind}</span><code>{reference.content_hash?.slice(0, 20)}…</code></li>)}</ul>}
           {provenance.configuration_ref && (
             <>
               <h3>Configuration</h3>
