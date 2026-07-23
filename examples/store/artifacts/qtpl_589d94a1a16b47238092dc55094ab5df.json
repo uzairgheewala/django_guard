@@ -1,0 +1,59 @@
+{
+  "artifact_id": "qtpl_589d94a1a16b47238092dc55094ab5df",
+  "artifact_kind": "query_template",
+  "content_hash": "sha256:0886be87946a197715d18816d174a0ed3994d18ceda331a4a1860e2c6d0301db",
+  "created_at": "2026-07-23T12:07:34.884351Z",
+  "extensions": {},
+  "payload": {
+    "canonical_sql": "select id, course_id from enrollment where institution_id = :parameter and student_id = :parameter",
+    "diagnostics": [],
+    "dialect": "postgresql",
+    "features": {
+      "aggregate_count": 0,
+      "has_cte": false,
+      "has_group_by": false,
+      "has_limit": false,
+      "has_locking_clause": false,
+      "has_offset": false,
+      "has_order_by": false,
+      "has_subquery": false,
+      "join_count": 0,
+      "predicate_columns": [
+        "institution_id",
+        "student_id"
+      ],
+      "projected_columns": [
+        "id",
+        "course_id"
+      ],
+      "relations": [
+        "enrollment"
+      ],
+      "statement_kind": "select"
+    },
+    "lexical_fingerprint": "qlx_251a1424f3e9f33fe6ca3a2df5bdaf030c56bbb3fb25b548d9e02eb2d764d269",
+    "parse_quality": "partial",
+    "statement_kind": "select",
+    "structural_shape_fingerprint": "qsh_c3845c00294aa130c6ba5fc6fbf2074f2a018317059463b0562f563b16a100e4"
+  },
+  "producer": {
+    "build": "milestone-d-seed",
+    "name": "planguard",
+    "version": "0.4.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": "query-normalize.v1",
+    "input_refs": [
+      {
+        "artifact_id": "qexec_eb993bdc1d1b4847abe73e9428955c92",
+        "artifact_kind": "query_execution",
+        "content_hash": "sha256:dc9e225583a635256e1d0b75e6d8984a3c7c1bd7d27c74890936972dbe840cc5",
+        "schema_version": "planguard.query-execution.v1"
+      }
+    ],
+    "notes": []
+  },
+  "schema_version": "planguard.query-template.v1"
+}

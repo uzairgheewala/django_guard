@@ -1,0 +1,8 @@
+{
+  "artifact_id": "spr_cbfdfd38c8404b2586c2717eee9bac1f",
+  "artifact_kind": "scenario_phase_receipt",
+  "content_hash": "sha256:bca8754d0d625c18f5bfb2d1a5c98ff161560beebb12b2bd0a95d94f4ac5c132",
+  "created_at": "2026-07-23T12:07:35.196921+00:00",
+  "path": "artifacts/spr_cbfdfd38c8404b2586c2717eee9bac1f.json",
+  "schema_version": "planguard.scenario-phase-receipt.v1"
+}

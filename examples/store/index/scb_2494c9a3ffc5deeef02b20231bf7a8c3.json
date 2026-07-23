@@ -1,0 +1,8 @@
+{
+  "artifact_id": "scb_2494c9a3ffc5deeef02b20231bf7a8c3",
+  "artifact_kind": "scenario_binding",
+  "content_hash": "sha256:56f21d2c0a7543c11c7b502f7cc67c21ed7b6d3f37425462dd23e7e02a31f7e6",
+  "created_at": "1970-01-01T00:00:00+00:00",
+  "path": "artifacts/scb_2494c9a3ffc5deeef02b20231bf7a8c3.json",
+  "schema_version": "planguard.scenario-binding.v1"
+}

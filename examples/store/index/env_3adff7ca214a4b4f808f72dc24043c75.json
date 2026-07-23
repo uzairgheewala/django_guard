@@ -1,0 +1,8 @@
+{
+  "artifact_id": "env_3adff7ca214a4b4f808f72dc24043c75",
+  "artifact_kind": "environment_profile",
+  "content_hash": "sha256:4456ad8b4bea849d62e4f53ad57b2a213a0adbb8efae3c45d77b16f1feeca70a",
+  "created_at": "2026-07-23T12:07:34.881017+00:00",
+  "path": "artifacts/env_3adff7ca214a4b4f808f72dc24043c75.json",
+  "schema_version": "planguard.environment-profile.v1"
+}

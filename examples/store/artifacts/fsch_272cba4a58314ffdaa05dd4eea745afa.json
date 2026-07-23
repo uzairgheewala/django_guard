@@ -1,0 +1,30 @@
+{
+  "artifact_id": "fsch_272cba4a58314ffdaa05dd4eea745afa",
+  "artifact_kind": "family_scheme",
+  "content_hash": "sha256:59937e504dbdf0fe3ad6c14ff7c8f2b7eb7bdaea8661baab50627fee92832588",
+  "created_at": "2026-07-23T12:07:34.749556Z",
+  "extensions": {},
+  "payload": {
+    "description": "Separates structurally identical queries by their first application call site.",
+    "dimensions": [
+      "query.shape",
+      "origin.frame"
+    ],
+    "family_scheme_key": "shape-origin.v1",
+    "missing_value_policy": "preserve_unknown",
+    "title": "Shape and origin"
+  },
+  "producer": {
+    "build": "milestone-d-seed",
+    "name": "planguard",
+    "version": "0.4.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": null,
+    "input_refs": [],
+    "notes": []
+  },
+  "schema_version": "planguard.family-scheme.v1"
+}

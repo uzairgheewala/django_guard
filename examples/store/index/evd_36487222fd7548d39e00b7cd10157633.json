@@ -1,0 +1,8 @@
+{
+  "artifact_id": "evd_36487222fd7548d39e00b7cd10157633",
+  "artifact_kind": "evidence",
+  "content_hash": "sha256:e2dbccc627b21435d09ef2aa9d3e00d45b15dd76259b31ba009bf886f6d8be35",
+  "created_at": "2026-07-23T12:07:34.890905+00:00",
+  "path": "artifacts/evd_36487222fd7548d39e00b7cd10157633.json",
+  "schema_version": "planguard.evidence.v1"
+}

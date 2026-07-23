@@ -1,0 +1,8 @@
+{
+  "artifact_id": "dset_fad1730d58c44ee72030a069b46b79eb",
+  "artifact_kind": "dataset_manifest",
+  "content_hash": "sha256:0a70964b61227a4439904436a7c3bb6e90278ce6c857ec66462cb992f6286f4a",
+  "created_at": "1970-01-01T00:00:00+00:00",
+  "path": "artifacts/dset_fad1730d58c44ee72030a069b46b79eb.json",
+  "schema_version": "planguard.dataset-manifest.v1"
+}

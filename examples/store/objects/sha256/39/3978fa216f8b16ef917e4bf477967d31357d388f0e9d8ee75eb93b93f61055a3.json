@@ -1,0 +1,58 @@
+{
+  "artifact_id": "qtpl_c4e47277788145f1ab88fd85ec8195ff",
+  "artifact_kind": "query_template",
+  "content_hash": "sha256:3978fa216f8b16ef917e4bf477967d31357d388f0e9d8ee75eb93b93f61055a3",
+  "created_at": "2026-07-23T12:07:35.210955Z",
+  "extensions": {},
+  "payload": {
+    "canonical_sql": "select id from student where institution_id = :parameter and active = true limit :parameter",
+    "diagnostics": [],
+    "dialect": "postgresql",
+    "features": {
+      "aggregate_count": 0,
+      "has_cte": false,
+      "has_group_by": false,
+      "has_limit": true,
+      "has_locking_clause": false,
+      "has_offset": false,
+      "has_order_by": false,
+      "has_subquery": false,
+      "join_count": 0,
+      "predicate_columns": [
+        "active",
+        "institution_id"
+      ],
+      "projected_columns": [
+        "id"
+      ],
+      "relations": [
+        "student"
+      ],
+      "statement_kind": "select"
+    },
+    "lexical_fingerprint": "qlx_9e633db7d34323f31582d170766781f17be1889ab071aa950c6e7968c136423f",
+    "parse_quality": "partial",
+    "statement_kind": "select",
+    "structural_shape_fingerprint": "qsh_6fd603510befa3f5cb58215082e779e7ac24e8c1e1f391d31ed1736c5f117a67"
+  },
+  "producer": {
+    "build": "milestone-d-seed",
+    "name": "planguard",
+    "version": "0.4.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": "query-normalize.v1",
+    "input_refs": [
+      {
+        "artifact_id": "qexec_1b38c4d1dc094491b6be7c0763d21501",
+        "artifact_kind": "query_execution",
+        "content_hash": "sha256:b497883b2caec34cf1b0875aac9259bd39f12fbe0e8fd244d20238547b602ba2",
+        "schema_version": "planguard.query-execution.v1"
+      }
+    ],
+    "notes": []
+  },
+  "schema_version": "planguard.query-template.v1"
+}

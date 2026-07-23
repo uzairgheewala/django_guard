@@ -1,0 +1,8 @@
+{
+  "artifact_id": "drc_2c8ba4d873f34d609f187330b255fd83",
+  "artifact_kind": "detector_receipt",
+  "content_hash": "sha256:38e9079730a36ccad4d26616c9e9992de21a15bc59c7d936eaa38f00ab7fedce",
+  "created_at": "2026-07-23T12:07:35.213188+00:00",
+  "path": "artifacts/drc_2c8ba4d873f34d609f187330b255fd83.json",
+  "schema_version": "planguard.detector-receipt.v1"
+}

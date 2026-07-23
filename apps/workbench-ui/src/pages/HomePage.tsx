@@ -1,40 +1,55 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { getRegistryStats, listRuns, type RegistryStats, type RunListItem } from "../lib/api";
 
 export function HomePage() {
+  const [stats, setStats] = useState<RegistryStats | null>(null);
+  const [runs, setRuns] = useState<RunListItem[]>([]);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    Promise.all([getRegistryStats(), listRuns({ limit: 4 })])
+      .then(([registry, recent]) => { setStats(registry); setRuns(recent.items); })
+      .catch((reason: unknown) => setError(reason instanceof Error ? reason.message : String(reason)));
+  }, []);
+
   return (
     <section>
       <header className="page-header">
         <div>
-          <p className="eyebrow">Milestone B</p>
-          <h1>Developer performance MVP</h1>
-          <p>
-            Capture a Django operation, preserve every query execution, reinterpret it through explicit family lenses,
-            inspect evidence-backed findings, and enforce query budgets from pytest or the workbench.
-          </p>
+          <p className="eyebrow">Milestone D</p>
+          <h1>Generic performance laboratory</h1>
+          <p>Define domain-neutral workload experiments, bind them to the academic lab, apply controlled mutations, and descend from scenario receipts into immutable query-family and workload-graph evidence.</p>
         </div>
       </header>
 
+      {error && <div className="error-banner" role="alert">{error}</div>}
       <div className="metric-grid four-up">
-        <article className="metric-card"><span>Artifact contracts</span><strong>14</strong><small>Capture through policy evaluation</small></article>
-        <article className="metric-card"><span>Family lenses</span><strong>4</strong><small>Explicit equivalence schemes</small></article>
-        <article className="metric-card"><span>Detectors</span><strong>4</strong><small>Each emits evidence and receipts</small></article>
-        <article className="metric-card"><span>Integration</span><strong>pytest</strong><small>Budgets can fail CI</small></article>
+        <article className="metric-card"><span>Artifacts</span><strong>{stats?.total_artifacts ?? "—"}</strong><small>Canonical source documents</small></article>
+        <article className="metric-card"><span>Runs</span><strong>{stats?.runs ?? "—"}</strong><small>Captured operations</small></article>
+        <article className="metric-card"><span>Findings</span><strong>{stats?.findings ?? "—"}</strong><small>Evidence-backed interpretations</small></article>
+        <article className="metric-card"><span>Scenarios</span><strong>{stats?.scenarios ?? "—"}</strong><small>Receipt-bearing laboratory runs</small></article>
       </div>
 
       <div className="callout">
-        <div>
-          <h2>Explore the Milestone B sample</h2>
-          <p>The sample contains a parameter-varying lookup cluster, multiple family projections, detector evidence, findings, and a failed budget evaluation.</p>
-        </div>
-        <Link className="primary-button" to="/runs/run_demo_b_001">Open sample run</Link>
+        <div><h2>Build and run a generic scenario</h2><p>Choose a workload template, academic binding, variant, data regime, and ordered mutations; every experiment links into the same workload explorer.</p></div>
+        <Link className="primary-button" to="/scenarios">Open Scenario Studio</Link>
       </div>
 
       <div className="section-grid">
-        <article className="panel"><h2>Facts remain immutable</h2><p>Captured executions are never rewritten when normalization, grouping, detector logic, or policies evolve.</p></article>
-        <article className="panel"><h2>Families are lenses</h2><p>Switch among exact, structural, origin-sensitive, and parameter-regime projections without recapturing the operation.</p></article>
-        <article className="panel"><h2>Claims expose evidence</h2><p>Severity, confidence, limitations, detector receipts, and evidence references remain separate and inspectable.</p></article>
-        <article className="panel"><h2>Budgets are artifacts</h2><p>Policy definitions and evaluations use the same canonical contract boundary as CLI, API, pytest, and UI workflows.</p></article>
+        <article className="panel"><h2>Rebuildable registry</h2><p>SQLite accelerates search and provenance traversal, but every row can be reconstructed from immutable artifact bundles.</p></article>
+        <article className="panel"><h2>Observed versus inferred</h2><p>Every edge declares whether it was directly observed, deterministically derived, or causally inferred with confidence and evidence.</p></article>
+        <article className="panel"><h2>Motifs are not findings</h2><p>A workload episode describes a matched structural pattern. Detector and policy layers decide whether that pattern is harmful in context.</p></article>
+        <article className="panel"><h2>Lens synchronization</h2><p>Timeline, families, graph, and episodes remain projections of the same execution evidence rather than separate dashboard calculations.</p></article>
       </div>
+
+      <article className="panel recent-runs-panel">
+        <div className="section-heading"><div><h2>Recent runs</h2><p>Open any indexed operation.</p></div><Link to="/runs">View all</Link></div>
+        <div className="recent-run-list">
+          {runs.map((run) => <Link key={run.artifact_id} className="recent-run-row" to={`/runs/${run.artifact_id}`}><span><strong>{run.name}</strong><code>{run.artifact_id}</code></span><span>{run.inventory.by_kind.query_execution ?? 0} queries</span><span>{run.inventory.by_kind.workload_episode ?? 0} episodes</span></Link>)}
+          {runs.length === 0 && <p className="muted">No indexed runs yet.</p>}
+        </div>
+      </article>
     </section>
   );
 }

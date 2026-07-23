@@ -1,0 +1,8 @@
+{
+  "artifact_id": "qtpl_0bd05f1433474d50a86f23807f4442b2",
+  "artifact_kind": "query_template",
+  "content_hash": "sha256:ba1ffb609203eea82ca5cab65fcf926454e31c1971c7c5a0f8726494d63ed4e0",
+  "created_at": "2026-07-23T12:07:35.623299+00:00",
+  "path": "artifacts/qtpl_0bd05f1433474d50a86f23807f4442b2.json",
+  "schema_version": "planguard.query-template.v1"
+}

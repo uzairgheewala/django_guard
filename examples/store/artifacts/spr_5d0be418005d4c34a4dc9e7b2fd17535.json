@@ -1,0 +1,50 @@
+{
+  "artifact_id": "spr_5d0be418005d4c34a4dc9e7b2fd17535",
+  "artifact_kind": "scenario_phase_receipt",
+  "content_hash": "sha256:e4d12a4df61cf85451225781a50896d02263c08171aa70d04166db61c884f54d",
+  "created_at": "2026-07-23T12:07:36.674717Z",
+  "extensions": {},
+  "payload": {
+    "capability_gaps": [],
+    "completed_at": "2026-07-23T12:07:36.674699Z",
+    "error": null,
+    "input_refs": [],
+    "output_refs": [],
+    "phase_key": "prepare_environment",
+    "scenario_instance_ref": {
+      "artifact_id": "sci_9e00e455119d6ae061838a8b9f6940ea",
+      "artifact_kind": "scenario_instance",
+      "content_hash": "sha256:55f81c394587957bee7361de1d94e961f5a824375f81e7cc2e6f056b23d2b0bc",
+      "schema_version": "planguard.scenario-instance.v1"
+    },
+    "scenario_run_id": "scrun_195c0bfb6948458ca0558dba483f1c90",
+    "started_at": "2026-07-23T12:07:36.674678Z",
+    "statistics": {
+      "application": "academic-lab.v1",
+      "database_semantics": "postgresql-simulated",
+      "query_capture": "manual-deterministic",
+      "variant": "naive"
+    },
+    "status": "succeeded"
+  },
+  "producer": {
+    "build": "milestone-d-seed",
+    "name": "planguard",
+    "version": "0.4.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": "scenario-phase:prepare_environment.v1",
+    "input_refs": [
+      {
+        "artifact_id": "sci_9e00e455119d6ae061838a8b9f6940ea",
+        "artifact_kind": "scenario_instance",
+        "content_hash": "sha256:55f81c394587957bee7361de1d94e961f5a824375f81e7cc2e6f056b23d2b0bc",
+        "schema_version": "planguard.scenario-instance.v1"
+      }
+    ],
+    "notes": []
+  },
+  "schema_version": "planguard.scenario-phase-receipt.v1"
+}

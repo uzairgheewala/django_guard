@@ -1,0 +1,8 @@
+{
+  "artifact_id": "asum_2f2066092bdc419d966530eae8c59465",
+  "artifact_kind": "analysis_summary",
+  "content_hash": "sha256:2ca2cdb9deff086aa20c9fa6980c28cd9607667c476695344ce09fec479f357c",
+  "created_at": "2026-07-23T12:07:36.240088+00:00",
+  "path": "artifacts/asum_2f2066092bdc419d966530eae8c59465.json",
+  "schema_version": "planguard.analysis-summary.v1"
+}

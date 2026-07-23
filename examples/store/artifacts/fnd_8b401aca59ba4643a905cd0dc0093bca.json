@@ -1,0 +1,94 @@
+{
+  "artifact_id": "fnd_8b401aca59ba4643a905cd0dc0093bca",
+  "artifact_kind": "finding",
+  "content_hash": "sha256:b90406bd39c6a7a416841d55b7ab73ad9d2bd2708ab341f0a9daea2c15481212",
+  "created_at": "2026-07-23T12:07:34.890635Z",
+  "extensions": {},
+  "payload": {
+    "claims": [
+      {
+        "claim_key": "identical_execution_repeated",
+        "explanation": "The same shape, parameter binding, and origin repeated.",
+        "status": "supported",
+        "subject_refs": [
+          {
+            "artifact_id": "qfam_1005b1530fa9d3d196d40a1d8fafbdbd",
+            "artifact_kind": "observed_query_family",
+            "content_hash": "sha256:fd3bd2bce3e72e7ab44c8416491d7b9de27de09bc37f3df16fb28e3605fa24ef",
+            "schema_version": "planguard.observed-query-family.v1"
+          }
+        ],
+        "values": {
+          "execution_count": 2
+        }
+      }
+    ],
+    "confidence": {
+      "level": "high",
+      "score": 0.99
+    },
+    "detector_key": "exact-duplicate-execution.v1",
+    "evidence_refs": [
+      {
+        "artifact_id": "evd_9c9569ef905f4488815b30193584c717",
+        "artifact_kind": "evidence",
+        "content_hash": "sha256:578de1a292541a0ef8902f335564ac37fb6ffd63f725571bebaac164c5122c88",
+        "schema_version": "planguard.evidence.v1"
+      }
+    ],
+    "explanation": {
+      "details": [],
+      "summary": "One exact execution family ran 2 times from one origin."
+    },
+    "limitations": [],
+    "mechanism_key": "redundant_execution",
+    "metadata": {},
+    "remediation": {
+      "category": "redundant_execution",
+      "guidance": [
+        "Inspect repeated QuerySet evaluation or repeated serializer/property access.",
+        "Verify whether one evaluated result can be reused without changing semantics."
+      ]
+    },
+    "run_id": "run_172620afaaac45a99db8302271f06455",
+    "severity": {
+      "level": "medium",
+      "score": 0.43
+    },
+    "subject_refs": [
+      {
+        "artifact_id": "qfam_1005b1530fa9d3d196d40a1d8fafbdbd",
+        "artifact_kind": "observed_query_family",
+        "content_hash": "sha256:fd3bd2bce3e72e7ab44c8416491d7b9de27de09bc37f3df16fb28e3605fa24ef",
+        "schema_version": "planguard.observed-query-family.v1"
+      }
+    ],
+    "title": "Exact database execution repeated"
+  },
+  "producer": {
+    "build": "milestone-d-seed",
+    "name": "planguard",
+    "version": "0.4.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": "exact-duplicate-execution.v1",
+    "input_refs": [
+      {
+        "artifact_id": "qfam_1005b1530fa9d3d196d40a1d8fafbdbd",
+        "artifact_kind": "observed_query_family",
+        "content_hash": "sha256:fd3bd2bce3e72e7ab44c8416491d7b9de27de09bc37f3df16fb28e3605fa24ef",
+        "schema_version": "planguard.observed-query-family.v1"
+      },
+      {
+        "artifact_id": "evd_9c9569ef905f4488815b30193584c717",
+        "artifact_kind": "evidence",
+        "content_hash": "sha256:578de1a292541a0ef8902f335564ac37fb6ffd63f725571bebaac164c5122c88",
+        "schema_version": "planguard.evidence.v1"
+      }
+    ],
+    "notes": []
+  },
+  "schema_version": "planguard.finding.v1"
+}

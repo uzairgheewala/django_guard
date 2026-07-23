@@ -1,27 +1,15 @@
-# PlanGuard Workbench API — Milestone B
+# PlanGuard Workbench API
 
-The Django service indexes and serves the immutable artifact store. It does not own PlanGuard's
-semantic state.
+The local Django API indexes immutable PlanGuard artifacts and exposes run, workload, policy, and
+scenario resources. Milestone D adds:
 
-## Run
-
-```bash
-PLANGUARD_STORE=examples/store python services/workbench_api/manage.py runserver
+```text
+GET  /api/v1/scenarios/catalog
+POST /api/v1/scenarios/instances
+GET  /api/v1/scenarios/runs
+POST /api/v1/scenarios/run
+GET  /api/v1/scenarios/runs/{scenario_run_id}
 ```
 
-## Endpoints
-
-- `GET /api/v1/health`
-- `GET /api/v1/capabilities`
-- `GET /api/v1/artifacts`
-- `GET /api/v1/artifacts/{artifact_id}`
-- `GET /api/v1/artifacts/{artifact_id}/integrity`
-- `POST /api/v1/import`
-- `GET /api/v1/runs`
-- `GET /api/v1/runs/{run_id}`
-- `GET /api/v1/runs/{run_id}/families?scheme=shape-origin.v1`
-- `GET /api/v1/runs/{run_id}/findings`
-- `POST /api/v1/runs/{run_id}/policy-evaluations`
-
-Policy evaluation accepts either `policy_artifact_id`, a sealed `policy`, or an unsealed
-`policy_payload` that the API seals and persists before evaluation.
+Scenario execution is disabled unless `PLANGUARD_LAB_ENABLED=1`. Local debug mode enables the
+built-in deterministic academic adapter by default; production-like deployments default it off.

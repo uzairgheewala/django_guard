@@ -1,0 +1,68 @@
+{
+  "artifact_id": "sci_6cae12557b1c7bb6320e698d01567685",
+  "artifact_kind": "scenario_instance",
+  "content_hash": "sha256:cf37e3e1d168d405049f41763d57298db8e7fc8c2c31ef86764beeb801587ff6",
+  "created_at": "1970-01-01T00:00:00Z",
+  "extensions": {},
+  "payload": {
+    "applied_mutations": [],
+    "binding_ref": {
+      "artifact_id": "scb_4307bff83066a16eed5fdd31dd100f78",
+      "artifact_kind": "scenario_binding",
+      "content_hash": "sha256:ce76578cd922fc9fbf4a0441f9ff011761f29cd4d12d687bee47a4052cd25d8f",
+      "schema_version": "planguard.scenario-binding.v1"
+    },
+    "composed_from_refs": [],
+    "expected_capabilities": [],
+    "parameter_bindings": {
+      "batch_size": 6,
+      "page_offset": 250,
+      "parent_count": 6,
+      "relation_fanout": 6,
+      "scale_profile": "tiny",
+      "tenant_skew": "uniform",
+      "transaction_scope": "autocommit"
+    },
+    "projected_dimensions": [],
+    "seed": 4060,
+    "series_key": null,
+    "tags": [
+      "milestone-d",
+      "academic-lab",
+      "representative"
+    ],
+    "template_ref": {
+      "artifact_id": "sct_04cdb31d3305f2ab450d620559e9d028",
+      "artifact_kind": "scenario_template",
+      "content_hash": "sha256:3e4137150332226d9b247bec77cecba9e12339bd448924b14dfda8164a9c69a3",
+      "schema_version": "planguard.scenario-template.v1"
+    },
+    "variant_key": "naive"
+  },
+  "producer": {
+    "build": "milestone-d-seed",
+    "name": "planguard",
+    "version": "0.4.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": "scenario-instantiate.v1",
+    "input_refs": [
+      {
+        "artifact_id": "sct_04cdb31d3305f2ab450d620559e9d028",
+        "artifact_kind": "scenario_template",
+        "content_hash": "sha256:3e4137150332226d9b247bec77cecba9e12339bd448924b14dfda8164a9c69a3",
+        "schema_version": "planguard.scenario-template.v1"
+      },
+      {
+        "artifact_id": "scb_4307bff83066a16eed5fdd31dd100f78",
+        "artifact_kind": "scenario_binding",
+        "content_hash": "sha256:ce76578cd922fc9fbf4a0441f9ff011761f29cd4d12d687bee47a4052cd25d8f",
+        "schema_version": "planguard.scenario-binding.v1"
+      }
+    ],
+    "notes": []
+  },
+  "schema_version": "planguard.scenario-instance.v1"
+}

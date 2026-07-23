@@ -1,0 +1,69 @@
+{
+  "artifact_id": "wep_e98d9c0ae8251e02598c40385fcc57a3",
+  "artifact_kind": "workload_episode",
+  "content_hash": "sha256:ac4a98c2ebd574f91a327a41884262232766dde76cf5466368bfbfc972670480",
+  "created_at": "2026-07-23T12:07:35.350050Z",
+  "extensions": {},
+  "payload": {
+    "constraint_evaluations": [
+      {
+        "constraint_key": "repeated",
+        "explanation": null,
+        "status": "satisfied",
+        "values": {
+          "execution_count": 4
+        }
+      }
+    ],
+    "edge_ids": [],
+    "family_scheme_key": "shape-origin.v1",
+    "match_confidence": 1.0,
+    "metadata": {},
+    "motif_key": "exact-duplicate-cluster.v1",
+    "node_bindings": {
+      "family": "family:qfam_98f7d3678a8092436555d9b92e59118a"
+    },
+    "run_id": "run_cde055b528f948748c1c6fb67bf5f702",
+    "subject_refs": [
+      {
+        "artifact_id": "qfam_98f7d3678a8092436555d9b92e59118a",
+        "artifact_kind": "observed_query_family",
+        "content_hash": "sha256:a45ad66ac453c245d438b7b6a458070f252996c29c382ac0e039a2832561037d",
+        "schema_version": "planguard.observed-query-family.v1"
+      }
+    ],
+    "title": "Exact duplicate query cluster"
+  },
+  "producer": {
+    "build": "milestone-d-seed",
+    "name": "planguard",
+    "version": "0.4.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": "workload-motif-match.v1",
+    "input_refs": [
+      {
+        "artifact_id": "wkg_17934ad989643853d54eb44eb04e0c6d",
+        "artifact_kind": "workload_graph",
+        "content_hash": "sha256:43a79723f569625b36c14cfdd45a60f0002775157b71165dc3c7c93fb959cbdf",
+        "schema_version": "planguard.workload-graph.v1"
+      },
+      {
+        "artifact_id": "wmotif_2e827c284811bef7f46c57b7fe74b0b8",
+        "artifact_kind": "workload_motif",
+        "content_hash": "sha256:83d612adbb5eba7b9ac45fe0b10fa4f781d16c1024c318172678fe38df07cf8a",
+        "schema_version": "planguard.workload-motif.v1"
+      },
+      {
+        "artifact_id": "qfam_98f7d3678a8092436555d9b92e59118a",
+        "artifact_kind": "observed_query_family",
+        "content_hash": "sha256:a45ad66ac453c245d438b7b6a458070f252996c29c382ac0e039a2832561037d",
+        "schema_version": "planguard.observed-query-family.v1"
+      }
+    ],
+    "notes": []
+  },
+  "schema_version": "planguard.workload-episode.v1"
+}

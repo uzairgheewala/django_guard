@@ -1,0 +1,941 @@
+{
+  "$defs": {
+    "ArtifactReference": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "artifact_kind": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Artifact Kind",
+          "type": "string"
+        },
+        "content_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "schema_version": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Schema Version"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "artifact_kind",
+        "content_hash",
+        "schema_version"
+      ],
+      "title": "ArtifactReference",
+      "type": "object"
+    },
+    "CoverageObligation": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "kind": {
+          "title": "Kind",
+          "type": "string"
+        },
+        "obligation_key": {
+          "title": "Obligation Key",
+          "type": "string"
+        },
+        "parameters": {
+          "additionalProperties": true,
+          "title": "Parameters",
+          "type": "object"
+        }
+      },
+      "required": [
+        "description",
+        "kind",
+        "obligation_key",
+        "parameters"
+      ],
+      "title": "CoverageObligation",
+      "type": "object"
+    },
+    "OracleDefinition": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "disposition": {
+          "default": "fail",
+          "enum": [
+            "fail",
+            "warn",
+            "record"
+          ],
+          "title": "Disposition",
+          "type": "string"
+        },
+        "kind": {
+          "title": "Kind",
+          "type": "string"
+        },
+        "oracle_key": {
+          "title": "Oracle Key",
+          "type": "string"
+        },
+        "parameters": {
+          "additionalProperties": true,
+          "title": "Parameters",
+          "type": "object"
+        },
+        "required_capabilities": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Required Capabilities",
+          "type": "array"
+        },
+        "subject_selector": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SelectorExpression"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "description",
+        "disposition",
+        "kind",
+        "oracle_key",
+        "parameters",
+        "required_capabilities",
+        "subject_selector"
+      ],
+      "title": "OracleDefinition",
+      "type": "object"
+    },
+    "ParameterDomain": {
+      "additionalProperties": false,
+      "properties": {
+        "constraints": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/SelectorExpression"
+          },
+          "title": "Constraints",
+          "type": "array"
+        },
+        "default": {
+          "anyOf": [
+            {},
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Default"
+        },
+        "kind": {
+          "$ref": "#/$defs/ParameterDomainKind"
+        },
+        "maximum": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum"
+        },
+        "minimum": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum"
+        },
+        "partitions": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ParameterPartition"
+          },
+          "title": "Partitions",
+          "type": "array"
+        },
+        "registry_key": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Registry Key"
+        },
+        "step": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Step"
+        },
+        "values": {
+          "default": [],
+          "items": {},
+          "title": "Values",
+          "type": "array"
+        }
+      },
+      "required": [
+        "constraints",
+        "default",
+        "kind",
+        "maximum",
+        "minimum",
+        "partitions",
+        "registry_key",
+        "step",
+        "values"
+      ],
+      "title": "ParameterDomain",
+      "type": "object"
+    },
+    "ParameterDomainKind": {
+      "enum": [
+        "finite",
+        "integer_range",
+        "float_range",
+        "partitioned",
+        "registry",
+        "boolean",
+        "opaque"
+      ],
+      "title": "ParameterDomainKind",
+      "type": "string"
+    },
+    "ParameterPartition": {
+      "additionalProperties": false,
+      "properties": {
+        "include_maximum": {
+          "default": true,
+          "title": "Include Maximum",
+          "type": "boolean"
+        },
+        "include_minimum": {
+          "default": true,
+          "title": "Include Minimum",
+          "type": "boolean"
+        },
+        "key": {
+          "title": "Key",
+          "type": "string"
+        },
+        "maximum": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum"
+        },
+        "minimum": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum"
+        },
+        "representative_values": {
+          "default": [],
+          "items": {},
+          "title": "Representative Values",
+          "type": "array"
+        },
+        "title": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Title"
+        }
+      },
+      "required": [
+        "include_maximum",
+        "include_minimum",
+        "key",
+        "maximum",
+        "minimum",
+        "representative_values",
+        "title"
+      ],
+      "title": "ParameterPartition",
+      "type": "object"
+    },
+    "ProducerIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "build": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Build"
+        },
+        "name": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "version": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "build",
+        "name",
+        "version"
+      ],
+      "title": "ProducerIdentity",
+      "type": "object"
+    },
+    "Provenance": {
+      "additionalProperties": false,
+      "properties": {
+        "code_revision": {
+          "anyOf": [
+            {
+              "maxLength": 256,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Code Revision"
+        },
+        "configuration_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "derivation_key": {
+          "anyOf": [
+            {
+              "maxLength": 256,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Derivation Key"
+        },
+        "input_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Input Refs",
+          "type": "array"
+        },
+        "notes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "code_revision",
+        "configuration_ref",
+        "derivation_key",
+        "input_refs",
+        "notes"
+      ],
+      "title": "Provenance",
+      "type": "object"
+    },
+    "ScenarioOperationEdge": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "additionalProperties": true,
+          "title": "Attributes",
+          "type": "object"
+        },
+        "from_node": {
+          "title": "From Node",
+          "type": "string"
+        },
+        "kind": {
+          "title": "Kind",
+          "type": "string"
+        },
+        "to_node": {
+          "title": "To Node",
+          "type": "string"
+        }
+      },
+      "required": [
+        "attributes",
+        "from_node",
+        "kind",
+        "to_node"
+      ],
+      "title": "ScenarioOperationEdge",
+      "type": "object"
+    },
+    "ScenarioOperationNode": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "additionalProperties": true,
+          "title": "Attributes",
+          "type": "object"
+        },
+        "kind": {
+          "title": "Kind",
+          "type": "string"
+        },
+        "node_key": {
+          "title": "Node Key",
+          "type": "string"
+        },
+        "phase": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Phase"
+        },
+        "role_ref": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Role Ref"
+        }
+      },
+      "required": [
+        "attributes",
+        "kind",
+        "node_key",
+        "phase",
+        "role_ref"
+      ],
+      "title": "ScenarioOperationNode",
+      "type": "object"
+    },
+    "ScenarioParameter": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "domain": {
+          "$ref": "#/$defs/ParameterDomain"
+        },
+        "parameter_key": {
+          "title": "Parameter Key",
+          "type": "string"
+        },
+        "required": {
+          "default": true,
+          "title": "Required",
+          "type": "boolean"
+        },
+        "tags": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Tags",
+          "type": "array"
+        }
+      },
+      "required": [
+        "description",
+        "domain",
+        "parameter_key",
+        "required",
+        "tags"
+      ],
+      "title": "ScenarioParameter",
+      "type": "object"
+    },
+    "ScenarioRole": {
+      "additionalProperties": false,
+      "properties": {
+        "cardinality": {
+          "default": "one",
+          "enum": [
+            "one",
+            "optional_one",
+            "many"
+          ],
+          "title": "Cardinality",
+          "type": "string"
+        },
+        "contract_key": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Contract Key"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "kind": {
+          "$ref": "#/$defs/ScenarioRoleKind"
+        },
+        "required": {
+          "default": true,
+          "title": "Required",
+          "type": "boolean"
+        },
+        "role_key": {
+          "title": "Role Key",
+          "type": "string"
+        }
+      },
+      "required": [
+        "cardinality",
+        "contract_key",
+        "description",
+        "kind",
+        "required",
+        "role_key"
+      ],
+      "title": "ScenarioRole",
+      "type": "object"
+    },
+    "ScenarioRoleKind": {
+      "enum": [
+        "relational_entity",
+        "application_operation",
+        "dataset",
+        "environment",
+        "result",
+        "policy",
+        "opaque"
+      ],
+      "title": "ScenarioRoleKind",
+      "type": "string"
+    },
+    "ScenarioTemplatePayload": {
+      "additionalProperties": false,
+      "properties": {
+        "compatible_template_keys": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Compatible Template Keys",
+          "type": "array"
+        },
+        "coverage_obligations": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/CoverageObligation"
+          },
+          "title": "Coverage Obligations",
+          "type": "array"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "operation_edges": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ScenarioOperationEdge"
+          },
+          "title": "Operation Edges",
+          "type": "array"
+        },
+        "operation_nodes": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ScenarioOperationNode"
+          },
+          "title": "Operation Nodes",
+          "type": "array"
+        },
+        "oracles": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/OracleDefinition"
+          },
+          "title": "Oracles",
+          "type": "array"
+        },
+        "parameters": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ScenarioParameter"
+          },
+          "title": "Parameters",
+          "type": "array"
+        },
+        "roles": {
+          "items": {
+            "$ref": "#/$defs/ScenarioRole"
+          },
+          "title": "Roles",
+          "type": "array"
+        },
+        "tags": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Tags",
+          "type": "array"
+        },
+        "template_key": {
+          "title": "Template Key",
+          "type": "string"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "variants": {
+          "items": {
+            "$ref": "#/$defs/ScenarioVariant"
+          },
+          "title": "Variants",
+          "type": "array"
+        }
+      },
+      "required": [
+        "compatible_template_keys",
+        "coverage_obligations",
+        "description",
+        "operation_edges",
+        "operation_nodes",
+        "oracles",
+        "parameters",
+        "roles",
+        "tags",
+        "template_key",
+        "title",
+        "variants"
+      ],
+      "title": "ScenarioTemplatePayload",
+      "type": "object"
+    },
+    "ScenarioVariant": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "implementation_role": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Implementation Role"
+        },
+        "tags": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Tags",
+          "type": "array"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "variant_key": {
+          "title": "Variant Key",
+          "type": "string"
+        }
+      },
+      "required": [
+        "description",
+        "implementation_role",
+        "tags",
+        "title",
+        "variant_key"
+      ],
+      "title": "ScenarioVariant",
+      "type": "object"
+    },
+    "SelectorExpression": {
+      "additionalProperties": false,
+      "properties": {
+        "children": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/SelectorExpression"
+          },
+          "title": "Children",
+          "type": "array"
+        },
+        "field": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Field"
+        },
+        "operator": {
+          "$ref": "#/$defs/SelectorOperator"
+        },
+        "value": {
+          "anyOf": [
+            {},
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        }
+      },
+      "required": [
+        "children",
+        "field",
+        "operator",
+        "value"
+      ],
+      "title": "SelectorExpression",
+      "type": "object"
+    },
+    "SelectorOperator": {
+      "enum": [
+        "all",
+        "any",
+        "not",
+        "equals",
+        "not_equals",
+        "greater_than",
+        "greater_or_equal",
+        "less_than",
+        "less_or_equal",
+        "contains",
+        "exists",
+        "in_set"
+      ],
+      "title": "SelectorOperator",
+      "type": "string"
+    }
+  },
+  "$id": "https://planguard.dev/schemas/planguard.scenario-template.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifact_id": {
+      "title": "Artifact Id",
+      "type": "string"
+    },
+    "artifact_kind": {
+      "const": "scenario_template",
+      "default": "scenario_template",
+      "title": "Artifact Kind",
+      "type": "string"
+    },
+    "content_hash": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "title": "Content Hash",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "extensions": {
+      "additionalProperties": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Extensions",
+      "type": "object"
+    },
+    "payload": {
+      "$ref": "#/$defs/ScenarioTemplatePayload"
+    },
+    "producer": {
+      "$ref": "#/$defs/ProducerIdentity"
+    },
+    "provenance": {
+      "$ref": "#/$defs/Provenance"
+    },
+    "schema_version": {
+      "const": "planguard.scenario-template.v1",
+      "default": "planguard.scenario-template.v1",
+      "title": "Schema Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "artifact_id",
+    "artifact_kind",
+    "content_hash",
+    "created_at",
+    "extensions",
+    "payload",
+    "producer",
+    "provenance",
+    "schema_version"
+  ],
+  "title": "ScenarioTemplateArtifact",
+  "type": "object"
+}

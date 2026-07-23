@@ -1,0 +1,37 @@
+{
+  "artifact_id": "cap_e0b78843b29f41ec9dea15842a85b4ee",
+  "artifact_kind": "capture_policy",
+  "content_hash": "sha256:0cfff97618f84ea470ba547c00d300593b40510b6c7c42daf96a0b5973762508",
+  "created_at": "2026-07-23T12:07:35.736435Z",
+  "extensions": {},
+  "payload": {
+    "application_roots": [],
+    "exclude_module_patterns": [],
+    "hmac_key_id": "session-ephemeral",
+    "include_connection_aliases": [],
+    "limits": {
+      "max_artifact_bytes": 100000000,
+      "max_query_count": 100000,
+      "max_raw_sql_bytes": 1000000,
+      "max_stack_depth": 32
+    },
+    "notes": [],
+    "origin_capture_mode": "first_application_frame",
+    "parameter_capture_mode": "shape_and_hash",
+    "policy_key": "safe-local-default.v1",
+    "raw_sql_mode": "redact"
+  },
+  "producer": {
+    "build": "milestone-d-seed",
+    "name": "planguard",
+    "version": "0.4.0"
+  },
+  "provenance": {
+    "code_revision": "milestone-d",
+    "configuration_ref": null,
+    "derivation_key": null,
+    "input_refs": [],
+    "notes": []
+  },
+  "schema_version": "planguard.capture-policy.v1"
+}

@@ -664,6 +664,503 @@ class AnalysisSummaryPayload(FrozenModel):
         return validate_artifact_id(value)
 
 
+
+# ---------------------------------------------------------------------------
+# Milestone C workload graph, motif, and episode contracts.
+# ---------------------------------------------------------------------------
+
+
+class WorkloadNodeKind(StrEnum):
+    OPERATION = "operation"
+    QUERY_EXECUTION = "query_execution"
+    QUERY_FAMILY = "query_family"
+    TRANSACTION = "transaction"
+    FINDING = "finding"
+    EVIDENCE = "evidence"
+    EPISODE = "episode"
+
+
+class WorkloadEdgeKind(StrEnum):
+    CONTAINS = "contains"
+    EMITS = "emits"
+    MEMBER_OF = "member_of"
+    TEMPORALLY_PRECEDES = "temporally_precedes"
+    SAME_ORIGIN = "same_origin"
+    SAME_TRANSACTION = "same_transaction"
+    REPEATED_WITHIN = "repeated_within"
+    POSSIBLE_RESULT_DRIVES = "possible_result_drives"
+    SUPPORTS = "supports"
+    AFFECTS = "affects"
+    MATCHES_MOTIF = "matches_motif"
+
+
+class InferenceMethod(StrEnum):
+    OBSERVED = "observed"
+    DERIVED = "derived"
+    INFERRED = "inferred"
+
+
+class WorkloadNode(FrozenModel):
+    node_id: str = Field(min_length=1, max_length=256)
+    kind: WorkloadNodeKind
+    label: str = Field(min_length=1, max_length=512)
+    artifact_ref: ArtifactReference | None = None
+    attributes: JsonObject = Field(default_factory=dict)
+
+    @field_validator("attributes")
+    @classmethod
+    def validate_attributes(cls, value: JsonObject) -> JsonObject:
+        canonical_data(value)
+        return value
+
+
+class WorkloadEdge(FrozenModel):
+    edge_id: str = Field(min_length=1, max_length=256)
+    from_node: str = Field(min_length=1, max_length=256)
+    to_node: str = Field(min_length=1, max_length=256)
+    kind: WorkloadEdgeKind
+    confidence: float = Field(default=1.0, ge=0, le=1)
+    inference_method: InferenceMethod = InferenceMethod.OBSERVED
+    evidence_refs: tuple[ArtifactReference, ...] = ()
+    attributes: JsonObject = Field(default_factory=dict)
+
+    @field_validator("attributes")
+    @classmethod
+    def validate_edge_attributes(cls, value: JsonObject) -> JsonObject:
+        canonical_data(value)
+        return value
+
+
+class WorkloadGraphPayload(FrozenModel):
+    run_id: str
+    family_scheme_key: str
+    graph_version: str = "workload-graph.v1"
+    nodes: tuple[WorkloadNode, ...]
+    edges: tuple[WorkloadEdge, ...]
+    capability_gaps: tuple[str, ...] = ()
+
+    @field_validator("run_id")
+    @classmethod
+    def validate_run_id(cls, value: str) -> str:
+        return validate_artifact_id(value)
+
+    @model_validator(mode="after")
+    def validate_graph(self) -> "WorkloadGraphPayload":
+        node_ids = [node.node_id for node in self.nodes]
+        if len(node_ids) != len(set(node_ids)):
+            raise ValueError("Workload graph node IDs must be unique")
+        known = set(node_ids)
+        edge_ids: set[str] = set()
+        for edge in self.edges:
+            if edge.edge_id in edge_ids:
+                raise ValueError("Workload graph edge IDs must be unique")
+            edge_ids.add(edge.edge_id)
+            if edge.from_node not in known or edge.to_node not in known:
+                raise ValueError("Workload graph edges must reference known nodes")
+        return self
+
+
+class MotifNodeRole(FrozenModel):
+    role_key: str
+    allowed_kinds: tuple[WorkloadNodeKind, ...]
+    description: str | None = None
+
+
+class MotifEdgePattern(FrozenModel):
+    from_role: str
+    to_role: str
+    allowed_kinds: tuple[WorkloadEdgeKind, ...]
+    minimum_confidence: float = Field(default=0.0, ge=0, le=1)
+
+
+class MotifConstraintDefinition(FrozenModel):
+    constraint_key: str
+    kind: str
+    parameters: JsonObject = Field(default_factory=dict)
+    description: str | None = None
+
+
+class WorkloadMotifPayload(FrozenModel):
+    motif_key: str
+    title: str
+    description: str
+    node_roles: tuple[MotifNodeRole, ...]
+    edge_patterns: tuple[MotifEdgePattern, ...] = ()
+    constraints: tuple[MotifConstraintDefinition, ...] = ()
+    mechanism_keys: tuple[str, ...] = ()
+
+
+class ConstraintEvaluation(FrozenModel):
+    constraint_key: str
+    status: Literal["satisfied", "not_satisfied", "unknown", "not_evaluated"]
+    values: JsonObject = Field(default_factory=dict)
+    explanation: str | None = None
+
+
+class WorkloadEpisodePayload(FrozenModel):
+    run_id: str
+    motif_key: str
+    title: str
+    family_scheme_key: str
+    node_bindings: dict[str, str]
+    edge_ids: tuple[str, ...] = ()
+    constraint_evaluations: tuple[ConstraintEvaluation, ...] = ()
+    match_confidence: float = Field(ge=0, le=1)
+    subject_refs: tuple[ArtifactReference, ...] = ()
+    metadata: JsonObject = Field(default_factory=dict)
+
+    @field_validator("run_id")
+    @classmethod
+    def validate_run_id(cls, value: str) -> str:
+        return validate_artifact_id(value)
+
+
+
+# ---------------------------------------------------------------------------
+# Milestone D generic scenario, dataset, mutation, and run contracts.
+# ---------------------------------------------------------------------------
+
+
+class ScenarioRoleKind(StrEnum):
+    RELATIONAL_ENTITY = "relational_entity"
+    APPLICATION_OPERATION = "application_operation"
+    DATASET = "dataset"
+    ENVIRONMENT = "environment"
+    RESULT = "result"
+    POLICY = "policy"
+    OPAQUE = "opaque"
+
+
+class ParameterDomainKind(StrEnum):
+    FINITE = "finite"
+    INTEGER_RANGE = "integer_range"
+    FLOAT_RANGE = "float_range"
+    PARTITIONED = "partitioned"
+    REGISTRY = "registry"
+    BOOLEAN = "boolean"
+    OPAQUE = "opaque"
+
+
+class ScenarioReceiptStatus(StrEnum):
+    PENDING = "pending"
+    RUNNING = "running"
+    SUCCEEDED = "succeeded"
+    FAILED = "failed"
+    SKIPPED = "skipped"
+    NOT_EVALUATED = "not_evaluated"
+
+
+class OracleStatus(StrEnum):
+    SATISFIED = "satisfied"
+    NOT_SATISFIED = "not_satisfied"
+    UNKNOWN = "unknown"
+    NOT_EVALUATED = "not_evaluated"
+
+
+class ParameterPartition(FrozenModel):
+    key: str
+    title: str | None = None
+    minimum: float | int | None = None
+    maximum: float | int | None = None
+    include_minimum: bool = True
+    include_maximum: bool = True
+    representative_values: tuple[JsonValue, ...] = ()
+
+    @field_validator("representative_values")
+    @classmethod
+    def validate_representatives(cls, value: tuple[JsonValue, ...]) -> tuple[JsonValue, ...]:
+        canonical_data(value)
+        return value
+
+
+class ParameterDomain(FrozenModel):
+    kind: ParameterDomainKind
+    values: tuple[JsonValue, ...] = ()
+    minimum: float | int | None = None
+    maximum: float | int | None = None
+    step: float | int | None = None
+    registry_key: str | None = None
+    partitions: tuple[ParameterPartition, ...] = ()
+    default: JsonValue | None = None
+    constraints: tuple[SelectorExpression, ...] = ()
+
+    @field_validator("values", "default")
+    @classmethod
+    def validate_json_values(cls, value):
+        canonical_data(value)
+        return value
+
+    @model_validator(mode="after")
+    def validate_domain(self) -> "ParameterDomain":
+        if self.kind == ParameterDomainKind.FINITE and not self.values:
+            raise ValueError("finite parameter domains require values")
+        if self.kind in {ParameterDomainKind.INTEGER_RANGE, ParameterDomainKind.FLOAT_RANGE} and (
+            self.minimum is None or self.maximum is None
+        ):
+            raise ValueError("numeric range domains require minimum and maximum")
+        if self.minimum is not None and self.maximum is not None and self.minimum > self.maximum:
+            raise ValueError("parameter domain minimum must not exceed maximum")
+        if self.kind == ParameterDomainKind.REGISTRY and not self.registry_key:
+            raise ValueError("registry parameter domains require registry_key")
+        return self
+
+
+class ScenarioRole(FrozenModel):
+    role_key: str
+    kind: ScenarioRoleKind
+    required: bool = True
+    cardinality: Literal["one", "optional_one", "many"] = "one"
+    contract_key: str | None = None
+    description: str | None = None
+
+
+class ScenarioParameter(FrozenModel):
+    parameter_key: str
+    domain: ParameterDomain
+    required: bool = True
+    description: str | None = None
+    tags: tuple[str, ...] = ()
+
+
+class ScenarioOperationNode(FrozenModel):
+    node_key: str
+    kind: str
+    role_ref: str | None = None
+    phase: str | None = None
+    attributes: JsonObject = Field(default_factory=dict)
+
+
+class ScenarioOperationEdge(FrozenModel):
+    from_node: str
+    to_node: str
+    kind: str
+    attributes: JsonObject = Field(default_factory=dict)
+
+
+class ScenarioVariant(FrozenModel):
+    variant_key: str
+    title: str
+    implementation_role: str | None = None
+    description: str | None = None
+    tags: tuple[str, ...] = ()
+
+
+class OracleDefinition(FrozenModel):
+    oracle_key: str
+    kind: str
+    subject_selector: SelectorExpression | None = None
+    parameters: JsonObject = Field(default_factory=dict)
+    required_capabilities: tuple[str, ...] = ()
+    disposition: Literal["fail", "warn", "record"] = "fail"
+    description: str | None = None
+
+
+class CoverageObligation(FrozenModel):
+    obligation_key: str
+    kind: str
+    parameters: JsonObject = Field(default_factory=dict)
+    description: str | None = None
+
+
+class ScenarioTemplatePayload(FrozenModel):
+    template_key: str
+    title: str
+    description: str
+    roles: tuple[ScenarioRole, ...]
+    parameters: tuple[ScenarioParameter, ...] = ()
+    operation_nodes: tuple[ScenarioOperationNode, ...] = ()
+    operation_edges: tuple[ScenarioOperationEdge, ...] = ()
+    variants: tuple[ScenarioVariant, ...]
+    oracles: tuple[OracleDefinition, ...] = ()
+    coverage_obligations: tuple[CoverageObligation, ...] = ()
+    compatible_template_keys: tuple[str, ...] = ()
+    tags: tuple[str, ...] = ()
+
+    @model_validator(mode="after")
+    def validate_template(self) -> "ScenarioTemplatePayload":
+        role_keys = [item.role_key for item in self.roles]
+        parameter_keys = [item.parameter_key for item in self.parameters]
+        variant_keys = [item.variant_key for item in self.variants]
+        node_keys = [item.node_key for item in self.operation_nodes]
+        for label, values in (("role", role_keys), ("parameter", parameter_keys), ("variant", variant_keys), ("node", node_keys)):
+            if len(values) != len(set(values)):
+                raise ValueError(f"Scenario {label} keys must be unique")
+        known_roles = set(role_keys)
+        known_nodes = set(node_keys)
+        for node in self.operation_nodes:
+            if node.role_ref and node.role_ref not in known_roles:
+                raise ValueError(f"Operation node references unknown role: {node.role_ref}")
+        for edge in self.operation_edges:
+            if edge.from_node not in known_nodes or edge.to_node not in known_nodes:
+                raise ValueError("Operation edges must reference known nodes")
+        return self
+
+
+class RoleBinding(FrozenModel):
+    role_key: str
+    binding_kind: Literal["model", "callable", "dataset", "value", "adapter", "opaque"]
+    target: str
+    configuration: JsonObject = Field(default_factory=dict)
+
+
+class VariantBinding(FrozenModel):
+    variant_key: str
+    target: str
+    configuration: JsonObject = Field(default_factory=dict)
+
+
+class ScenarioBindingPayload(FrozenModel):
+    binding_key: str
+    template_ref: ArtifactReference
+    application_key: str
+    role_bindings: tuple[RoleBinding, ...]
+    variant_bindings: tuple[VariantBinding, ...]
+    adapter_key: str
+    capabilities: tuple[str, ...] = ()
+    tags: tuple[str, ...] = ()
+
+    @model_validator(mode="after")
+    def validate_binding_keys(self) -> "ScenarioBindingPayload":
+        roles = [item.role_key for item in self.role_bindings]
+        variants = [item.variant_key for item in self.variant_bindings]
+        if len(roles) != len(set(roles)) or len(variants) != len(set(variants)):
+            raise ValueError("Scenario binding keys must be unique")
+        return self
+
+
+class DistributionSpec(FrozenModel):
+    distribution_key: str
+    kind: str
+    parameters: JsonObject = Field(default_factory=dict)
+    seed_offset: int = 0
+
+
+class DatasetManifestPayload(FrozenModel):
+    dataset_key: str
+    dataset_version: str
+    generator_key: str
+    seed: int
+    scale_profile: str
+    entity_counts: dict[str, int]
+    distributions: tuple[DistributionSpec, ...] = ()
+    constraints: tuple[str, ...] = ()
+    dataset_fingerprint: str
+    tenant_count: int = Field(default=1, ge=1)
+    metadata: JsonObject = Field(default_factory=dict)
+
+    @field_validator("entity_counts")
+    @classmethod
+    def validate_counts(cls, value: dict[str, int]) -> dict[str, int]:
+        if any(item < 0 for item in value.values()):
+            raise ValueError("Dataset entity counts must be non-negative")
+        return value
+
+
+class MutationDefinitionPayload(FrozenModel):
+    mutation_key: str
+    title: str
+    mutation_class: Literal["application", "schema", "data", "runtime", "workload"]
+    adapter_key: str
+    parameter_domain: dict[str, ParameterDomain] = Field(default_factory=dict)
+    compatible_template_keys: tuple[str, ...] = ()
+    required_capabilities: tuple[str, ...] = ()
+    reversible: bool = True
+    description: str | None = None
+
+
+class AppliedMutation(FrozenModel):
+    mutation_ref: ArtifactReference
+    parameter_bindings: JsonObject = Field(default_factory=dict)
+    order: int = Field(ge=0)
+
+
+class ScenarioInstancePayload(FrozenModel):
+    template_ref: ArtifactReference
+    binding_ref: ArtifactReference
+    parameter_bindings: JsonObject
+    variant_key: str
+    applied_mutations: tuple[AppliedMutation, ...] = ()
+    seed: int
+    series_key: str | None = None
+    composed_from_refs: tuple[ArtifactReference, ...] = ()
+    projected_dimensions: tuple[str, ...] = ()
+    expected_capabilities: tuple[str, ...] = ()
+    tags: tuple[str, ...] = ()
+
+    @field_validator("parameter_bindings")
+    @classmethod
+    def validate_parameter_bindings(cls, value: JsonObject) -> JsonObject:
+        canonical_data(value)
+        return value
+
+
+class ScenarioSeriesPayload(FrozenModel):
+    series_key: str
+    template_ref: ArtifactReference
+    binding_ref: ArtifactReference
+    independent_dimensions: tuple[str, ...]
+    instance_refs: tuple[ArtifactReference, ...]
+    generation_strategy: str
+    seed: int
+    metadata: JsonObject = Field(default_factory=dict)
+
+
+class ScenarioPhaseReceiptPayload(FrozenModel):
+    scenario_instance_ref: ArtifactReference
+    scenario_run_id: str
+    phase_key: str
+    status: ScenarioReceiptStatus
+    started_at: datetime
+    completed_at: datetime
+    input_refs: tuple[ArtifactReference, ...] = ()
+    output_refs: tuple[ArtifactReference, ...] = ()
+    capability_gaps: tuple[str, ...] = ()
+    error: str | None = None
+    statistics: JsonObject = Field(default_factory=dict)
+
+    @field_validator("scenario_run_id")
+    @classmethod
+    def validate_scenario_run_id(cls, value: str) -> str:
+        return validate_artifact_id(value)
+
+
+class OracleEvaluation(FrozenModel):
+    oracle_key: str
+    status: OracleStatus
+    measured_value: JsonValue | None = None
+    expected_value: JsonValue | None = None
+    evidence_refs: tuple[ArtifactReference, ...] = ()
+    explanation: str
+
+    @field_validator("measured_value", "expected_value")
+    @classmethod
+    def validate_oracle_values(cls, value):
+        canonical_data(value)
+        return value
+
+
+class ScenarioRunPayload(FrozenModel):
+    scenario_run_id: str
+    scenario_instance_ref: ArtifactReference
+    dataset_ref: ArtifactReference | None = None
+    analysis_run_ref: ArtifactReference | None = None
+    status: ScenarioReceiptStatus
+    variant_key: str
+    phase_receipt_refs: tuple[ArtifactReference, ...]
+    oracle_evaluations: tuple[OracleEvaluation, ...] = ()
+    result_digest: str | None = None
+    state_digest: str | None = None
+    started_at: datetime
+    completed_at: datetime
+    capability_gaps: tuple[str, ...] = ()
+    metadata: JsonObject = Field(default_factory=dict)
+
+    @field_validator("scenario_run_id")
+    @classmethod
+    def validate_scenario_run_id(cls, value: str) -> str:
+        return validate_artifact_id(value)
+
+
 # ---------------------------------------------------------------------------
 # Concrete artifacts.
 # ---------------------------------------------------------------------------
@@ -763,6 +1260,73 @@ class AnalysisSummaryArtifact(ArtifactDocument[AnalysisSummaryPayload]):
     artifact_id: str = Field(default_factory=lambda: new_artifact_id("asum"))
 
 
+
+class WorkloadGraphArtifact(ArtifactDocument[WorkloadGraphPayload]):
+    schema_version: Literal["planguard.workload-graph.v1"] = "planguard.workload-graph.v1"
+    artifact_kind: Literal["workload_graph"] = "workload_graph"
+    artifact_id: str = Field(default_factory=lambda: new_artifact_id("wkg"))
+
+
+class WorkloadMotifArtifact(ArtifactDocument[WorkloadMotifPayload]):
+    schema_version: Literal["planguard.workload-motif.v1"] = "planguard.workload-motif.v1"
+    artifact_kind: Literal["workload_motif"] = "workload_motif"
+    artifact_id: str = Field(default_factory=lambda: new_artifact_id("wmotif"))
+
+
+class WorkloadEpisodeArtifact(ArtifactDocument[WorkloadEpisodePayload]):
+    schema_version: Literal["planguard.workload-episode.v1"] = "planguard.workload-episode.v1"
+    artifact_kind: Literal["workload_episode"] = "workload_episode"
+    artifact_id: str = Field(default_factory=lambda: new_artifact_id("wep"))
+
+
+
+class ScenarioTemplateArtifact(ArtifactDocument[ScenarioTemplatePayload]):
+    schema_version: Literal["planguard.scenario-template.v1"] = "planguard.scenario-template.v1"
+    artifact_kind: Literal["scenario_template"] = "scenario_template"
+    artifact_id: str = Field(default_factory=lambda: new_artifact_id("sct"))
+
+
+class ScenarioBindingArtifact(ArtifactDocument[ScenarioBindingPayload]):
+    schema_version: Literal["planguard.scenario-binding.v1"] = "planguard.scenario-binding.v1"
+    artifact_kind: Literal["scenario_binding"] = "scenario_binding"
+    artifact_id: str = Field(default_factory=lambda: new_artifact_id("scb"))
+
+
+class ScenarioInstanceArtifact(ArtifactDocument[ScenarioInstancePayload]):
+    schema_version: Literal["planguard.scenario-instance.v1"] = "planguard.scenario-instance.v1"
+    artifact_kind: Literal["scenario_instance"] = "scenario_instance"
+    artifact_id: str = Field(default_factory=lambda: new_artifact_id("sci"))
+
+
+class ScenarioSeriesArtifact(ArtifactDocument[ScenarioSeriesPayload]):
+    schema_version: Literal["planguard.scenario-series.v1"] = "planguard.scenario-series.v1"
+    artifact_kind: Literal["scenario_series"] = "scenario_series"
+    artifact_id: str = Field(default_factory=lambda: new_artifact_id("scs"))
+
+
+class ScenarioPhaseReceiptArtifact(ArtifactDocument[ScenarioPhaseReceiptPayload]):
+    schema_version: Literal["planguard.scenario-phase-receipt.v1"] = "planguard.scenario-phase-receipt.v1"
+    artifact_kind: Literal["scenario_phase_receipt"] = "scenario_phase_receipt"
+    artifact_id: str = Field(default_factory=lambda: new_artifact_id("spr"))
+
+
+class ScenarioRunArtifact(ArtifactDocument[ScenarioRunPayload]):
+    schema_version: Literal["planguard.scenario-run.v1"] = "planguard.scenario-run.v1"
+    artifact_kind: Literal["scenario_run"] = "scenario_run"
+    artifact_id: str = Field(default_factory=lambda: new_artifact_id("scrun"))
+
+
+class DatasetManifestArtifact(ArtifactDocument[DatasetManifestPayload]):
+    schema_version: Literal["planguard.dataset-manifest.v1"] = "planguard.dataset-manifest.v1"
+    artifact_kind: Literal["dataset_manifest"] = "dataset_manifest"
+    artifact_id: str = Field(default_factory=lambda: new_artifact_id("dset"))
+
+
+class MutationDefinitionArtifact(ArtifactDocument[MutationDefinitionPayload]):
+    schema_version: Literal["planguard.mutation-definition.v1"] = "planguard.mutation-definition.v1"
+    artifact_kind: Literal["mutation_definition"] = "mutation_definition"
+    artifact_id: str = Field(default_factory=lambda: new_artifact_id("mut"))
+
 AnyArtifact: TypeAlias = Annotated[
     RunManifestArtifact
     | EnvironmentProfileArtifact
@@ -777,7 +1341,18 @@ AnyArtifact: TypeAlias = Annotated[
     | DetectorReceiptArtifact
     | BudgetPolicyArtifact
     | BudgetEvaluationArtifact
-    | AnalysisSummaryArtifact,
+    | AnalysisSummaryArtifact
+    | WorkloadGraphArtifact
+    | WorkloadMotifArtifact
+    | WorkloadEpisodeArtifact
+    | ScenarioTemplateArtifact
+    | ScenarioBindingArtifact
+    | ScenarioInstanceArtifact
+    | ScenarioSeriesArtifact
+    | ScenarioPhaseReceiptArtifact
+    | ScenarioRunArtifact
+    | DatasetManifestArtifact
+    | MutationDefinitionArtifact,
     Field(discriminator="artifact_kind"),
 ]
 
@@ -798,6 +1373,17 @@ ARTIFACT_MODELS: tuple[type[ArtifactDocument[Any]], ...] = (
     BudgetPolicyArtifact,
     BudgetEvaluationArtifact,
     AnalysisSummaryArtifact,
+    WorkloadGraphArtifact,
+    WorkloadMotifArtifact,
+    WorkloadEpisodeArtifact,
+    ScenarioTemplateArtifact,
+    ScenarioBindingArtifact,
+    ScenarioInstanceArtifact,
+    ScenarioSeriesArtifact,
+    ScenarioPhaseReceiptArtifact,
+    ScenarioRunArtifact,
+    DatasetManifestArtifact,
+    MutationDefinitionArtifact,
 )
 
 SelectorExpression.model_rebuild()

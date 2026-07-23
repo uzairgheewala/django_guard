@@ -1,0 +1,8 @@
+{
+  "artifact_id": "scrun_d7a298b6884b4eda9ebdaacd2596b206",
+  "artifact_kind": "scenario_run",
+  "content_hash": "sha256:fd76bcb3e9bb9f7d41d226302f608d01947fca0e8a897490ff832dc737535ad6",
+  "created_at": "2026-07-23T12:07:36.038783+00:00",
+  "path": "artifacts/scrun_d7a298b6884b4eda9ebdaacd2596b206.json",
+  "schema_version": "planguard.scenario-run.v1"
+}

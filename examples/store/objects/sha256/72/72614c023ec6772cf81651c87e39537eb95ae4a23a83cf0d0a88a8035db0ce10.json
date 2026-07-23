@@ -1,0 +1,74 @@
+{
+  "artifact_id": "qexec_c95bd51cb3c54ec5b1bf7a0cf51764b0",
+  "artifact_kind": "query_execution",
+  "content_hash": "sha256:72614c023ec6772cf81651c87e39537eb95ae4a23a83cf0d0a88a8035db0ce10",
+  "created_at": "2026-07-23T12:07:36.229124Z",
+  "extensions": {},
+  "payload": {
+    "connection": {
+      "alias": "default",
+      "vendor": "postgresql"
+    },
+    "context": {},
+    "many": false,
+    "origin": {
+      "application_frame": {
+        "file": "/mnt/data/planguard-milestone-d-work/scripts/seed_milestone_d_artifacts.py",
+        "function": "main",
+        "line": 55,
+        "module": "__main__"
+      },
+      "stack": [
+        {
+          "file": "/mnt/data/planguard-milestone-d-work/scripts/seed_milestone_d_artifacts.py",
+          "function": "main",
+          "line": 55,
+          "module": "__main__"
+        }
+      ],
+      "stack_fingerprint": "stk_ba726d00eb3f7bf11ba94a989635714a9a248cabea0a08dbe238e6a16443a3ad"
+    },
+    "outcome": {
+      "exception_message": null,
+      "exception_type": null,
+      "row_count": 6,
+      "status": "succeeded"
+    },
+    "parameter_binding_fingerprint": "binding:a0a1687feca205ab7c363001032134c4d778fe156d85ab6ac1db74b07e569ca5",
+    "parameters": [
+      {
+        "container": null,
+        "length": null,
+        "preserved_value": null,
+        "type_name": "int",
+        "value_hash": "hmac-sha256:5b58a2fd7d14df59e62b7a0e5c5dfd87c86d7e08d203ac2e09f3c06cccb9239e"
+      }
+    ],
+    "raw_sql_mode": "redact",
+    "run_id": "run_cf0693bd4a164211a496946bd0a12bca",
+    "sequence_number": 1,
+    "sql": "SELECT id FROM student WHERE institution_id = %s AND active = TRUE",
+    "timing": {
+      "duration_ms": 3.0,
+      "started_offset_ms": 0.0
+    },
+    "transaction": {
+      "autocommit": true,
+      "depth": 0,
+      "transaction_id": null
+    }
+  },
+  "producer": {
+    "build": "milestone-d-seed",
+    "name": "planguard",
+    "version": "0.4.0"
+  },
+  "provenance": {
+    "code_revision": "milestone-d",
+    "configuration_ref": null,
+    "derivation_key": "query-capture.v1",
+    "input_refs": [],
+    "notes": []
+  },
+  "schema_version": "planguard.query-execution.v1"
+}

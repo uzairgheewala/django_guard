@@ -1,0 +1,29 @@
+{
+  "artifact_id": "fsch_163636be694e44b691b604f9ff670183",
+  "artifact_kind": "family_scheme",
+  "content_hash": "sha256:98c2336c89432c31d6b8f08cf6b921cf1ef1c4a4bca933a5a23ee89d48fec6a6",
+  "created_at": "2026-07-23T12:07:35.521071Z",
+  "extensions": {},
+  "payload": {
+    "description": "Groups all executions sharing the conservative structural SQL fingerprint.",
+    "dimensions": [
+      "query.shape"
+    ],
+    "family_scheme_key": "structural-shape.v1",
+    "missing_value_policy": "preserve_unknown",
+    "title": "Structural shape"
+  },
+  "producer": {
+    "build": "milestone-d-seed",
+    "name": "planguard",
+    "version": "0.4.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": null,
+    "input_refs": [],
+    "notes": []
+  },
+  "schema_version": "planguard.family-scheme.v1"
+}

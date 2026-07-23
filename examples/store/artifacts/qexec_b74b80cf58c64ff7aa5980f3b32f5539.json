@@ -1,0 +1,81 @@
+{
+  "artifact_id": "qexec_b74b80cf58c64ff7aa5980f3b32f5539",
+  "artifact_kind": "query_execution",
+  "content_hash": "sha256:9a2a6f769e67d97491ef38bdda7a627973b5325195aee0d495a7da406e95d677",
+  "created_at": "2026-07-23T12:07:35.210716Z",
+  "extensions": {},
+  "payload": {
+    "connection": {
+      "alias": "default",
+      "vendor": "postgresql"
+    },
+    "context": {},
+    "many": false,
+    "origin": {
+      "application_frame": {
+        "file": "/mnt/data/planguard-milestone-d-work/scripts/seed_milestone_d_artifacts.py",
+        "function": "main",
+        "line": 55,
+        "module": "__main__"
+      },
+      "stack": [
+        {
+          "file": "/mnt/data/planguard-milestone-d-work/scripts/seed_milestone_d_artifacts.py",
+          "function": "main",
+          "line": 55,
+          "module": "__main__"
+        }
+      ],
+      "stack_fingerprint": "stk_ba726d00eb3f7bf11ba94a989635714a9a248cabea0a08dbe238e6a16443a3ad"
+    },
+    "outcome": {
+      "exception_message": null,
+      "exception_type": null,
+      "row_count": 23,
+      "status": "succeeded"
+    },
+    "parameter_binding_fingerprint": "binding:a66b73a2f35e4584d3b827a43f59e330bada85e4cec16ad6968f95742294108c",
+    "parameters": [
+      {
+        "container": null,
+        "length": null,
+        "preserved_value": null,
+        "type_name": "int",
+        "value_hash": "hmac-sha256:eaf69f25199d39bc335fc7f45c01f43635921da5ac57372c84044dd992c93ce0"
+      },
+      {
+        "container": "list",
+        "length": 23,
+        "preserved_value": null,
+        "type_name": "list",
+        "value_hash": "hmac-sha256:cc0ea080c2f4700f89a76eea24c35f90ad9a63b185fac1b51a26a9a4b917d2c4"
+      }
+    ],
+    "raw_sql_mode": "redact",
+    "run_id": "run_75dd8faf4ea446a0992e7f8666b4cb43",
+    "sequence_number": 3,
+    "sql": "SELECT id, subject, number FROM course WHERE institution_id = %s AND id = ANY(%s)",
+    "timing": {
+      "duration_ms": 2.1,
+      "started_offset_ms": 0.0
+    },
+    "transaction": {
+      "autocommit": true,
+      "depth": 0,
+      "transaction_id": null
+    }
+  },
+  "producer": {
+    "build": "milestone-d-seed",
+    "name": "planguard",
+    "version": "0.4.0"
+  },
+  "provenance": {
+    "code_revision": "milestone-d",
+    "configuration_ref": null,
+    "derivation_key": "query-capture.v1",
+    "input_refs": [],
+    "notes": []
+  },
+  "schema_version": "planguard.query-execution.v1"
+}

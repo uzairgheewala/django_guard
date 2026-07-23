@@ -1,0 +1,96 @@
+{
+  "artifact_id": "fnd_40d627e895b64b1aa84f718ad8dc3f0f",
+  "artifact_kind": "finding",
+  "content_hash": "sha256:b17cbbf81e2be55f58a4473fe03a1627b5b058f52c9c8741341906cff39f0647",
+  "created_at": "2026-07-23T12:07:35.625074Z",
+  "extensions": {},
+  "payload": {
+    "claims": [
+      {
+        "claim_key": "family_dominates_database_time",
+        "explanation": null,
+        "status": "supported",
+        "subject_refs": [
+          {
+            "artifact_id": "qfam_1b1c3b9abd7563b401763bb4524d17cb",
+            "artifact_kind": "observed_query_family",
+            "content_hash": "sha256:00afa2043175bfa51e26fb9d805d608fb418384f9c85df36759c7ac7cc6bcd33",
+            "schema_version": "planguard.observed-query-family.v1"
+          }
+        ],
+        "values": {
+          "database_time_share": 0.6,
+          "family_total_ms": 3.0,
+          "run_total_ms": 5.0
+        }
+      }
+    ],
+    "confidence": {
+      "level": "high",
+      "score": 0.99
+    },
+    "detector_key": "slow-family-concentration.v1",
+    "evidence_refs": [
+      {
+        "artifact_id": "evd_e61d49ed5eb74250a075c2f1c8379bfb",
+        "artifact_kind": "evidence",
+        "content_hash": "sha256:3e54f574cd8e948ea408ca2f055c15141458c0806faa2121b6c6db09c9e8c66c",
+        "schema_version": "planguard.evidence.v1"
+      }
+    ],
+    "explanation": {
+      "details": [],
+      "summary": "This structural family consumed 60.0% of captured database time."
+    },
+    "limitations": [],
+    "mechanism_key": "database_time_concentration",
+    "metadata": {},
+    "remediation": {
+      "category": "database_time_concentration",
+      "guidance": [
+        "Prioritize this family for plan collection and representative-parameter analysis.",
+        "Separate per-execution latency from repetition before selecting a remediation."
+      ]
+    },
+    "run_id": "run_383d381aad47486d9dc5b73c278611bc",
+    "severity": {
+      "level": "medium",
+      "score": 0.6
+    },
+    "subject_refs": [
+      {
+        "artifact_id": "qfam_1b1c3b9abd7563b401763bb4524d17cb",
+        "artifact_kind": "observed_query_family",
+        "content_hash": "sha256:00afa2043175bfa51e26fb9d805d608fb418384f9c85df36759c7ac7cc6bcd33",
+        "schema_version": "planguard.observed-query-family.v1"
+      }
+    ],
+    "title": "One query family dominates database time"
+  },
+  "producer": {
+    "build": "milestone-d-seed",
+    "name": "planguard",
+    "version": "0.4.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": "slow-family-concentration.v1",
+    "input_refs": [
+      {
+        "artifact_id": "qfam_1b1c3b9abd7563b401763bb4524d17cb",
+        "artifact_kind": "observed_query_family",
+        "content_hash": "sha256:00afa2043175bfa51e26fb9d805d608fb418384f9c85df36759c7ac7cc6bcd33",
+        "schema_version": "planguard.observed-query-family.v1"
+      },
+      {
+        "artifact_id": "evd_e61d49ed5eb74250a075c2f1c8379bfb",
+        "artifact_kind": "evidence",
+        "content_hash": "sha256:3e54f574cd8e948ea408ca2f055c15141458c0806faa2121b6c6db09c9e8c66c",
+        "schema_version": "planguard.evidence.v1"
+      }
+    ],
+    "notes": []
+  },
+  "schema_version": "planguard.finding.v1"
+}

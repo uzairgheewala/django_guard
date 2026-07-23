@@ -6,6 +6,8 @@ contracts:
 seed:
 	python scripts/seed_sample_artifacts.py --store examples/store
 	python scripts/seed_milestone_b_artifacts.py --store examples/store
+	PYTHONPATH=packages/planguard-core/src python scripts/seed_milestone_c_artifacts.py
+	PYTHONPATH=packages/planguard-core/src python scripts/seed_milestone_d_artifacts.py
 
 test:
 	pytest

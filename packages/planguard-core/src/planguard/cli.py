@@ -1,4 +1,4 @@
-"""PlanGuard Milestone B command-line interface."""
+"""PlanGuard Milestone D command-line interface."""
 
 from __future__ import annotations
 
@@ -9,13 +9,17 @@ from pathlib import Path
 
 from planguard.analysis.load import load_analysis_bundle
 from planguard.artifacts.codec import default_codec
-from planguard.artifacts.models import BudgetPolicyArtifact, EvaluationStatus, ProducerIdentity
+from planguard.artifacts.models import BudgetPolicyArtifact, EvaluationStatus, ProducerIdentity, ScenarioInstanceArtifact
 from planguard.canonical import canonical_json_text
 from planguard.contracts.generate import generate_contracts
 from planguard.errors import PlanGuardError
 from planguard.policy.engine import evaluate_policy
+from planguard.lab.academic import build_academic_catalog
+from planguard.scenario import ScenarioRunner, instantiate
 from planguard.reporting.render import render_html, render_json, render_terminal
+from planguard.store.bundle import export_run_bundle
 from planguard.store.filesystem import FilesystemArtifactStore
+from planguard.store.index import ArtifactIndex
 
 
 def _parser() -> argparse.ArgumentParser:
@@ -59,6 +63,47 @@ def _parser() -> argparse.ArgumentParser:
     verify.add_argument("--store", type=Path, default=Path(".planguard"))
     verify.add_argument("--artifact-id")
 
+    index_rebuild = subcommands.add_parser("index-rebuild", help="Rebuild the disposable metadata index")
+    index_rebuild.add_argument("--store", type=Path, default=Path(".planguard"))
+    index_rebuild.add_argument("--index", type=Path)
+
+    search = subcommands.add_parser("search", help="Search indexed artifacts")
+    search.add_argument("query", nargs="?")
+    search.add_argument("--store", type=Path, default=Path(".planguard"))
+    search.add_argument("--index", type=Path)
+    search.add_argument("--kind")
+    search.add_argument("--run-id")
+    search.add_argument("--motif")
+    search.add_argument("--limit", type=int, default=50)
+
+    export = subcommands.add_parser("export-run", help="Export one portable run bundle")
+    export.add_argument("run_id")
+    export.add_argument("--store", type=Path, default=Path(".planguard"))
+    export.add_argument("--output", type=Path)
+
+
+    scenario_catalog = subcommands.add_parser("scenario-catalog", help="List generic templates, academic bindings, and mutations")
+    scenario_catalog.add_argument("--store", type=Path, default=Path(".planguard"))
+
+    scenario_instantiate = subcommands.add_parser("scenario-instantiate", help="Create one deterministic academic scenario instance")
+    scenario_instantiate.add_argument("template_key")
+    scenario_instantiate.add_argument("binding_key")
+    scenario_instantiate.add_argument("--variant", choices=("naive", "optimized"), default="naive")
+    scenario_instantiate.add_argument("--parameter", action="append", default=[], help="KEY=JSON_VALUE")
+    scenario_instantiate.add_argument("--mutation", action="append", default=[], help="MUTATION_KEY")
+    scenario_instantiate.add_argument("--seed", type=int, default=1)
+    scenario_instantiate.add_argument("--store", type=Path, default=Path(".planguard"))
+
+    scenario_run = subcommands.add_parser("scenario-run", help="Execute one persisted or inline academic scenario")
+    scenario_run.add_argument("scenario_instance_id", nargs="?")
+    scenario_run.add_argument("--template")
+    scenario_run.add_argument("--binding")
+    scenario_run.add_argument("--variant", choices=("naive", "optimized"), default="naive")
+    scenario_run.add_argument("--parameter", action="append", default=[], help="KEY=JSON_VALUE")
+    scenario_run.add_argument("--mutation", action="append", default=[], help="MUTATION_KEY")
+    scenario_run.add_argument("--seed", type=int, default=1)
+    scenario_run.add_argument("--store", type=Path, default=Path(".planguard"))
+
     schemas = subcommands.add_parser("generate-contracts", help="Regenerate contracts")
     schemas.add_argument("--schema-dir", type=Path, default=Path("schemas/generated"))
     schemas.add_argument(
@@ -76,6 +121,17 @@ def _render(bundle, format: str):
     if format == "json":
         return render_json(bundle, evaluation=evaluation)
     return render_html(bundle, evaluation=evaluation)
+
+
+
+def _key_values(items: list[str]) -> dict[str, object]:
+    result: dict[str, object] = {}
+    for item in items:
+        if "=" not in item:
+            raise ValueError(f"Expected KEY=JSON_VALUE, got {item!r}")
+        key, raw = item.split("=", 1)
+        result[key] = json.loads(raw)
+    return result
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -132,7 +188,7 @@ def main(argv: list[str] | None = None) -> int:
             evaluation = evaluate_policy(
                 bundle,
                 policy_artifact,
-                producer=ProducerIdentity(name="planguard", version="0.2.0", build="cli"),
+                producer=ProducerIdentity(name="planguard", version="0.4.0", build="cli"),
             )
             if args.persist:
                 store.save(evaluation)
@@ -156,6 +212,63 @@ def main(argv: list[str] | None = None) -> int:
                 result = store.verify_all()
             print(json.dumps(result, sort_keys=True, indent=2))
             return 0 if all(result.values()) else 2
+
+        if args.command == "index-rebuild":
+            store = FilesystemArtifactStore(args.store)
+            index_path = args.index or (args.store / "registry.sqlite3")
+            count = ArtifactIndex(index_path).rebuild(store)
+            print(json.dumps({"status": "rebuilt", "artifact_count": count, "index": str(index_path)}, indent=2))
+            return 0
+
+        if args.command == "search":
+            store = FilesystemArtifactStore(args.store)
+            index_path = args.index or (args.store / "registry.sqlite3")
+            index = ArtifactIndex(index_path)
+            index.sync(store)
+            page = index.search(query=args.query, artifact_kind=args.kind, run_id=args.run_id, motif_key=args.motif, limit=args.limit)
+            print(json.dumps({"items": list(page.items), "total": page.total}, indent=2, default=str))
+            return 0
+
+        if args.command == "export-run":
+            output = args.output or Path(f"{args.run_id}.planguard.zip")
+            output.write_bytes(export_run_bundle(FilesystemArtifactStore(args.store), args.run_id))
+            print(output)
+            return 0
+
+
+        if args.command == "scenario-catalog":
+            store = FilesystemArtifactStore(args.store)
+            catalog = build_academic_catalog(producer=ProducerIdentity(name="planguard", version="0.4.0", build="cli"))
+            count = catalog.persist(store)
+            snapshot = catalog.registry.snapshot()
+            print(json.dumps({"persisted": count, "templates": snapshot.template_keys, "bindings": snapshot.binding_keys, "mutations": snapshot.mutation_keys, "adapters": snapshot.adapter_keys}, indent=2))
+            return 0
+
+        if args.command in {"scenario-instantiate", "scenario-run"}:
+            store = FilesystemArtifactStore(args.store)
+            producer = ProducerIdentity(name="planguard", version="0.4.0", build="cli")
+            catalog = build_academic_catalog(producer=producer)
+            catalog.persist(store)
+            if args.command == "scenario-run" and args.scenario_instance_id:
+                instance = store.load(args.scenario_instance_id)
+                if not isinstance(instance, ScenarioInstanceArtifact):
+                    raise ValueError("scenario_instance_id must refer to a scenario_instance artifact")
+            else:
+                template_key = args.template if args.command == "scenario-run" else args.template_key
+                binding_key = args.binding if args.command == "scenario-run" else args.binding_key
+                if not template_key or not binding_key:
+                    raise ValueError("Inline scenario execution requires --template and --binding")
+                template = catalog.registry.require_template(template_key)
+                binding = catalog.registry.require_binding(binding_key)
+                mutation_specs = tuple((catalog.registry.require_mutation(key), {}) for key in args.mutation)
+                instance = instantiate(template, binding, parameters=_key_values(args.parameter), variant_key=args.variant, mutations=mutation_specs, seed=args.seed, producer=producer)
+                store.save(instance)
+            if args.command == "scenario-instantiate":
+                print(canonical_json_text(instance, pretty=True))
+                return 0
+            result = ScenarioRunner(registry=catalog.registry, store=store, producer=producer).run(instance)
+            print(json.dumps({"scenario_run_id": result.scenario_run.artifact_id, "status": str(result.scenario_run.payload.status), "analysis_run_id": result.captured_run.manifest.artifact_id if result.captured_run else None, "oracle_evaluations": [item.model_dump(mode="json") for item in result.scenario_run.payload.oracle_evaluations]}, indent=2))
+            return 0
 
         if args.command == "generate-contracts":
             generate_contracts(args.schema_dir, args.typescript)

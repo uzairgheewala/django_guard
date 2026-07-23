@@ -23,6 +23,7 @@ from planguard.analysis.engine import AnalysisBundle, AnalysisEngine
 from planguard.analysis.normalize import redact_sql
 from planguard.artifacts.models import (
     ArtifactInventory,
+    ArtifactReference,
     BudgetPolicyArtifact,
     BundleIntegrity,
     CapabilityState,
@@ -102,11 +103,13 @@ class AnalysisSession:
         attach_django: bool = True,
         code_revision: str | None = None,
         budget_policy: BudgetPolicyArtifact | QueryPolicy | None = None,
+        run_id: str | None = None,
+        scenario_instance_ref: ArtifactReference | None = None,
     ) -> None:
         self.name = name
         self.mode = mode
         self.tags = tags
-        self.run_id = new_artifact_id("run")
+        self.run_id = run_id or new_artifact_id("run")
         self.store = (
             store
             if isinstance(store, FilesystemArtifactStore)
@@ -117,13 +120,14 @@ class AnalysisSession:
             hmac_key_id="session-ephemeral",
         )
         self.producer = producer or ProducerIdentity(
-            name="planguard", version="0.2.0", build="milestone-b"
+            name="planguard", version="0.4.0", build="milestone-d"
         )
         self.hmac_key = hmac_key or os.urandom(32)
         self.analyze_enabled = analyze
         self.attach_django = attach_django
         self.code_revision = code_revision
         self.budget_policy = budget_policy
+        self.scenario_instance_ref = scenario_instance_ref
         self._started_at: datetime | None = None
         self._completed_at: datetime | None = None
         self._start_clock: float | None = None
@@ -135,7 +139,7 @@ class AnalysisSession:
 
     def __enter__(self) -> "AnalysisSession":
         if _ACTIVE_SESSION.get() is not None:
-            raise RuntimeError("Nested PlanGuard capture sessions are not supported in Milestone B")
+            raise RuntimeError("Nested PlanGuard capture sessions are not supported")
         self._started_at = utc_now()
         self._start_clock = time.perf_counter()
         self._token = _ACTIVE_SESSION.set(self)
@@ -354,7 +358,7 @@ class AnalysisSession:
         return tuple(artifacts)
 
     def _environment(self) -> EnvironmentProfileArtifact:
-        components = [RuntimeComponent(name="planguard", version="0.2.0")]
+        components = [RuntimeComponent(name="planguard", version="0.4.0")]
         try:
             import django
 
@@ -411,6 +415,9 @@ class AnalysisSession:
                 findings=analysis.findings,
                 detector_receipts=analysis.detector_receipts,
                 budget_evaluations=(evaluation,),
+                workload_graphs=analysis.workload_graphs,
+                workload_motifs=analysis.workload_motifs,
+                workload_episodes=analysis.workload_episodes,
                 summary=analysis.summary.model_copy(
                     update={
                         "payload": analysis.summary.payload.model_copy(
@@ -451,6 +458,7 @@ class AnalysisSession:
                 ),
                 environment_ref=environment.reference(),
                 capture_policy_ref=capture_policy.reference(),
+                scenario_instance_ref=self.scenario_instance_ref,
                 artifact_inventory=ArtifactInventory(
                     by_kind=dict(sorted(counts.items())),
                     total_count=sum(counts.values()),

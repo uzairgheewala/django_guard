@@ -1,0 +1,8 @@
+{
+  "artifact_id": "run_c0f2b729722340a0b345a5e0da65ffc2",
+  "artifact_kind": "run_manifest",
+  "content_hash": "sha256:cf21571d7dfaf5a9030b870e0980b041fe511aedcdfa0b4444f93e93963b01de",
+  "created_at": "2026-07-23T12:07:36.547334+00:00",
+  "path": "artifacts/run_c0f2b729722340a0b345a5e0da65ffc2.json",
+  "schema_version": "planguard.run-manifest.v1"
+}

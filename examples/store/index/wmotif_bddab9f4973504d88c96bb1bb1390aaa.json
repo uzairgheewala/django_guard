@@ -1,0 +1,8 @@
+{
+  "artifact_id": "wmotif_bddab9f4973504d88c96bb1bb1390aaa",
+  "artifact_kind": "workload_motif",
+  "content_hash": "sha256:a7803a6bec5dbc2e5c54a166ef08e90b7aae6fa51a4c36b4f91e7021512283d7",
+  "created_at": "1970-01-01T00:00:00+00:00",
+  "path": "artifacts/wmotif_bddab9f4973504d88c96bb1bb1390aaa.json",
+  "schema_version": "planguard.workload-motif.v1"
+}

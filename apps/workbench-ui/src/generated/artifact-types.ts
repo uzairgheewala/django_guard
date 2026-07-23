@@ -32,6 +32,12 @@ export interface AnalysisSummaryPayload {
   "budget_evaluation_refs": Array<ArtifactReference>;
 }
 
+export interface AppliedMutation {
+  "mutation_ref": ArtifactReference;
+  "parameter_bindings": Record<string, unknown>;
+  "order": number;
+}
+
 export interface ArtifactInventory {
   "by_kind": Record<string, number>;
   "total_count": number;
@@ -168,11 +174,51 @@ export interface CapturePolicyPayload {
 
 export type ConfidenceLevel = "low" | "medium" | "high";
 
+export interface ConstraintEvaluation {
+  "constraint_key": string;
+  "status": "satisfied" | "not_satisfied" | "unknown" | "not_evaluated";
+  "values": Record<string, unknown>;
+  "explanation": string | null;
+}
+
+export interface CoverageObligation {
+  "obligation_key": string;
+  "kind": string;
+  "parameters": Record<string, unknown>;
+  "description": string | null;
+}
+
 export interface DatabaseIdentity {
   "vendor": string;
   "version": string | null;
   "database_hash": string | null;
   "connection_aliases": Array<string>;
+}
+
+export interface DatasetManifestArtifact {
+  "schema_version": "planguard.dataset-manifest.v1";
+  "artifact_kind": "dataset_manifest";
+  "artifact_id": string;
+  "created_at": string;
+  "producer": ProducerIdentity;
+  "provenance": Provenance;
+  "payload": DatasetManifestPayload;
+  "extensions": Record<string, Record<string, unknown>>;
+  "content_hash": string;
+}
+
+export interface DatasetManifestPayload {
+  "dataset_key": string;
+  "dataset_version": string;
+  "generator_key": string;
+  "seed": number;
+  "scale_profile": string;
+  "entity_counts": Record<string, number>;
+  "distributions": Array<DistributionSpec>;
+  "constraints": Array<string>;
+  "dataset_fingerprint": string;
+  "tenant_count": number;
+  "metadata": Record<string, unknown>;
 }
 
 export interface DetectorReceiptArtifact {
@@ -202,6 +248,13 @@ export interface DetectorReceiptPayload {
 }
 
 export type DetectorStatus = "executed" | "not_applicable" | "not_evaluated" | "failed" | "capability_missing";
+
+export interface DistributionSpec {
+  "distribution_key": string;
+  "kind": string;
+  "parameters": Record<string, unknown>;
+  "seed_offset": number;
+}
 
 export interface EnvironmentProfileArtifact {
   "schema_version": "planguard.environment-profile.v1";
@@ -322,6 +375,52 @@ export interface FindingPayload {
   "metadata": Record<string, unknown>;
 }
 
+export type InferenceMethod = "observed" | "derived" | "inferred";
+
+export interface MotifConstraintDefinition {
+  "constraint_key": string;
+  "kind": string;
+  "parameters": Record<string, unknown>;
+  "description": string | null;
+}
+
+export interface MotifEdgePattern {
+  "from_role": string;
+  "to_role": string;
+  "allowed_kinds": Array<WorkloadEdgeKind>;
+  "minimum_confidence": number;
+}
+
+export interface MotifNodeRole {
+  "role_key": string;
+  "allowed_kinds": Array<WorkloadNodeKind>;
+  "description": string | null;
+}
+
+export interface MutationDefinitionArtifact {
+  "schema_version": "planguard.mutation-definition.v1";
+  "artifact_kind": "mutation_definition";
+  "artifact_id": string;
+  "created_at": string;
+  "producer": ProducerIdentity;
+  "provenance": Provenance;
+  "payload": MutationDefinitionPayload;
+  "extensions": Record<string, Record<string, unknown>>;
+  "content_hash": string;
+}
+
+export interface MutationDefinitionPayload {
+  "mutation_key": string;
+  "title": string;
+  "mutation_class": "application" | "schema" | "data" | "runtime" | "workload";
+  "adapter_key": string;
+  "parameter_domain": Record<string, ParameterDomain>;
+  "compatible_template_keys": Array<string>;
+  "required_capabilities": Array<string>;
+  "reversible": boolean;
+  "description": string | null;
+}
+
 export interface ObservedQueryFamilyArtifact {
   "schema_version": "planguard.observed-query-family.v1";
   "artifact_kind": "observed_query_family";
@@ -345,6 +444,27 @@ export interface ObservedQueryFamilyPayload {
   "parameter_regimes": Array<ParameterRegime>;
 }
 
+export interface OracleDefinition {
+  "oracle_key": string;
+  "kind": string;
+  "subject_selector": SelectorExpression | null;
+  "parameters": Record<string, unknown>;
+  "required_capabilities": Array<string>;
+  "disposition": "fail" | "warn" | "record";
+  "description": string | null;
+}
+
+export interface OracleEvaluation {
+  "oracle_key": string;
+  "status": OracleStatus;
+  "measured_value": unknown | null;
+  "expected_value": unknown | null;
+  "evidence_refs": Array<ArtifactReference>;
+  "explanation": string;
+}
+
+export type OracleStatus = "satisfied" | "not_satisfied" | "unknown" | "not_evaluated";
+
 export type OriginCaptureMode = "none" | "first_application_frame" | "trimmed_application_stack" | "full_stack";
 
 export type ParameterCaptureMode = "none" | "shape" | "shape_and_hash" | "preserve";
@@ -355,6 +475,30 @@ export interface ParameterDescriptor {
   "length": number | null;
   "value_hash": string | null;
   "preserved_value": unknown | null;
+}
+
+export interface ParameterDomain {
+  "kind": ParameterDomainKind;
+  "values": Array<unknown>;
+  "minimum": number | number | null;
+  "maximum": number | number | null;
+  "step": number | number | null;
+  "registry_key": string | null;
+  "partitions": Array<ParameterPartition>;
+  "default": unknown | null;
+  "constraints": Array<SelectorExpression>;
+}
+
+export type ParameterDomainKind = "finite" | "integer_range" | "float_range" | "partitioned" | "registry" | "boolean" | "opaque";
+
+export interface ParameterPartition {
+  "key": string;
+  "title": string | null;
+  "minimum": number | number | null;
+  "maximum": number | number | null;
+  "include_minimum": boolean;
+  "include_maximum": boolean;
+  "representative_values": Array<unknown>;
 }
 
 export interface ParameterRegime {
@@ -482,6 +626,13 @@ export interface RemediationGuidance {
   "guidance": Array<string>;
 }
 
+export interface RoleBinding {
+  "role_key": string;
+  "binding_kind": "model" | "callable" | "dataset" | "value" | "adapter" | "opaque";
+  "target": string;
+  "configuration": Record<string, unknown>;
+}
+
 export interface RuleEvaluation {
   "rule_key": string;
   "status": EvaluationStatus;
@@ -532,6 +683,204 @@ export interface RuntimeComponent {
   "details": Record<string, unknown>;
 }
 
+export interface ScenarioBindingArtifact {
+  "schema_version": "planguard.scenario-binding.v1";
+  "artifact_kind": "scenario_binding";
+  "artifact_id": string;
+  "created_at": string;
+  "producer": ProducerIdentity;
+  "provenance": Provenance;
+  "payload": ScenarioBindingPayload;
+  "extensions": Record<string, Record<string, unknown>>;
+  "content_hash": string;
+}
+
+export interface ScenarioBindingPayload {
+  "binding_key": string;
+  "template_ref": ArtifactReference;
+  "application_key": string;
+  "role_bindings": Array<RoleBinding>;
+  "variant_bindings": Array<VariantBinding>;
+  "adapter_key": string;
+  "capabilities": Array<string>;
+  "tags": Array<string>;
+}
+
+export interface ScenarioInstanceArtifact {
+  "schema_version": "planguard.scenario-instance.v1";
+  "artifact_kind": "scenario_instance";
+  "artifact_id": string;
+  "created_at": string;
+  "producer": ProducerIdentity;
+  "provenance": Provenance;
+  "payload": ScenarioInstancePayload;
+  "extensions": Record<string, Record<string, unknown>>;
+  "content_hash": string;
+}
+
+export interface ScenarioInstancePayload {
+  "template_ref": ArtifactReference;
+  "binding_ref": ArtifactReference;
+  "parameter_bindings": Record<string, unknown>;
+  "variant_key": string;
+  "applied_mutations": Array<AppliedMutation>;
+  "seed": number;
+  "series_key": string | null;
+  "composed_from_refs": Array<ArtifactReference>;
+  "projected_dimensions": Array<string>;
+  "expected_capabilities": Array<string>;
+  "tags": Array<string>;
+}
+
+export interface ScenarioOperationEdge {
+  "from_node": string;
+  "to_node": string;
+  "kind": string;
+  "attributes": Record<string, unknown>;
+}
+
+export interface ScenarioOperationNode {
+  "node_key": string;
+  "kind": string;
+  "role_ref": string | null;
+  "phase": string | null;
+  "attributes": Record<string, unknown>;
+}
+
+export interface ScenarioParameter {
+  "parameter_key": string;
+  "domain": ParameterDomain;
+  "required": boolean;
+  "description": string | null;
+  "tags": Array<string>;
+}
+
+export interface ScenarioPhaseReceiptArtifact {
+  "schema_version": "planguard.scenario-phase-receipt.v1";
+  "artifact_kind": "scenario_phase_receipt";
+  "artifact_id": string;
+  "created_at": string;
+  "producer": ProducerIdentity;
+  "provenance": Provenance;
+  "payload": ScenarioPhaseReceiptPayload;
+  "extensions": Record<string, Record<string, unknown>>;
+  "content_hash": string;
+}
+
+export interface ScenarioPhaseReceiptPayload {
+  "scenario_instance_ref": ArtifactReference;
+  "scenario_run_id": string;
+  "phase_key": string;
+  "status": ScenarioReceiptStatus;
+  "started_at": string;
+  "completed_at": string;
+  "input_refs": Array<ArtifactReference>;
+  "output_refs": Array<ArtifactReference>;
+  "capability_gaps": Array<string>;
+  "error": string | null;
+  "statistics": Record<string, unknown>;
+}
+
+export type ScenarioReceiptStatus = "pending" | "running" | "succeeded" | "failed" | "skipped" | "not_evaluated";
+
+export interface ScenarioRole {
+  "role_key": string;
+  "kind": ScenarioRoleKind;
+  "required": boolean;
+  "cardinality": "one" | "optional_one" | "many";
+  "contract_key": string | null;
+  "description": string | null;
+}
+
+export type ScenarioRoleKind = "relational_entity" | "application_operation" | "dataset" | "environment" | "result" | "policy" | "opaque";
+
+export interface ScenarioRunArtifact {
+  "schema_version": "planguard.scenario-run.v1";
+  "artifact_kind": "scenario_run";
+  "artifact_id": string;
+  "created_at": string;
+  "producer": ProducerIdentity;
+  "provenance": Provenance;
+  "payload": ScenarioRunPayload;
+  "extensions": Record<string, Record<string, unknown>>;
+  "content_hash": string;
+}
+
+export interface ScenarioRunPayload {
+  "scenario_run_id": string;
+  "scenario_instance_ref": ArtifactReference;
+  "dataset_ref": ArtifactReference | null;
+  "analysis_run_ref": ArtifactReference | null;
+  "status": ScenarioReceiptStatus;
+  "variant_key": string;
+  "phase_receipt_refs": Array<ArtifactReference>;
+  "oracle_evaluations": Array<OracleEvaluation>;
+  "result_digest": string | null;
+  "state_digest": string | null;
+  "started_at": string;
+  "completed_at": string;
+  "capability_gaps": Array<string>;
+  "metadata": Record<string, unknown>;
+}
+
+export interface ScenarioSeriesArtifact {
+  "schema_version": "planguard.scenario-series.v1";
+  "artifact_kind": "scenario_series";
+  "artifact_id": string;
+  "created_at": string;
+  "producer": ProducerIdentity;
+  "provenance": Provenance;
+  "payload": ScenarioSeriesPayload;
+  "extensions": Record<string, Record<string, unknown>>;
+  "content_hash": string;
+}
+
+export interface ScenarioSeriesPayload {
+  "series_key": string;
+  "template_ref": ArtifactReference;
+  "binding_ref": ArtifactReference;
+  "independent_dimensions": Array<string>;
+  "instance_refs": Array<ArtifactReference>;
+  "generation_strategy": string;
+  "seed": number;
+  "metadata": Record<string, unknown>;
+}
+
+export interface ScenarioTemplateArtifact {
+  "schema_version": "planguard.scenario-template.v1";
+  "artifact_kind": "scenario_template";
+  "artifact_id": string;
+  "created_at": string;
+  "producer": ProducerIdentity;
+  "provenance": Provenance;
+  "payload": ScenarioTemplatePayload;
+  "extensions": Record<string, Record<string, unknown>>;
+  "content_hash": string;
+}
+
+export interface ScenarioTemplatePayload {
+  "template_key": string;
+  "title": string;
+  "description": string;
+  "roles": Array<ScenarioRole>;
+  "parameters": Array<ScenarioParameter>;
+  "operation_nodes": Array<ScenarioOperationNode>;
+  "operation_edges": Array<ScenarioOperationEdge>;
+  "variants": Array<ScenarioVariant>;
+  "oracles": Array<OracleDefinition>;
+  "coverage_obligations": Array<CoverageObligation>;
+  "compatible_template_keys": Array<string>;
+  "tags": Array<string>;
+}
+
+export interface ScenarioVariant {
+  "variant_key": string;
+  "title": string;
+  "implementation_role": string | null;
+  "description": string | null;
+  "tags": Array<string>;
+}
+
 export interface Score {
   "level": SeverityLevel | ConfidenceLevel;
   "score": number;
@@ -555,7 +904,104 @@ export interface SourceFrame {
   "function": string | null;
 }
 
-export type AnyArtifact = RunManifestArtifact | EnvironmentProfileArtifact | CapturePolicyArtifact | CapabilityGapArtifact | QueryExecutionArtifact | QueryTemplateArtifact | FamilySchemeArtifact | ObservedQueryFamilyArtifact | EvidenceArtifact | FindingArtifact | DetectorReceiptArtifact | BudgetPolicyArtifact | BudgetEvaluationArtifact | AnalysisSummaryArtifact;
+export interface VariantBinding {
+  "variant_key": string;
+  "target": string;
+  "configuration": Record<string, unknown>;
+}
+
+export interface WorkloadEdge {
+  "edge_id": string;
+  "from_node": string;
+  "to_node": string;
+  "kind": WorkloadEdgeKind;
+  "confidence": number;
+  "inference_method": InferenceMethod;
+  "evidence_refs": Array<ArtifactReference>;
+  "attributes": Record<string, unknown>;
+}
+
+export type WorkloadEdgeKind = "contains" | "emits" | "member_of" | "temporally_precedes" | "same_origin" | "same_transaction" | "repeated_within" | "possible_result_drives" | "supports" | "affects" | "matches_motif";
+
+export interface WorkloadEpisodeArtifact {
+  "schema_version": "planguard.workload-episode.v1";
+  "artifact_kind": "workload_episode";
+  "artifact_id": string;
+  "created_at": string;
+  "producer": ProducerIdentity;
+  "provenance": Provenance;
+  "payload": WorkloadEpisodePayload;
+  "extensions": Record<string, Record<string, unknown>>;
+  "content_hash": string;
+}
+
+export interface WorkloadEpisodePayload {
+  "run_id": string;
+  "motif_key": string;
+  "title": string;
+  "family_scheme_key": string;
+  "node_bindings": Record<string, string>;
+  "edge_ids": Array<string>;
+  "constraint_evaluations": Array<ConstraintEvaluation>;
+  "match_confidence": number;
+  "subject_refs": Array<ArtifactReference>;
+  "metadata": Record<string, unknown>;
+}
+
+export interface WorkloadGraphArtifact {
+  "schema_version": "planguard.workload-graph.v1";
+  "artifact_kind": "workload_graph";
+  "artifact_id": string;
+  "created_at": string;
+  "producer": ProducerIdentity;
+  "provenance": Provenance;
+  "payload": WorkloadGraphPayload;
+  "extensions": Record<string, Record<string, unknown>>;
+  "content_hash": string;
+}
+
+export interface WorkloadGraphPayload {
+  "run_id": string;
+  "family_scheme_key": string;
+  "graph_version": string;
+  "nodes": Array<WorkloadNode>;
+  "edges": Array<WorkloadEdge>;
+  "capability_gaps": Array<string>;
+}
+
+export interface WorkloadMotifArtifact {
+  "schema_version": "planguard.workload-motif.v1";
+  "artifact_kind": "workload_motif";
+  "artifact_id": string;
+  "created_at": string;
+  "producer": ProducerIdentity;
+  "provenance": Provenance;
+  "payload": WorkloadMotifPayload;
+  "extensions": Record<string, Record<string, unknown>>;
+  "content_hash": string;
+}
+
+export interface WorkloadMotifPayload {
+  "motif_key": string;
+  "title": string;
+  "description": string;
+  "node_roles": Array<MotifNodeRole>;
+  "edge_patterns": Array<MotifEdgePattern>;
+  "constraints": Array<MotifConstraintDefinition>;
+  "mechanism_keys": Array<string>;
+}
+
+export interface WorkloadNode {
+  "node_id": string;
+  "kind": WorkloadNodeKind;
+  "label": string;
+  "artifact_ref": ArtifactReference | null;
+  "attributes": Record<string, unknown>;
+}
+
+export type WorkloadNodeKind = "operation" | "query_execution" | "query_family" | "transaction" | "finding" | "evidence" | "episode";
+
+export type AnyArtifact = RunManifestArtifact | EnvironmentProfileArtifact | CapturePolicyArtifact | CapabilityGapArtifact | QueryExecutionArtifact | QueryTemplateArtifact | FamilySchemeArtifact | ObservedQueryFamilyArtifact | EvidenceArtifact | FindingArtifact | DetectorReceiptArtifact | BudgetPolicyArtifact | BudgetEvaluationArtifact | AnalysisSummaryArtifact | WorkloadGraphArtifact | WorkloadMotifArtifact | WorkloadEpisodeArtifact | ScenarioTemplateArtifact | ScenarioBindingArtifact | ScenarioInstanceArtifact | ScenarioSeriesArtifact | ScenarioPhaseReceiptArtifact | ScenarioRunArtifact | DatasetManifestArtifact | MutationDefinitionArtifact;
 
 export type MaterializedArtifact = AnyArtifact & {
   artifact_id: string;

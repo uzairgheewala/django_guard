@@ -1,0 +1,181 @@
+{
+  "artifact_id": "scrun_81e5c178ff6444099510e13d480d2c3b",
+  "artifact_kind": "scenario_run",
+  "content_hash": "sha256:e49245f88fbcc6e570420192fc639819699d5b1359049776931d143b1f5158ae",
+  "created_at": "2026-07-23T12:07:35.191179Z",
+  "extensions": {},
+  "payload": {
+    "analysis_run_ref": {
+      "artifact_id": "run_172620afaaac45a99db8302271f06455",
+      "artifact_kind": "run_manifest",
+      "content_hash": "sha256:526a7ef02ec07adc5b8b97df8c7bd0e81387d4872eb7342c80e2c2112b4fc9ee",
+      "schema_version": "planguard.run-manifest.v1"
+    },
+    "capability_gaps": [],
+    "completed_at": "2026-07-23T12:07:35.191010Z",
+    "dataset_ref": {
+      "artifact_id": "dset_3b76f97bd2c1a2d6cc7141d460bb19a1",
+      "artifact_kind": "dataset_manifest",
+      "content_hash": "sha256:ff085f609d46ca82125e374cd18abf8420dcc810e9fe595688d6fce6fa834a18",
+      "schema_version": "planguard.dataset-manifest.v1"
+    },
+    "metadata": {
+      "binding_key": "academic.student-enrollment-offering.v1",
+      "query_count": 25,
+      "result_count": 18,
+      "template_key": "nested-relation-fanout.v1",
+      "tenant_isolated": true
+    },
+    "oracle_evaluations": [
+      {
+        "evidence_refs": [],
+        "expected_value": true,
+        "explanation": "The operation produced a non-empty deterministic result.",
+        "measured_value": true,
+        "oracle_key": "result-nonempty",
+        "status": "satisfied"
+      },
+      {
+        "evidence_refs": [],
+        "expected_value": true,
+        "explanation": "Every returned domain row belongs to the selected institution.",
+        "measured_value": true,
+        "oracle_key": "tenant-isolation",
+        "status": "satisfied"
+      },
+      {
+        "evidence_refs": [],
+        "expected_value": {
+          "maximum": 34
+        },
+        "explanation": "Observed 25 queries against a variant-aware bound of 34.",
+        "measured_value": 25,
+        "oracle_key": "query-bound",
+        "status": "satisfied"
+      }
+    ],
+    "phase_receipt_refs": [
+      {
+        "artifact_id": "spr_bdb8773a7a8c4a398aad15aead0f37f5",
+        "artifact_kind": "scenario_phase_receipt",
+        "content_hash": "sha256:21113dc754b5f48412634248550289afe11aa1187237a6eeb257d86f1c0f6dab",
+        "schema_version": "planguard.scenario-phase-receipt.v1"
+      },
+      {
+        "artifact_id": "spr_bc50f1f86d75429f89ef01b6d277c39d",
+        "artifact_kind": "scenario_phase_receipt",
+        "content_hash": "sha256:d124ffac837e8a64d1a3f950a0c7a30cef87b1385c951fa96f2ec2160fd27326",
+        "schema_version": "planguard.scenario-phase-receipt.v1"
+      },
+      {
+        "artifact_id": "spr_f58f0e8d25df47df922893a9e52365d4",
+        "artifact_kind": "scenario_phase_receipt",
+        "content_hash": "sha256:b265d31b3ce2a2edffd1d35e9e88db4aed54e6a5c9bc8134845906315f8ee08e",
+        "schema_version": "planguard.scenario-phase-receipt.v1"
+      },
+      {
+        "artifact_id": "spr_87a02fb11c7c49d7a3bca2a7af515d6e",
+        "artifact_kind": "scenario_phase_receipt",
+        "content_hash": "sha256:cf79a9eb81e80873fad323f3682f2e82e7830d3c2e45ca6c6fa72b4d52a961d6",
+        "schema_version": "planguard.scenario-phase-receipt.v1"
+      },
+      {
+        "artifact_id": "spr_45b25eb0172a44bfb890d0e08d005546",
+        "artifact_kind": "scenario_phase_receipt",
+        "content_hash": "sha256:b7b074d263ededc5b03c0c9090765fc6e0f4886f18dc6ce61db4111dd083223f",
+        "schema_version": "planguard.scenario-phase-receipt.v1"
+      },
+      {
+        "artifact_id": "spr_4f5e0c910ccc439cbf174cafc69ab1a4",
+        "artifact_kind": "scenario_phase_receipt",
+        "content_hash": "sha256:3123ccc756d09b8283bb979a4a335b0dac9ff88f6a00d6473c5cad958af9e47b",
+        "schema_version": "planguard.scenario-phase-receipt.v1"
+      }
+    ],
+    "result_digest": "sha256:7e101039e51b9328d8bab1825f71f552c35a57725d4fce414dd3a674b888aecc",
+    "scenario_instance_ref": {
+      "artifact_id": "sci_43f087ea25fa2428d8e7a987945eb291",
+      "artifact_kind": "scenario_instance",
+      "content_hash": "sha256:16f9a374aa99cae86c2eb226a3c52c2dc63556330bc89d8bbf0a470eb798499e",
+      "schema_version": "planguard.scenario-instance.v1"
+    },
+    "scenario_run_id": "scrun_81e5c178ff6444099510e13d480d2c3b",
+    "started_at": "2026-07-23T12:07:34.861217Z",
+    "state_digest": null,
+    "status": "succeeded",
+    "variant_key": "naive"
+  },
+  "producer": {
+    "build": "milestone-d-seed",
+    "name": "planguard",
+    "version": "0.4.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": {
+      "artifact_id": "scb_75bbbedbd241c1f83f24f59534573219",
+      "artifact_kind": "scenario_binding",
+      "content_hash": "sha256:4526e0d5062b0aa68c064a93444238a0effc6065daf7f92f6b8945a54e61b6dd",
+      "schema_version": "planguard.scenario-binding.v1"
+    },
+    "derivation_key": "scenario-run.v1",
+    "input_refs": [
+      {
+        "artifact_id": "sci_43f087ea25fa2428d8e7a987945eb291",
+        "artifact_kind": "scenario_instance",
+        "content_hash": "sha256:16f9a374aa99cae86c2eb226a3c52c2dc63556330bc89d8bbf0a470eb798499e",
+        "schema_version": "planguard.scenario-instance.v1"
+      },
+      {
+        "artifact_id": "spr_bdb8773a7a8c4a398aad15aead0f37f5",
+        "artifact_kind": "scenario_phase_receipt",
+        "content_hash": "sha256:21113dc754b5f48412634248550289afe11aa1187237a6eeb257d86f1c0f6dab",
+        "schema_version": "planguard.scenario-phase-receipt.v1"
+      },
+      {
+        "artifact_id": "spr_bc50f1f86d75429f89ef01b6d277c39d",
+        "artifact_kind": "scenario_phase_receipt",
+        "content_hash": "sha256:d124ffac837e8a64d1a3f950a0c7a30cef87b1385c951fa96f2ec2160fd27326",
+        "schema_version": "planguard.scenario-phase-receipt.v1"
+      },
+      {
+        "artifact_id": "spr_f58f0e8d25df47df922893a9e52365d4",
+        "artifact_kind": "scenario_phase_receipt",
+        "content_hash": "sha256:b265d31b3ce2a2edffd1d35e9e88db4aed54e6a5c9bc8134845906315f8ee08e",
+        "schema_version": "planguard.scenario-phase-receipt.v1"
+      },
+      {
+        "artifact_id": "spr_87a02fb11c7c49d7a3bca2a7af515d6e",
+        "artifact_kind": "scenario_phase_receipt",
+        "content_hash": "sha256:cf79a9eb81e80873fad323f3682f2e82e7830d3c2e45ca6c6fa72b4d52a961d6",
+        "schema_version": "planguard.scenario-phase-receipt.v1"
+      },
+      {
+        "artifact_id": "spr_45b25eb0172a44bfb890d0e08d005546",
+        "artifact_kind": "scenario_phase_receipt",
+        "content_hash": "sha256:b7b074d263ededc5b03c0c9090765fc6e0f4886f18dc6ce61db4111dd083223f",
+        "schema_version": "planguard.scenario-phase-receipt.v1"
+      },
+      {
+        "artifact_id": "spr_4f5e0c910ccc439cbf174cafc69ab1a4",
+        "artifact_kind": "scenario_phase_receipt",
+        "content_hash": "sha256:3123ccc756d09b8283bb979a4a335b0dac9ff88f6a00d6473c5cad958af9e47b",
+        "schema_version": "planguard.scenario-phase-receipt.v1"
+      },
+      {
+        "artifact_id": "dset_3b76f97bd2c1a2d6cc7141d460bb19a1",
+        "artifact_kind": "dataset_manifest",
+        "content_hash": "sha256:ff085f609d46ca82125e374cd18abf8420dcc810e9fe595688d6fce6fa834a18",
+        "schema_version": "planguard.dataset-manifest.v1"
+      },
+      {
+        "artifact_id": "run_172620afaaac45a99db8302271f06455",
+        "artifact_kind": "run_manifest",
+        "content_hash": "sha256:526a7ef02ec07adc5b8b97df8c7bd0e81387d4872eb7342c80e2c2112b4fc9ee",
+        "schema_version": "planguard.run-manifest.v1"
+      }
+    ],
+    "notes": []
+  },
+  "schema_version": "planguard.scenario-run.v1"
+}

@@ -1,167 +1,198 @@
-# PlanGuard — Milestone B
+# PlanGuard — Milestone D
 
-Milestone B delivers the first complete developer MVP for PlanGuard:
+Milestone D adds the generic experiment layer above the Milestone C visual workload workbench:
 
 ```text
-scoped capture
-  → immutable query executions
-  → conservative SQL templates
-  → explicit family schemes
-  → evidence and detector receipts
-  → findings
-  → absolute budgets
-  → pytest / CLI / API / workbench reports
+scenario template
+  → application binding
+  → deterministic instance
+  → ordered mutations
+  → receipt-bearing execution
+  → captured query workload
+  → oracle evaluations
+  → linked Scenario Studio and Run Explorer
 ```
 
-It extends Milestone A without changing the meaning of the existing v1 artifact contracts.
+The academic laboratory is one binding environment. Scenario semantics remain domain-neutral in
+`planguard.scenario`; no student, course, or university type appears in the core contracts.
 
-## Implemented capabilities
+## Delivered capabilities
 
-- scoped manual and Django `execute_wrapper` capture;
-- context-local run lifecycle and multiple database aliases;
-- safe SQL modes and parameter shape/HMAC capture;
-- configurable application-origin capture;
-- query-execution, query-template, family-scheme, observed-family, evidence, finding,
-  detector-receipt, budget-policy, budget-evaluation, and analysis-summary artifacts;
-- deterministic conservative SQL normalization with explicit parse quality;
-- four family lenses:
-  - `exact-execution.v1`;
-  - `structural-shape.v1`;
-  - `shape-origin.v1`;
-  - `shape-parameter-regime.v1`;
-- four initial detectors:
-  - exact duplicate execution;
-  - structural repetition;
-  - likely N+1;
-  - database-time concentration;
-- generic selector and absolute policy engine;
-- pytest marker and explicit `plan_guard` fixture;
-- terminal, JSON, and standalone HTML reporting;
-- run/family/finding/policy workbench API endpoints;
-- Runs, Run Explorer, family-lens explorer, finding views, and Policy Studio UI;
-- a complete sample run at `run_demo_b_001`.
+### Generic scenario kernel
 
-PostgreSQL plan collection, workload graphs, generic scenarios, comparisons, and universe
-coverage remain explicit later-milestone capabilities.
+- versioned templates, roles, parameter domains, operation graphs, variants, oracles, and coverage obligations;
+- explicit application bindings for roles and variants;
+- deterministic scenario instances with content-derived identities;
+- ordered application, schema, data, runtime, and workload mutations;
+- scenario series and deterministic pairwise generation;
+- `bind` validation, `instantiate`, `scale`, `contrast`, and pairwise covering operations;
+- open registries for templates, bindings, mutations, and adapters;
+- explicit unsupported and non-evaluated states.
+
+### Receipt-bearing runner
+
+Every execution materializes receipts for:
+
+```text
+prepare_environment
+prepare_dataset
+apply_mutations
+execute_operation
+evaluate_oracles
+cleanup
+```
+
+A failed phase still yields a valid scenario run, failure receipt, cleanup receipt, provenance, and
+any already-produced artifacts. The underlying `AnalysisSession` run records the
+`scenario_instance_ref`, so the Scenario Studio and workload explorer traverse the same immutable
+evidence graph.
+
+### Deterministic academic laboratory
+
+The built-in `academic-lab.v1` adapter provides:
+
+- shared-schema multi-tenant domain semantics;
+- deterministic seed-controlled generation;
+- tiny, small, medium, and large logical scale profiles;
+- uniform, dominant-tenant, and Zipf-like distributions;
+- dataset fingerprints and materialization manifests;
+- tenant-isolation oracles;
+- PostgreSQL-shaped query emission through the manual capture adapter;
+- an optional Django model package under `apps/academic-lab` for future real ORM/PostgreSQL binding.
+
+Generic templates are bound to ten academic operations:
+
+1. relation access fan-out → plan items and courses;
+2. nested relation fan-out → students, enrollments, and courses;
+3. repeated evaluation → student plan collection;
+4. count then fetch → advisor roster;
+5. per-item check/write → transcript import;
+6. per-item update → audit-status recalculation;
+7. aggregate amplification → graduation-risk report;
+8. offset pagination → course search;
+9. tenant-skew sensitivity → institution dashboard;
+10. long transaction accumulation → catalog update.
+
+Built-in mutations include eager-loading removal, forced per-row writes, tenant-index removal,
+tenant-skew amplification, expanded hydration, extended transaction scope, stale statistics, and
+relation-fanout growth.
+
+### Scenario Studio
+
+The workbench adds `/scenarios` with:
+
+- generic template selection;
+- visible academic role binding;
+- naïve and optimized variants;
+- scale, skew, fan-out, batching, pagination, and transaction controls;
+- ordered mutation selection;
+- deterministic seed control;
+- phase receipt timeline;
+- oracle results;
+- dataset-manifest links;
+- direct navigation to the captured workload run and Artifact Inspector;
+- recent scenario-run registry.
+
+Laboratory execution is capability-gated by `PLANGUARD_LAB_ENABLED`. It defaults on only in local
+Django debug mode.
 
 ## Install
 
-Core and CLI:
-
 ```bash
 python -m pip install -e .
-```
-
-Django API and capture integration:
-
-```bash
 python -m pip install -e '.[api]'
-```
-
-Development and pytest integration:
-
-```bash
 python -m pip install -e '.[dev]'
 ```
 
-## Capture an operation
+## Python usage
 
 ```python
-from planguard import QueryPolicy, profile
+from planguard.artifacts.models import ProducerIdentity
+from planguard.lab.academic import build_academic_catalog
+from planguard.scenario import ScenarioRunner, instantiate
+from planguard.store.filesystem import FilesystemArtifactStore
 
-with profile(
-    "student-plan-detail",
-    store=".planguard",
-    budget_policy=QueryPolicy(
-        max_queries=12,
-        max_family_executions=4,
-        forbid_findings=frozenset({"likely-n-plus-one.v1"}),
-    ),
-) as session:
-    response = client.get("/students/18291/plan/")
+producer = ProducerIdentity(name="planguard-demo", version="1")
+catalog = build_academic_catalog(producer=producer)
+store = FilesystemArtifactStore(".planguard")
+catalog.persist(store)
 
-print(session.manifest.artifact_id)
-print(session.analysis.summary.payload.query_count)
-```
-
-The Django adapter is attached automatically when Django is installed and configured. For
-framework-independent tests or scenario adapters, `session.record_query(...)` records the same
-canonical evidence manually.
-
-## Pytest
-
-Automatic marker capture:
-
-```python
-import pytest
-
-@pytest.mark.planguard(
-    max_queries=12,
-    max_family_executions=4,
-    forbid_findings=("likely-n-plus-one.v1",),
+template = catalog.registry.require_template("relation-access-fanout.v1")
+binding = catalog.registry.require_binding("academic.plan-item-course.v1")
+instance = instantiate(
+    template,
+    binding,
+    parameters={"parent_count": 25, "tenant_skew": "dominant"},
+    variant_key="optimized",
+    seed=42,
+    producer=producer,
 )
-def test_student_plan(client):
-    assert client.get("/students/18291/plan/").status_code == 200
+result = ScenarioRunner(registry=catalog.registry, store=store, producer=producer).run(instance)
+print(result.scenario_run.artifact_id)
+print(result.captured_run.manifest.artifact_id)
 ```
-
-Explicit fixture capture:
-
-```python
-def test_student_plan(client, plan_guard):
-    with plan_guard.capture(name="student-plan", policy=QueryPolicy(max_queries=12)):
-        assert client.get("/students/18291/plan/").status_code == 200
-```
-
-Artifacts are written to `.planguard` by default. Override with `--planguard-store PATH`.
 
 ## CLI
 
 ```bash
-planguard inspect run_demo_b_001 --store examples/store
-planguard report run_demo_b_001 --store examples/store --format html --output report.html
-planguard policy-evaluate run_demo_b_001 policy.json --store examples/store --persist
-planguard list --store examples/store --kind finding
-planguard verify --store examples/store
+planguard scenario-catalog --store examples/store
+planguard scenario-instantiate relation-access-fanout.v1 academic.plan-item-course.v1 \
+  --variant naive --parameter parent_count=20 --seed 42 --store examples/store
+planguard scenario-run --template relation-access-fanout.v1 \
+  --binding academic.plan-item-course.v1 --variant optimized \
+  --parameter parent_count=20 --mutation remove-eager-loading.v1 \
+  --seed 42 --store examples/store
 ```
+
+Existing capture, inspect, report, policy, index, search, and export commands remain available.
 
 ## Workbench
 
-API:
-
 ```bash
-PLANGUARD_STORE=examples/store python services/workbench_api/manage.py runserver
-```
+PLANGUARD_STORE=examples/store PLANGUARD_LAB_ENABLED=1 \
+  python services/workbench_api/manage.py runserver
 
-UI:
-
-```bash
 cd apps/workbench-ui
 npm install
 npm run dev
 ```
 
-The workbench exposes:
+Primary surfaces now include:
 
-- `/runs` — captured runs;
-- `/runs/{run_id}` — timeline, family lenses, findings, receipts, and evaluations;
-- `/policies` — structured absolute-budget creation and evaluation;
-- `/artifacts` — canonical artifact registry and inspector;
-- `/capabilities` — supported, partial, and deferred capabilities.
+- `/scenarios` — template, binding, instance, mutation, execution, receipt, and oracle workbench;
+- `/runs/{run_id}` — the captured workload graph and query-family analysis linked from a scenario;
+- `/artifacts/{artifact_id}` — canonical scenario, dataset, receipt, and run documents;
+- all Milestone C run, motif, policy, registry, and capability screens.
 
-## Samples and contracts
+## New contracts
+
+```text
+planguard.scenario-template.v1
+planguard.scenario-binding.v1
+planguard.scenario-instance.v1
+planguard.scenario-series.v1
+planguard.scenario-phase-receipt.v1
+planguard.scenario-run.v1
+planguard.dataset-manifest.v1
+planguard.mutation-definition.v1
+```
+
+Regenerate JSON Schema and TypeScript contracts with `make contracts`.
+
+## Seed and test
 
 ```bash
-make contracts
 make seed
 pytest
 ```
 
-`make seed` retains the Milestone A semantic-foundation sample and adds the Milestone B query
-analysis sample.
+The committed sample store contains ten generic templates, ten academic bindings, eight mutation
+definitions, representative naïve and optimized runs, a scale series, and a pairwise-generated
+scenario set. The SQLite index remains disposable and rebuildable from canonical JSON artifacts.
 
-## Safety boundary
+## Safety and scope
 
-Milestone B does not execute arbitrary SQL, rewrite ORM code, create indexes, or collect
-PostgreSQL plans. Raw SQL is redacted and parameter values are represented by shape and HMAC by
-default. Detector claims expose confidence and limitations; repetition is never treated as proof
-of avoidability.
+Milestone D does not execute arbitrary SQL or alter a real schema. The built-in academic adapter is
+a deterministic laboratory simulator. Real Django/PostgreSQL adapters must be registered
+explicitly and remain subject to workbench capability gating. Scenario oracles report what was and
+was not evaluated; a missing oracle is never silently considered satisfied.

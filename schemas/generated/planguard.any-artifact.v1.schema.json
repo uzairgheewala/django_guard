@@ -172,6 +172,31 @@
       "title": "AnalysisSummaryPayload",
       "type": "object"
     },
+    "AppliedMutation": {
+      "additionalProperties": false,
+      "properties": {
+        "mutation_ref": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "order": {
+          "minimum": 0,
+          "title": "Order",
+          "type": "integer"
+        },
+        "parameter_bindings": {
+          "additionalProperties": true,
+          "title": "Parameter Bindings",
+          "type": "object"
+        }
+      },
+      "required": [
+        "mutation_ref",
+        "order",
+        "parameter_bindings"
+      ],
+      "title": "AppliedMutation",
+      "type": "object"
+    },
     "ArtifactInventory": {
       "additionalProperties": false,
       "properties": {
@@ -957,6 +982,88 @@
       "title": "ConfidenceLevel",
       "type": "string"
     },
+    "ConstraintEvaluation": {
+      "additionalProperties": false,
+      "properties": {
+        "constraint_key": {
+          "title": "Constraint Key",
+          "type": "string"
+        },
+        "explanation": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Explanation"
+        },
+        "status": {
+          "enum": [
+            "satisfied",
+            "not_satisfied",
+            "unknown",
+            "not_evaluated"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "values": {
+          "additionalProperties": true,
+          "title": "Values",
+          "type": "object"
+        }
+      },
+      "required": [
+        "constraint_key",
+        "explanation",
+        "status",
+        "values"
+      ],
+      "title": "ConstraintEvaluation",
+      "type": "object"
+    },
+    "CoverageObligation": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "kind": {
+          "title": "Kind",
+          "type": "string"
+        },
+        "obligation_key": {
+          "title": "Obligation Key",
+          "type": "string"
+        },
+        "parameters": {
+          "additionalProperties": true,
+          "title": "Parameters",
+          "type": "object"
+        }
+      },
+      "required": [
+        "description",
+        "kind",
+        "obligation_key",
+        "parameters"
+      ],
+      "title": "CoverageObligation",
+      "type": "object"
+    },
     "DatabaseIdentity": {
       "additionalProperties": false,
       "properties": {
@@ -1005,6 +1112,145 @@
         "version"
       ],
       "title": "DatabaseIdentity",
+      "type": "object"
+    },
+    "DatasetManifestArtifact": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "artifact_kind": {
+          "const": "dataset_manifest",
+          "default": "dataset_manifest",
+          "title": "Artifact Kind",
+          "type": "string"
+        },
+        "content_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "extensions": {
+          "additionalProperties": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Extensions",
+          "type": "object"
+        },
+        "payload": {
+          "$ref": "#/$defs/DatasetManifestPayload"
+        },
+        "producer": {
+          "$ref": "#/$defs/ProducerIdentity"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        },
+        "schema_version": {
+          "const": "planguard.dataset-manifest.v1",
+          "default": "planguard.dataset-manifest.v1",
+          "title": "Schema Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "artifact_kind",
+        "content_hash",
+        "created_at",
+        "extensions",
+        "payload",
+        "producer",
+        "provenance",
+        "schema_version"
+      ],
+      "title": "DatasetManifestArtifact",
+      "type": "object"
+    },
+    "DatasetManifestPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "constraints": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Constraints",
+          "type": "array"
+        },
+        "dataset_fingerprint": {
+          "title": "Dataset Fingerprint",
+          "type": "string"
+        },
+        "dataset_key": {
+          "title": "Dataset Key",
+          "type": "string"
+        },
+        "dataset_version": {
+          "title": "Dataset Version",
+          "type": "string"
+        },
+        "distributions": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/DistributionSpec"
+          },
+          "title": "Distributions",
+          "type": "array"
+        },
+        "entity_counts": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Entity Counts",
+          "type": "object"
+        },
+        "generator_key": {
+          "title": "Generator Key",
+          "type": "string"
+        },
+        "metadata": {
+          "additionalProperties": true,
+          "title": "Metadata",
+          "type": "object"
+        },
+        "scale_profile": {
+          "title": "Scale Profile",
+          "type": "string"
+        },
+        "seed": {
+          "title": "Seed",
+          "type": "integer"
+        },
+        "tenant_count": {
+          "default": 1,
+          "minimum": 1,
+          "title": "Tenant Count",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "constraints",
+        "dataset_fingerprint",
+        "dataset_key",
+        "dataset_version",
+        "distributions",
+        "entity_counts",
+        "generator_key",
+        "metadata",
+        "scale_profile",
+        "seed",
+        "tenant_count"
+      ],
+      "title": "DatasetManifestPayload",
       "type": "object"
     },
     "DetectorReceiptArtifact": {
@@ -1164,6 +1410,37 @@
       ],
       "title": "DetectorStatus",
       "type": "string"
+    },
+    "DistributionSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "distribution_key": {
+          "title": "Distribution Key",
+          "type": "string"
+        },
+        "kind": {
+          "title": "Kind",
+          "type": "string"
+        },
+        "parameters": {
+          "additionalProperties": true,
+          "title": "Parameters",
+          "type": "object"
+        },
+        "seed_offset": {
+          "default": 0,
+          "title": "Seed Offset",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "distribution_key",
+        "kind",
+        "parameters",
+        "seed_offset"
+      ],
+      "title": "DistributionSpec",
+      "type": "object"
     },
     "EnvironmentProfileArtifact": {
       "additionalProperties": false,
@@ -1808,6 +2085,265 @@
       "title": "FindingPayload",
       "type": "object"
     },
+    "InferenceMethod": {
+      "enum": [
+        "observed",
+        "derived",
+        "inferred"
+      ],
+      "title": "InferenceMethod",
+      "type": "string"
+    },
+    "MotifConstraintDefinition": {
+      "additionalProperties": false,
+      "properties": {
+        "constraint_key": {
+          "title": "Constraint Key",
+          "type": "string"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "kind": {
+          "title": "Kind",
+          "type": "string"
+        },
+        "parameters": {
+          "additionalProperties": true,
+          "title": "Parameters",
+          "type": "object"
+        }
+      },
+      "required": [
+        "constraint_key",
+        "description",
+        "kind",
+        "parameters"
+      ],
+      "title": "MotifConstraintDefinition",
+      "type": "object"
+    },
+    "MotifEdgePattern": {
+      "additionalProperties": false,
+      "properties": {
+        "allowed_kinds": {
+          "items": {
+            "$ref": "#/$defs/WorkloadEdgeKind"
+          },
+          "title": "Allowed Kinds",
+          "type": "array"
+        },
+        "from_role": {
+          "title": "From Role",
+          "type": "string"
+        },
+        "minimum_confidence": {
+          "default": 0.0,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Minimum Confidence",
+          "type": "number"
+        },
+        "to_role": {
+          "title": "To Role",
+          "type": "string"
+        }
+      },
+      "required": [
+        "allowed_kinds",
+        "from_role",
+        "minimum_confidence",
+        "to_role"
+      ],
+      "title": "MotifEdgePattern",
+      "type": "object"
+    },
+    "MotifNodeRole": {
+      "additionalProperties": false,
+      "properties": {
+        "allowed_kinds": {
+          "items": {
+            "$ref": "#/$defs/WorkloadNodeKind"
+          },
+          "title": "Allowed Kinds",
+          "type": "array"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "role_key": {
+          "title": "Role Key",
+          "type": "string"
+        }
+      },
+      "required": [
+        "allowed_kinds",
+        "description",
+        "role_key"
+      ],
+      "title": "MotifNodeRole",
+      "type": "object"
+    },
+    "MutationDefinitionArtifact": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "artifact_kind": {
+          "const": "mutation_definition",
+          "default": "mutation_definition",
+          "title": "Artifact Kind",
+          "type": "string"
+        },
+        "content_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "extensions": {
+          "additionalProperties": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Extensions",
+          "type": "object"
+        },
+        "payload": {
+          "$ref": "#/$defs/MutationDefinitionPayload"
+        },
+        "producer": {
+          "$ref": "#/$defs/ProducerIdentity"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        },
+        "schema_version": {
+          "const": "planguard.mutation-definition.v1",
+          "default": "planguard.mutation-definition.v1",
+          "title": "Schema Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "artifact_kind",
+        "content_hash",
+        "created_at",
+        "extensions",
+        "payload",
+        "producer",
+        "provenance",
+        "schema_version"
+      ],
+      "title": "MutationDefinitionArtifact",
+      "type": "object"
+    },
+    "MutationDefinitionPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "adapter_key": {
+          "title": "Adapter Key",
+          "type": "string"
+        },
+        "compatible_template_keys": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Compatible Template Keys",
+          "type": "array"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "mutation_class": {
+          "enum": [
+            "application",
+            "schema",
+            "data",
+            "runtime",
+            "workload"
+          ],
+          "title": "Mutation Class",
+          "type": "string"
+        },
+        "mutation_key": {
+          "title": "Mutation Key",
+          "type": "string"
+        },
+        "parameter_domain": {
+          "additionalProperties": {
+            "$ref": "#/$defs/ParameterDomain"
+          },
+          "title": "Parameter Domain",
+          "type": "object"
+        },
+        "required_capabilities": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Required Capabilities",
+          "type": "array"
+        },
+        "reversible": {
+          "default": true,
+          "title": "Reversible",
+          "type": "boolean"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        }
+      },
+      "required": [
+        "adapter_key",
+        "compatible_template_keys",
+        "description",
+        "mutation_class",
+        "mutation_key",
+        "parameter_domain",
+        "required_capabilities",
+        "reversible",
+        "title"
+      ],
+      "title": "MutationDefinitionPayload",
+      "type": "object"
+    },
     "ObservedQueryFamilyArtifact": {
       "additionalProperties": false,
       "properties": {
@@ -1925,6 +2461,140 @@
       "title": "ObservedQueryFamilyPayload",
       "type": "object"
     },
+    "OracleDefinition": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "disposition": {
+          "default": "fail",
+          "enum": [
+            "fail",
+            "warn",
+            "record"
+          ],
+          "title": "Disposition",
+          "type": "string"
+        },
+        "kind": {
+          "title": "Kind",
+          "type": "string"
+        },
+        "oracle_key": {
+          "title": "Oracle Key",
+          "type": "string"
+        },
+        "parameters": {
+          "additionalProperties": true,
+          "title": "Parameters",
+          "type": "object"
+        },
+        "required_capabilities": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Required Capabilities",
+          "type": "array"
+        },
+        "subject_selector": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SelectorExpression"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "description",
+        "disposition",
+        "kind",
+        "oracle_key",
+        "parameters",
+        "required_capabilities",
+        "subject_selector"
+      ],
+      "title": "OracleDefinition",
+      "type": "object"
+    },
+    "OracleEvaluation": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Evidence Refs",
+          "type": "array"
+        },
+        "expected_value": {
+          "anyOf": [
+            {},
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expected Value"
+        },
+        "explanation": {
+          "title": "Explanation",
+          "type": "string"
+        },
+        "measured_value": {
+          "anyOf": [
+            {},
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Measured Value"
+        },
+        "oracle_key": {
+          "title": "Oracle Key",
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/OracleStatus"
+        }
+      },
+      "required": [
+        "evidence_refs",
+        "expected_value",
+        "explanation",
+        "measured_value",
+        "oracle_key",
+        "status"
+      ],
+      "title": "OracleEvaluation",
+      "type": "object"
+    },
+    "OracleStatus": {
+      "enum": [
+        "satisfied",
+        "not_satisfied",
+        "unknown",
+        "not_evaluated"
+      ],
+      "title": "OracleStatus",
+      "type": "string"
+    },
     "OriginCaptureMode": {
       "enum": [
         "none",
@@ -2008,6 +2678,207 @@
         "value_hash"
       ],
       "title": "ParameterDescriptor",
+      "type": "object"
+    },
+    "ParameterDomain": {
+      "additionalProperties": false,
+      "properties": {
+        "constraints": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/SelectorExpression"
+          },
+          "title": "Constraints",
+          "type": "array"
+        },
+        "default": {
+          "anyOf": [
+            {},
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Default"
+        },
+        "kind": {
+          "$ref": "#/$defs/ParameterDomainKind"
+        },
+        "maximum": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum"
+        },
+        "minimum": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum"
+        },
+        "partitions": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ParameterPartition"
+          },
+          "title": "Partitions",
+          "type": "array"
+        },
+        "registry_key": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Registry Key"
+        },
+        "step": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Step"
+        },
+        "values": {
+          "default": [],
+          "items": {},
+          "title": "Values",
+          "type": "array"
+        }
+      },
+      "required": [
+        "constraints",
+        "default",
+        "kind",
+        "maximum",
+        "minimum",
+        "partitions",
+        "registry_key",
+        "step",
+        "values"
+      ],
+      "title": "ParameterDomain",
+      "type": "object"
+    },
+    "ParameterDomainKind": {
+      "enum": [
+        "finite",
+        "integer_range",
+        "float_range",
+        "partitioned",
+        "registry",
+        "boolean",
+        "opaque"
+      ],
+      "title": "ParameterDomainKind",
+      "type": "string"
+    },
+    "ParameterPartition": {
+      "additionalProperties": false,
+      "properties": {
+        "include_maximum": {
+          "default": true,
+          "title": "Include Maximum",
+          "type": "boolean"
+        },
+        "include_minimum": {
+          "default": true,
+          "title": "Include Minimum",
+          "type": "boolean"
+        },
+        "key": {
+          "title": "Key",
+          "type": "string"
+        },
+        "maximum": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum"
+        },
+        "minimum": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum"
+        },
+        "representative_values": {
+          "default": [],
+          "items": {},
+          "title": "Representative Values",
+          "type": "array"
+        },
+        "title": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Title"
+        }
+      },
+      "required": [
+        "include_maximum",
+        "include_minimum",
+        "key",
+        "maximum",
+        "minimum",
+        "representative_values",
+        "title"
+      ],
+      "title": "ParameterPartition",
       "type": "object"
     },
     "ParameterRegime": {
@@ -2727,6 +3598,44 @@
       "title": "RemediationGuidance",
       "type": "object"
     },
+    "RoleBinding": {
+      "additionalProperties": false,
+      "properties": {
+        "binding_kind": {
+          "enum": [
+            "model",
+            "callable",
+            "dataset",
+            "value",
+            "adapter",
+            "opaque"
+          ],
+          "title": "Binding Kind",
+          "type": "string"
+        },
+        "configuration": {
+          "additionalProperties": true,
+          "title": "Configuration",
+          "type": "object"
+        },
+        "role_key": {
+          "title": "Role Key",
+          "type": "string"
+        },
+        "target": {
+          "title": "Target",
+          "type": "string"
+        }
+      },
+      "required": [
+        "binding_kind",
+        "configuration",
+        "role_key",
+        "target"
+      ],
+      "title": "RoleBinding",
+      "type": "object"
+    },
     "RuleEvaluation": {
       "additionalProperties": false,
       "properties": {
@@ -3033,6 +3942,1155 @@
       "title": "RuntimeComponent",
       "type": "object"
     },
+    "ScenarioBindingArtifact": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "artifact_kind": {
+          "const": "scenario_binding",
+          "default": "scenario_binding",
+          "title": "Artifact Kind",
+          "type": "string"
+        },
+        "content_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "extensions": {
+          "additionalProperties": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Extensions",
+          "type": "object"
+        },
+        "payload": {
+          "$ref": "#/$defs/ScenarioBindingPayload"
+        },
+        "producer": {
+          "$ref": "#/$defs/ProducerIdentity"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        },
+        "schema_version": {
+          "const": "planguard.scenario-binding.v1",
+          "default": "planguard.scenario-binding.v1",
+          "title": "Schema Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "artifact_kind",
+        "content_hash",
+        "created_at",
+        "extensions",
+        "payload",
+        "producer",
+        "provenance",
+        "schema_version"
+      ],
+      "title": "ScenarioBindingArtifact",
+      "type": "object"
+    },
+    "ScenarioBindingPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "adapter_key": {
+          "title": "Adapter Key",
+          "type": "string"
+        },
+        "application_key": {
+          "title": "Application Key",
+          "type": "string"
+        },
+        "binding_key": {
+          "title": "Binding Key",
+          "type": "string"
+        },
+        "capabilities": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Capabilities",
+          "type": "array"
+        },
+        "role_bindings": {
+          "items": {
+            "$ref": "#/$defs/RoleBinding"
+          },
+          "title": "Role Bindings",
+          "type": "array"
+        },
+        "tags": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Tags",
+          "type": "array"
+        },
+        "template_ref": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "variant_bindings": {
+          "items": {
+            "$ref": "#/$defs/VariantBinding"
+          },
+          "title": "Variant Bindings",
+          "type": "array"
+        }
+      },
+      "required": [
+        "adapter_key",
+        "application_key",
+        "binding_key",
+        "capabilities",
+        "role_bindings",
+        "tags",
+        "template_ref",
+        "variant_bindings"
+      ],
+      "title": "ScenarioBindingPayload",
+      "type": "object"
+    },
+    "ScenarioInstanceArtifact": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "artifact_kind": {
+          "const": "scenario_instance",
+          "default": "scenario_instance",
+          "title": "Artifact Kind",
+          "type": "string"
+        },
+        "content_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "extensions": {
+          "additionalProperties": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Extensions",
+          "type": "object"
+        },
+        "payload": {
+          "$ref": "#/$defs/ScenarioInstancePayload"
+        },
+        "producer": {
+          "$ref": "#/$defs/ProducerIdentity"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        },
+        "schema_version": {
+          "const": "planguard.scenario-instance.v1",
+          "default": "planguard.scenario-instance.v1",
+          "title": "Schema Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "artifact_kind",
+        "content_hash",
+        "created_at",
+        "extensions",
+        "payload",
+        "producer",
+        "provenance",
+        "schema_version"
+      ],
+      "title": "ScenarioInstanceArtifact",
+      "type": "object"
+    },
+    "ScenarioInstancePayload": {
+      "additionalProperties": false,
+      "properties": {
+        "applied_mutations": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/AppliedMutation"
+          },
+          "title": "Applied Mutations",
+          "type": "array"
+        },
+        "binding_ref": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "composed_from_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Composed From Refs",
+          "type": "array"
+        },
+        "expected_capabilities": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Expected Capabilities",
+          "type": "array"
+        },
+        "parameter_bindings": {
+          "additionalProperties": true,
+          "title": "Parameter Bindings",
+          "type": "object"
+        },
+        "projected_dimensions": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Projected Dimensions",
+          "type": "array"
+        },
+        "seed": {
+          "title": "Seed",
+          "type": "integer"
+        },
+        "series_key": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Series Key"
+        },
+        "tags": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Tags",
+          "type": "array"
+        },
+        "template_ref": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "variant_key": {
+          "title": "Variant Key",
+          "type": "string"
+        }
+      },
+      "required": [
+        "applied_mutations",
+        "binding_ref",
+        "composed_from_refs",
+        "expected_capabilities",
+        "parameter_bindings",
+        "projected_dimensions",
+        "seed",
+        "series_key",
+        "tags",
+        "template_ref",
+        "variant_key"
+      ],
+      "title": "ScenarioInstancePayload",
+      "type": "object"
+    },
+    "ScenarioOperationEdge": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "additionalProperties": true,
+          "title": "Attributes",
+          "type": "object"
+        },
+        "from_node": {
+          "title": "From Node",
+          "type": "string"
+        },
+        "kind": {
+          "title": "Kind",
+          "type": "string"
+        },
+        "to_node": {
+          "title": "To Node",
+          "type": "string"
+        }
+      },
+      "required": [
+        "attributes",
+        "from_node",
+        "kind",
+        "to_node"
+      ],
+      "title": "ScenarioOperationEdge",
+      "type": "object"
+    },
+    "ScenarioOperationNode": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "additionalProperties": true,
+          "title": "Attributes",
+          "type": "object"
+        },
+        "kind": {
+          "title": "Kind",
+          "type": "string"
+        },
+        "node_key": {
+          "title": "Node Key",
+          "type": "string"
+        },
+        "phase": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Phase"
+        },
+        "role_ref": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Role Ref"
+        }
+      },
+      "required": [
+        "attributes",
+        "kind",
+        "node_key",
+        "phase",
+        "role_ref"
+      ],
+      "title": "ScenarioOperationNode",
+      "type": "object"
+    },
+    "ScenarioParameter": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "domain": {
+          "$ref": "#/$defs/ParameterDomain"
+        },
+        "parameter_key": {
+          "title": "Parameter Key",
+          "type": "string"
+        },
+        "required": {
+          "default": true,
+          "title": "Required",
+          "type": "boolean"
+        },
+        "tags": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Tags",
+          "type": "array"
+        }
+      },
+      "required": [
+        "description",
+        "domain",
+        "parameter_key",
+        "required",
+        "tags"
+      ],
+      "title": "ScenarioParameter",
+      "type": "object"
+    },
+    "ScenarioPhaseReceiptArtifact": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "artifact_kind": {
+          "const": "scenario_phase_receipt",
+          "default": "scenario_phase_receipt",
+          "title": "Artifact Kind",
+          "type": "string"
+        },
+        "content_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "extensions": {
+          "additionalProperties": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Extensions",
+          "type": "object"
+        },
+        "payload": {
+          "$ref": "#/$defs/ScenarioPhaseReceiptPayload"
+        },
+        "producer": {
+          "$ref": "#/$defs/ProducerIdentity"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        },
+        "schema_version": {
+          "const": "planguard.scenario-phase-receipt.v1",
+          "default": "planguard.scenario-phase-receipt.v1",
+          "title": "Schema Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "artifact_kind",
+        "content_hash",
+        "created_at",
+        "extensions",
+        "payload",
+        "producer",
+        "provenance",
+        "schema_version"
+      ],
+      "title": "ScenarioPhaseReceiptArtifact",
+      "type": "object"
+    },
+    "ScenarioPhaseReceiptPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "capability_gaps": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Capability Gaps",
+          "type": "array"
+        },
+        "completed_at": {
+          "format": "date-time",
+          "title": "Completed At",
+          "type": "string"
+        },
+        "error": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Error"
+        },
+        "input_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Input Refs",
+          "type": "array"
+        },
+        "output_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Output Refs",
+          "type": "array"
+        },
+        "phase_key": {
+          "title": "Phase Key",
+          "type": "string"
+        },
+        "scenario_instance_ref": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "scenario_run_id": {
+          "title": "Scenario Run Id",
+          "type": "string"
+        },
+        "started_at": {
+          "format": "date-time",
+          "title": "Started At",
+          "type": "string"
+        },
+        "statistics": {
+          "additionalProperties": true,
+          "title": "Statistics",
+          "type": "object"
+        },
+        "status": {
+          "$ref": "#/$defs/ScenarioReceiptStatus"
+        }
+      },
+      "required": [
+        "capability_gaps",
+        "completed_at",
+        "error",
+        "input_refs",
+        "output_refs",
+        "phase_key",
+        "scenario_instance_ref",
+        "scenario_run_id",
+        "started_at",
+        "statistics",
+        "status"
+      ],
+      "title": "ScenarioPhaseReceiptPayload",
+      "type": "object"
+    },
+    "ScenarioReceiptStatus": {
+      "enum": [
+        "pending",
+        "running",
+        "succeeded",
+        "failed",
+        "skipped",
+        "not_evaluated"
+      ],
+      "title": "ScenarioReceiptStatus",
+      "type": "string"
+    },
+    "ScenarioRole": {
+      "additionalProperties": false,
+      "properties": {
+        "cardinality": {
+          "default": "one",
+          "enum": [
+            "one",
+            "optional_one",
+            "many"
+          ],
+          "title": "Cardinality",
+          "type": "string"
+        },
+        "contract_key": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Contract Key"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "kind": {
+          "$ref": "#/$defs/ScenarioRoleKind"
+        },
+        "required": {
+          "default": true,
+          "title": "Required",
+          "type": "boolean"
+        },
+        "role_key": {
+          "title": "Role Key",
+          "type": "string"
+        }
+      },
+      "required": [
+        "cardinality",
+        "contract_key",
+        "description",
+        "kind",
+        "required",
+        "role_key"
+      ],
+      "title": "ScenarioRole",
+      "type": "object"
+    },
+    "ScenarioRoleKind": {
+      "enum": [
+        "relational_entity",
+        "application_operation",
+        "dataset",
+        "environment",
+        "result",
+        "policy",
+        "opaque"
+      ],
+      "title": "ScenarioRoleKind",
+      "type": "string"
+    },
+    "ScenarioRunArtifact": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "artifact_kind": {
+          "const": "scenario_run",
+          "default": "scenario_run",
+          "title": "Artifact Kind",
+          "type": "string"
+        },
+        "content_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "extensions": {
+          "additionalProperties": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Extensions",
+          "type": "object"
+        },
+        "payload": {
+          "$ref": "#/$defs/ScenarioRunPayload"
+        },
+        "producer": {
+          "$ref": "#/$defs/ProducerIdentity"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        },
+        "schema_version": {
+          "const": "planguard.scenario-run.v1",
+          "default": "planguard.scenario-run.v1",
+          "title": "Schema Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "artifact_kind",
+        "content_hash",
+        "created_at",
+        "extensions",
+        "payload",
+        "producer",
+        "provenance",
+        "schema_version"
+      ],
+      "title": "ScenarioRunArtifact",
+      "type": "object"
+    },
+    "ScenarioRunPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "analysis_run_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "capability_gaps": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Capability Gaps",
+          "type": "array"
+        },
+        "completed_at": {
+          "format": "date-time",
+          "title": "Completed At",
+          "type": "string"
+        },
+        "dataset_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "metadata": {
+          "additionalProperties": true,
+          "title": "Metadata",
+          "type": "object"
+        },
+        "oracle_evaluations": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/OracleEvaluation"
+          },
+          "title": "Oracle Evaluations",
+          "type": "array"
+        },
+        "phase_receipt_refs": {
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Phase Receipt Refs",
+          "type": "array"
+        },
+        "result_digest": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Result Digest"
+        },
+        "scenario_instance_ref": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "scenario_run_id": {
+          "title": "Scenario Run Id",
+          "type": "string"
+        },
+        "started_at": {
+          "format": "date-time",
+          "title": "Started At",
+          "type": "string"
+        },
+        "state_digest": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "State Digest"
+        },
+        "status": {
+          "$ref": "#/$defs/ScenarioReceiptStatus"
+        },
+        "variant_key": {
+          "title": "Variant Key",
+          "type": "string"
+        }
+      },
+      "required": [
+        "analysis_run_ref",
+        "capability_gaps",
+        "completed_at",
+        "dataset_ref",
+        "metadata",
+        "oracle_evaluations",
+        "phase_receipt_refs",
+        "result_digest",
+        "scenario_instance_ref",
+        "scenario_run_id",
+        "started_at",
+        "state_digest",
+        "status",
+        "variant_key"
+      ],
+      "title": "ScenarioRunPayload",
+      "type": "object"
+    },
+    "ScenarioSeriesArtifact": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "artifact_kind": {
+          "const": "scenario_series",
+          "default": "scenario_series",
+          "title": "Artifact Kind",
+          "type": "string"
+        },
+        "content_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "extensions": {
+          "additionalProperties": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Extensions",
+          "type": "object"
+        },
+        "payload": {
+          "$ref": "#/$defs/ScenarioSeriesPayload"
+        },
+        "producer": {
+          "$ref": "#/$defs/ProducerIdentity"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        },
+        "schema_version": {
+          "const": "planguard.scenario-series.v1",
+          "default": "planguard.scenario-series.v1",
+          "title": "Schema Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "artifact_kind",
+        "content_hash",
+        "created_at",
+        "extensions",
+        "payload",
+        "producer",
+        "provenance",
+        "schema_version"
+      ],
+      "title": "ScenarioSeriesArtifact",
+      "type": "object"
+    },
+    "ScenarioSeriesPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "binding_ref": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "generation_strategy": {
+          "title": "Generation Strategy",
+          "type": "string"
+        },
+        "independent_dimensions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Independent Dimensions",
+          "type": "array"
+        },
+        "instance_refs": {
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Instance Refs",
+          "type": "array"
+        },
+        "metadata": {
+          "additionalProperties": true,
+          "title": "Metadata",
+          "type": "object"
+        },
+        "seed": {
+          "title": "Seed",
+          "type": "integer"
+        },
+        "series_key": {
+          "title": "Series Key",
+          "type": "string"
+        },
+        "template_ref": {
+          "$ref": "#/$defs/ArtifactReference"
+        }
+      },
+      "required": [
+        "binding_ref",
+        "generation_strategy",
+        "independent_dimensions",
+        "instance_refs",
+        "metadata",
+        "seed",
+        "series_key",
+        "template_ref"
+      ],
+      "title": "ScenarioSeriesPayload",
+      "type": "object"
+    },
+    "ScenarioTemplateArtifact": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "artifact_kind": {
+          "const": "scenario_template",
+          "default": "scenario_template",
+          "title": "Artifact Kind",
+          "type": "string"
+        },
+        "content_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "extensions": {
+          "additionalProperties": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Extensions",
+          "type": "object"
+        },
+        "payload": {
+          "$ref": "#/$defs/ScenarioTemplatePayload"
+        },
+        "producer": {
+          "$ref": "#/$defs/ProducerIdentity"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        },
+        "schema_version": {
+          "const": "planguard.scenario-template.v1",
+          "default": "planguard.scenario-template.v1",
+          "title": "Schema Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "artifact_kind",
+        "content_hash",
+        "created_at",
+        "extensions",
+        "payload",
+        "producer",
+        "provenance",
+        "schema_version"
+      ],
+      "title": "ScenarioTemplateArtifact",
+      "type": "object"
+    },
+    "ScenarioTemplatePayload": {
+      "additionalProperties": false,
+      "properties": {
+        "compatible_template_keys": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Compatible Template Keys",
+          "type": "array"
+        },
+        "coverage_obligations": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/CoverageObligation"
+          },
+          "title": "Coverage Obligations",
+          "type": "array"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "operation_edges": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ScenarioOperationEdge"
+          },
+          "title": "Operation Edges",
+          "type": "array"
+        },
+        "operation_nodes": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ScenarioOperationNode"
+          },
+          "title": "Operation Nodes",
+          "type": "array"
+        },
+        "oracles": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/OracleDefinition"
+          },
+          "title": "Oracles",
+          "type": "array"
+        },
+        "parameters": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ScenarioParameter"
+          },
+          "title": "Parameters",
+          "type": "array"
+        },
+        "roles": {
+          "items": {
+            "$ref": "#/$defs/ScenarioRole"
+          },
+          "title": "Roles",
+          "type": "array"
+        },
+        "tags": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Tags",
+          "type": "array"
+        },
+        "template_key": {
+          "title": "Template Key",
+          "type": "string"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "variants": {
+          "items": {
+            "$ref": "#/$defs/ScenarioVariant"
+          },
+          "title": "Variants",
+          "type": "array"
+        }
+      },
+      "required": [
+        "compatible_template_keys",
+        "coverage_obligations",
+        "description",
+        "operation_edges",
+        "operation_nodes",
+        "oracles",
+        "parameters",
+        "roles",
+        "tags",
+        "template_key",
+        "title",
+        "variants"
+      ],
+      "title": "ScenarioTemplatePayload",
+      "type": "object"
+    },
+    "ScenarioVariant": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "implementation_role": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Implementation Role"
+        },
+        "tags": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Tags",
+          "type": "array"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "variant_key": {
+          "title": "Variant Key",
+          "type": "string"
+        }
+      },
+      "required": [
+        "description",
+        "implementation_role",
+        "tags",
+        "title",
+        "variant_key"
+      ],
+      "title": "ScenarioVariant",
+      "type": "object"
+    },
     "Score": {
       "additionalProperties": false,
       "properties": {
@@ -3197,6 +5255,537 @@
       ],
       "title": "SourceFrame",
       "type": "object"
+    },
+    "VariantBinding": {
+      "additionalProperties": false,
+      "properties": {
+        "configuration": {
+          "additionalProperties": true,
+          "title": "Configuration",
+          "type": "object"
+        },
+        "target": {
+          "title": "Target",
+          "type": "string"
+        },
+        "variant_key": {
+          "title": "Variant Key",
+          "type": "string"
+        }
+      },
+      "required": [
+        "configuration",
+        "target",
+        "variant_key"
+      ],
+      "title": "VariantBinding",
+      "type": "object"
+    },
+    "WorkloadEdge": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "additionalProperties": true,
+          "title": "Attributes",
+          "type": "object"
+        },
+        "confidence": {
+          "default": 1.0,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "edge_id": {
+          "maxLength": 256,
+          "minLength": 1,
+          "title": "Edge Id",
+          "type": "string"
+        },
+        "evidence_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Evidence Refs",
+          "type": "array"
+        },
+        "from_node": {
+          "maxLength": 256,
+          "minLength": 1,
+          "title": "From Node",
+          "type": "string"
+        },
+        "inference_method": {
+          "$ref": "#/$defs/InferenceMethod",
+          "default": "observed"
+        },
+        "kind": {
+          "$ref": "#/$defs/WorkloadEdgeKind"
+        },
+        "to_node": {
+          "maxLength": 256,
+          "minLength": 1,
+          "title": "To Node",
+          "type": "string"
+        }
+      },
+      "required": [
+        "attributes",
+        "confidence",
+        "edge_id",
+        "evidence_refs",
+        "from_node",
+        "inference_method",
+        "kind",
+        "to_node"
+      ],
+      "title": "WorkloadEdge",
+      "type": "object"
+    },
+    "WorkloadEdgeKind": {
+      "enum": [
+        "contains",
+        "emits",
+        "member_of",
+        "temporally_precedes",
+        "same_origin",
+        "same_transaction",
+        "repeated_within",
+        "possible_result_drives",
+        "supports",
+        "affects",
+        "matches_motif"
+      ],
+      "title": "WorkloadEdgeKind",
+      "type": "string"
+    },
+    "WorkloadEpisodeArtifact": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "artifact_kind": {
+          "const": "workload_episode",
+          "default": "workload_episode",
+          "title": "Artifact Kind",
+          "type": "string"
+        },
+        "content_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "extensions": {
+          "additionalProperties": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Extensions",
+          "type": "object"
+        },
+        "payload": {
+          "$ref": "#/$defs/WorkloadEpisodePayload"
+        },
+        "producer": {
+          "$ref": "#/$defs/ProducerIdentity"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        },
+        "schema_version": {
+          "const": "planguard.workload-episode.v1",
+          "default": "planguard.workload-episode.v1",
+          "title": "Schema Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "artifact_kind",
+        "content_hash",
+        "created_at",
+        "extensions",
+        "payload",
+        "producer",
+        "provenance",
+        "schema_version"
+      ],
+      "title": "WorkloadEpisodeArtifact",
+      "type": "object"
+    },
+    "WorkloadEpisodePayload": {
+      "additionalProperties": false,
+      "properties": {
+        "constraint_evaluations": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ConstraintEvaluation"
+          },
+          "title": "Constraint Evaluations",
+          "type": "array"
+        },
+        "edge_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Edge Ids",
+          "type": "array"
+        },
+        "family_scheme_key": {
+          "title": "Family Scheme Key",
+          "type": "string"
+        },
+        "match_confidence": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Match Confidence",
+          "type": "number"
+        },
+        "metadata": {
+          "additionalProperties": true,
+          "title": "Metadata",
+          "type": "object"
+        },
+        "motif_key": {
+          "title": "Motif Key",
+          "type": "string"
+        },
+        "node_bindings": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Node Bindings",
+          "type": "object"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "subject_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Subject Refs",
+          "type": "array"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        }
+      },
+      "required": [
+        "constraint_evaluations",
+        "edge_ids",
+        "family_scheme_key",
+        "match_confidence",
+        "metadata",
+        "motif_key",
+        "node_bindings",
+        "run_id",
+        "subject_refs",
+        "title"
+      ],
+      "title": "WorkloadEpisodePayload",
+      "type": "object"
+    },
+    "WorkloadGraphArtifact": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "artifact_kind": {
+          "const": "workload_graph",
+          "default": "workload_graph",
+          "title": "Artifact Kind",
+          "type": "string"
+        },
+        "content_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "extensions": {
+          "additionalProperties": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Extensions",
+          "type": "object"
+        },
+        "payload": {
+          "$ref": "#/$defs/WorkloadGraphPayload"
+        },
+        "producer": {
+          "$ref": "#/$defs/ProducerIdentity"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        },
+        "schema_version": {
+          "const": "planguard.workload-graph.v1",
+          "default": "planguard.workload-graph.v1",
+          "title": "Schema Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "artifact_kind",
+        "content_hash",
+        "created_at",
+        "extensions",
+        "payload",
+        "producer",
+        "provenance",
+        "schema_version"
+      ],
+      "title": "WorkloadGraphArtifact",
+      "type": "object"
+    },
+    "WorkloadGraphPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "capability_gaps": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Capability Gaps",
+          "type": "array"
+        },
+        "edges": {
+          "items": {
+            "$ref": "#/$defs/WorkloadEdge"
+          },
+          "title": "Edges",
+          "type": "array"
+        },
+        "family_scheme_key": {
+          "title": "Family Scheme Key",
+          "type": "string"
+        },
+        "graph_version": {
+          "default": "workload-graph.v1",
+          "title": "Graph Version",
+          "type": "string"
+        },
+        "nodes": {
+          "items": {
+            "$ref": "#/$defs/WorkloadNode"
+          },
+          "title": "Nodes",
+          "type": "array"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "capability_gaps",
+        "edges",
+        "family_scheme_key",
+        "graph_version",
+        "nodes",
+        "run_id"
+      ],
+      "title": "WorkloadGraphPayload",
+      "type": "object"
+    },
+    "WorkloadMotifArtifact": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "artifact_kind": {
+          "const": "workload_motif",
+          "default": "workload_motif",
+          "title": "Artifact Kind",
+          "type": "string"
+        },
+        "content_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "extensions": {
+          "additionalProperties": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Extensions",
+          "type": "object"
+        },
+        "payload": {
+          "$ref": "#/$defs/WorkloadMotifPayload"
+        },
+        "producer": {
+          "$ref": "#/$defs/ProducerIdentity"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        },
+        "schema_version": {
+          "const": "planguard.workload-motif.v1",
+          "default": "planguard.workload-motif.v1",
+          "title": "Schema Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "artifact_kind",
+        "content_hash",
+        "created_at",
+        "extensions",
+        "payload",
+        "producer",
+        "provenance",
+        "schema_version"
+      ],
+      "title": "WorkloadMotifArtifact",
+      "type": "object"
+    },
+    "WorkloadMotifPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "constraints": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/MotifConstraintDefinition"
+          },
+          "title": "Constraints",
+          "type": "array"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "edge_patterns": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/MotifEdgePattern"
+          },
+          "title": "Edge Patterns",
+          "type": "array"
+        },
+        "mechanism_keys": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Mechanism Keys",
+          "type": "array"
+        },
+        "motif_key": {
+          "title": "Motif Key",
+          "type": "string"
+        },
+        "node_roles": {
+          "items": {
+            "$ref": "#/$defs/MotifNodeRole"
+          },
+          "title": "Node Roles",
+          "type": "array"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        }
+      },
+      "required": [
+        "constraints",
+        "description",
+        "edge_patterns",
+        "mechanism_keys",
+        "motif_key",
+        "node_roles",
+        "title"
+      ],
+      "title": "WorkloadMotifPayload",
+      "type": "object"
+    },
+    "WorkloadNode": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "attributes": {
+          "additionalProperties": true,
+          "title": "Attributes",
+          "type": "object"
+        },
+        "kind": {
+          "$ref": "#/$defs/WorkloadNodeKind"
+        },
+        "label": {
+          "maxLength": 512,
+          "minLength": 1,
+          "title": "Label",
+          "type": "string"
+        },
+        "node_id": {
+          "maxLength": 256,
+          "minLength": 1,
+          "title": "Node Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "artifact_ref",
+        "attributes",
+        "kind",
+        "label",
+        "node_id"
+      ],
+      "title": "WorkloadNode",
+      "type": "object"
+    },
+    "WorkloadNodeKind": {
+      "enum": [
+        "operation",
+        "query_execution",
+        "query_family",
+        "transaction",
+        "finding",
+        "evidence",
+        "episode"
+      ],
+      "title": "WorkloadNodeKind",
+      "type": "string"
     }
   },
   "$id": "https://planguard.dev/schemas/planguard.any-artifact.v1.json",
@@ -3208,15 +5797,26 @@
       "budget_policy": "#/$defs/BudgetPolicyArtifact",
       "capability_gap": "#/$defs/CapabilityGapArtifact",
       "capture_policy": "#/$defs/CapturePolicyArtifact",
+      "dataset_manifest": "#/$defs/DatasetManifestArtifact",
       "detector_receipt": "#/$defs/DetectorReceiptArtifact",
       "environment_profile": "#/$defs/EnvironmentProfileArtifact",
       "evidence": "#/$defs/EvidenceArtifact",
       "family_scheme": "#/$defs/FamilySchemeArtifact",
       "finding": "#/$defs/FindingArtifact",
+      "mutation_definition": "#/$defs/MutationDefinitionArtifact",
       "observed_query_family": "#/$defs/ObservedQueryFamilyArtifact",
       "query_execution": "#/$defs/QueryExecutionArtifact",
       "query_template": "#/$defs/QueryTemplateArtifact",
-      "run_manifest": "#/$defs/RunManifestArtifact"
+      "run_manifest": "#/$defs/RunManifestArtifact",
+      "scenario_binding": "#/$defs/ScenarioBindingArtifact",
+      "scenario_instance": "#/$defs/ScenarioInstanceArtifact",
+      "scenario_phase_receipt": "#/$defs/ScenarioPhaseReceiptArtifact",
+      "scenario_run": "#/$defs/ScenarioRunArtifact",
+      "scenario_series": "#/$defs/ScenarioSeriesArtifact",
+      "scenario_template": "#/$defs/ScenarioTemplateArtifact",
+      "workload_episode": "#/$defs/WorkloadEpisodeArtifact",
+      "workload_graph": "#/$defs/WorkloadGraphArtifact",
+      "workload_motif": "#/$defs/WorkloadMotifArtifact"
     },
     "propertyName": "artifact_kind"
   },
@@ -3262,6 +5862,39 @@
     },
     {
       "$ref": "#/$defs/AnalysisSummaryArtifact"
+    },
+    {
+      "$ref": "#/$defs/WorkloadGraphArtifact"
+    },
+    {
+      "$ref": "#/$defs/WorkloadMotifArtifact"
+    },
+    {
+      "$ref": "#/$defs/WorkloadEpisodeArtifact"
+    },
+    {
+      "$ref": "#/$defs/ScenarioTemplateArtifact"
+    },
+    {
+      "$ref": "#/$defs/ScenarioBindingArtifact"
+    },
+    {
+      "$ref": "#/$defs/ScenarioInstanceArtifact"
+    },
+    {
+      "$ref": "#/$defs/ScenarioSeriesArtifact"
+    },
+    {
+      "$ref": "#/$defs/ScenarioPhaseReceiptArtifact"
+    },
+    {
+      "$ref": "#/$defs/ScenarioRunArtifact"
+    },
+    {
+      "$ref": "#/$defs/DatasetManifestArtifact"
+    },
+    {
+      "$ref": "#/$defs/MutationDefinitionArtifact"
     }
   ],
   "title": "PlanGuard Any Artifact v1"

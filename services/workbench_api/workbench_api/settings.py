@@ -42,3 +42,9 @@ PLANGUARD_ALLOWED_ORIGINS = tuple(
     ).split(",")
     if origin.strip()
 )
+
+PLANGUARD_INDEX = Path(
+    os.environ.get("PLANGUARD_INDEX", PLANGUARD_STORE / "registry.sqlite3")
+)
+
+PLANGUARD_LAB_ENABLED = os.environ.get("PLANGUARD_LAB_ENABLED", "1" if DEBUG else "0") == "1"

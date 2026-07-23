@@ -1,0 +1,30 @@
+{
+  "artifact_id": "fsch_467097fedd644a66990a7e17c25d3265",
+  "artifact_kind": "family_scheme",
+  "content_hash": "sha256:70c8807864c042f62c07c9b60423bac6fb1917ba5002091aff84ff0ae509295d",
+  "created_at": "2026-07-23T12:07:34.749562Z",
+  "extensions": {},
+  "payload": {
+    "description": "Separates a query shape by scalar/list parameter behavior.",
+    "dimensions": [
+      "query.shape",
+      "parameters.regime"
+    ],
+    "family_scheme_key": "shape-parameter-regime.v1",
+    "missing_value_policy": "preserve_unknown",
+    "title": "Shape and parameter regime"
+  },
+  "producer": {
+    "build": "milestone-d-seed",
+    "name": "planguard",
+    "version": "0.4.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": null,
+    "input_refs": [],
+    "notes": []
+  },
+  "schema_version": "planguard.family-scheme.v1"
+}

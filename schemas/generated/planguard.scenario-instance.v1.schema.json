@@ -1,0 +1,326 @@
+{
+  "$defs": {
+    "AppliedMutation": {
+      "additionalProperties": false,
+      "properties": {
+        "mutation_ref": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "order": {
+          "minimum": 0,
+          "title": "Order",
+          "type": "integer"
+        },
+        "parameter_bindings": {
+          "additionalProperties": true,
+          "title": "Parameter Bindings",
+          "type": "object"
+        }
+      },
+      "required": [
+        "mutation_ref",
+        "order",
+        "parameter_bindings"
+      ],
+      "title": "AppliedMutation",
+      "type": "object"
+    },
+    "ArtifactReference": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "artifact_kind": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Artifact Kind",
+          "type": "string"
+        },
+        "content_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "schema_version": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Schema Version"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "artifact_kind",
+        "content_hash",
+        "schema_version"
+      ],
+      "title": "ArtifactReference",
+      "type": "object"
+    },
+    "ProducerIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "build": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Build"
+        },
+        "name": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "version": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "build",
+        "name",
+        "version"
+      ],
+      "title": "ProducerIdentity",
+      "type": "object"
+    },
+    "Provenance": {
+      "additionalProperties": false,
+      "properties": {
+        "code_revision": {
+          "anyOf": [
+            {
+              "maxLength": 256,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Code Revision"
+        },
+        "configuration_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "derivation_key": {
+          "anyOf": [
+            {
+              "maxLength": 256,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Derivation Key"
+        },
+        "input_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Input Refs",
+          "type": "array"
+        },
+        "notes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "code_revision",
+        "configuration_ref",
+        "derivation_key",
+        "input_refs",
+        "notes"
+      ],
+      "title": "Provenance",
+      "type": "object"
+    },
+    "ScenarioInstancePayload": {
+      "additionalProperties": false,
+      "properties": {
+        "applied_mutations": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/AppliedMutation"
+          },
+          "title": "Applied Mutations",
+          "type": "array"
+        },
+        "binding_ref": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "composed_from_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Composed From Refs",
+          "type": "array"
+        },
+        "expected_capabilities": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Expected Capabilities",
+          "type": "array"
+        },
+        "parameter_bindings": {
+          "additionalProperties": true,
+          "title": "Parameter Bindings",
+          "type": "object"
+        },
+        "projected_dimensions": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Projected Dimensions",
+          "type": "array"
+        },
+        "seed": {
+          "title": "Seed",
+          "type": "integer"
+        },
+        "series_key": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Series Key"
+        },
+        "tags": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Tags",
+          "type": "array"
+        },
+        "template_ref": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "variant_key": {
+          "title": "Variant Key",
+          "type": "string"
+        }
+      },
+      "required": [
+        "applied_mutations",
+        "binding_ref",
+        "composed_from_refs",
+        "expected_capabilities",
+        "parameter_bindings",
+        "projected_dimensions",
+        "seed",
+        "series_key",
+        "tags",
+        "template_ref",
+        "variant_key"
+      ],
+      "title": "ScenarioInstancePayload",
+      "type": "object"
+    }
+  },
+  "$id": "https://planguard.dev/schemas/planguard.scenario-instance.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifact_id": {
+      "title": "Artifact Id",
+      "type": "string"
+    },
+    "artifact_kind": {
+      "const": "scenario_instance",
+      "default": "scenario_instance",
+      "title": "Artifact Kind",
+      "type": "string"
+    },
+    "content_hash": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "title": "Content Hash",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "extensions": {
+      "additionalProperties": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Extensions",
+      "type": "object"
+    },
+    "payload": {
+      "$ref": "#/$defs/ScenarioInstancePayload"
+    },
+    "producer": {
+      "$ref": "#/$defs/ProducerIdentity"
+    },
+    "provenance": {
+      "$ref": "#/$defs/Provenance"
+    },
+    "schema_version": {
+      "const": "planguard.scenario-instance.v1",
+      "default": "planguard.scenario-instance.v1",
+      "title": "Schema Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "artifact_id",
+    "artifact_kind",
+    "content_hash",
+    "created_at",
+    "extensions",
+    "payload",
+    "producer",
+    "provenance",
+    "schema_version"
+  ],
+  "title": "ScenarioInstanceArtifact",
+  "type": "object"
+}

@@ -3,6 +3,8 @@ import { NavLink, Outlet } from "react-router-dom";
 const navigation = [
   ["/", "Home"],
   ["/runs", "Runs"],
+  ["/scenarios", "Scenarios"],
+  ["/motifs", "Motifs"],
   ["/policies", "Policies"],
   ["/artifacts", "Artifacts"],
   ["/capabilities", "Capabilities"],
@@ -28,8 +30,8 @@ export function Layout() {
         </nav>
         <div className="milestone-note">
           <span className="status-dot supported" />
-          Milestone B
-          <small>Developer MVP</small>
+          Milestone D
+          <small>Generic scenario laboratory</small>
         </div>
       </aside>
       <main className="content">

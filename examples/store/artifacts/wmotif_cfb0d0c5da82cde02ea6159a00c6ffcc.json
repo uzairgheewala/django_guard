@@ -1,0 +1,60 @@
+{
+  "artifact_id": "wmotif_cfb0d0c5da82cde02ea6159a00c6ffcc",
+  "artifact_kind": "workload_motif",
+  "content_hash": "sha256:00c3a8d00bc70157695e94578e7aca23d36d4a92919dd3845d0810e95e9fd131",
+  "created_at": "1970-01-01T00:00:00Z",
+  "extensions": {},
+  "payload": {
+    "constraints": [
+      {
+        "constraint_key": "write-statement",
+        "description": null,
+        "kind": "statement_in",
+        "parameters": {
+          "values": [
+            "insert",
+            "update",
+            "delete"
+          ]
+        }
+      },
+      {
+        "constraint_key": "repeated",
+        "description": null,
+        "kind": "execution_count_gte",
+        "parameters": {
+          "value": 3
+        }
+      }
+    ],
+    "description": "A repeated write family executes several times inside one operation.",
+    "edge_patterns": [],
+    "mechanism_keys": [
+      "write-amplification"
+    ],
+    "motif_key": "per-item-write-loop.v1",
+    "node_roles": [
+      {
+        "allowed_kinds": [
+          "query_family"
+        ],
+        "description": null,
+        "role_key": "family"
+      }
+    ],
+    "title": "Per-item write loop"
+  },
+  "producer": {
+    "build": "milestone-d-seed",
+    "name": "planguard",
+    "version": "0.4.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": "builtin-workload-motif.v2",
+    "input_refs": [],
+    "notes": []
+  },
+  "schema_version": "planguard.workload-motif.v1"
+}
