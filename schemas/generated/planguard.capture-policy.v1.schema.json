@@ -1,0 +1,360 @@
+{
+  "$defs": {
+    "ArtifactReference": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "artifact_kind": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Artifact Kind",
+          "type": "string"
+        },
+        "content_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "schema_version": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Schema Version"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "artifact_kind",
+        "content_hash",
+        "schema_version"
+      ],
+      "title": "ArtifactReference",
+      "type": "object"
+    },
+    "CaptureLimits": {
+      "additionalProperties": false,
+      "properties": {
+        "max_artifact_bytes": {
+          "default": 100000000,
+          "minimum": 0,
+          "title": "Max Artifact Bytes",
+          "type": "integer"
+        },
+        "max_query_count": {
+          "default": 100000,
+          "minimum": 0,
+          "title": "Max Query Count",
+          "type": "integer"
+        },
+        "max_raw_sql_bytes": {
+          "default": 1000000,
+          "minimum": 0,
+          "title": "Max Raw Sql Bytes",
+          "type": "integer"
+        },
+        "max_stack_depth": {
+          "default": 32,
+          "minimum": 0,
+          "title": "Max Stack Depth",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "max_artifact_bytes",
+        "max_query_count",
+        "max_raw_sql_bytes",
+        "max_stack_depth"
+      ],
+      "title": "CaptureLimits",
+      "type": "object"
+    },
+    "CapturePolicyPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "application_roots": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Application Roots",
+          "type": "array"
+        },
+        "exclude_module_patterns": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Exclude Module Patterns",
+          "type": "array"
+        },
+        "hmac_key_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Hmac Key Id"
+        },
+        "include_connection_aliases": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Include Connection Aliases",
+          "type": "array"
+        },
+        "limits": {
+          "$ref": "#/$defs/CaptureLimits"
+        },
+        "notes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "origin_capture_mode": {
+          "$ref": "#/$defs/OriginCaptureMode",
+          "default": "first_application_frame"
+        },
+        "parameter_capture_mode": {
+          "$ref": "#/$defs/ParameterCaptureMode",
+          "default": "shape_and_hash"
+        },
+        "policy_key": {
+          "maxLength": 256,
+          "minLength": 1,
+          "title": "Policy Key",
+          "type": "string"
+        },
+        "raw_sql_mode": {
+          "$ref": "#/$defs/RawSqlMode",
+          "default": "redact"
+        }
+      },
+      "required": [
+        "application_roots",
+        "exclude_module_patterns",
+        "hmac_key_id",
+        "include_connection_aliases",
+        "limits",
+        "notes",
+        "origin_capture_mode",
+        "parameter_capture_mode",
+        "policy_key",
+        "raw_sql_mode"
+      ],
+      "title": "CapturePolicyPayload",
+      "type": "object"
+    },
+    "OriginCaptureMode": {
+      "enum": [
+        "none",
+        "first_application_frame",
+        "trimmed_application_stack",
+        "full_stack"
+      ],
+      "title": "OriginCaptureMode",
+      "type": "string"
+    },
+    "ParameterCaptureMode": {
+      "enum": [
+        "none",
+        "shape",
+        "shape_and_hash",
+        "preserve"
+      ],
+      "title": "ParameterCaptureMode",
+      "type": "string"
+    },
+    "ProducerIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "build": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Build"
+        },
+        "name": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "version": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "build",
+        "name",
+        "version"
+      ],
+      "title": "ProducerIdentity",
+      "type": "object"
+    },
+    "Provenance": {
+      "additionalProperties": false,
+      "properties": {
+        "code_revision": {
+          "anyOf": [
+            {
+              "maxLength": 256,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Code Revision"
+        },
+        "configuration_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "derivation_key": {
+          "anyOf": [
+            {
+              "maxLength": 256,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Derivation Key"
+        },
+        "input_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Input Refs",
+          "type": "array"
+        },
+        "notes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "code_revision",
+        "configuration_ref",
+        "derivation_key",
+        "input_refs",
+        "notes"
+      ],
+      "title": "Provenance",
+      "type": "object"
+    },
+    "RawSqlMode": {
+      "enum": [
+        "omit",
+        "redact",
+        "preserve"
+      ],
+      "title": "RawSqlMode",
+      "type": "string"
+    }
+  },
+  "$id": "https://planguard.dev/schemas/planguard.capture-policy.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifact_id": {
+      "title": "Artifact Id",
+      "type": "string"
+    },
+    "artifact_kind": {
+      "const": "capture_policy",
+      "default": "capture_policy",
+      "title": "Artifact Kind",
+      "type": "string"
+    },
+    "content_hash": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "title": "Content Hash",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "extensions": {
+      "additionalProperties": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Extensions",
+      "type": "object"
+    },
+    "payload": {
+      "$ref": "#/$defs/CapturePolicyPayload"
+    },
+    "producer": {
+      "$ref": "#/$defs/ProducerIdentity"
+    },
+    "provenance": {
+      "$ref": "#/$defs/Provenance"
+    },
+    "schema_version": {
+      "const": "planguard.capture-policy.v1",
+      "default": "planguard.capture-policy.v1",
+      "title": "Schema Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "artifact_id",
+    "artifact_kind",
+    "content_hash",
+    "created_at",
+    "extensions",
+    "payload",
+    "producer",
+    "provenance",
+    "schema_version"
+  ],
+  "title": "CapturePolicyArtifact",
+  "type": "object"
+}

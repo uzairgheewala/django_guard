@@ -1,0 +1,58 @@
+{
+  "artifact_id": "qtpl_cd79ec57910c43e0a932d38c113354d0",
+  "artifact_kind": "query_template",
+  "content_hash": "sha256:f66ccef823e2b09915b3709e724935f9fe006164817e80232085135e5490d04b",
+  "created_at": "2026-07-23T10:55:27.083433Z",
+  "extensions": {},
+  "payload": {
+    "canonical_sql": "select id, student_id from plan_item where student_id = :parameter order by position",
+    "diagnostics": [],
+    "dialect": "postgresql",
+    "features": {
+      "aggregate_count": 0,
+      "has_cte": false,
+      "has_group_by": false,
+      "has_limit": false,
+      "has_locking_clause": false,
+      "has_offset": false,
+      "has_order_by": true,
+      "has_subquery": false,
+      "join_count": 0,
+      "predicate_columns": [
+        "student_id"
+      ],
+      "projected_columns": [
+        "id",
+        "student_id"
+      ],
+      "relations": [
+        "plan_item"
+      ],
+      "statement_kind": "select"
+    },
+    "lexical_fingerprint": "qlx_fa0d803e198179e503df13726bb6da17873cbeaa709de5ae83786ee2d6dbe831",
+    "parse_quality": "partial",
+    "statement_kind": "select",
+    "structural_shape_fingerprint": "qsh_3503133757de6a60a41a872767b42d3d651ed89dedb4bb5416febae0cc3d4284"
+  },
+  "producer": {
+    "build": "milestone-b",
+    "name": "planguard",
+    "version": "0.2.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": "query-normalize.v1",
+    "input_refs": [
+      {
+        "artifact_id": "qexec_e06f6abac1ab47b282b424af50f2087d",
+        "artifact_kind": "query_execution",
+        "content_hash": "sha256:c21743322e0f7dfd7b4d2ee0018857ad63d19c80c49249a9cc0521b282a00d09",
+        "schema_version": "planguard.query-execution.v1"
+      }
+    ],
+    "notes": []
+  },
+  "schema_version": "planguard.query-template.v1"
+}

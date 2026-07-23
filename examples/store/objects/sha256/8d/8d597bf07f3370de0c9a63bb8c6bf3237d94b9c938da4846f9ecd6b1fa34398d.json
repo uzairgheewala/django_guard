@@ -1,0 +1,74 @@
+{
+  "artifact_id": "qexec_5f54ee9f082243f2a016a9c3ee5fd6ae",
+  "artifact_kind": "query_execution",
+  "content_hash": "sha256:8d597bf07f3370de0c9a63bb8c6bf3237d94b9c938da4846f9ecd6b1fa34398d",
+  "created_at": "2026-07-23T10:55:27.082447Z",
+  "extensions": {},
+  "payload": {
+    "connection": {
+      "alias": "default",
+      "vendor": "postgresql"
+    },
+    "context": {},
+    "many": false,
+    "origin": {
+      "application_frame": {
+        "file": "/mnt/data/planguard-work/planguard-milestone-a/scripts/seed_milestone_b_artifacts.py",
+        "function": "seed",
+        "line": 39,
+        "module": "__main__"
+      },
+      "stack": [
+        {
+          "file": "/mnt/data/planguard-work/planguard-milestone-a/scripts/seed_milestone_b_artifacts.py",
+          "function": "seed",
+          "line": 39,
+          "module": "__main__"
+        }
+      ],
+      "stack_fingerprint": "stk_eeb9134bb1060f49720fc45e63cc9c6547e7ec93f49e1612640eaa9b60a8adbe"
+    },
+    "outcome": {
+      "exception_message": null,
+      "exception_type": null,
+      "row_count": 1,
+      "status": "succeeded"
+    },
+    "parameter_binding_fingerprint": "binding:71a0a569ae6714abdac327512865721bab52a80a765cb50932edcf24260d12e2",
+    "parameters": [
+      {
+        "container": null,
+        "length": null,
+        "preserved_value": null,
+        "type_name": "int",
+        "value_hash": "hmac-sha256:d13dd769d12b1c08a67db6a284f9223c662e5d0c7ce2b71126ed603a0d5d0f1d"
+      }
+    ],
+    "raw_sql_mode": "redact",
+    "run_id": "run_demo_b_001",
+    "sequence_number": 5,
+    "sql": "SELECT id, code, title FROM course WHERE id = %s",
+    "timing": {
+      "duration_ms": 1.0,
+      "started_offset_ms": 0.0
+    },
+    "transaction": {
+      "autocommit": true,
+      "depth": 0,
+      "transaction_id": null
+    }
+  },
+  "producer": {
+    "build": "milestone-b",
+    "name": "planguard",
+    "version": "0.2.0"
+  },
+  "provenance": {
+    "code_revision": "git:milestone-b",
+    "configuration_ref": null,
+    "derivation_key": "query-capture.v1",
+    "input_refs": [],
+    "notes": []
+  },
+  "schema_version": "planguard.query-execution.v1"
+}

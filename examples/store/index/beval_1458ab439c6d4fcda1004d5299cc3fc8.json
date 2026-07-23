@@ -1,0 +1,8 @@
+{
+  "artifact_id": "beval_1458ab439c6d4fcda1004d5299cc3fc8",
+  "artifact_kind": "budget_evaluation",
+  "content_hash": "sha256:64b8df4d9b5229a431ff50abc648c9191e5875cf40d904ab21d7202dd3110691",
+  "created_at": "2026-07-23T10:55:27.090192+00:00",
+  "path": "artifacts/beval_1458ab439c6d4fcda1004d5299cc3fc8.json",
+  "schema_version": "planguard.budget-evaluation.v1"
+}

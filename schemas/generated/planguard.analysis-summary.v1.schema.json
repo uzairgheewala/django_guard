@@ -1,0 +1,321 @@
+{
+  "$defs": {
+    "AnalysisSummaryPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "budget_evaluation_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Budget Evaluation Refs",
+          "type": "array"
+        },
+        "detector_receipt_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Detector Receipt Refs",
+          "type": "array"
+        },
+        "evidence_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Evidence Refs",
+          "type": "array"
+        },
+        "family_count_by_scheme": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Family Count By Scheme",
+          "type": "object"
+        },
+        "family_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Family Refs",
+          "type": "array"
+        },
+        "finding_count_by_severity": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Finding Count By Severity",
+          "type": "object"
+        },
+        "finding_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Finding Refs",
+          "type": "array"
+        },
+        "query_count": {
+          "minimum": 0,
+          "title": "Query Count",
+          "type": "integer"
+        },
+        "query_execution_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Query Execution Refs",
+          "type": "array"
+        },
+        "query_template_count": {
+          "minimum": 0,
+          "title": "Query Template Count",
+          "type": "integer"
+        },
+        "query_template_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Query Template Refs",
+          "type": "array"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "total_database_time_ms": {
+          "minimum": 0,
+          "title": "Total Database Time Ms",
+          "type": "number"
+        }
+      },
+      "required": [
+        "budget_evaluation_refs",
+        "detector_receipt_refs",
+        "evidence_refs",
+        "family_count_by_scheme",
+        "family_refs",
+        "finding_count_by_severity",
+        "finding_refs",
+        "query_count",
+        "query_execution_refs",
+        "query_template_count",
+        "query_template_refs",
+        "run_id",
+        "total_database_time_ms"
+      ],
+      "title": "AnalysisSummaryPayload",
+      "type": "object"
+    },
+    "ArtifactReference": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "artifact_kind": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Artifact Kind",
+          "type": "string"
+        },
+        "content_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "schema_version": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Schema Version"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "artifact_kind",
+        "content_hash",
+        "schema_version"
+      ],
+      "title": "ArtifactReference",
+      "type": "object"
+    },
+    "ProducerIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "build": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Build"
+        },
+        "name": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "version": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "build",
+        "name",
+        "version"
+      ],
+      "title": "ProducerIdentity",
+      "type": "object"
+    },
+    "Provenance": {
+      "additionalProperties": false,
+      "properties": {
+        "code_revision": {
+          "anyOf": [
+            {
+              "maxLength": 256,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Code Revision"
+        },
+        "configuration_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "derivation_key": {
+          "anyOf": [
+            {
+              "maxLength": 256,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Derivation Key"
+        },
+        "input_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Input Refs",
+          "type": "array"
+        },
+        "notes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "code_revision",
+        "configuration_ref",
+        "derivation_key",
+        "input_refs",
+        "notes"
+      ],
+      "title": "Provenance",
+      "type": "object"
+    }
+  },
+  "$id": "https://planguard.dev/schemas/planguard.analysis-summary.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifact_id": {
+      "title": "Artifact Id",
+      "type": "string"
+    },
+    "artifact_kind": {
+      "const": "analysis_summary",
+      "default": "analysis_summary",
+      "title": "Artifact Kind",
+      "type": "string"
+    },
+    "content_hash": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "title": "Content Hash",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "extensions": {
+      "additionalProperties": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Extensions",
+      "type": "object"
+    },
+    "payload": {
+      "$ref": "#/$defs/AnalysisSummaryPayload"
+    },
+    "producer": {
+      "$ref": "#/$defs/ProducerIdentity"
+    },
+    "provenance": {
+      "$ref": "#/$defs/Provenance"
+    },
+    "schema_version": {
+      "const": "planguard.analysis-summary.v1",
+      "default": "planguard.analysis-summary.v1",
+      "title": "Schema Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "artifact_id",
+    "artifact_kind",
+    "content_hash",
+    "created_at",
+    "extensions",
+    "payload",
+    "producer",
+    "provenance",
+    "schema_version"
+  ],
+  "title": "AnalysisSummaryArtifact",
+  "type": "object"
+}

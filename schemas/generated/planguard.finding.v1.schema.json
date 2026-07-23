@@ -1,0 +1,442 @@
+{
+  "$defs": {
+    "ArtifactReference": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "artifact_kind": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Artifact Kind",
+          "type": "string"
+        },
+        "content_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "schema_version": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Schema Version"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "artifact_kind",
+        "content_hash",
+        "schema_version"
+      ],
+      "title": "ArtifactReference",
+      "type": "object"
+    },
+    "ConfidenceLevel": {
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "title": "ConfidenceLevel",
+      "type": "string"
+    },
+    "EvidenceClaim": {
+      "additionalProperties": false,
+      "properties": {
+        "claim_key": {
+          "title": "Claim Key",
+          "type": "string"
+        },
+        "explanation": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Explanation"
+        },
+        "status": {
+          "enum": [
+            "supported",
+            "contradicted",
+            "unknown"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "subject_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Subject Refs",
+          "type": "array"
+        },
+        "values": {
+          "additionalProperties": true,
+          "title": "Values",
+          "type": "object"
+        }
+      },
+      "required": [
+        "claim_key",
+        "explanation",
+        "status",
+        "subject_refs",
+        "values"
+      ],
+      "title": "EvidenceClaim",
+      "type": "object"
+    },
+    "FindingExplanation": {
+      "additionalProperties": false,
+      "properties": {
+        "details": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Details",
+          "type": "array"
+        },
+        "summary": {
+          "title": "Summary",
+          "type": "string"
+        }
+      },
+      "required": [
+        "details",
+        "summary"
+      ],
+      "title": "FindingExplanation",
+      "type": "object"
+    },
+    "FindingPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "claims": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/EvidenceClaim"
+          },
+          "title": "Claims",
+          "type": "array"
+        },
+        "confidence": {
+          "$ref": "#/$defs/Score"
+        },
+        "detector_key": {
+          "title": "Detector Key",
+          "type": "string"
+        },
+        "evidence_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Evidence Refs",
+          "type": "array"
+        },
+        "explanation": {
+          "$ref": "#/$defs/FindingExplanation"
+        },
+        "limitations": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Limitations",
+          "type": "array"
+        },
+        "mechanism_key": {
+          "title": "Mechanism Key",
+          "type": "string"
+        },
+        "metadata": {
+          "additionalProperties": true,
+          "title": "Metadata",
+          "type": "object"
+        },
+        "remediation": {
+          "$ref": "#/$defs/RemediationGuidance"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "severity": {
+          "$ref": "#/$defs/Score"
+        },
+        "subject_refs": {
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Subject Refs",
+          "type": "array"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        }
+      },
+      "required": [
+        "claims",
+        "confidence",
+        "detector_key",
+        "evidence_refs",
+        "explanation",
+        "limitations",
+        "mechanism_key",
+        "metadata",
+        "remediation",
+        "run_id",
+        "severity",
+        "subject_refs",
+        "title"
+      ],
+      "title": "FindingPayload",
+      "type": "object"
+    },
+    "ProducerIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "build": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Build"
+        },
+        "name": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "version": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "build",
+        "name",
+        "version"
+      ],
+      "title": "ProducerIdentity",
+      "type": "object"
+    },
+    "Provenance": {
+      "additionalProperties": false,
+      "properties": {
+        "code_revision": {
+          "anyOf": [
+            {
+              "maxLength": 256,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Code Revision"
+        },
+        "configuration_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "derivation_key": {
+          "anyOf": [
+            {
+              "maxLength": 256,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Derivation Key"
+        },
+        "input_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Input Refs",
+          "type": "array"
+        },
+        "notes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "code_revision",
+        "configuration_ref",
+        "derivation_key",
+        "input_refs",
+        "notes"
+      ],
+      "title": "Provenance",
+      "type": "object"
+    },
+    "RemediationGuidance": {
+      "additionalProperties": false,
+      "properties": {
+        "category": {
+          "title": "Category",
+          "type": "string"
+        },
+        "guidance": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Guidance",
+          "type": "array"
+        }
+      },
+      "required": [
+        "category",
+        "guidance"
+      ],
+      "title": "RemediationGuidance",
+      "type": "object"
+    },
+    "Score": {
+      "additionalProperties": false,
+      "properties": {
+        "level": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SeverityLevel"
+            },
+            {
+              "$ref": "#/$defs/ConfidenceLevel"
+            }
+          ],
+          "title": "Level"
+        },
+        "score": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Score",
+          "type": "number"
+        }
+      },
+      "required": [
+        "level",
+        "score"
+      ],
+      "title": "Score",
+      "type": "object"
+    },
+    "SeverityLevel": {
+      "enum": [
+        "info",
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
+      "title": "SeverityLevel",
+      "type": "string"
+    }
+  },
+  "$id": "https://planguard.dev/schemas/planguard.finding.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifact_id": {
+      "title": "Artifact Id",
+      "type": "string"
+    },
+    "artifact_kind": {
+      "const": "finding",
+      "default": "finding",
+      "title": "Artifact Kind",
+      "type": "string"
+    },
+    "content_hash": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "title": "Content Hash",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "extensions": {
+      "additionalProperties": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Extensions",
+      "type": "object"
+    },
+    "payload": {
+      "$ref": "#/$defs/FindingPayload"
+    },
+    "producer": {
+      "$ref": "#/$defs/ProducerIdentity"
+    },
+    "provenance": {
+      "$ref": "#/$defs/Provenance"
+    },
+    "schema_version": {
+      "const": "planguard.finding.v1",
+      "default": "planguard.finding.v1",
+      "title": "Schema Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "artifact_id",
+    "artifact_kind",
+    "content_hash",
+    "created_at",
+    "extensions",
+    "payload",
+    "producer",
+    "provenance",
+    "schema_version"
+  ],
+  "title": "FindingArtifact",
+  "type": "object"
+}

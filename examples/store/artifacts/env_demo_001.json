@@ -1,0 +1,67 @@
+{
+  "artifact_id": "env_demo_001",
+  "artifact_kind": "environment_profile",
+  "content_hash": "sha256:b7b86409c04552584e10923745e315c3ba344225ce05a2364604f1623baff122",
+  "created_at": "2026-07-23T12:00:00Z",
+  "extensions": {
+    "dev.planguard.demo": {
+      "label": "Sample environment",
+      "safe_to_share": true
+    }
+  },
+  "payload": {
+    "architecture": "x86_64",
+    "database": {
+      "connection_aliases": [
+        "default"
+      ],
+      "database_hash": null,
+      "vendor": "postgresql",
+      "version": null
+    },
+    "environment_variables": {
+      "PLANGUARD_MODE": "explorer"
+    },
+    "machine_profile": {
+      "purpose": "artifact-inspector-demo",
+      "sample": true
+    },
+    "notes": [
+      "Synthetic environment profile for Milestone A."
+    ],
+    "operating_system": "Linux",
+    "python_version": "3.13.5",
+    "runtime_components": [
+      {
+        "details": {},
+        "name": "planguard",
+        "version": "0.1.0"
+      },
+      {
+        "details": {
+          "optional": true
+        },
+        "name": "django",
+        "version": "5.2.x"
+      },
+      {
+        "details": {},
+        "name": "react-workbench",
+        "version": "milestone-a"
+      }
+    ]
+  },
+  "producer": {
+    "build": "milestone-a",
+    "name": "planguard",
+    "version": "0.1.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": null,
+    "input_refs": [],
+    "notes": []
+  },
+  "schema_version": "planguard.environment-profile.v1"
+}

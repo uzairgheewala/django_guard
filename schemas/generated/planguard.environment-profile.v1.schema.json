@@ -1,0 +1,369 @@
+{
+  "$defs": {
+    "ArtifactReference": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "artifact_kind": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Artifact Kind",
+          "type": "string"
+        },
+        "content_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "schema_version": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Schema Version"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "artifact_kind",
+        "content_hash",
+        "schema_version"
+      ],
+      "title": "ArtifactReference",
+      "type": "object"
+    },
+    "DatabaseIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "connection_aliases": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Connection Aliases",
+          "type": "array"
+        },
+        "database_hash": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Database Hash"
+        },
+        "vendor": {
+          "default": "unknown",
+          "title": "Vendor",
+          "type": "string"
+        },
+        "version": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Version"
+        }
+      },
+      "required": [
+        "connection_aliases",
+        "database_hash",
+        "vendor",
+        "version"
+      ],
+      "title": "DatabaseIdentity",
+      "type": "object"
+    },
+    "EnvironmentProfilePayload": {
+      "additionalProperties": false,
+      "properties": {
+        "architecture": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Architecture"
+        },
+        "database": {
+          "$ref": "#/$defs/DatabaseIdentity"
+        },
+        "environment_variables": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Environment Variables",
+          "type": "object"
+        },
+        "machine_profile": {
+          "additionalProperties": true,
+          "title": "Machine Profile",
+          "type": "object"
+        },
+        "notes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "operating_system": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Operating System"
+        },
+        "python_version": {
+          "title": "Python Version",
+          "type": "string"
+        },
+        "runtime_components": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/RuntimeComponent"
+          },
+          "title": "Runtime Components",
+          "type": "array"
+        }
+      },
+      "required": [
+        "architecture",
+        "database",
+        "environment_variables",
+        "machine_profile",
+        "notes",
+        "operating_system",
+        "python_version",
+        "runtime_components"
+      ],
+      "title": "EnvironmentProfilePayload",
+      "type": "object"
+    },
+    "ProducerIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "build": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Build"
+        },
+        "name": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "version": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "build",
+        "name",
+        "version"
+      ],
+      "title": "ProducerIdentity",
+      "type": "object"
+    },
+    "Provenance": {
+      "additionalProperties": false,
+      "properties": {
+        "code_revision": {
+          "anyOf": [
+            {
+              "maxLength": 256,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Code Revision"
+        },
+        "configuration_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "derivation_key": {
+          "anyOf": [
+            {
+              "maxLength": 256,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Derivation Key"
+        },
+        "input_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Input Refs",
+          "type": "array"
+        },
+        "notes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "code_revision",
+        "configuration_ref",
+        "derivation_key",
+        "input_refs",
+        "notes"
+      ],
+      "title": "Provenance",
+      "type": "object"
+    },
+    "RuntimeComponent": {
+      "additionalProperties": false,
+      "properties": {
+        "details": {
+          "additionalProperties": true,
+          "title": "Details",
+          "type": "object"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "version": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Version"
+        }
+      },
+      "required": [
+        "details",
+        "name",
+        "version"
+      ],
+      "title": "RuntimeComponent",
+      "type": "object"
+    }
+  },
+  "$id": "https://planguard.dev/schemas/planguard.environment-profile.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifact_id": {
+      "title": "Artifact Id",
+      "type": "string"
+    },
+    "artifact_kind": {
+      "const": "environment_profile",
+      "default": "environment_profile",
+      "title": "Artifact Kind",
+      "type": "string"
+    },
+    "content_hash": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "title": "Content Hash",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "extensions": {
+      "additionalProperties": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Extensions",
+      "type": "object"
+    },
+    "payload": {
+      "$ref": "#/$defs/EnvironmentProfilePayload"
+    },
+    "producer": {
+      "$ref": "#/$defs/ProducerIdentity"
+    },
+    "provenance": {
+      "$ref": "#/$defs/Provenance"
+    },
+    "schema_version": {
+      "const": "planguard.environment-profile.v1",
+      "default": "planguard.environment-profile.v1",
+      "title": "Schema Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "artifact_id",
+    "artifact_kind",
+    "content_hash",
+    "created_at",
+    "extensions",
+    "payload",
+    "producer",
+    "provenance",
+    "schema_version"
+  ],
+  "title": "EnvironmentProfileArtifact",
+  "type": "object"
+}

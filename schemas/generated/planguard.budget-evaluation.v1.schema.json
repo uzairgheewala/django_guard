@@ -1,0 +1,319 @@
+{
+  "$defs": {
+    "ArtifactReference": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "artifact_kind": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Artifact Kind",
+          "type": "string"
+        },
+        "content_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "schema_version": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Schema Version"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "artifact_kind",
+        "content_hash",
+        "schema_version"
+      ],
+      "title": "ArtifactReference",
+      "type": "object"
+    },
+    "BudgetEvaluationPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "evaluated_at": {
+          "format": "date-time",
+          "title": "Evaluated At",
+          "type": "string"
+        },
+        "policy_ref": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "rule_evaluations": {
+          "items": {
+            "$ref": "#/$defs/RuleEvaluation"
+          },
+          "title": "Rule Evaluations",
+          "type": "array"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/EvaluationStatus"
+        }
+      },
+      "required": [
+        "evaluated_at",
+        "policy_ref",
+        "rule_evaluations",
+        "run_id",
+        "status"
+      ],
+      "title": "BudgetEvaluationPayload",
+      "type": "object"
+    },
+    "EvaluationStatus": {
+      "enum": [
+        "passed",
+        "failed",
+        "warned",
+        "not_evaluated"
+      ],
+      "title": "EvaluationStatus",
+      "type": "string"
+    },
+    "ProducerIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "build": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Build"
+        },
+        "name": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "version": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "build",
+        "name",
+        "version"
+      ],
+      "title": "ProducerIdentity",
+      "type": "object"
+    },
+    "Provenance": {
+      "additionalProperties": false,
+      "properties": {
+        "code_revision": {
+          "anyOf": [
+            {
+              "maxLength": 256,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Code Revision"
+        },
+        "configuration_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "derivation_key": {
+          "anyOf": [
+            {
+              "maxLength": 256,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Derivation Key"
+        },
+        "input_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Input Refs",
+          "type": "array"
+        },
+        "notes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "code_revision",
+        "configuration_ref",
+        "derivation_key",
+        "input_refs",
+        "notes"
+      ],
+      "title": "Provenance",
+      "type": "object"
+    },
+    "RuleEvaluation": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Evidence Refs",
+          "type": "array"
+        },
+        "matched_subject_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Matched Subject Refs",
+          "type": "array"
+        },
+        "measured_value": {
+          "anyOf": [
+            {},
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Measured Value"
+        },
+        "message": {
+          "title": "Message",
+          "type": "string"
+        },
+        "rule_key": {
+          "title": "Rule Key",
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/EvaluationStatus"
+        },
+        "threshold": {
+          "anyOf": [
+            {},
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Threshold"
+        }
+      },
+      "required": [
+        "evidence_refs",
+        "matched_subject_refs",
+        "measured_value",
+        "message",
+        "rule_key",
+        "status",
+        "threshold"
+      ],
+      "title": "RuleEvaluation",
+      "type": "object"
+    }
+  },
+  "$id": "https://planguard.dev/schemas/planguard.budget-evaluation.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifact_id": {
+      "title": "Artifact Id",
+      "type": "string"
+    },
+    "artifact_kind": {
+      "const": "budget_evaluation",
+      "default": "budget_evaluation",
+      "title": "Artifact Kind",
+      "type": "string"
+    },
+    "content_hash": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "title": "Content Hash",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "extensions": {
+      "additionalProperties": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Extensions",
+      "type": "object"
+    },
+    "payload": {
+      "$ref": "#/$defs/BudgetEvaluationPayload"
+    },
+    "producer": {
+      "$ref": "#/$defs/ProducerIdentity"
+    },
+    "provenance": {
+      "$ref": "#/$defs/Provenance"
+    },
+    "schema_version": {
+      "const": "planguard.budget-evaluation.v1",
+      "default": "planguard.budget-evaluation.v1",
+      "title": "Schema Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "artifact_id",
+    "artifact_kind",
+    "content_hash",
+    "created_at",
+    "extensions",
+    "payload",
+    "producer",
+    "provenance",
+    "schema_version"
+  ],
+  "title": "BudgetEvaluationArtifact",
+  "type": "object"
+}

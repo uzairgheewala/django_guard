@@ -1,0 +1,8 @@
+{
+  "artifact_id": "gap_demo_001",
+  "artifact_kind": "capability_gap",
+  "content_hash": "sha256:597b3f08a65bd99f8725d6175d64fd3c01e30d8d1ce9514db3a38acc3a1c4f86",
+  "created_at": "2026-07-23T12:00:00+00:00",
+  "path": "artifacts/gap_demo_001.json",
+  "schema_version": "planguard.capability-gap.v1"
+}

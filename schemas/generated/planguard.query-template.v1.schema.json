@@ -1,0 +1,369 @@
+{
+  "$defs": {
+    "ArtifactReference": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "artifact_kind": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Artifact Kind",
+          "type": "string"
+        },
+        "content_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "schema_version": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Schema Version"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "artifact_kind",
+        "content_hash",
+        "schema_version"
+      ],
+      "title": "ArtifactReference",
+      "type": "object"
+    },
+    "ParseQuality": {
+      "enum": [
+        "full",
+        "partial",
+        "fallback",
+        "failed"
+      ],
+      "title": "ParseQuality",
+      "type": "string"
+    },
+    "ProducerIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "build": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Build"
+        },
+        "name": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "version": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "build",
+        "name",
+        "version"
+      ],
+      "title": "ProducerIdentity",
+      "type": "object"
+    },
+    "Provenance": {
+      "additionalProperties": false,
+      "properties": {
+        "code_revision": {
+          "anyOf": [
+            {
+              "maxLength": 256,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Code Revision"
+        },
+        "configuration_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "derivation_key": {
+          "anyOf": [
+            {
+              "maxLength": 256,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Derivation Key"
+        },
+        "input_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Input Refs",
+          "type": "array"
+        },
+        "notes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "code_revision",
+        "configuration_ref",
+        "derivation_key",
+        "input_refs",
+        "notes"
+      ],
+      "title": "Provenance",
+      "type": "object"
+    },
+    "QueryFeatures": {
+      "additionalProperties": false,
+      "properties": {
+        "aggregate_count": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Aggregate Count",
+          "type": "integer"
+        },
+        "has_cte": {
+          "default": false,
+          "title": "Has Cte",
+          "type": "boolean"
+        },
+        "has_group_by": {
+          "default": false,
+          "title": "Has Group By",
+          "type": "boolean"
+        },
+        "has_limit": {
+          "default": false,
+          "title": "Has Limit",
+          "type": "boolean"
+        },
+        "has_locking_clause": {
+          "default": false,
+          "title": "Has Locking Clause",
+          "type": "boolean"
+        },
+        "has_offset": {
+          "default": false,
+          "title": "Has Offset",
+          "type": "boolean"
+        },
+        "has_order_by": {
+          "default": false,
+          "title": "Has Order By",
+          "type": "boolean"
+        },
+        "has_subquery": {
+          "default": false,
+          "title": "Has Subquery",
+          "type": "boolean"
+        },
+        "join_count": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Join Count",
+          "type": "integer"
+        },
+        "predicate_columns": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Predicate Columns",
+          "type": "array"
+        },
+        "projected_columns": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Projected Columns",
+          "type": "array"
+        },
+        "relations": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Relations",
+          "type": "array"
+        },
+        "statement_kind": {
+          "default": "unknown",
+          "title": "Statement Kind",
+          "type": "string"
+        }
+      },
+      "required": [
+        "aggregate_count",
+        "has_cte",
+        "has_group_by",
+        "has_limit",
+        "has_locking_clause",
+        "has_offset",
+        "has_order_by",
+        "has_subquery",
+        "join_count",
+        "predicate_columns",
+        "projected_columns",
+        "relations",
+        "statement_kind"
+      ],
+      "title": "QueryFeatures",
+      "type": "object"
+    },
+    "QueryTemplatePayload": {
+      "additionalProperties": false,
+      "properties": {
+        "canonical_sql": {
+          "title": "Canonical Sql",
+          "type": "string"
+        },
+        "diagnostics": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Diagnostics",
+          "type": "array"
+        },
+        "dialect": {
+          "title": "Dialect",
+          "type": "string"
+        },
+        "features": {
+          "$ref": "#/$defs/QueryFeatures"
+        },
+        "lexical_fingerprint": {
+          "title": "Lexical Fingerprint",
+          "type": "string"
+        },
+        "parse_quality": {
+          "$ref": "#/$defs/ParseQuality"
+        },
+        "statement_kind": {
+          "title": "Statement Kind",
+          "type": "string"
+        },
+        "structural_shape_fingerprint": {
+          "title": "Structural Shape Fingerprint",
+          "type": "string"
+        }
+      },
+      "required": [
+        "canonical_sql",
+        "diagnostics",
+        "dialect",
+        "features",
+        "lexical_fingerprint",
+        "parse_quality",
+        "statement_kind",
+        "structural_shape_fingerprint"
+      ],
+      "title": "QueryTemplatePayload",
+      "type": "object"
+    }
+  },
+  "$id": "https://planguard.dev/schemas/planguard.query-template.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifact_id": {
+      "title": "Artifact Id",
+      "type": "string"
+    },
+    "artifact_kind": {
+      "const": "query_template",
+      "default": "query_template",
+      "title": "Artifact Kind",
+      "type": "string"
+    },
+    "content_hash": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "title": "Content Hash",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "extensions": {
+      "additionalProperties": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Extensions",
+      "type": "object"
+    },
+    "payload": {
+      "$ref": "#/$defs/QueryTemplatePayload"
+    },
+    "producer": {
+      "$ref": "#/$defs/ProducerIdentity"
+    },
+    "provenance": {
+      "$ref": "#/$defs/Provenance"
+    },
+    "schema_version": {
+      "const": "planguard.query-template.v1",
+      "default": "planguard.query-template.v1",
+      "title": "Schema Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "artifact_id",
+    "artifact_kind",
+    "content_hash",
+    "created_at",
+    "extensions",
+    "payload",
+    "producer",
+    "provenance",
+    "schema_version"
+  ],
+  "title": "QueryTemplateArtifact",
+  "type": "object"
+}

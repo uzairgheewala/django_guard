@@ -1,0 +1,74 @@
+{
+  "artifact_id": "qexec_e06f6abac1ab47b282b424af50f2087d",
+  "artifact_kind": "query_execution",
+  "content_hash": "sha256:c21743322e0f7dfd7b4d2ee0018857ad63d19c80c49249a9cc0521b282a00d09",
+  "created_at": "2026-07-23T10:55:27.081946Z",
+  "extensions": {},
+  "payload": {
+    "connection": {
+      "alias": "default",
+      "vendor": "postgresql"
+    },
+    "context": {},
+    "many": false,
+    "origin": {
+      "application_frame": {
+        "file": "/mnt/data/planguard-work/planguard-milestone-a/scripts/seed_milestone_b_artifacts.py",
+        "function": "seed",
+        "line": 32,
+        "module": "__main__"
+      },
+      "stack": [
+        {
+          "file": "/mnt/data/planguard-work/planguard-milestone-a/scripts/seed_milestone_b_artifacts.py",
+          "function": "seed",
+          "line": 32,
+          "module": "__main__"
+        }
+      ],
+      "stack_fingerprint": "stk_44b9d3d9d5fb2943d213c37c66d5b06b84a3837177d8b6c977fb08aaa72c50a5"
+    },
+    "outcome": {
+      "exception_message": null,
+      "exception_type": null,
+      "row_count": 7,
+      "status": "succeeded"
+    },
+    "parameter_binding_fingerprint": "binding:a046468126f1d10411f7877613e041a53fd4d05f73a4f88e5679e7171c7b73ad",
+    "parameters": [
+      {
+        "container": null,
+        "length": null,
+        "preserved_value": null,
+        "type_name": "int",
+        "value_hash": "hmac-sha256:2186af06f99ace80a95b565282e43430263716f4dabaf13abb2ca415b37b34dc"
+      }
+    ],
+    "raw_sql_mode": "redact",
+    "run_id": "run_demo_b_001",
+    "sequence_number": 1,
+    "sql": "SELECT id, student_id FROM plan_item WHERE student_id = %s ORDER BY position",
+    "timing": {
+      "duration_ms": 4.8,
+      "started_offset_ms": 0.0
+    },
+    "transaction": {
+      "autocommit": true,
+      "depth": 0,
+      "transaction_id": null
+    }
+  },
+  "producer": {
+    "build": "milestone-b",
+    "name": "planguard",
+    "version": "0.2.0"
+  },
+  "provenance": {
+    "code_revision": "git:milestone-b",
+    "configuration_ref": null,
+    "derivation_key": "query-capture.v1",
+    "input_refs": [],
+    "notes": []
+  },
+  "schema_version": "planguard.query-execution.v1"
+}

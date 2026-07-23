@@ -1,0 +1,63 @@
+{
+  "artifact_id": "bpol_04c12a9d8e3d4464b6acd48a20307eb8",
+  "artifact_kind": "budget_policy",
+  "content_hash": "sha256:25a9b074952ef9e91325cf8bf19bbaceee2058fdb711b5a54986ab5208a0ba9e",
+  "created_at": "2026-07-23T10:55:27.088897Z",
+  "extensions": {},
+  "payload": {
+    "description": null,
+    "policy_key": "inline-query-policy.v1",
+    "rules": [
+      {
+        "disposition": "fail",
+        "message": null,
+        "metric": "query_count",
+        "operator": "less_or_equal",
+        "rule_key": "max-query-count",
+        "selector": null,
+        "subject_kind": "run",
+        "threshold": 12
+      },
+      {
+        "disposition": "fail",
+        "message": null,
+        "metric": "payload.aggregates.execution_count",
+        "operator": "less_or_equal",
+        "rule_key": "max-family-executions",
+        "selector": null,
+        "subject_kind": "family",
+        "threshold": 4
+      },
+      {
+        "disposition": "fail",
+        "message": null,
+        "metric": null,
+        "operator": "no_matches",
+        "rule_key": "forbid-likely-n-plus-one.v1",
+        "selector": {
+          "children": [],
+          "field": "payload.detector_key",
+          "operator": "equals",
+          "value": "likely-n-plus-one.v1"
+        },
+        "subject_kind": "finding",
+        "threshold": null
+      }
+    ],
+    "tags": [],
+    "title": "Inline PlanGuard query policy"
+  },
+  "producer": {
+    "build": "milestone-b",
+    "name": "planguard",
+    "version": "0.2.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": null,
+    "input_refs": [],
+    "notes": []
+  },
+  "schema_version": "planguard.budget-policy.v1"
+}

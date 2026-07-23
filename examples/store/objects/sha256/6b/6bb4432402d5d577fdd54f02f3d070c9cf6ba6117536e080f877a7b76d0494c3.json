@@ -1,0 +1,76 @@
+{
+  "artifact_id": "qfam_c57807cb68eb32e419d69fa872d715e6",
+  "artifact_kind": "observed_query_family",
+  "content_hash": "sha256:6bb4432402d5d577fdd54f02f3d070c9cf6ba6117536e080f877a7b76d0494c3",
+  "created_at": "2026-07-23T10:55:27.085275Z",
+  "extensions": {},
+  "payload": {
+    "aggregates": {
+      "distinct_parameter_bindings": 1,
+      "execution_count": 1,
+      "failed_execution_count": 0,
+      "maximum_duration_ms": 4.8,
+      "mean_duration_ms": 4.8,
+      "median_duration_ms": 4.8,
+      "total_duration_ms": 4.8
+    },
+    "dimension_values": {
+      "parameters.regime": "scalar-int",
+      "query.shape": "qsh_3503133757de6a60a41a872767b42d3d651ed89dedb4bb5416febae0cc3d4284"
+    },
+    "family_scheme_key": "shape-parameter-regime.v1",
+    "member_execution_refs": [
+      {
+        "artifact_id": "qexec_e06f6abac1ab47b282b424af50f2087d",
+        "artifact_kind": "query_execution",
+        "content_hash": "sha256:c21743322e0f7dfd7b4d2ee0018857ad63d19c80c49249a9cc0521b282a00d09",
+        "schema_version": "planguard.query-execution.v1"
+      }
+    ],
+    "parameter_regimes": [
+      {
+        "details": {},
+        "member_count": 1,
+        "regime_key": "scalar-int"
+      }
+    ],
+    "query_template_ref": {
+      "artifact_id": "qtpl_cd79ec57910c43e0a932d38c113354d0",
+      "artifact_kind": "query_template",
+      "content_hash": null,
+      "schema_version": "planguard.query-template.v1"
+    },
+    "run_id": "run_demo_b_001",
+    "temporal": {
+      "first_sequence": 1,
+      "last_sequence": 1,
+      "span_ms": 4.8
+    }
+  },
+  "producer": {
+    "build": "milestone-b",
+    "name": "planguard",
+    "version": "0.2.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": "query-family-project.v1",
+    "input_refs": [
+      {
+        "artifact_id": "qexec_e06f6abac1ab47b282b424af50f2087d",
+        "artifact_kind": "query_execution",
+        "content_hash": "sha256:c21743322e0f7dfd7b4d2ee0018857ad63d19c80c49249a9cc0521b282a00d09",
+        "schema_version": "planguard.query-execution.v1"
+      },
+      {
+        "artifact_id": "fsch_3abca3f6867e46cfbc61094c1d11f8ba",
+        "artifact_kind": "family_scheme",
+        "content_hash": "sha256:2a493a07527a37db7715c2d6c2b9a61bbb6c84914f07547684b0969abb5fb0d1",
+        "schema_version": "planguard.family-scheme.v1"
+      }
+    ],
+    "notes": []
+  },
+  "schema_version": "planguard.observed-query-family.v1"
+}

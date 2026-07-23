@@ -1,0 +1,44 @@
+{
+  "artifact_id": "cap_demo_001",
+  "artifact_kind": "capture_policy",
+  "content_hash": "sha256:b8ed120fe068adafd8a56247d1cab80fdac206b3a5b56a65cc0be153a1c00842",
+  "created_at": "2026-07-23T12:00:00Z",
+  "extensions": {},
+  "payload": {
+    "application_roots": [
+      "academic_lab"
+    ],
+    "exclude_module_patterns": [
+      "django.*",
+      "pytest.*"
+    ],
+    "hmac_key_id": "local-demo-key",
+    "include_connection_aliases": [],
+    "limits": {
+      "max_artifact_bytes": 100000000,
+      "max_query_count": 100000,
+      "max_raw_sql_bytes": 1000000,
+      "max_stack_depth": 32
+    },
+    "notes": [
+      "No SQL capture exists in Milestone A; this is the future contract."
+    ],
+    "origin_capture_mode": "first_application_frame",
+    "parameter_capture_mode": "shape_and_hash",
+    "policy_key": "safe-local-default.v1",
+    "raw_sql_mode": "redact"
+  },
+  "producer": {
+    "build": "milestone-a",
+    "name": "planguard",
+    "version": "0.1.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": null,
+    "input_refs": [],
+    "notes": []
+  },
+  "schema_version": "planguard.capture-policy.v1"
+}

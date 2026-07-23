@@ -1,0 +1,50 @@
+{
+  "artifact_id": "gap_demo_001",
+  "artifact_kind": "capability_gap",
+  "content_hash": "sha256:597b3f08a65bd99f8725d6175d64fd3c01e30d8d1ce9514db3a38acc3a1c4f86",
+  "created_at": "2026-07-23T12:00:00Z",
+  "extensions": {},
+  "payload": {
+    "gaps": [
+      {
+        "capability": "query.capture.django",
+        "details": {},
+        "impact": [
+          "Run manifests cannot yet contain query observations.",
+          "Query families and findings are not evaluated."
+        ],
+        "reason": "SQL capture begins in Phase 2 / Milestone B.",
+        "status": "unsupported",
+        "subject_ref": null
+      },
+      {
+        "capability": "plan.postgresql",
+        "details": {},
+        "impact": [
+          "Plan artifacts are unavailable."
+        ],
+        "reason": "PostgreSQL plan analysis begins in Phase 10.",
+        "status": "unsupported",
+        "subject_ref": null
+      }
+    ]
+  },
+  "producer": {
+    "build": "milestone-a",
+    "name": "planguard",
+    "version": "0.1.0"
+  },
+  "provenance": {
+    "code_revision": "git:milestone-a",
+    "configuration_ref": {
+      "artifact_id": "cap_demo_001",
+      "artifact_kind": "capture_policy",
+      "content_hash": "sha256:b8ed120fe068adafd8a56247d1cab80fdac206b3a5b56a65cc0be153a1c00842",
+      "schema_version": "planguard.capture-policy.v1"
+    },
+    "derivation_key": "planguard.bootstrap-capability-audit.v1",
+    "input_refs": [],
+    "notes": []
+  },
+  "schema_version": "planguard.capability-gap.v1"
+}

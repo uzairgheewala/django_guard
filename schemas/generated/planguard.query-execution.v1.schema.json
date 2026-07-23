@@ -1,0 +1,620 @@
+{
+  "$defs": {
+    "ArtifactReference": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "artifact_kind": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Artifact Kind",
+          "type": "string"
+        },
+        "content_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "schema_version": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Schema Version"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "artifact_kind",
+        "content_hash",
+        "schema_version"
+      ],
+      "title": "ArtifactReference",
+      "type": "object"
+    },
+    "ParameterDescriptor": {
+      "additionalProperties": false,
+      "properties": {
+        "container": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Container"
+        },
+        "length": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Length"
+        },
+        "preserved_value": {
+          "anyOf": [
+            {},
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Preserved Value"
+        },
+        "type_name": {
+          "title": "Type Name",
+          "type": "string"
+        },
+        "value_hash": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value Hash"
+        }
+      },
+      "required": [
+        "container",
+        "length",
+        "preserved_value",
+        "type_name",
+        "value_hash"
+      ],
+      "title": "ParameterDescriptor",
+      "type": "object"
+    },
+    "ProducerIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "build": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Build"
+        },
+        "name": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "version": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "build",
+        "name",
+        "version"
+      ],
+      "title": "ProducerIdentity",
+      "type": "object"
+    },
+    "Provenance": {
+      "additionalProperties": false,
+      "properties": {
+        "code_revision": {
+          "anyOf": [
+            {
+              "maxLength": 256,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Code Revision"
+        },
+        "configuration_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "derivation_key": {
+          "anyOf": [
+            {
+              "maxLength": 256,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Derivation Key"
+        },
+        "input_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Input Refs",
+          "type": "array"
+        },
+        "notes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "code_revision",
+        "configuration_ref",
+        "derivation_key",
+        "input_refs",
+        "notes"
+      ],
+      "title": "Provenance",
+      "type": "object"
+    },
+    "QueryConnection": {
+      "additionalProperties": false,
+      "properties": {
+        "alias": {
+          "title": "Alias",
+          "type": "string"
+        },
+        "vendor": {
+          "default": "unknown",
+          "title": "Vendor",
+          "type": "string"
+        }
+      },
+      "required": [
+        "alias",
+        "vendor"
+      ],
+      "title": "QueryConnection",
+      "type": "object"
+    },
+    "QueryExecutionPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "connection": {
+          "$ref": "#/$defs/QueryConnection"
+        },
+        "context": {
+          "additionalProperties": true,
+          "title": "Context",
+          "type": "object"
+        },
+        "many": {
+          "default": false,
+          "title": "Many",
+          "type": "boolean"
+        },
+        "origin": {
+          "$ref": "#/$defs/QueryOrigin"
+        },
+        "outcome": {
+          "$ref": "#/$defs/QueryOutcome"
+        },
+        "parameter_binding_fingerprint": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Parameter Binding Fingerprint"
+        },
+        "parameters": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ParameterDescriptor"
+          },
+          "title": "Parameters",
+          "type": "array"
+        },
+        "raw_sql_mode": {
+          "$ref": "#/$defs/RawSqlMode"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "sequence_number": {
+          "minimum": 1,
+          "title": "Sequence Number",
+          "type": "integer"
+        },
+        "sql": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sql"
+        },
+        "timing": {
+          "$ref": "#/$defs/QueryTiming"
+        },
+        "transaction": {
+          "$ref": "#/$defs/QueryTransaction"
+        }
+      },
+      "required": [
+        "connection",
+        "context",
+        "many",
+        "origin",
+        "outcome",
+        "parameter_binding_fingerprint",
+        "parameters",
+        "raw_sql_mode",
+        "run_id",
+        "sequence_number",
+        "sql",
+        "timing",
+        "transaction"
+      ],
+      "title": "QueryExecutionPayload",
+      "type": "object"
+    },
+    "QueryOrigin": {
+      "additionalProperties": false,
+      "properties": {
+        "application_frame": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceFrame"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "stack": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/SourceFrame"
+          },
+          "title": "Stack",
+          "type": "array"
+        },
+        "stack_fingerprint": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Stack Fingerprint"
+        }
+      },
+      "required": [
+        "application_frame",
+        "stack",
+        "stack_fingerprint"
+      ],
+      "title": "QueryOrigin",
+      "type": "object"
+    },
+    "QueryOutcome": {
+      "additionalProperties": false,
+      "properties": {
+        "exception_message": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Exception Message"
+        },
+        "exception_type": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Exception Type"
+        },
+        "row_count": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Row Count"
+        },
+        "status": {
+          "enum": [
+            "succeeded",
+            "failed"
+          ],
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "exception_message",
+        "exception_type",
+        "row_count",
+        "status"
+      ],
+      "title": "QueryOutcome",
+      "type": "object"
+    },
+    "QueryTiming": {
+      "additionalProperties": false,
+      "properties": {
+        "duration_ms": {
+          "minimum": 0,
+          "title": "Duration Ms",
+          "type": "number"
+        },
+        "started_offset_ms": {
+          "minimum": 0,
+          "title": "Started Offset Ms",
+          "type": "number"
+        }
+      },
+      "required": [
+        "duration_ms",
+        "started_offset_ms"
+      ],
+      "title": "QueryTiming",
+      "type": "object"
+    },
+    "QueryTransaction": {
+      "additionalProperties": false,
+      "properties": {
+        "autocommit": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Autocommit"
+        },
+        "depth": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Depth",
+          "type": "integer"
+        },
+        "transaction_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Transaction Id"
+        }
+      },
+      "required": [
+        "autocommit",
+        "depth",
+        "transaction_id"
+      ],
+      "title": "QueryTransaction",
+      "type": "object"
+    },
+    "RawSqlMode": {
+      "enum": [
+        "omit",
+        "redact",
+        "preserve"
+      ],
+      "title": "RawSqlMode",
+      "type": "string"
+    },
+    "SourceFrame": {
+      "additionalProperties": false,
+      "properties": {
+        "file": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "File"
+        },
+        "function": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Function"
+        },
+        "line": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Line"
+        },
+        "module": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Module"
+        }
+      },
+      "required": [
+        "file",
+        "function",
+        "line",
+        "module"
+      ],
+      "title": "SourceFrame",
+      "type": "object"
+    }
+  },
+  "$id": "https://planguard.dev/schemas/planguard.query-execution.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifact_id": {
+      "title": "Artifact Id",
+      "type": "string"
+    },
+    "artifact_kind": {
+      "const": "query_execution",
+      "default": "query_execution",
+      "title": "Artifact Kind",
+      "type": "string"
+    },
+    "content_hash": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "title": "Content Hash",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "extensions": {
+      "additionalProperties": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Extensions",
+      "type": "object"
+    },
+    "payload": {
+      "$ref": "#/$defs/QueryExecutionPayload"
+    },
+    "producer": {
+      "$ref": "#/$defs/ProducerIdentity"
+    },
+    "provenance": {
+      "$ref": "#/$defs/Provenance"
+    },
+    "schema_version": {
+      "const": "planguard.query-execution.v1",
+      "default": "planguard.query-execution.v1",
+      "title": "Schema Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "artifact_id",
+    "artifact_kind",
+    "content_hash",
+    "created_at",
+    "extensions",
+    "payload",
+    "producer",
+    "provenance",
+    "schema_version"
+  ],
+  "title": "QueryExecutionArtifact",
+  "type": "object"
+}

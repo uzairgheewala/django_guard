@@ -1,0 +1,371 @@
+{
+  "$defs": {
+    "ArtifactReference": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "artifact_kind": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Artifact Kind",
+          "type": "string"
+        },
+        "content_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "schema_version": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Schema Version"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "artifact_kind",
+        "content_hash",
+        "schema_version"
+      ],
+      "title": "ArtifactReference",
+      "type": "object"
+    },
+    "FamilyAggregates": {
+      "additionalProperties": false,
+      "properties": {
+        "distinct_parameter_bindings": {
+          "minimum": 0,
+          "title": "Distinct Parameter Bindings",
+          "type": "integer"
+        },
+        "execution_count": {
+          "minimum": 0,
+          "title": "Execution Count",
+          "type": "integer"
+        },
+        "failed_execution_count": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Failed Execution Count",
+          "type": "integer"
+        },
+        "maximum_duration_ms": {
+          "minimum": 0,
+          "title": "Maximum Duration Ms",
+          "type": "number"
+        },
+        "mean_duration_ms": {
+          "minimum": 0,
+          "title": "Mean Duration Ms",
+          "type": "number"
+        },
+        "median_duration_ms": {
+          "minimum": 0,
+          "title": "Median Duration Ms",
+          "type": "number"
+        },
+        "total_duration_ms": {
+          "minimum": 0,
+          "title": "Total Duration Ms",
+          "type": "number"
+        }
+      },
+      "required": [
+        "distinct_parameter_bindings",
+        "execution_count",
+        "failed_execution_count",
+        "maximum_duration_ms",
+        "mean_duration_ms",
+        "median_duration_ms",
+        "total_duration_ms"
+      ],
+      "title": "FamilyAggregates",
+      "type": "object"
+    },
+    "FamilyTemporalRange": {
+      "additionalProperties": false,
+      "properties": {
+        "first_sequence": {
+          "minimum": 1,
+          "title": "First Sequence",
+          "type": "integer"
+        },
+        "last_sequence": {
+          "minimum": 1,
+          "title": "Last Sequence",
+          "type": "integer"
+        },
+        "span_ms": {
+          "minimum": 0,
+          "title": "Span Ms",
+          "type": "number"
+        }
+      },
+      "required": [
+        "first_sequence",
+        "last_sequence",
+        "span_ms"
+      ],
+      "title": "FamilyTemporalRange",
+      "type": "object"
+    },
+    "ObservedQueryFamilyPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "aggregates": {
+          "$ref": "#/$defs/FamilyAggregates"
+        },
+        "dimension_values": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Dimension Values",
+          "type": "object"
+        },
+        "family_scheme_key": {
+          "title": "Family Scheme Key",
+          "type": "string"
+        },
+        "member_execution_refs": {
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Member Execution Refs",
+          "type": "array"
+        },
+        "parameter_regimes": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ParameterRegime"
+          },
+          "title": "Parameter Regimes",
+          "type": "array"
+        },
+        "query_template_ref": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "temporal": {
+          "$ref": "#/$defs/FamilyTemporalRange"
+        }
+      },
+      "required": [
+        "aggregates",
+        "dimension_values",
+        "family_scheme_key",
+        "member_execution_refs",
+        "parameter_regimes",
+        "query_template_ref",
+        "run_id",
+        "temporal"
+      ],
+      "title": "ObservedQueryFamilyPayload",
+      "type": "object"
+    },
+    "ParameterRegime": {
+      "additionalProperties": false,
+      "properties": {
+        "details": {
+          "additionalProperties": true,
+          "title": "Details",
+          "type": "object"
+        },
+        "member_count": {
+          "minimum": 0,
+          "title": "Member Count",
+          "type": "integer"
+        },
+        "regime_key": {
+          "title": "Regime Key",
+          "type": "string"
+        }
+      },
+      "required": [
+        "details",
+        "member_count",
+        "regime_key"
+      ],
+      "title": "ParameterRegime",
+      "type": "object"
+    },
+    "ProducerIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "build": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Build"
+        },
+        "name": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "version": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "build",
+        "name",
+        "version"
+      ],
+      "title": "ProducerIdentity",
+      "type": "object"
+    },
+    "Provenance": {
+      "additionalProperties": false,
+      "properties": {
+        "code_revision": {
+          "anyOf": [
+            {
+              "maxLength": 256,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Code Revision"
+        },
+        "configuration_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "derivation_key": {
+          "anyOf": [
+            {
+              "maxLength": 256,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Derivation Key"
+        },
+        "input_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Input Refs",
+          "type": "array"
+        },
+        "notes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "code_revision",
+        "configuration_ref",
+        "derivation_key",
+        "input_refs",
+        "notes"
+      ],
+      "title": "Provenance",
+      "type": "object"
+    }
+  },
+  "$id": "https://planguard.dev/schemas/planguard.observed-query-family.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifact_id": {
+      "title": "Artifact Id",
+      "type": "string"
+    },
+    "artifact_kind": {
+      "const": "observed_query_family",
+      "default": "observed_query_family",
+      "title": "Artifact Kind",
+      "type": "string"
+    },
+    "content_hash": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "title": "Content Hash",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "extensions": {
+      "additionalProperties": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Extensions",
+      "type": "object"
+    },
+    "payload": {
+      "$ref": "#/$defs/ObservedQueryFamilyPayload"
+    },
+    "producer": {
+      "$ref": "#/$defs/ProducerIdentity"
+    },
+    "provenance": {
+      "$ref": "#/$defs/Provenance"
+    },
+    "schema_version": {
+      "const": "planguard.observed-query-family.v1",
+      "default": "planguard.observed-query-family.v1",
+      "title": "Schema Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "artifact_id",
+    "artifact_kind",
+    "content_hash",
+    "created_at",
+    "extensions",
+    "payload",
+    "producer",
+    "provenance",
+    "schema_version"
+  ],
+  "title": "ObservedQueryFamilyArtifact",
+  "type": "object"
+}

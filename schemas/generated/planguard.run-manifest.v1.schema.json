@@ -1,0 +1,463 @@
+{
+  "$defs": {
+    "ArtifactInventory": {
+      "additionalProperties": false,
+      "properties": {
+        "by_kind": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "By Kind",
+          "type": "object"
+        },
+        "total_count": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Total Count",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "by_kind",
+        "total_count"
+      ],
+      "title": "ArtifactInventory",
+      "type": "object"
+    },
+    "ArtifactReference": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "artifact_kind": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Artifact Kind",
+          "type": "string"
+        },
+        "content_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "schema_version": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Schema Version"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "artifact_kind",
+        "content_hash",
+        "schema_version"
+      ],
+      "title": "ArtifactReference",
+      "type": "object"
+    },
+    "BundleIntegrity": {
+      "additionalProperties": false,
+      "properties": {
+        "bundle_hash": {
+          "anyOf": [
+            {
+              "pattern": "^sha256:[0-9a-f]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Bundle Hash"
+        },
+        "missing_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Missing Refs",
+          "type": "array"
+        },
+        "verified": {
+          "default": false,
+          "title": "Verified",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "bundle_hash",
+        "missing_refs",
+        "verified"
+      ],
+      "title": "BundleIntegrity",
+      "type": "object"
+    },
+    "CapabilityState": {
+      "enum": [
+        "supported",
+        "partial",
+        "unsupported",
+        "unknown"
+      ],
+      "title": "CapabilityState",
+      "type": "string"
+    },
+    "CapabilityStatus": {
+      "additionalProperties": false,
+      "properties": {
+        "details": {
+          "additionalProperties": true,
+          "title": "Details",
+          "type": "object"
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reason"
+        },
+        "state": {
+          "$ref": "#/$defs/CapabilityState"
+        }
+      },
+      "required": [
+        "details",
+        "reason",
+        "state"
+      ],
+      "title": "CapabilityStatus",
+      "type": "object"
+    },
+    "ProducerIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "build": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Build"
+        },
+        "name": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "version": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "build",
+        "name",
+        "version"
+      ],
+      "title": "ProducerIdentity",
+      "type": "object"
+    },
+    "Provenance": {
+      "additionalProperties": false,
+      "properties": {
+        "code_revision": {
+          "anyOf": [
+            {
+              "maxLength": 256,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Code Revision"
+        },
+        "configuration_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "derivation_key": {
+          "anyOf": [
+            {
+              "maxLength": 256,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Derivation Key"
+        },
+        "input_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Input Refs",
+          "type": "array"
+        },
+        "notes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "code_revision",
+        "configuration_ref",
+        "derivation_key",
+        "input_refs",
+        "notes"
+      ],
+      "title": "Provenance",
+      "type": "object"
+    },
+    "RunManifestPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_inventory": {
+          "$ref": "#/$defs/ArtifactInventory"
+        },
+        "capability_gap_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Capability Gap Refs",
+          "type": "array"
+        },
+        "capability_status": {
+          "additionalProperties": {
+            "$ref": "#/$defs/CapabilityStatus"
+          },
+          "title": "Capability Status",
+          "type": "object"
+        },
+        "capture_policy_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "environment_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "integrity": {
+          "$ref": "#/$defs/BundleIntegrity"
+        },
+        "run": {
+          "$ref": "#/$defs/RunSummary"
+        },
+        "scenario_instance_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "artifact_inventory",
+        "capability_gap_refs",
+        "capability_status",
+        "capture_policy_ref",
+        "environment_ref",
+        "integrity",
+        "run",
+        "scenario_instance_ref"
+      ],
+      "title": "RunManifestPayload",
+      "type": "object"
+    },
+    "RunStatus": {
+      "enum": [
+        "created",
+        "running",
+        "completed",
+        "failed",
+        "incomplete"
+      ],
+      "title": "RunStatus",
+      "type": "string"
+    },
+    "RunSummary": {
+      "additionalProperties": false,
+      "properties": {
+        "completed_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Completed At"
+        },
+        "mode": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Mode",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 256,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "started_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Started At"
+        },
+        "status": {
+          "$ref": "#/$defs/RunStatus"
+        },
+        "tags": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Tags",
+          "type": "array"
+        }
+      },
+      "required": [
+        "completed_at",
+        "mode",
+        "name",
+        "started_at",
+        "status",
+        "tags"
+      ],
+      "title": "RunSummary",
+      "type": "object"
+    }
+  },
+  "$id": "https://planguard.dev/schemas/planguard.run-manifest.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifact_id": {
+      "title": "Artifact Id",
+      "type": "string"
+    },
+    "artifact_kind": {
+      "const": "run_manifest",
+      "default": "run_manifest",
+      "title": "Artifact Kind",
+      "type": "string"
+    },
+    "content_hash": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "title": "Content Hash",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "extensions": {
+      "additionalProperties": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Extensions",
+      "type": "object"
+    },
+    "payload": {
+      "$ref": "#/$defs/RunManifestPayload"
+    },
+    "producer": {
+      "$ref": "#/$defs/ProducerIdentity"
+    },
+    "provenance": {
+      "$ref": "#/$defs/Provenance"
+    },
+    "schema_version": {
+      "const": "planguard.run-manifest.v1",
+      "default": "planguard.run-manifest.v1",
+      "title": "Schema Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "artifact_id",
+    "artifact_kind",
+    "content_hash",
+    "created_at",
+    "extensions",
+    "payload",
+    "producer",
+    "provenance",
+    "schema_version"
+  ],
+  "title": "RunManifestArtifact",
+  "type": "object"
+}
