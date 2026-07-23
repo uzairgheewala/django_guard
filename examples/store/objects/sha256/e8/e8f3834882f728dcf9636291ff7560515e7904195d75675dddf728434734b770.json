@@ -1,0 +1,97 @@
+{
+  "artifact_id": "fnd_abec75ad0273488b8e9bfaecd73a12c5",
+  "artifact_kind": "finding",
+  "content_hash": "sha256:e8f3834882f728dcf9636291ff7560515e7904195d75675dddf728434734b770",
+  "created_at": "2026-07-23T12:34:38.115719Z",
+  "extensions": {},
+  "payload": {
+    "claims": [
+      {
+        "claim_key": "large-sequential-scan",
+        "explanation": "The plan scans configured high-volume relation enrollment sequentially.",
+        "status": "supported",
+        "subject_refs": [
+          {
+            "artifact_id": "plan_f5b5a583721249e0a5d2366c8de9484d",
+            "artifact_kind": "plan_observation",
+            "content_hash": "sha256:48ba233f85755d234606bb31c84bf7de79d805e370b882dce938f436497bc5e2",
+            "schema_version": "planguard.plan-observation.v1"
+          }
+        ],
+        "values": {
+          "relation": "enrollment",
+          "rows": 42.0
+        }
+      }
+    ],
+    "confidence": {
+      "level": "high",
+      "score": 0.95
+    },
+    "detector_key": "postgres-plan-large-sequential-scan.v1",
+    "evidence_refs": [
+      {
+        "artifact_id": "evd_6d5f8b8f28bc48f3a5c0c9a471fc8a69",
+        "artifact_kind": "evidence",
+        "content_hash": "sha256:f1edbf2a460ea2145d21403c5c16210e6148130f343930ac2aa08ea7671329cd",
+        "schema_version": "planguard.evidence.v1"
+      }
+    ],
+    "explanation": {
+      "details": [],
+      "summary": "The plan scans configured high-volume relation enrollment sequentially."
+    },
+    "limitations": [
+      "Plan operators are contextual; inspect relation size, selectivity, and workload before changing indexes or SQL."
+    ],
+    "mechanism_key": "nonselective-access",
+    "metadata": {},
+    "remediation": {
+      "category": "nonselective-access",
+      "guidance": [
+        "Verify predicate selectivity and available indexes.",
+        "Confirm that the sequential scan is not cheaper for this parameter regime."
+      ]
+    },
+    "run_id": "run_a1ef2403393a4603a0fd1705401a61cb",
+    "severity": {
+      "level": "high",
+      "score": 0.8
+    },
+    "subject_refs": [
+      {
+        "artifact_id": "plan_f5b5a583721249e0a5d2366c8de9484d",
+        "artifact_kind": "plan_observation",
+        "content_hash": "sha256:48ba233f85755d234606bb31c84bf7de79d805e370b882dce938f436497bc5e2",
+        "schema_version": "planguard.plan-observation.v1"
+      }
+    ],
+    "title": "Sequential scan on high-volume relation enrollment"
+  },
+  "producer": {
+    "build": "milestone-e-seed",
+    "name": "planguard",
+    "version": "0.5.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": "plan-finding:large-sequential-scan.v1",
+    "input_refs": [
+      {
+        "artifact_id": "plan_f5b5a583721249e0a5d2366c8de9484d",
+        "artifact_kind": "plan_observation",
+        "content_hash": "sha256:48ba233f85755d234606bb31c84bf7de79d805e370b882dce938f436497bc5e2",
+        "schema_version": "planguard.plan-observation.v1"
+      },
+      {
+        "artifact_id": "evd_6d5f8b8f28bc48f3a5c0c9a471fc8a69",
+        "artifact_kind": "evidence",
+        "content_hash": "sha256:f1edbf2a460ea2145d21403c5c16210e6148130f343930ac2aa08ea7671329cd",
+        "schema_version": "planguard.evidence.v1"
+      }
+    ],
+    "notes": []
+  },
+  "schema_version": "planguard.finding.v1"
+}

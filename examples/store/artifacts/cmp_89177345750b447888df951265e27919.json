@@ -1,0 +1,616 @@
+{
+  "artifact_id": "cmp_89177345750b447888df951265e27919",
+  "artifact_kind": "comparison_report",
+  "content_hash": "sha256:51084ef6877d6de19037af5765cfa5df851af8d64aa3aa98112fc36988cb2b76",
+  "created_at": "2026-07-23T12:34:39.240916Z",
+  "extensions": {},
+  "payload": {
+    "baseline_run_ref": {
+      "artifact_id": "run_a1ef2403393a4603a0fd1705401a61cb",
+      "artifact_kind": "run_manifest",
+      "content_hash": "sha256:e1ee68a6fe860c1a38fcb9f8f18277cdd9d7d1846efd9b53c9d117e10e04f7e0",
+      "schema_version": "planguard.run-manifest.v1"
+    },
+    "candidate_run_ref": {
+      "artifact_id": "run_43c46a33caeb45f58d117d9cc897d254",
+      "artifact_kind": "run_manifest",
+      "content_hash": "sha256:252dda2f2481e424437cb51e30288557811df225e628e8d669c94c10b29c8ad3",
+      "schema_version": "planguard.run-manifest.v1"
+    },
+    "changed_dimensions": [
+      "implementation.variant"
+    ],
+    "dimensions": [
+      {
+        "affects": [
+          "correctness",
+          "structure",
+          "plans",
+          "resources",
+          "timing"
+        ],
+        "baseline_value": "sha256:eaca193f6fec9430d346a5bd41db527e88802a37e621b30b871721854faed551",
+        "candidate_value": "sha256:eaca193f6fec9430d346a5bd41db527e88802a37e621b30b871721854faed551",
+        "dimension_key": "scenario.template",
+        "explanation": "scenario.template is identical.",
+        "state": "identical"
+      },
+      {
+        "affects": [
+          "correctness",
+          "structure",
+          "plans",
+          "resources",
+          "timing"
+        ],
+        "baseline_value": "sha256:98854959aef67cb02d13f37f3af402c58474cfad06aaa810a37913c6d85d73ea",
+        "candidate_value": "sha256:98854959aef67cb02d13f37f3af402c58474cfad06aaa810a37913c6d85d73ea",
+        "dimension_key": "scenario.binding",
+        "explanation": "scenario.binding is identical.",
+        "state": "identical"
+      },
+      {
+        "affects": [
+          "correctness",
+          "structure",
+          "plans",
+          "resources",
+          "timing"
+        ],
+        "baseline_value": {
+          "batch_size": 24,
+          "page_offset": 0,
+          "parent_count": 24,
+          "relation_fanout": 6,
+          "scale_profile": "tiny",
+          "tenant_skew": "uniform",
+          "transaction_scope": "autocommit"
+        },
+        "candidate_value": {
+          "batch_size": 24,
+          "page_offset": 0,
+          "parent_count": 24,
+          "relation_fanout": 6,
+          "scale_profile": "tiny",
+          "tenant_skew": "uniform",
+          "transaction_scope": "autocommit"
+        },
+        "dimension_key": "scenario.parameters",
+        "explanation": "scenario.parameters is identical.",
+        "state": "identical"
+      },
+      {
+        "affects": [
+          "correctness",
+          "structure",
+          "plans",
+          "resources",
+          "timing"
+        ],
+        "baseline_value": 12000,
+        "candidate_value": 12000,
+        "dimension_key": "scenario.seed",
+        "explanation": "scenario.seed is identical.",
+        "state": "identical"
+      },
+      {
+        "affects": [
+          "structure",
+          "plans",
+          "resources",
+          "timing"
+        ],
+        "baseline_value": "naive",
+        "candidate_value": "optimized",
+        "dimension_key": "implementation.variant",
+        "explanation": "implementation.variant differs as a declared controlled change.",
+        "state": "controlled_change"
+      },
+      {
+        "affects": [
+          "plans",
+          "resources",
+          "timing"
+        ],
+        "baseline_value": {
+          "architecture": "x86_64",
+          "database": {
+            "connection_aliases": [
+              "default"
+            ],
+            "database_hash": null,
+            "vendor": "postgresql",
+            "version": null
+          },
+          "environment_variables": {
+            "PLANGUARD_MODE": "capture"
+          },
+          "machine_profile": {
+            "processor": ""
+          },
+          "notes": [],
+          "operating_system": "Linux",
+          "python_version": "3.13.5",
+          "runtime_components": [
+            {
+              "details": {},
+              "name": "planguard",
+              "version": "0.4.0"
+            },
+            {
+              "details": {
+                "available": false
+              },
+              "name": "django",
+              "version": null
+            }
+          ]
+        },
+        "candidate_value": {
+          "architecture": "x86_64",
+          "database": {
+            "connection_aliases": [
+              "default"
+            ],
+            "database_hash": null,
+            "vendor": "postgresql",
+            "version": null
+          },
+          "environment_variables": {
+            "PLANGUARD_MODE": "capture"
+          },
+          "machine_profile": {
+            "processor": ""
+          },
+          "notes": [],
+          "operating_system": "Linux",
+          "python_version": "3.13.5",
+          "runtime_components": [
+            {
+              "details": {},
+              "name": "planguard",
+              "version": "0.4.0"
+            },
+            {
+              "details": {
+                "available": false
+              },
+              "name": "django",
+              "version": null
+            }
+          ]
+        },
+        "dimension_key": "environment.profile",
+        "explanation": "environment.profile is identical.",
+        "state": "identical"
+      },
+      {
+        "affects": [
+          "structure",
+          "resources",
+          "timing"
+        ],
+        "baseline_value": {
+          "application_roots": [],
+          "exclude_module_patterns": [],
+          "hmac_key_id": "session-ephemeral",
+          "include_connection_aliases": [],
+          "limits": {
+            "max_artifact_bytes": 100000000,
+            "max_query_count": 100000,
+            "max_raw_sql_bytes": 1000000,
+            "max_stack_depth": 32
+          },
+          "notes": [],
+          "origin_capture_mode": "first_application_frame",
+          "parameter_capture_mode": "shape_and_hash",
+          "policy_key": "safe-local-default.v1",
+          "raw_sql_mode": "redact"
+        },
+        "candidate_value": {
+          "application_roots": [],
+          "exclude_module_patterns": [],
+          "hmac_key_id": "session-ephemeral",
+          "include_connection_aliases": [],
+          "limits": {
+            "max_artifact_bytes": 100000000,
+            "max_query_count": 100000,
+            "max_raw_sql_bytes": 1000000,
+            "max_stack_depth": 32
+          },
+          "notes": [],
+          "origin_capture_mode": "first_application_frame",
+          "parameter_capture_mode": "shape_and_hash",
+          "policy_key": "safe-local-default.v1",
+          "raw_sql_mode": "redact"
+        },
+        "dimension_key": "capture.policy",
+        "explanation": "capture.policy is identical.",
+        "state": "identical"
+      }
+    ],
+    "family_changes": [
+      {
+        "baseline_family_refs": [
+          {
+            "artifact_id": "qfam_14eaa450d851b66744ee099234f03814",
+            "artifact_kind": "observed_query_family",
+            "content_hash": "sha256:a38f7bb2b2be4e46116ee6e152df0d72a29341aee6c8fe6edce7a0d379567a45",
+            "schema_version": "planguard.observed-query-family.v1"
+          }
+        ],
+        "candidate_family_refs": [
+          {
+            "artifact_id": "qfam_cbded497666ae3e01ef7c09e8a37ef57",
+            "artifact_kind": "observed_query_family",
+            "content_hash": "sha256:a138df951b77dd9bb1a453eb47b63ee30d0ba21ff9ded609f733e0601711a6df",
+            "schema_version": "planguard.observed-query-family.v1"
+          }
+        ],
+        "change_kind": "unchanged",
+        "deltas": [
+          {
+            "absolute_delta": 0,
+            "baseline": 1,
+            "candidate": 1,
+            "direction": "unchanged",
+            "explanation": null,
+            "metric_key": "execution_count",
+            "relative_delta": 0.0,
+            "unit": null,
+            "validity": "valid"
+          },
+          {
+            "absolute_delta": 0.0,
+            "baseline": 3.2,
+            "candidate": 3.2,
+            "direction": "unchanged",
+            "explanation": null,
+            "metric_key": "database_time_ms",
+            "relative_delta": 0.0,
+            "unit": "ms",
+            "validity": "valid"
+          }
+        ],
+        "explanation": "Structural query family qsh_00750ed5cd1e8be81e19585c2b9b3331a6702c93dca5e9261059efe36889e0f0 is unchanged in the candidate.",
+        "structural_shape_fingerprint": "qsh_00750ed5cd1e8be81e19585c2b9b3331a6702c93dca5e9261059efe36889e0f0"
+      },
+      {
+        "baseline_family_refs": [
+          {
+            "artifact_id": "qfam_911627512b99528c02386234931ef4ae",
+            "artifact_kind": "observed_query_family",
+            "content_hash": "sha256:7b1d51dc38d9a322179ffedb8c08583aca5ac4694012761090278a2e5413b0cb",
+            "schema_version": "planguard.observed-query-family.v1"
+          }
+        ],
+        "candidate_family_refs": [],
+        "change_kind": "removed",
+        "deltas": [
+          {
+            "absolute_delta": -6,
+            "baseline": 6,
+            "candidate": 0,
+            "direction": "improved",
+            "explanation": null,
+            "metric_key": "execution_count",
+            "relative_delta": -1.0,
+            "unit": null,
+            "validity": "valid"
+          },
+          {
+            "absolute_delta": -5.4,
+            "baseline": 5.4,
+            "candidate": 0,
+            "direction": "improved",
+            "explanation": null,
+            "metric_key": "database_time_ms",
+            "relative_delta": -1.0,
+            "unit": "ms",
+            "validity": "valid"
+          }
+        ],
+        "explanation": "Structural query family qsh_b4002349b94c419d32e57556a86a9ff0a4a91684ff9868fcb9f5541eb36adbca is removed in the candidate.",
+        "structural_shape_fingerprint": "qsh_b4002349b94c419d32e57556a86a9ff0a4a91684ff9868fcb9f5541eb36adbca"
+      },
+      {
+        "baseline_family_refs": [],
+        "candidate_family_refs": [
+          {
+            "artifact_id": "qfam_085f26317b511a430eb853b556c301a6",
+            "artifact_kind": "observed_query_family",
+            "content_hash": "sha256:b11a7d8962cfaf906a1ee1a28a3554fe0b088a6d7baf1b8888ce396945381570",
+            "schema_version": "planguard.observed-query-family.v1"
+          }
+        ],
+        "change_kind": "added",
+        "deltas": [
+          {
+            "absolute_delta": 1,
+            "baseline": 0,
+            "candidate": 1,
+            "direction": "regressed",
+            "explanation": null,
+            "metric_key": "execution_count",
+            "relative_delta": null,
+            "unit": null,
+            "validity": "valid"
+          },
+          {
+            "absolute_delta": 1.8,
+            "baseline": 0,
+            "candidate": 1.8,
+            "direction": "regressed",
+            "explanation": null,
+            "metric_key": "database_time_ms",
+            "relative_delta": null,
+            "unit": "ms",
+            "validity": "valid"
+          }
+        ],
+        "explanation": "Structural query family qsh_b9397c748c5ee8f86300b9fc82d184bb0ec187348d48e05caa6b549c081dcafd is added in the candidate.",
+        "structural_shape_fingerprint": "qsh_b9397c748c5ee8f86300b9fc82d184bb0ec187348d48e05caa6b549c081dcafd"
+      }
+    ],
+    "finding_changes": [
+      {
+        "baseline_finding_refs": [
+          {
+            "artifact_id": "fnd_735a0ccc2610452ca46cf54e7176cb74",
+            "artifact_kind": "finding",
+            "content_hash": "sha256:dd33684bd62f14ad9a52cab4263651dddfff42c57e6b8e54987af08b31c6a2d8",
+            "schema_version": "planguard.finding.v1"
+          }
+        ],
+        "candidate_finding_refs": [
+          {
+            "artifact_id": "fnd_c5d96de71bd94e4ca8127abc89277be6",
+            "artifact_kind": "finding",
+            "content_hash": "sha256:8d48e66cb22ff3c722bae8d4c9f70fbd7ea295ba749f5d5284c239ac50b274de",
+            "schema_version": "planguard.finding.v1"
+          }
+        ],
+        "change_kind": "unchanged",
+        "explanation": "Finding mechanism database_time_concentration is unchanged.",
+        "mechanism_key": "database_time_concentration"
+      },
+      {
+        "baseline_finding_refs": [
+          {
+            "artifact_id": "fnd_abec75ad0273488b8e9bfaecd73a12c5",
+            "artifact_kind": "finding",
+            "content_hash": "sha256:e8f3834882f728dcf9636291ff7560515e7904195d75675dddf728434734b770",
+            "schema_version": "planguard.finding.v1"
+          }
+        ],
+        "candidate_finding_refs": [],
+        "change_kind": "resolved",
+        "explanation": "Finding mechanism nonselective-access is resolved.",
+        "mechanism_key": "nonselective-access"
+      },
+      {
+        "baseline_finding_refs": [
+          {
+            "artifact_id": "fnd_313d30f083884a028e8f0131b03da34d",
+            "artifact_kind": "finding",
+            "content_hash": "sha256:95df48df878e8614d9b24a878daefb1330960e20970b9728e37707194a76b4fc",
+            "schema_version": "planguard.finding.v1"
+          },
+          {
+            "artifact_id": "fnd_ccf7dd44b86a45bd8935e563f688ce8e",
+            "artifact_kind": "finding",
+            "content_hash": "sha256:7e6d959dadf2fb343842977f8251c2c1b791b55dae8a91e50556153851b97fb8",
+            "schema_version": "planguard.finding.v1"
+          }
+        ],
+        "candidate_finding_refs": [],
+        "change_kind": "resolved",
+        "explanation": "Finding mechanism round_trip_amplification is resolved.",
+        "mechanism_key": "round_trip_amplification"
+      }
+    ],
+    "limitations": [],
+    "metric_deltas": [
+      {
+        "absolute_delta": -5,
+        "baseline": 7,
+        "candidate": 2,
+        "direction": "improved",
+        "explanation": null,
+        "metric_key": "query_count",
+        "relative_delta": -0.7142857142857143,
+        "unit": null,
+        "validity": "valid"
+      },
+      {
+        "absolute_delta": 0,
+        "baseline": 2,
+        "candidate": 2,
+        "direction": "unchanged",
+        "explanation": null,
+        "metric_key": "query_template_count",
+        "relative_delta": 0.0,
+        "unit": null,
+        "validity": "valid"
+      },
+      {
+        "absolute_delta": -5,
+        "baseline": 13,
+        "candidate": 8,
+        "direction": "improved",
+        "explanation": null,
+        "metric_key": "family_count",
+        "relative_delta": -0.38461538461538464,
+        "unit": null,
+        "validity": "valid"
+      },
+      {
+        "absolute_delta": -3,
+        "baseline": 4,
+        "candidate": 1,
+        "direction": "improved",
+        "explanation": null,
+        "metric_key": "finding_count",
+        "relative_delta": -0.75,
+        "unit": null,
+        "validity": "valid"
+      },
+      {
+        "absolute_delta": -3.5999999999999996,
+        "baseline": 8.6,
+        "candidate": 5.0,
+        "direction": "improved",
+        "explanation": null,
+        "metric_key": "total_database_time_ms",
+        "relative_delta": -0.41860465116279066,
+        "unit": "ms",
+        "validity": "valid"
+      }
+    ],
+    "narrative": [
+      "Comparison status is valid_with_controlled_changes.",
+      "Query count changed from 7 to 2 (improved).",
+      "1 structural query family or families were removed.",
+      "2 finding mechanism or mechanisms were resolved.",
+      "1 matched plan or plans changed topology."
+    ],
+    "plan_changes": [
+      {
+        "baseline_plan_ref": {
+          "artifact_id": "plan_f5b5a583721249e0a5d2366c8de9484d",
+          "artifact_kind": "plan_observation",
+          "content_hash": "sha256:48ba233f85755d234606bb31c84bf7de79d805e370b882dce938f436497bc5e2",
+          "schema_version": "planguard.plan-observation.v1"
+        },
+        "candidate_plan_ref": {
+          "artifact_id": "plan_c7b14e4a28f6467699053961fcdfc5f5",
+          "artifact_kind": "plan_observation",
+          "content_hash": "sha256:6a9501d5f6083218e90455568f07f26fadc6160e0650c2f02f6d39fec8dd467f",
+          "schema_version": "planguard.plan-observation.v1"
+        },
+        "change_kind": "changed",
+        "deltas": [
+          {
+            "absolute_delta": -41208,
+            "baseline": 41208,
+            "candidate": 0,
+            "direction": "improved",
+            "explanation": null,
+            "metric_key": "shared_read_blocks",
+            "relative_delta": -1.0,
+            "unit": "blocks",
+            "validity": "valid"
+          },
+          {
+            "absolute_delta": 0,
+            "baseline": 0,
+            "candidate": 0,
+            "direction": "unchanged",
+            "explanation": null,
+            "metric_key": "temporary_io_blocks",
+            "relative_delta": null,
+            "unit": "blocks",
+            "validity": "valid"
+          },
+          {
+            "absolute_delta": -183.5,
+            "baseline": 185.4,
+            "candidate": 1.9,
+            "direction": "improved",
+            "explanation": null,
+            "metric_key": "execution_time_ms",
+            "relative_delta": -0.9897518878101402,
+            "unit": "ms",
+            "validity": "valid"
+          }
+        ],
+        "explanation": "Plan for query shape qsh_00750ed5cd1e8be81e19585c2b9b3331a6702c93dca5e9261059efe36889e0f0 is changed.",
+        "query_shape_fingerprint": "qsh_00750ed5cd1e8be81e19585c2b9b3331a6702c93dca5e9261059efe36889e0f0",
+        "severity": "medium",
+        "transitions": [
+          "enrollment: Seq Scan → Index Scan",
+          "indexes: none → enrollment_student_term_idx"
+        ]
+      }
+    ],
+    "relative_policy_ref": {
+      "artifact_id": "bpol_586e0be096964d3fa142d591a75023ed",
+      "artifact_kind": "budget_policy",
+      "content_hash": "sha256:f42a951424067a3be1f56c3f475c0a8ed6b4b6fc8317f22e2bc7b8e2d35f8b5d",
+      "schema_version": "planguard.budget-policy.v1"
+    },
+    "relative_rule_evaluations": [
+      {
+        "measured_value": -5,
+        "message": "Candidate query count must be lower than baseline.",
+        "metric_key": "query_count",
+        "rule_key": "query-count-must-decrease",
+        "status": "passed",
+        "subject_refs": [],
+        "threshold": 0
+      }
+    ],
+    "status": "valid_with_controlled_changes"
+  },
+  "producer": {
+    "build": "milestone-e-seed",
+    "name": "planguard",
+    "version": "0.5.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": {
+      "artifact_id": "bpol_586e0be096964d3fa142d591a75023ed",
+      "artifact_kind": "budget_policy",
+      "content_hash": "sha256:f42a951424067a3be1f56c3f475c0a8ed6b4b6fc8317f22e2bc7b8e2d35f8b5d",
+      "schema_version": "planguard.budget-policy.v1"
+    },
+    "derivation_key": "run-comparison.v1",
+    "input_refs": [
+      {
+        "artifact_id": "run_a1ef2403393a4603a0fd1705401a61cb",
+        "artifact_kind": "run_manifest",
+        "content_hash": "sha256:e1ee68a6fe860c1a38fcb9f8f18277cdd9d7d1846efd9b53c9d117e10e04f7e0",
+        "schema_version": "planguard.run-manifest.v1"
+      },
+      {
+        "artifact_id": "run_43c46a33caeb45f58d117d9cc897d254",
+        "artifact_kind": "run_manifest",
+        "content_hash": "sha256:252dda2f2481e424437cb51e30288557811df225e628e8d669c94c10b29c8ad3",
+        "schema_version": "planguard.run-manifest.v1"
+      },
+      {
+        "artifact_id": "asum_2e30274a53c04deb8848545d46b7d73d",
+        "artifact_kind": "analysis_summary",
+        "content_hash": "sha256:10a9d1f246fddfa7866679d2f10f99f6ca36fb44fffb2c0b83b3e6e431b28654",
+        "schema_version": "planguard.analysis-summary.v1"
+      },
+      {
+        "artifact_id": "asum_f4b4dce66ed3466da4bc673e5688edf0",
+        "artifact_kind": "analysis_summary",
+        "content_hash": "sha256:a3ea3e05856e5bd1daa4ec5981c6ad0f04221f302c3b7c93d2b2c17ea7997224",
+        "schema_version": "planguard.analysis-summary.v1"
+      },
+      {
+        "artifact_id": "plan_f5b5a583721249e0a5d2366c8de9484d",
+        "artifact_kind": "plan_observation",
+        "content_hash": "sha256:48ba233f85755d234606bb31c84bf7de79d805e370b882dce938f436497bc5e2",
+        "schema_version": "planguard.plan-observation.v1"
+      },
+      {
+        "artifact_id": "plan_c7b14e4a28f6467699053961fcdfc5f5",
+        "artifact_kind": "plan_observation",
+        "content_hash": "sha256:6a9501d5f6083218e90455568f07f26fadc6160e0650c2f02f6d39fec8dd467f",
+        "schema_version": "planguard.plan-observation.v1"
+      },
+      {
+        "artifact_id": "bpol_586e0be096964d3fa142d591a75023ed",
+        "artifact_kind": "budget_policy",
+        "content_hash": "sha256:f42a951424067a3be1f56c3f475c0a8ed6b4b6fc8317f22e2bc7b8e2d35f8b5d",
+        "schema_version": "planguard.budget-policy.v1"
+      }
+    ],
+    "notes": []
+  },
+  "schema_version": "planguard.comparison-report.v1"
+}

@@ -1,0 +1,8 @@
+{
+  "artifact_id": "fsch_9ed945fa048b4cdd8b0e1d3309056efa",
+  "artifact_kind": "family_scheme",
+  "content_hash": "sha256:e12e4eb1eb2c7dcf5f8980c4111cbb10c3f0f9439d8a28778d741e09a6bca79f",
+  "created_at": "2026-07-23T12:34:36.706463+00:00",
+  "path": "artifacts/fsch_9ed945fa048b4cdd8b0e1d3309056efa.json",
+  "schema_version": "planguard.family-scheme.v1"
+}

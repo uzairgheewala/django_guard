@@ -1,15 +1,15 @@
 # PlanGuard Workbench API
 
-The local Django API indexes immutable PlanGuard artifacts and exposes run, workload, policy, and
-scenario resources. Milestone D adds:
+Milestone E adds PostgreSQL plan and comparison resources:
 
 ```text
-GET  /api/v1/scenarios/catalog
-POST /api/v1/scenarios/instances
-GET  /api/v1/scenarios/runs
-POST /api/v1/scenarios/run
-GET  /api/v1/scenarios/runs/{scenario_run_id}
+GET  /api/v1/runs/{run_id}/plans
+POST /api/v1/runs/{run_id}/plans/import
+POST /api/v1/runs/{run_id}/plans/collect
+GET  /api/v1/plans/{plan_id}
+GET  /api/v1/comparisons
+POST /api/v1/comparisons/create
+GET  /api/v1/comparisons/{comparison_id}
 ```
 
-Scenario execution is disabled unless `PLANGUARD_LAB_ENABLED=1`. Local debug mode enables the
-built-in deterministic academic adapter by default; production-like deployments default it off.
+Imported plan analysis is always available. Live database plan collection is disabled unless `PLANGUARD_PLAN_EXECUTION_ENABLED=1`; `EXPLAIN ANALYZE` is additionally constrained by the submitted collection policy and statement safety checks.

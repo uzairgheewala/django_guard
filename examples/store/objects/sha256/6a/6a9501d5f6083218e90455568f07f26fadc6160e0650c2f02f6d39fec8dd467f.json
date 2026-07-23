@@ -1,0 +1,137 @@
+{
+  "artifact_id": "plan_c7b14e4a28f6467699053961fcdfc5f5",
+  "artifact_kind": "plan_observation",
+  "content_hash": "sha256:6a9501d5f6083218e90455568f07f26fadc6160e0650c2f02f6d39fec8dd467f",
+  "created_at": "2026-07-23T12:34:38.110384Z",
+  "extensions": {},
+  "payload": {
+    "capability_gaps": [],
+    "collection": {
+      "analyzed": true,
+      "cache_protocol": "cold_then_warm",
+      "collection_notes": [],
+      "database_settings": {
+        "random_page_cost": "4",
+        "work_mem": "4MB"
+      },
+      "mode": "imported",
+      "representative_strategy": "imported",
+      "server_version": "16.4",
+      "statement_timeout_ms": null
+    },
+    "features": {
+      "execution_time_ms": 1.9,
+      "has_disk_spill": false,
+      "has_parallelism": false,
+      "index_names": [
+        "enrollment_student_term_idx"
+      ],
+      "maximum_depth": 0,
+      "maximum_estimate_error_ratio": 1.0,
+      "nested_loop_effective_rows": null,
+      "node_count": 1,
+      "node_type_counts": {
+        "Index Scan": 1
+      },
+      "plan_shape_fingerprint": "psh_4da9dbb440c61103f1b9ed77",
+      "planning_time_ms": 0.2,
+      "relation_access": {
+        "enrollment": [
+          "Index Scan"
+        ]
+      },
+      "rows_removed_by_filter": 0.0,
+      "shared_hit_blocks": 18,
+      "shared_read_blocks": 0,
+      "temporary_io_blocks": 0
+    },
+    "nodes": [
+      {
+        "actual_rows": 42.0,
+        "actual_startup_ms": 0.02,
+        "actual_total_ms": 1.8,
+        "alias": "enrollment",
+        "child_node_ids": [],
+        "estimated_rows": 42.0,
+        "estimated_startup_cost": 0.4,
+        "estimated_total_cost": 8.5,
+        "estimated_width": 64,
+        "filter": null,
+        "hash_condition": null,
+        "index": "enrollment_student_term_idx",
+        "index_condition": "(student_id = 17)",
+        "join_filter": null,
+        "join_type": null,
+        "loops": 1.0,
+        "node_id": "plan-node:root",
+        "node_type": "Index Scan",
+        "peak_memory_kb": null,
+        "relation": "enrollment",
+        "rows_removed_by_filter": null,
+        "shared_hit_blocks": 18,
+        "shared_read_blocks": 0,
+        "sort_method": null,
+        "sort_space_kb": null,
+        "sort_space_type": null,
+        "strategy": null,
+        "temp_read_blocks": null,
+        "temp_written_blocks": null,
+        "unknown_attributes": {},
+        "workers_launched": null,
+        "workers_planned": null
+      }
+    ],
+    "parameter_regime_key": null,
+    "query_family_ref": {
+      "artifact_id": "qfam_cbded497666ae3e01ef7c09e8a37ef57",
+      "artifact_kind": "observed_query_family",
+      "content_hash": "sha256:a138df951b77dd9bb1a453eb47b63ee30d0ba21ff9ded609f733e0601711a6df",
+      "schema_version": "planguard.observed-query-family.v1"
+    },
+    "raw_plan": {
+      "Execution Time": 1.9,
+      "Plan": {
+        "Actual Loops": 1,
+        "Actual Rows": 42,
+        "Actual Startup Time": 0.02,
+        "Actual Total Time": 1.8,
+        "Alias": "enrollment",
+        "Index Cond": "(student_id = 17)",
+        "Index Name": "enrollment_student_term_idx",
+        "Node Type": "Index Scan",
+        "Plan Rows": 42,
+        "Plan Width": 64,
+        "Relation Name": "enrollment",
+        "Shared Hit Blocks": 18,
+        "Shared Read Blocks": 0,
+        "Startup Cost": 0.4,
+        "Total Cost": 8.5
+      },
+      "Planning Time": 0.2
+    },
+    "representative_execution_ref": null,
+    "root_node_id": "plan-node:root",
+    "run_id": "run_43c46a33caeb45f58d117d9cc897d254",
+    "warnings": []
+  },
+  "producer": {
+    "build": "milestone-e-seed",
+    "name": "planguard",
+    "version": "0.5.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": "postgres-plan-normalize.v1",
+    "input_refs": [
+      {
+        "artifact_id": "qfam_cbded497666ae3e01ef7c09e8a37ef57",
+        "artifact_kind": "observed_query_family",
+        "content_hash": "sha256:a138df951b77dd9bb1a453eb47b63ee30d0ba21ff9ded609f733e0601711a6df",
+        "schema_version": "planguard.observed-query-family.v1"
+      }
+    ],
+    "notes": []
+  },
+  "schema_version": "planguard.plan-observation.v1"
+}

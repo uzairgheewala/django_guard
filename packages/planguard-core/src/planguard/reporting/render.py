@@ -26,6 +26,14 @@ def render_terminal(
     ]
     for scheme, count in sorted(bundle.summary.payload.family_count_by_scheme.items()):
         lines.append(f"  {scheme}: {count}")
+    lines.append(f"Plans: {len(bundle.plan_observations)}")
+    for plan in bundle.plan_observations:
+        mode = "actual" if plan.payload.collection.analyzed else "estimated"
+        lines.append(f"  {plan.payload.features.plan_shape_fingerprint}: {plan.payload.features.node_count} nodes ({mode})")
+    lines.append(f"Workload graphs: {len(bundle.workload_graphs)}")
+    lines.append(f"Workload episodes: {len(bundle.workload_episodes)}")
+    for episode in bundle.workload_episodes:
+        lines.append(f"  [{episode.payload.match_confidence:.2f}] {episode.payload.title} ({episode.payload.motif_key})")
     lines.append(f"Findings: {len(bundle.findings)}")
     for finding in sorted(
         bundle.findings,
@@ -60,6 +68,11 @@ def render_json(
         "families": [canonical_data(item) for item in bundle.families],
         "findings": [canonical_data(item) for item in bundle.findings],
         "detector_receipts": [canonical_data(item) for item in bundle.detector_receipts],
+        "workload_graphs": [canonical_data(item) for item in bundle.workload_graphs],
+        "workload_motifs": [canonical_data(item) for item in bundle.workload_motifs],
+        "workload_episodes": [canonical_data(item) for item in bundle.workload_episodes],
+        "plan_observations": [canonical_data(item) for item in bundle.plan_observations],
+        "plan_collection_receipts": [canonical_data(item) for item in bundle.plan_collection_receipts],
         "budget_evaluation": canonical_data(evaluation) if evaluation else None,
     }
     return json.dumps(payload, sort_keys=True, indent=2, ensure_ascii=False) + "\n"
@@ -101,6 +114,8 @@ details pre{{white-space:pre-wrap;overflow-wrap:anywhere;background:#111827;colo
 <section class="metrics"><div><strong>{bundle.summary.payload.query_count}</strong><br>queries</div>
 <div><strong>{bundle.summary.payload.query_template_count}</strong><br>templates</div>
 <div><strong>{bundle.summary.payload.total_database_time_ms:.3f} ms</strong><br>database time</div>
+<div><strong>{len(bundle.plan_observations)}</strong><br>plans</div>
+<div><strong>{len(bundle.workload_episodes)}</strong><br>episodes</div>
 <div><strong>{len(bundle.findings)}</strong><br>findings</div></section>
 <section><h2>Findings</h2>{findings}</section>{policy}
 <details><summary>Canonical report JSON</summary><pre>{embedded}</pre></details>

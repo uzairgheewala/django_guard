@@ -26,6 +26,9 @@ from planguard.artifacts.models import (
     WorkloadEpisodeArtifact,
     WorkloadGraphArtifact,
     WorkloadMotifArtifact,
+    PlanObservationArtifact,
+    PlanCollectionReceiptArtifact,
+    ComparisonReportArtifact,
 )
 from planguard.canonical import canonical_data
 from planguard.store.filesystem import FilesystemArtifactStore
@@ -157,6 +160,20 @@ class ArtifactIndex:
         if isinstance(artifact, MutationDefinitionArtifact):
             title = payload.title
             name = payload.mutation_key
+        if isinstance(artifact, PlanObservationArtifact):
+            title = f"PostgreSQL plan {payload.features.plan_shape_fingerprint}"
+            query_shape_fingerprint = payload.features.plan_shape_fingerprint
+            status = "analyzed" if payload.collection.analyzed else "estimated"
+            mode = str(payload.collection.mode)
+        if isinstance(artifact, PlanCollectionReceiptArtifact):
+            title = f"Plan collection {payload.status}"
+            status = str(payload.status)
+            mode = str(payload.mode)
+        if isinstance(artifact, ComparisonReportArtifact):
+            run_id = payload.candidate_run_ref.artifact_id
+            title = f"{payload.baseline_run_ref.artifact_id} → {payload.candidate_run_ref.artifact_id}"
+            status = str(payload.status)
+            mode = "comparison"
 
         material = canonical_data(payload)
         search_text = " ".join(
@@ -373,4 +390,6 @@ class ArtifactIndex:
             episodes = int(db.execute("SELECT COUNT(*) FROM artifacts WHERE artifact_kind = 'workload_episode'").fetchone()[0])
             scenarios = int(db.execute("SELECT COUNT(*) FROM artifacts WHERE artifact_kind = 'scenario_run'").fetchone()[0])
             templates = int(db.execute("SELECT COUNT(*) FROM artifacts WHERE artifact_kind = 'scenario_template'").fetchone()[0])
-        return {"total_artifacts": total, "runs": runs, "findings": findings, "episodes": episodes, "scenarios": scenarios, "scenario_templates": templates, "by_kind": kinds}
+            plans = int(db.execute("SELECT COUNT(*) FROM artifacts WHERE artifact_kind = 'plan_observation'").fetchone()[0])
+            comparisons = int(db.execute("SELECT COUNT(*) FROM artifacts WHERE artifact_kind = 'comparison_report'").fetchone()[0])
+        return {"total_artifacts": total, "runs": runs, "findings": findings, "episodes": episodes, "scenarios": scenarios, "scenario_templates": templates, "plans": plans, "comparisons": comparisons, "by_kind": kinds}

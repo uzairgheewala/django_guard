@@ -90,7 +90,7 @@ class ScenarioRunner:
     ) -> None:
         self.registry = registry
         self.store = store
-        self.producer = producer or ProducerIdentity(name="planguard", version="0.4.0", build="milestone-d")
+        self.producer = producer or ProducerIdentity(name="planguard", version="0.5.0", build="milestone-d")
 
     def _receipt(
         self,

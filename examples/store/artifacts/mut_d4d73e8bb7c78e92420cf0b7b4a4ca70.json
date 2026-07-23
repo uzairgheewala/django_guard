@@ -1,0 +1,34 @@
+{
+  "artifact_id": "mut_d4d73e8bb7c78e92420cf0b7b4a4ca70",
+  "artifact_kind": "mutation_definition",
+  "content_hash": "sha256:ea0e6be5681fa5e70d457f81290197c507daf0a1244a70456caeb115b9a9f894",
+  "created_at": "1970-01-01T00:00:00Z",
+  "extensions": {},
+  "payload": {
+    "adapter_key": "academic-lab.v1",
+    "compatible_template_keys": [
+      "tenant-skew-sensitivity.v1",
+      "aggregate-report.v1"
+    ],
+    "description": "Simulate loss of the dominant tenant-scoped composite index.",
+    "mutation_class": "schema",
+    "mutation_key": "remove-composite-tenant-index.v1",
+    "parameter_domain": {},
+    "required_capabilities": [],
+    "reversible": true,
+    "title": "Remove tenant composite index"
+  },
+  "producer": {
+    "build": "milestone-e-seed",
+    "name": "planguard",
+    "version": "0.5.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": "academic-mutation.v1",
+    "input_refs": [],
+    "notes": []
+  },
+  "schema_version": "planguard.mutation-definition.v1"
+}

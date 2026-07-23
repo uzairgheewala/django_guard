@@ -8,6 +8,7 @@ from typing import Iterable
 
 from planguard.analysis.detectors import DEFAULT_DETECTORS, BaseDetector, DetectorContext
 from planguard.analysis.families import builtin_scheme_artifacts, derive_templates, project_families
+from planguard.analysis.workload import build_workload
 from planguard.artifacts.models import (
     AnalysisSummaryArtifact,
     AnalysisSummaryPayload,
@@ -21,6 +22,11 @@ from planguard.artifacts.models import (
     Provenance,
     QueryExecutionArtifact,
     QueryTemplateArtifact,
+    WorkloadEpisodeArtifact,
+    WorkloadGraphArtifact,
+    WorkloadMotifArtifact,
+    PlanObservationArtifact,
+    PlanCollectionReceiptArtifact,
 )
 
 
@@ -35,6 +41,11 @@ class AnalysisBundle:
     findings: tuple[FindingArtifact, ...]
     detector_receipts: tuple[DetectorReceiptArtifact, ...]
     budget_evaluations: tuple[BudgetEvaluationArtifact, ...]
+    workload_graphs: tuple[WorkloadGraphArtifact, ...]
+    workload_motifs: tuple[WorkloadMotifArtifact, ...]
+    workload_episodes: tuple[WorkloadEpisodeArtifact, ...]
+    plan_observations: tuple[PlanObservationArtifact, ...]
+    plan_collection_receipts: tuple[PlanCollectionReceiptArtifact, ...]
     summary: AnalysisSummaryArtifact
 
     def all_derived_artifacts(self):
@@ -46,6 +57,11 @@ class AnalysisBundle:
             *self.findings,
             *self.detector_receipts,
             *self.budget_evaluations,
+            *self.workload_graphs,
+            *self.workload_motifs,
+            *self.workload_episodes,
+            *self.plan_observations,
+            *self.plan_collection_receipts,
             self.summary,
         )
 
@@ -94,6 +110,15 @@ class AnalysisEngine:
             findings.extend(item.seal() for item in output.findings)
             receipts.append(output.receipt.seal())
 
+        workload = build_workload(
+            run_id=run_id,
+            executions=execution_tuple,
+            templates=templates,
+            families=families,
+            findings=findings,
+            producer=self.producer,
+        )
+
         severity_counts = Counter(str(item.payload.severity.level) for item in findings)
         family_counts = Counter(item.payload.family_scheme_key for item in families)
         summary = AnalysisSummaryArtifact(
@@ -129,5 +154,10 @@ class AnalysisEngine:
             findings=tuple(findings),
             detector_receipts=tuple(receipts),
             budget_evaluations=(),
+            workload_graphs=(workload.graph,),
+            workload_motifs=workload.motifs,
+            workload_episodes=workload.episodes,
+            plan_observations=(),
+            plan_collection_receipts=(),
             summary=summary,
         )

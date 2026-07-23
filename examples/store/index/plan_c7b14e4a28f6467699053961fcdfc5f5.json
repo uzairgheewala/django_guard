@@ -1,0 +1,8 @@
+{
+  "artifact_id": "plan_c7b14e4a28f6467699053961fcdfc5f5",
+  "artifact_kind": "plan_observation",
+  "content_hash": "sha256:6a9501d5f6083218e90455568f07f26fadc6160e0650c2f02f6d39fec8dd467f",
+  "created_at": "2026-07-23T12:34:38.110384+00:00",
+  "path": "artifacts/plan_c7b14e4a28f6467699053961fcdfc5f5.json",
+  "schema_version": "planguard.plan-observation.v1"
+}

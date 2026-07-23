@@ -1,0 +1,31 @@
+{
+  "artifact_id": "fsch_fdf32a3f049f402791425b117b4604ed",
+  "artifact_kind": "family_scheme",
+  "content_hash": "sha256:e18a1df3f98c8fc1a75ac339b59033bbdcbedf319defed816afaaa274acd547e",
+  "created_at": "2026-07-23T12:34:36.706427Z",
+  "extensions": {},
+  "payload": {
+    "description": "Groups identical structural queries with identical parameter bindings and origin.",
+    "dimensions": [
+      "query.shape",
+      "parameters.binding",
+      "origin.frame"
+    ],
+    "family_scheme_key": "exact-execution.v1",
+    "missing_value_policy": "preserve_unknown",
+    "title": "Exact execution"
+  },
+  "producer": {
+    "build": "milestone-e-seed",
+    "name": "planguard",
+    "version": "0.5.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": null,
+    "input_refs": [],
+    "notes": []
+  },
+  "schema_version": "planguard.family-scheme.v1"
+}

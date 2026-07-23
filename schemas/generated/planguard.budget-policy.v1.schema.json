@@ -159,7 +159,9 @@
             "run",
             "family",
             "finding",
-            "detector_receipt"
+            "detector_receipt",
+            "comparison",
+            "plan"
           ],
           "title": "Subject Kind",
           "type": "string"

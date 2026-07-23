@@ -1,0 +1,959 @@
+{
+  "$defs": {
+    "ArtifactReference": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "artifact_kind": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Artifact Kind",
+          "type": "string"
+        },
+        "content_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "schema_version": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Schema Version"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "artifact_kind",
+        "content_hash",
+        "schema_version"
+      ],
+      "title": "ArtifactReference",
+      "type": "object"
+    },
+    "PlanCollectionContext": {
+      "additionalProperties": false,
+      "properties": {
+        "analyzed": {
+          "title": "Analyzed",
+          "type": "boolean"
+        },
+        "cache_protocol": {
+          "default": "unknown",
+          "enum": [
+            "unknown",
+            "cold",
+            "warm",
+            "cold_then_warm",
+            "mixed"
+          ],
+          "title": "Cache Protocol",
+          "type": "string"
+        },
+        "collection_notes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Collection Notes",
+          "type": "array"
+        },
+        "database_settings": {
+          "additionalProperties": true,
+          "title": "Database Settings",
+          "type": "object"
+        },
+        "mode": {
+          "$ref": "#/$defs/PlanCollectionMode"
+        },
+        "representative_strategy": {
+          "enum": [
+            "first",
+            "slowest",
+            "median_duration",
+            "explicit",
+            "imported"
+          ],
+          "title": "Representative Strategy",
+          "type": "string"
+        },
+        "server_version": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Server Version"
+        },
+        "statement_timeout_ms": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Statement Timeout Ms"
+        }
+      },
+      "required": [
+        "analyzed",
+        "cache_protocol",
+        "collection_notes",
+        "database_settings",
+        "mode",
+        "representative_strategy",
+        "server_version",
+        "statement_timeout_ms"
+      ],
+      "title": "PlanCollectionContext",
+      "type": "object"
+    },
+    "PlanCollectionMode": {
+      "enum": [
+        "disabled",
+        "estimated_only",
+        "analyze_safe_selects",
+        "explicit_allowlist",
+        "imported"
+      ],
+      "title": "PlanCollectionMode",
+      "type": "string"
+    },
+    "PlanFeatures": {
+      "additionalProperties": false,
+      "properties": {
+        "execution_time_ms": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Execution Time Ms"
+        },
+        "has_disk_spill": {
+          "default": false,
+          "title": "Has Disk Spill",
+          "type": "boolean"
+        },
+        "has_parallelism": {
+          "default": false,
+          "title": "Has Parallelism",
+          "type": "boolean"
+        },
+        "index_names": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Index Names",
+          "type": "array"
+        },
+        "maximum_depth": {
+          "minimum": 0,
+          "title": "Maximum Depth",
+          "type": "integer"
+        },
+        "maximum_estimate_error_ratio": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum Estimate Error Ratio"
+        },
+        "nested_loop_effective_rows": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Nested Loop Effective Rows"
+        },
+        "node_count": {
+          "minimum": 0,
+          "title": "Node Count",
+          "type": "integer"
+        },
+        "node_type_counts": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Node Type Counts",
+          "type": "object"
+        },
+        "plan_shape_fingerprint": {
+          "title": "Plan Shape Fingerprint",
+          "type": "string"
+        },
+        "planning_time_ms": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Planning Time Ms"
+        },
+        "relation_access": {
+          "additionalProperties": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "title": "Relation Access",
+          "type": "object"
+        },
+        "rows_removed_by_filter": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Rows Removed By Filter",
+          "type": "number"
+        },
+        "shared_hit_blocks": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Shared Hit Blocks",
+          "type": "integer"
+        },
+        "shared_read_blocks": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Shared Read Blocks",
+          "type": "integer"
+        },
+        "temporary_io_blocks": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Temporary Io Blocks",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "execution_time_ms",
+        "has_disk_spill",
+        "has_parallelism",
+        "index_names",
+        "maximum_depth",
+        "maximum_estimate_error_ratio",
+        "nested_loop_effective_rows",
+        "node_count",
+        "node_type_counts",
+        "plan_shape_fingerprint",
+        "planning_time_ms",
+        "relation_access",
+        "rows_removed_by_filter",
+        "shared_hit_blocks",
+        "shared_read_blocks",
+        "temporary_io_blocks"
+      ],
+      "title": "PlanFeatures",
+      "type": "object"
+    },
+    "PlanNode": {
+      "additionalProperties": false,
+      "properties": {
+        "actual_rows": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Actual Rows"
+        },
+        "actual_startup_ms": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Actual Startup Ms"
+        },
+        "actual_total_ms": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Actual Total Ms"
+        },
+        "alias": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Alias"
+        },
+        "child_node_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Child Node Ids",
+          "type": "array"
+        },
+        "estimated_rows": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Estimated Rows"
+        },
+        "estimated_startup_cost": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Estimated Startup Cost"
+        },
+        "estimated_total_cost": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Estimated Total Cost"
+        },
+        "estimated_width": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Estimated Width"
+        },
+        "filter": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Filter"
+        },
+        "hash_condition": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Hash Condition"
+        },
+        "index": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Index"
+        },
+        "index_condition": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Index Condition"
+        },
+        "join_filter": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Join Filter"
+        },
+        "join_type": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Join Type"
+        },
+        "loops": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Loops"
+        },
+        "node_id": {
+          "title": "Node Id",
+          "type": "string"
+        },
+        "node_type": {
+          "title": "Node Type",
+          "type": "string"
+        },
+        "peak_memory_kb": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Peak Memory Kb"
+        },
+        "relation": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Relation"
+        },
+        "rows_removed_by_filter": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rows Removed By Filter"
+        },
+        "shared_hit_blocks": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Shared Hit Blocks"
+        },
+        "shared_read_blocks": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Shared Read Blocks"
+        },
+        "sort_method": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sort Method"
+        },
+        "sort_space_kb": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sort Space Kb"
+        },
+        "sort_space_type": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sort Space Type"
+        },
+        "strategy": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Strategy"
+        },
+        "temp_read_blocks": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Temp Read Blocks"
+        },
+        "temp_written_blocks": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Temp Written Blocks"
+        },
+        "unknown_attributes": {
+          "additionalProperties": true,
+          "title": "Unknown Attributes",
+          "type": "object"
+        },
+        "workers_launched": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Workers Launched"
+        },
+        "workers_planned": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Workers Planned"
+        }
+      },
+      "required": [
+        "actual_rows",
+        "actual_startup_ms",
+        "actual_total_ms",
+        "alias",
+        "child_node_ids",
+        "estimated_rows",
+        "estimated_startup_cost",
+        "estimated_total_cost",
+        "estimated_width",
+        "filter",
+        "hash_condition",
+        "index",
+        "index_condition",
+        "join_filter",
+        "join_type",
+        "loops",
+        "node_id",
+        "node_type",
+        "peak_memory_kb",
+        "relation",
+        "rows_removed_by_filter",
+        "shared_hit_blocks",
+        "shared_read_blocks",
+        "sort_method",
+        "sort_space_kb",
+        "sort_space_type",
+        "strategy",
+        "temp_read_blocks",
+        "temp_written_blocks",
+        "unknown_attributes",
+        "workers_launched",
+        "workers_planned"
+      ],
+      "title": "PlanNode",
+      "type": "object"
+    },
+    "PlanObservationPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "capability_gaps": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Capability Gaps",
+          "type": "array"
+        },
+        "collection": {
+          "$ref": "#/$defs/PlanCollectionContext"
+        },
+        "features": {
+          "$ref": "#/$defs/PlanFeatures"
+        },
+        "nodes": {
+          "items": {
+            "$ref": "#/$defs/PlanNode"
+          },
+          "title": "Nodes",
+          "type": "array"
+        },
+        "parameter_regime_key": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Parameter Regime Key"
+        },
+        "query_family_ref": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "raw_plan": {
+          "additionalProperties": true,
+          "title": "Raw Plan",
+          "type": "object"
+        },
+        "representative_execution_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "root_node_id": {
+          "title": "Root Node Id",
+          "type": "string"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "warnings": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Warnings",
+          "type": "array"
+        }
+      },
+      "required": [
+        "capability_gaps",
+        "collection",
+        "features",
+        "nodes",
+        "parameter_regime_key",
+        "query_family_ref",
+        "raw_plan",
+        "representative_execution_ref",
+        "root_node_id",
+        "run_id",
+        "warnings"
+      ],
+      "title": "PlanObservationPayload",
+      "type": "object"
+    },
+    "ProducerIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "build": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Build"
+        },
+        "name": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "version": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "build",
+        "name",
+        "version"
+      ],
+      "title": "ProducerIdentity",
+      "type": "object"
+    },
+    "Provenance": {
+      "additionalProperties": false,
+      "properties": {
+        "code_revision": {
+          "anyOf": [
+            {
+              "maxLength": 256,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Code Revision"
+        },
+        "configuration_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "derivation_key": {
+          "anyOf": [
+            {
+              "maxLength": 256,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Derivation Key"
+        },
+        "input_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Input Refs",
+          "type": "array"
+        },
+        "notes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "code_revision",
+        "configuration_ref",
+        "derivation_key",
+        "input_refs",
+        "notes"
+      ],
+      "title": "Provenance",
+      "type": "object"
+    }
+  },
+  "$id": "https://planguard.dev/schemas/planguard.plan-observation.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifact_id": {
+      "title": "Artifact Id",
+      "type": "string"
+    },
+    "artifact_kind": {
+      "const": "plan_observation",
+      "default": "plan_observation",
+      "title": "Artifact Kind",
+      "type": "string"
+    },
+    "content_hash": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "title": "Content Hash",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "extensions": {
+      "additionalProperties": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Extensions",
+      "type": "object"
+    },
+    "payload": {
+      "$ref": "#/$defs/PlanObservationPayload"
+    },
+    "producer": {
+      "$ref": "#/$defs/ProducerIdentity"
+    },
+    "provenance": {
+      "$ref": "#/$defs/Provenance"
+    },
+    "schema_version": {
+      "const": "planguard.plan-observation.v1",
+      "default": "planguard.plan-observation.v1",
+      "title": "Schema Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "artifact_id",
+    "artifact_kind",
+    "content_hash",
+    "created_at",
+    "extensions",
+    "payload",
+    "producer",
+    "provenance",
+    "schema_version"
+  ],
+  "title": "PlanObservationArtifact",
+  "type": "object"
+}

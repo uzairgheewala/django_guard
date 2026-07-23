@@ -21,6 +21,9 @@ from .artifacts.models import (
     ScenarioTemplateArtifact,
     DatasetManifestArtifact,
     MutationDefinitionArtifact,
+    PlanObservationArtifact,
+    PlanCollectionReceiptArtifact,
+    ComparisonReportArtifact,
     WorkloadEpisodeArtifact,
     WorkloadGraphArtifact,
     WorkloadMotifArtifact,
@@ -28,6 +31,8 @@ from .artifacts.models import (
 from .capture import AnalysisSession, profile
 from .policy import QueryPolicy, evaluate_policy
 from .scenario import OperationResult, ScenarioRegistry, ScenarioRunner, instantiate, scale, contrast
+from .postgres import PlanCollectionPolicy, analyze_plan, collect_plan, import_plan, normalize_postgres_plan, observation_from_raw_plan
+from .comparison import compare_runs
 from .store.filesystem import FilesystemArtifactStore
 from .store.index import ArtifactIndex
 
@@ -57,6 +62,10 @@ __all__ = [
     "ScenarioTemplateArtifact",
     "DatasetManifestArtifact",
     "MutationDefinitionArtifact",
+    "PlanObservationArtifact",
+    "PlanCollectionReceiptArtifact",
+    "ComparisonReportArtifact",
+    "PlanCollectionPolicy",
     "ScenarioRegistry",
     "ScenarioRunner",
     "OperationResult",
@@ -71,6 +80,12 @@ __all__ = [
     "instantiate",
     "scale",
     "contrast",
+    "analyze_plan",
+    "collect_plan",
+    "import_plan",
+    "normalize_postgres_plan",
+    "observation_from_raw_plan",
+    "compare_runs",
 ]
 
-__version__ = "0.4.0"
+__version__ = "0.5.0"

@@ -31,7 +31,7 @@ class AcademicCatalog:
 
 
 def build_academic_catalog(*, producer: ProducerIdentity | None = None) -> AcademicCatalog:
-    producer = producer or ProducerIdentity(name="planguard", version="0.4.0", build="milestone-d")
+    producer = producer or ProducerIdentity(name="planguard", version="0.5.0", build="milestone-d")
     templates = builtin_templates(producer)
     bindings = builtin_bindings(producer, templates)
     mutations = builtin_mutations(producer)

@@ -1,0 +1,8 @@
+{
+  "artifact_id": "plrc_0599c35d5a4947599c8d924b7722381e",
+  "artifact_kind": "plan_collection_receipt",
+  "content_hash": "sha256:65791ae4607dfff2c018ce2c52d0cdfb89609d445153e9229f89a359f37f8e28",
+  "created_at": "2026-07-23T12:43:12.193706+00:00",
+  "path": "artifacts/plrc_0599c35d5a4947599c8d924b7722381e.json",
+  "schema_version": "planguard.plan-collection-receipt.v1"
+}

@@ -1,0 +1,135 @@
+{
+  "artifact_id": "plan_f5b5a583721249e0a5d2366c8de9484d",
+  "artifact_kind": "plan_observation",
+  "content_hash": "sha256:48ba233f85755d234606bb31c84bf7de79d805e370b882dce938f436497bc5e2",
+  "created_at": "2026-07-23T12:34:38.110123Z",
+  "extensions": {},
+  "payload": {
+    "capability_gaps": [],
+    "collection": {
+      "analyzed": true,
+      "cache_protocol": "cold_then_warm",
+      "collection_notes": [],
+      "database_settings": {
+        "random_page_cost": "4",
+        "work_mem": "4MB"
+      },
+      "mode": "imported",
+      "representative_strategy": "imported",
+      "server_version": "16.4",
+      "statement_timeout_ms": null
+    },
+    "features": {
+      "execution_time_ms": 185.4,
+      "has_disk_spill": false,
+      "has_parallelism": false,
+      "index_names": [],
+      "maximum_depth": 0,
+      "maximum_estimate_error_ratio": 2.380952380952381,
+      "nested_loop_effective_rows": null,
+      "node_count": 1,
+      "node_type_counts": {
+        "Seq Scan": 1
+      },
+      "plan_shape_fingerprint": "psh_68dc2313b434e75da2fde97e",
+      "planning_time_ms": 0.3,
+      "relation_access": {
+        "enrollment": [
+          "Seq Scan"
+        ]
+      },
+      "rows_removed_by_filter": 3201072.0,
+      "shared_hit_blocks": 40,
+      "shared_read_blocks": 41208,
+      "temporary_io_blocks": 0
+    },
+    "nodes": [
+      {
+        "actual_rows": 42.0,
+        "actual_startup_ms": 0.1,
+        "actual_total_ms": 185.0,
+        "alias": "enrollment",
+        "child_node_ids": [],
+        "estimated_rows": 100.0,
+        "estimated_startup_cost": 0.0,
+        "estimated_total_cost": 42000.0,
+        "estimated_width": 64,
+        "filter": "(student_id = 17)",
+        "hash_condition": null,
+        "index": null,
+        "index_condition": null,
+        "join_filter": null,
+        "join_type": null,
+        "loops": 1.0,
+        "node_id": "plan-node:root",
+        "node_type": "Seq Scan",
+        "peak_memory_kb": null,
+        "relation": "enrollment",
+        "rows_removed_by_filter": 3201072.0,
+        "shared_hit_blocks": 40,
+        "shared_read_blocks": 41208,
+        "sort_method": null,
+        "sort_space_kb": null,
+        "sort_space_type": null,
+        "strategy": null,
+        "temp_read_blocks": null,
+        "temp_written_blocks": null,
+        "unknown_attributes": {},
+        "workers_launched": null,
+        "workers_planned": null
+      }
+    ],
+    "parameter_regime_key": null,
+    "query_family_ref": {
+      "artifact_id": "qfam_14eaa450d851b66744ee099234f03814",
+      "artifact_kind": "observed_query_family",
+      "content_hash": "sha256:a38f7bb2b2be4e46116ee6e152df0d72a29341aee6c8fe6edce7a0d379567a45",
+      "schema_version": "planguard.observed-query-family.v1"
+    },
+    "raw_plan": {
+      "Execution Time": 185.4,
+      "Plan": {
+        "Actual Loops": 1,
+        "Actual Rows": 42,
+        "Actual Startup Time": 0.1,
+        "Actual Total Time": 185.0,
+        "Alias": "enrollment",
+        "Filter": "(student_id = 17)",
+        "Node Type": "Seq Scan",
+        "Plan Rows": 100,
+        "Plan Width": 64,
+        "Relation Name": "enrollment",
+        "Rows Removed by Filter": 3201072,
+        "Shared Hit Blocks": 40,
+        "Shared Read Blocks": 41208,
+        "Startup Cost": 0.0,
+        "Total Cost": 42000.0
+      },
+      "Planning Time": 0.3
+    },
+    "representative_execution_ref": null,
+    "root_node_id": "plan-node:root",
+    "run_id": "run_a1ef2403393a4603a0fd1705401a61cb",
+    "warnings": []
+  },
+  "producer": {
+    "build": "milestone-e-seed",
+    "name": "planguard",
+    "version": "0.5.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": "postgres-plan-normalize.v1",
+    "input_refs": [
+      {
+        "artifact_id": "qfam_14eaa450d851b66744ee099234f03814",
+        "artifact_kind": "observed_query_family",
+        "content_hash": "sha256:a38f7bb2b2be4e46116ee6e152df0d72a29341aee6c8fe6edce7a0d379567a45",
+        "schema_version": "planguard.observed-query-family.v1"
+      }
+    ],
+    "notes": []
+  },
+  "schema_version": "planguard.plan-observation.v1"
+}

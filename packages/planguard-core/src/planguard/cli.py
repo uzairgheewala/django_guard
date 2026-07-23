@@ -1,4 +1,4 @@
-"""PlanGuard Milestone D command-line interface."""
+"""PlanGuard Milestone E command-line interface."""
 
 from __future__ import annotations
 
@@ -9,13 +9,15 @@ from pathlib import Path
 
 from planguard.analysis.load import load_analysis_bundle
 from planguard.artifacts.codec import default_codec
-from planguard.artifacts.models import BudgetPolicyArtifact, EvaluationStatus, ProducerIdentity, ScenarioInstanceArtifact
+from planguard.artifacts.models import BudgetPolicyArtifact, EvaluationStatus, ProducerIdentity, ScenarioInstanceArtifact, ObservedQueryFamilyArtifact, PlanObservationArtifact, ComparisonReportArtifact
 from planguard.canonical import canonical_json_text
 from planguard.contracts.generate import generate_contracts
 from planguard.errors import PlanGuardError
 from planguard.policy.engine import evaluate_policy
 from planguard.lab.academic import build_academic_catalog
 from planguard.scenario import ScenarioRunner, instantiate
+from planguard.postgres import import_plan, analyze_plan
+from planguard.comparison import compare_runs
 from planguard.reporting.render import render_html, render_json, render_terminal
 from planguard.store.bundle import export_run_bundle
 from planguard.store.filesystem import FilesystemArtifactStore
@@ -104,6 +106,21 @@ def _parser() -> argparse.ArgumentParser:
     scenario_run.add_argument("--seed", type=int, default=1)
     scenario_run.add_argument("--store", type=Path, default=Path(".planguard"))
 
+
+    plan_import = subcommands.add_parser("plan-import", help="Import and normalize a PostgreSQL FORMAT JSON plan")
+    plan_import.add_argument("run_id")
+    plan_import.add_argument("family_id")
+    plan_import.add_argument("plan_path", type=Path)
+    plan_import.add_argument("--store", type=Path, default=Path(".planguard"))
+    plan_import.add_argument("--persist", action="store_true")
+
+    compare = subcommands.add_parser("compare", help="Compare two captured runs with comparability checks")
+    compare.add_argument("baseline_run_id")
+    compare.add_argument("candidate_run_id")
+    compare.add_argument("--store", type=Path, default=Path(".planguard"))
+    compare.add_argument("--policy", type=Path)
+    compare.add_argument("--persist", action="store_true")
+
     schemas = subcommands.add_parser("generate-contracts", help="Regenerate contracts")
     schemas.add_argument("--schema-dir", type=Path, default=Path("schemas/generated"))
     schemas.add_argument(
@@ -188,7 +205,7 @@ def main(argv: list[str] | None = None) -> int:
             evaluation = evaluate_policy(
                 bundle,
                 policy_artifact,
-                producer=ProducerIdentity(name="planguard", version="0.4.0", build="cli"),
+                producer=ProducerIdentity(name="planguard", version="0.5.0", build="cli"),
             )
             if args.persist:
                 store.save(evaluation)
@@ -238,7 +255,7 @@ def main(argv: list[str] | None = None) -> int:
 
         if args.command == "scenario-catalog":
             store = FilesystemArtifactStore(args.store)
-            catalog = build_academic_catalog(producer=ProducerIdentity(name="planguard", version="0.4.0", build="cli"))
+            catalog = build_academic_catalog(producer=ProducerIdentity(name="planguard", version="0.5.0", build="cli"))
             count = catalog.persist(store)
             snapshot = catalog.registry.snapshot()
             print(json.dumps({"persisted": count, "templates": snapshot.template_keys, "bindings": snapshot.binding_keys, "mutations": snapshot.mutation_keys, "adapters": snapshot.adapter_keys}, indent=2))
@@ -246,7 +263,7 @@ def main(argv: list[str] | None = None) -> int:
 
         if args.command in {"scenario-instantiate", "scenario-run"}:
             store = FilesystemArtifactStore(args.store)
-            producer = ProducerIdentity(name="planguard", version="0.4.0", build="cli")
+            producer = ProducerIdentity(name="planguard", version="0.5.0", build="cli")
             catalog = build_academic_catalog(producer=producer)
             catalog.persist(store)
             if args.command == "scenario-run" and args.scenario_instance_id:
@@ -269,6 +286,43 @@ def main(argv: list[str] | None = None) -> int:
             result = ScenarioRunner(registry=catalog.registry, store=store, producer=producer).run(instance)
             print(json.dumps({"scenario_run_id": result.scenario_run.artifact_id, "status": str(result.scenario_run.payload.status), "analysis_run_id": result.captured_run.manifest.artifact_id if result.captured_run else None, "oracle_evaluations": [item.model_dump(mode="json") for item in result.scenario_run.payload.oracle_evaluations]}, indent=2))
             return 0
+
+
+        if args.command == "plan-import":
+            store = FilesystemArtifactStore(args.store)
+            family = store.load(args.family_id)
+            if not isinstance(family, ObservedQueryFamilyArtifact):
+                raise ValueError("family_id must refer to an observed_query_family artifact")
+            raw = json.loads(args.plan_path.read_text(encoding="utf-8"))
+            producer = ProducerIdentity(name="planguard", version="0.5.0", build="cli")
+            plan, receipt = import_plan(raw_plan=raw, run_id=args.run_id, query_family_ref=family.reference(), producer=producer)
+            evidence, findings = analyze_plan(plan, producer=producer)
+            if args.persist:
+                store.save(plan)
+                store.save(receipt)
+                for artifact in (*evidence, *findings):
+                    store.save(artifact)
+            print(canonical_json_text({
+                "plan": plan.model_dump(mode="json"),
+                "receipt": receipt.model_dump(mode="json"),
+                "findings": [item.model_dump(mode="json") for item in findings],
+            }, pretty=True))
+            return 0
+
+        if args.command == "compare":
+            store = FilesystemArtifactStore(args.store)
+            base_manifest, base = load_analysis_bundle(store, args.baseline_run_id)
+            cand_manifest, cand = load_analysis_bundle(store, args.candidate_run_id)
+            policy = None
+            if args.policy:
+                policy = default_codec.decode(args.policy.read_bytes())
+                if not isinstance(policy, BudgetPolicyArtifact): raise ValueError("--policy must be a budget_policy artifact")
+            producer = ProducerIdentity(name="planguard", version="0.5.0", build="cli")
+            report = compare_runs(baseline_manifest=base_manifest, candidate_manifest=cand_manifest, baseline=base, candidate=cand, loader=store.load, producer=producer, baseline_plans=base.plan_observations, candidate_plans=cand.plan_observations, relative_policy=policy)
+            if args.persist: store.save(report)
+            print(canonical_json_text(report, pretty=True))
+            failed = any(str(item.status) == "failed" for item in report.payload.relative_rule_evaluations)
+            return 2 if failed else 0
 
         if args.command == "generate-contracts":
             generate_contracts(args.schema_dir, args.typescript)

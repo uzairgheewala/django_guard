@@ -120,7 +120,7 @@ class AnalysisSession:
             hmac_key_id="session-ephemeral",
         )
         self.producer = producer or ProducerIdentity(
-            name="planguard", version="0.4.0", build="milestone-d"
+            name="planguard", version="0.5.0", build="milestone-d"
         )
         self.hmac_key = hmac_key or os.urandom(32)
         self.analyze_enabled = analyze
@@ -358,7 +358,7 @@ class AnalysisSession:
         return tuple(artifacts)
 
     def _environment(self) -> EnvironmentProfileArtifact:
-        components = [RuntimeComponent(name="planguard", version="0.4.0")]
+        components = [RuntimeComponent(name="planguard", version="0.5.0")]
         try:
             import django
 
@@ -418,6 +418,8 @@ class AnalysisSession:
                 workload_graphs=analysis.workload_graphs,
                 workload_motifs=analysis.workload_motifs,
                 workload_episodes=analysis.workload_episodes,
+                plan_observations=analysis.plan_observations,
+                plan_collection_receipts=analysis.plan_collection_receipts,
                 summary=analysis.summary.model_copy(
                     update={
                         "payload": analysis.summary.payload.model_copy(

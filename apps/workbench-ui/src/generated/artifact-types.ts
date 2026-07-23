@@ -92,7 +92,7 @@ export interface BudgetPolicyPayload {
 
 export interface BudgetRule {
   "rule_key": string;
-  "subject_kind": "run" | "family" | "finding" | "detector_receipt";
+  "subject_kind": "run" | "family" | "finding" | "detector_receipt" | "comparison" | "plan";
   "metric": string | null;
   "selector": SelectorExpression | null;
   "operator": "less_or_equal" | "less_than" | "greater_or_equal" | "greater_than" | "equals" | "no_matches" | "has_matches";
@@ -172,6 +172,38 @@ export interface CapturePolicyPayload {
   "notes": Array<string>;
 }
 
+export type ComparabilityState = "identical" | "compatible" | "controlled_change" | "confounding_change" | "unknown";
+
+export interface ComparisonReportArtifact {
+  "schema_version": "planguard.comparison-report.v1";
+  "artifact_kind": "comparison_report";
+  "artifact_id": string;
+  "created_at": string;
+  "producer": ProducerIdentity;
+  "provenance": Provenance;
+  "payload": ComparisonReportPayload;
+  "extensions": Record<string, Record<string, unknown>>;
+  "content_hash": string;
+}
+
+export interface ComparisonReportPayload {
+  "baseline_run_ref": ArtifactReference;
+  "candidate_run_ref": ArtifactReference;
+  "status": ComparisonStatus;
+  "dimensions": Array<DimensionAssessment>;
+  "changed_dimensions": Array<string>;
+  "metric_deltas": Array<MetricDelta>;
+  "family_changes": Array<FamilyChange>;
+  "plan_changes": Array<PlanChange>;
+  "finding_changes": Array<FindingChange>;
+  "relative_policy_ref": ArtifactReference | null;
+  "relative_rule_evaluations": Array<RelativeRuleEvaluation>;
+  "narrative": Array<string>;
+  "limitations": Array<string>;
+}
+
+export type ComparisonStatus = "valid" | "valid_with_controlled_changes" | "degraded" | "invalid";
+
 export type ConfidenceLevel = "low" | "medium" | "high";
 
 export interface ConstraintEvaluation {
@@ -249,6 +281,15 @@ export interface DetectorReceiptPayload {
 
 export type DetectorStatus = "executed" | "not_applicable" | "not_evaluated" | "failed" | "capability_missing";
 
+export interface DimensionAssessment {
+  "dimension_key": string;
+  "state": ComparabilityState;
+  "baseline_value": unknown | null;
+  "candidate_value": unknown | null;
+  "explanation": string;
+  "affects": Array<"correctness" | "structure" | "plans" | "resources" | "timing">;
+}
+
 export interface DistributionSpec {
   "distribution_key": string;
   "kind": string;
@@ -316,6 +357,15 @@ export interface FamilyAggregates {
   "failed_execution_count": number;
 }
 
+export interface FamilyChange {
+  "change_kind": "added" | "removed" | "changed" | "split" | "merged" | "unchanged";
+  "baseline_family_refs": Array<ArtifactReference>;
+  "candidate_family_refs": Array<ArtifactReference>;
+  "structural_shape_fingerprint": string | null;
+  "deltas": Array<MetricDelta>;
+  "explanation": string;
+}
+
 export interface FamilySchemeArtifact {
   "schema_version": "planguard.family-scheme.v1";
   "artifact_kind": "family_scheme";
@@ -354,6 +404,14 @@ export interface FindingArtifact {
   "content_hash": string;
 }
 
+export interface FindingChange {
+  "change_kind": "introduced" | "resolved" | "changed" | "unchanged";
+  "mechanism_key": string;
+  "baseline_finding_refs": Array<ArtifactReference>;
+  "candidate_finding_refs": Array<ArtifactReference>;
+  "explanation": string;
+}
+
 export interface FindingExplanation {
   "summary": string;
   "details": Array<string>;
@@ -376,6 +434,18 @@ export interface FindingPayload {
 }
 
 export type InferenceMethod = "observed" | "derived" | "inferred";
+
+export interface MetricDelta {
+  "metric_key": string;
+  "baseline": number | number | null;
+  "candidate": number | number | null;
+  "absolute_delta": number | number | null;
+  "relative_delta": number | null;
+  "unit": string | null;
+  "direction": "improved" | "regressed" | "unchanged" | "unknown";
+  "validity": "valid" | "advisory" | "not_comparable" | "not_available";
+  "explanation": string | null;
+}
 
 export interface MotifConstraintDefinition {
   "constraint_key": string;
@@ -509,6 +579,138 @@ export interface ParameterRegime {
 
 export type ParseQuality = "full" | "partial" | "fallback" | "failed";
 
+export interface PlanChange {
+  "change_kind": "added" | "removed" | "changed" | "unchanged" | "not_comparable";
+  "baseline_plan_ref": ArtifactReference | null;
+  "candidate_plan_ref": ArtifactReference | null;
+  "query_shape_fingerprint": string | null;
+  "transitions": Array<string>;
+  "deltas": Array<MetricDelta>;
+  "severity": SeverityLevel;
+  "explanation": string;
+}
+
+export interface PlanCollectionContext {
+  "mode": PlanCollectionMode;
+  "analyzed": boolean;
+  "statement_timeout_ms": number | null;
+  "representative_strategy": "first" | "slowest" | "median_duration" | "explicit" | "imported";
+  "cache_protocol": "unknown" | "cold" | "warm" | "cold_then_warm" | "mixed";
+  "server_version": string | null;
+  "database_settings": Record<string, unknown>;
+  "collection_notes": Array<string>;
+}
+
+export type PlanCollectionMode = "disabled" | "estimated_only" | "analyze_safe_selects" | "explicit_allowlist" | "imported";
+
+export interface PlanCollectionReceiptArtifact {
+  "schema_version": "planguard.plan-collection-receipt.v1";
+  "artifact_kind": "plan_collection_receipt";
+  "artifact_id": string;
+  "created_at": string;
+  "producer": ProducerIdentity;
+  "provenance": Provenance;
+  "payload": PlanCollectionReceiptPayload;
+  "extensions": Record<string, Record<string, unknown>>;
+  "content_hash": string;
+}
+
+export interface PlanCollectionReceiptPayload {
+  "run_id": string;
+  "query_family_ref": ArtifactReference;
+  "status": PlanCollectionStatus;
+  "mode": PlanCollectionMode;
+  "started_at": string;
+  "completed_at": string;
+  "plan_ref": ArtifactReference | null;
+  "representative_execution_ref": ArtifactReference | null;
+  "safety_checks": Record<string, unknown>;
+  "error": string | null;
+  "notes": Array<string>;
+}
+
+export type PlanCollectionStatus = "collected" | "skipped" | "rejected" | "failed" | "capability_missing";
+
+export interface PlanFeatures {
+  "node_count": number;
+  "maximum_depth": number;
+  "node_type_counts": Record<string, number>;
+  "relation_access": Record<string, Array<string>>;
+  "index_names": Array<string>;
+  "maximum_estimate_error_ratio": number | null;
+  "nested_loop_effective_rows": number | null;
+  "rows_removed_by_filter": number;
+  "shared_hit_blocks": number;
+  "shared_read_blocks": number;
+  "temporary_io_blocks": number;
+  "has_disk_spill": boolean;
+  "has_parallelism": boolean;
+  "planning_time_ms": number | null;
+  "execution_time_ms": number | null;
+  "plan_shape_fingerprint": string;
+}
+
+export interface PlanNode {
+  "node_id": string;
+  "node_type": string;
+  "relation": string | null;
+  "alias": string | null;
+  "index": string | null;
+  "join_type": string | null;
+  "strategy": string | null;
+  "estimated_startup_cost": number | null;
+  "estimated_total_cost": number | null;
+  "estimated_rows": number | null;
+  "estimated_width": number | null;
+  "actual_startup_ms": number | null;
+  "actual_total_ms": number | null;
+  "actual_rows": number | null;
+  "loops": number | null;
+  "rows_removed_by_filter": number | null;
+  "shared_hit_blocks": number | null;
+  "shared_read_blocks": number | null;
+  "temp_read_blocks": number | null;
+  "temp_written_blocks": number | null;
+  "sort_method": string | null;
+  "sort_space_type": string | null;
+  "sort_space_kb": number | null;
+  "peak_memory_kb": number | null;
+  "workers_planned": number | null;
+  "workers_launched": number | null;
+  "filter": string | null;
+  "index_condition": string | null;
+  "hash_condition": string | null;
+  "join_filter": string | null;
+  "child_node_ids": Array<string>;
+  "unknown_attributes": Record<string, unknown>;
+}
+
+export interface PlanObservationArtifact {
+  "schema_version": "planguard.plan-observation.v1";
+  "artifact_kind": "plan_observation";
+  "artifact_id": string;
+  "created_at": string;
+  "producer": ProducerIdentity;
+  "provenance": Provenance;
+  "payload": PlanObservationPayload;
+  "extensions": Record<string, Record<string, unknown>>;
+  "content_hash": string;
+}
+
+export interface PlanObservationPayload {
+  "run_id": string;
+  "query_family_ref": ArtifactReference;
+  "representative_execution_ref": ArtifactReference | null;
+  "parameter_regime_key": string | null;
+  "collection": PlanCollectionContext;
+  "root_node_id": string;
+  "nodes": Array<PlanNode>;
+  "features": PlanFeatures;
+  "raw_plan": Record<string, unknown>;
+  "warnings": Array<string>;
+  "capability_gaps": Array<string>;
+}
+
 export interface ProducerIdentity {
   "name": string;
   "version": string;
@@ -620,6 +822,16 @@ export interface QueryTransaction {
 }
 
 export type RawSqlMode = "omit" | "redact" | "preserve";
+
+export interface RelativeRuleEvaluation {
+  "rule_key": string;
+  "status": EvaluationStatus;
+  "metric_key": string | null;
+  "measured_value": unknown | null;
+  "threshold": unknown | null;
+  "subject_refs": Array<ArtifactReference>;
+  "message": string;
+}
 
 export interface RemediationGuidance {
   "category": string;
@@ -1001,7 +1213,7 @@ export interface WorkloadNode {
 
 export type WorkloadNodeKind = "operation" | "query_execution" | "query_family" | "transaction" | "finding" | "evidence" | "episode";
 
-export type AnyArtifact = RunManifestArtifact | EnvironmentProfileArtifact | CapturePolicyArtifact | CapabilityGapArtifact | QueryExecutionArtifact | QueryTemplateArtifact | FamilySchemeArtifact | ObservedQueryFamilyArtifact | EvidenceArtifact | FindingArtifact | DetectorReceiptArtifact | BudgetPolicyArtifact | BudgetEvaluationArtifact | AnalysisSummaryArtifact | WorkloadGraphArtifact | WorkloadMotifArtifact | WorkloadEpisodeArtifact | ScenarioTemplateArtifact | ScenarioBindingArtifact | ScenarioInstanceArtifact | ScenarioSeriesArtifact | ScenarioPhaseReceiptArtifact | ScenarioRunArtifact | DatasetManifestArtifact | MutationDefinitionArtifact;
+export type AnyArtifact = RunManifestArtifact | EnvironmentProfileArtifact | CapturePolicyArtifact | CapabilityGapArtifact | QueryExecutionArtifact | QueryTemplateArtifact | FamilySchemeArtifact | ObservedQueryFamilyArtifact | EvidenceArtifact | FindingArtifact | DetectorReceiptArtifact | BudgetPolicyArtifact | BudgetEvaluationArtifact | AnalysisSummaryArtifact | WorkloadGraphArtifact | WorkloadMotifArtifact | WorkloadEpisodeArtifact | ScenarioTemplateArtifact | ScenarioBindingArtifact | ScenarioInstanceArtifact | ScenarioSeriesArtifact | ScenarioPhaseReceiptArtifact | ScenarioRunArtifact | DatasetManifestArtifact | MutationDefinitionArtifact | PlanObservationArtifact | PlanCollectionReceiptArtifact | ComparisonReportArtifact;
 
 export type MaterializedArtifact = AnyArtifact & {
   artifact_id: string;

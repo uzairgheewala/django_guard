@@ -1,0 +1,43 @@
+[
+  {
+    "Plan": {
+      "Node Type": "Nested Loop",
+      "Join Type": "Inner",
+      "Plan Rows": 1000,
+      "Actual Rows": 10000,
+      "Actual Loops": 20,
+      "Actual Total Time": 320.0,
+      "Plans": [
+        {
+          "Node Type": "Seq Scan",
+          "Relation Name": "student",
+          "Plan Rows": 100,
+          "Actual Rows": 1000,
+          "Actual Loops": 1
+        },
+        {
+          "Node Type": "Sort",
+          "Plan Rows": 10,
+          "Actual Rows": 1000,
+          "Actual Loops": 1000,
+          "Sort Method": "external merge",
+          "Sort Space Type": "Disk",
+          "Sort Space Used": 4096,
+          "Temp Read Blocks": 120,
+          "Temp Written Blocks": 140,
+          "Plans": [
+            {
+              "Node Type": "Seq Scan",
+              "Relation Name": "enrollment",
+              "Plan Rows": 10,
+              "Actual Rows": 1000,
+              "Actual Loops": 1000
+            }
+          ]
+        }
+      ]
+    },
+    "Planning Time": 1.2,
+    "Execution Time": 321.0
+  }
+]

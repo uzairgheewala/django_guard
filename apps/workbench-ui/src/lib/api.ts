@@ -41,6 +41,8 @@ export interface RegistryStats {
   episodes: number;
   scenarios?: number;
   scenario_templates?: number;
+  plans?: number;
+  comparisons?: number;
   by_kind: Record<string, number>;
 }
 
@@ -86,6 +88,8 @@ export interface RunDetailResponse {
   workload_graphs: ArtifactDocumentLike[];
   workload_motifs: ArtifactDocumentLike[];
   workload_episodes: ArtifactDocumentLike[];
+  plan_observations: ArtifactDocumentLike[];
+  plan_collection_receipts: ArtifactDocumentLike[];
 }
 
 export interface RunGraphResponse {
@@ -258,4 +262,36 @@ export function getScenarioRun(scenarioRunId: string): Promise<{
   dataset_manifest: ArtifactDocumentLike | null;
 }> {
   return request(`/api/v1/scenarios/runs/${encodeURIComponent(scenarioRunId)}`);
+}
+
+
+export function getPlan(planId: string): Promise<ArtifactDocumentLike> {
+  return request(`/api/v1/plans/${encodeURIComponent(planId)}`);
+}
+
+export function getRunPlans(runId: string): Promise<{ items: ArtifactDocumentLike[]; receipts: ArtifactDocumentLike[]; count: number }> {
+  return request(`/api/v1/runs/${encodeURIComponent(runId)}/plans`);
+}
+
+export function importRunPlan(runId: string, payload: Record<string, unknown>): Promise<{ plan: ArtifactDocumentLike; receipt: ArtifactDocumentLike; evidence: ArtifactDocumentLike[]; findings: ArtifactDocumentLike[] }> {
+  return request(`/api/v1/runs/${encodeURIComponent(runId)}/plans/import`, { method: "POST", body: JSON.stringify(payload) });
+}
+
+export interface ComparisonListResponse {
+  items: IndexedArtifactSummary[];
+  total: number;
+  limit: number;
+  offset: number;
+}
+
+export function listComparisons(filters: { q?: string; status?: string; limit?: number; offset?: number } = {}): Promise<ComparisonListResponse> {
+  return request(`/api/v1/comparisons${queryString(filters)}`);
+}
+
+export function createComparison(baselineRunId: string, candidateRunId: string, policyArtifactId?: string): Promise<ArtifactDocumentLike> {
+  return request("/api/v1/comparisons/create", { method: "POST", body: JSON.stringify({ baseline_run_id: baselineRunId, candidate_run_id: candidateRunId, policy_artifact_id: policyArtifactId }) });
+}
+
+export function getComparison(comparisonId: string): Promise<ArtifactDocumentLike> {
+  return request(`/api/v1/comparisons/${encodeURIComponent(comparisonId)}`);
 }

@@ -1,0 +1,8 @@
+{
+  "artifact_id": "cmp_89177345750b447888df951265e27919",
+  "artifact_kind": "comparison_report",
+  "content_hash": "sha256:51084ef6877d6de19037af5765cfa5df851af8d64aa3aa98112fc36988cb2b76",
+  "created_at": "2026-07-23T12:34:39.240916+00:00",
+  "path": "artifacts/cmp_89177345750b447888df951265e27919.json",
+  "schema_version": "planguard.comparison-report.v1"
+}

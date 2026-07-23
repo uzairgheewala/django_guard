@@ -589,7 +589,7 @@ class SelectorExpression(FrozenModel):
 
 class BudgetRule(FrozenModel):
     rule_key: str
-    subject_kind: Literal["run", "family", "finding", "detector_receipt"]
+    subject_kind: Literal["run", "family", "finding", "detector_receipt", "comparison", "plan"]
     metric: str | None = None
     selector: SelectorExpression | None = None
     operator: Literal[
@@ -1161,6 +1161,252 @@ class ScenarioRunPayload(FrozenModel):
         return validate_artifact_id(value)
 
 
+
+# ---------------------------------------------------------------------------
+# Milestone E PostgreSQL plan and comparison contracts.
+# ---------------------------------------------------------------------------
+
+
+class PlanCollectionMode(StrEnum):
+    DISABLED = "disabled"
+    ESTIMATED_ONLY = "estimated_only"
+    ANALYZE_SAFE_SELECTS = "analyze_safe_selects"
+    EXPLICIT_ALLOWLIST = "explicit_allowlist"
+    IMPORTED = "imported"
+
+
+class PlanCollectionStatus(StrEnum):
+    COLLECTED = "collected"
+    SKIPPED = "skipped"
+    REJECTED = "rejected"
+    FAILED = "failed"
+    CAPABILITY_MISSING = "capability_missing"
+
+
+class PlanNode(FrozenModel):
+    node_id: str
+    node_type: str
+    relation: str | None = None
+    alias: str | None = None
+    index: str | None = None
+    join_type: str | None = None
+    strategy: str | None = None
+    estimated_startup_cost: float | None = Field(default=None, ge=0)
+    estimated_total_cost: float | None = Field(default=None, ge=0)
+    estimated_rows: float | None = Field(default=None, ge=0)
+    estimated_width: int | None = Field(default=None, ge=0)
+    actual_startup_ms: float | None = Field(default=None, ge=0)
+    actual_total_ms: float | None = Field(default=None, ge=0)
+    actual_rows: float | None = Field(default=None, ge=0)
+    loops: float | None = Field(default=None, ge=0)
+    rows_removed_by_filter: float | None = Field(default=None, ge=0)
+    shared_hit_blocks: int | None = Field(default=None, ge=0)
+    shared_read_blocks: int | None = Field(default=None, ge=0)
+    temp_read_blocks: int | None = Field(default=None, ge=0)
+    temp_written_blocks: int | None = Field(default=None, ge=0)
+    sort_method: str | None = None
+    sort_space_type: str | None = None
+    sort_space_kb: int | None = Field(default=None, ge=0)
+    peak_memory_kb: int | None = Field(default=None, ge=0)
+    workers_planned: int | None = Field(default=None, ge=0)
+    workers_launched: int | None = Field(default=None, ge=0)
+    filter: str | None = None
+    index_condition: str | None = None
+    hash_condition: str | None = None
+    join_filter: str | None = None
+    child_node_ids: tuple[str, ...] = ()
+    unknown_attributes: JsonObject = Field(default_factory=dict)
+
+    @field_validator("unknown_attributes")
+    @classmethod
+    def validate_unknown_plan_attributes(cls, value: JsonObject) -> JsonObject:
+        canonical_data(value)
+        return value
+
+
+class PlanFeatures(FrozenModel):
+    node_count: int = Field(ge=0)
+    maximum_depth: int = Field(ge=0)
+    node_type_counts: dict[str, int] = Field(default_factory=dict)
+    relation_access: dict[str, tuple[str, ...]] = Field(default_factory=dict)
+    index_names: tuple[str, ...] = ()
+    maximum_estimate_error_ratio: float | None = Field(default=None, ge=0)
+    nested_loop_effective_rows: float | None = Field(default=None, ge=0)
+    rows_removed_by_filter: float = Field(default=0, ge=0)
+    shared_hit_blocks: int = Field(default=0, ge=0)
+    shared_read_blocks: int = Field(default=0, ge=0)
+    temporary_io_blocks: int = Field(default=0, ge=0)
+    has_disk_spill: bool = False
+    has_parallelism: bool = False
+    planning_time_ms: float | None = Field(default=None, ge=0)
+    execution_time_ms: float | None = Field(default=None, ge=0)
+    plan_shape_fingerprint: str
+
+
+class PlanCollectionContext(FrozenModel):
+    mode: PlanCollectionMode
+    analyzed: bool
+    statement_timeout_ms: int | None = Field(default=None, ge=1)
+    representative_strategy: Literal["first", "slowest", "median_duration", "explicit", "imported"]
+    cache_protocol: Literal["unknown", "cold", "warm", "cold_then_warm", "mixed"] = "unknown"
+    server_version: str | None = None
+    database_settings: JsonObject = Field(default_factory=dict)
+    collection_notes: tuple[str, ...] = ()
+
+
+class PlanObservationPayload(FrozenModel):
+    run_id: str
+    query_family_ref: ArtifactReference
+    representative_execution_ref: ArtifactReference | None = None
+    parameter_regime_key: str | None = None
+    collection: PlanCollectionContext
+    root_node_id: str
+    nodes: tuple[PlanNode, ...]
+    features: PlanFeatures
+    raw_plan: JsonObject
+    warnings: tuple[str, ...] = ()
+    capability_gaps: tuple[str, ...] = ()
+
+    @field_validator("run_id")
+    @classmethod
+    def validate_plan_run_id(cls, value: str) -> str:
+        return validate_artifact_id(value)
+
+    @field_validator("raw_plan")
+    @classmethod
+    def validate_raw_plan(cls, value: JsonObject) -> JsonObject:
+        canonical_data(value)
+        return value
+
+    @model_validator(mode="after")
+    def validate_plan_tree(self) -> "PlanObservationPayload":
+        ids = [node.node_id for node in self.nodes]
+        if len(ids) != len(set(ids)):
+            raise ValueError("Plan node IDs must be unique")
+        known = set(ids)
+        if self.root_node_id not in known:
+            raise ValueError("Plan root_node_id must reference a known node")
+        for node in self.nodes:
+            if any(child not in known for child in node.child_node_ids):
+                raise ValueError("Plan child_node_ids must reference known nodes")
+        return self
+
+
+class PlanCollectionReceiptPayload(FrozenModel):
+    run_id: str
+    query_family_ref: ArtifactReference
+    status: PlanCollectionStatus
+    mode: PlanCollectionMode
+    started_at: datetime
+    completed_at: datetime
+    plan_ref: ArtifactReference | None = None
+    representative_execution_ref: ArtifactReference | None = None
+    safety_checks: JsonObject = Field(default_factory=dict)
+    error: str | None = None
+    notes: tuple[str, ...] = ()
+
+    @field_validator("run_id")
+    @classmethod
+    def validate_receipt_run_id(cls, value: str) -> str:
+        return validate_artifact_id(value)
+
+
+class ComparabilityState(StrEnum):
+    IDENTICAL = "identical"
+    COMPATIBLE = "compatible"
+    CONTROLLED_CHANGE = "controlled_change"
+    CONFOUNDING_CHANGE = "confounding_change"
+    UNKNOWN = "unknown"
+
+
+class ComparisonStatus(StrEnum):
+    VALID = "valid"
+    VALID_WITH_CONTROLLED_CHANGES = "valid_with_controlled_changes"
+    DEGRADED = "degraded"
+    INVALID = "invalid"
+
+
+class DimensionAssessment(FrozenModel):
+    dimension_key: str
+    state: ComparabilityState
+    baseline_value: JsonValue | None = None
+    candidate_value: JsonValue | None = None
+    explanation: str
+    affects: tuple[Literal["correctness", "structure", "plans", "resources", "timing"], ...] = ()
+
+    @field_validator("baseline_value", "candidate_value")
+    @classmethod
+    def validate_dimension_values(cls, value: JsonValue | None) -> JsonValue | None:
+        canonical_data(value)
+        return value
+
+
+class MetricDelta(FrozenModel):
+    metric_key: str
+    baseline: float | int | None = None
+    candidate: float | int | None = None
+    absolute_delta: float | int | None = None
+    relative_delta: float | None = None
+    unit: str | None = None
+    direction: Literal["improved", "regressed", "unchanged", "unknown"] = "unknown"
+    validity: Literal["valid", "advisory", "not_comparable", "not_available"] = "valid"
+    explanation: str | None = None
+
+
+class FamilyChange(FrozenModel):
+    change_kind: Literal["added", "removed", "changed", "split", "merged", "unchanged"]
+    baseline_family_refs: tuple[ArtifactReference, ...] = ()
+    candidate_family_refs: tuple[ArtifactReference, ...] = ()
+    structural_shape_fingerprint: str | None = None
+    deltas: tuple[MetricDelta, ...] = ()
+    explanation: str
+
+
+class PlanChange(FrozenModel):
+    change_kind: Literal["added", "removed", "changed", "unchanged", "not_comparable"]
+    baseline_plan_ref: ArtifactReference | None = None
+    candidate_plan_ref: ArtifactReference | None = None
+    query_shape_fingerprint: str | None = None
+    transitions: tuple[str, ...] = ()
+    deltas: tuple[MetricDelta, ...] = ()
+    severity: SeverityLevel = SeverityLevel.INFO
+    explanation: str
+
+
+class FindingChange(FrozenModel):
+    change_kind: Literal["introduced", "resolved", "changed", "unchanged"]
+    mechanism_key: str
+    baseline_finding_refs: tuple[ArtifactReference, ...] = ()
+    candidate_finding_refs: tuple[ArtifactReference, ...] = ()
+    explanation: str
+
+
+class RelativeRuleEvaluation(FrozenModel):
+    rule_key: str
+    status: EvaluationStatus
+    metric_key: str | None = None
+    measured_value: JsonValue | None = None
+    threshold: JsonValue | None = None
+    subject_refs: tuple[ArtifactReference, ...] = ()
+    message: str
+
+
+class ComparisonReportPayload(FrozenModel):
+    baseline_run_ref: ArtifactReference
+    candidate_run_ref: ArtifactReference
+    status: ComparisonStatus
+    dimensions: tuple[DimensionAssessment, ...]
+    changed_dimensions: tuple[str, ...] = ()
+    metric_deltas: tuple[MetricDelta, ...] = ()
+    family_changes: tuple[FamilyChange, ...] = ()
+    plan_changes: tuple[PlanChange, ...] = ()
+    finding_changes: tuple[FindingChange, ...] = ()
+    relative_policy_ref: ArtifactReference | None = None
+    relative_rule_evaluations: tuple[RelativeRuleEvaluation, ...] = ()
+    narrative: tuple[str, ...] = ()
+    limitations: tuple[str, ...] = ()
+
+
 # ---------------------------------------------------------------------------
 # Concrete artifacts.
 # ---------------------------------------------------------------------------
@@ -1327,6 +1573,24 @@ class MutationDefinitionArtifact(ArtifactDocument[MutationDefinitionPayload]):
     artifact_kind: Literal["mutation_definition"] = "mutation_definition"
     artifact_id: str = Field(default_factory=lambda: new_artifact_id("mut"))
 
+class PlanObservationArtifact(ArtifactDocument[PlanObservationPayload]):
+    schema_version: Literal["planguard.plan-observation.v1"] = "planguard.plan-observation.v1"
+    artifact_kind: Literal["plan_observation"] = "plan_observation"
+    artifact_id: str = Field(default_factory=lambda: new_artifact_id("plan"))
+
+
+class PlanCollectionReceiptArtifact(ArtifactDocument[PlanCollectionReceiptPayload]):
+    schema_version: Literal["planguard.plan-collection-receipt.v1"] = "planguard.plan-collection-receipt.v1"
+    artifact_kind: Literal["plan_collection_receipt"] = "plan_collection_receipt"
+    artifact_id: str = Field(default_factory=lambda: new_artifact_id("plrc"))
+
+
+class ComparisonReportArtifact(ArtifactDocument[ComparisonReportPayload]):
+    schema_version: Literal["planguard.comparison-report.v1"] = "planguard.comparison-report.v1"
+    artifact_kind: Literal["comparison_report"] = "comparison_report"
+    artifact_id: str = Field(default_factory=lambda: new_artifact_id("cmp"))
+
+
 AnyArtifact: TypeAlias = Annotated[
     RunManifestArtifact
     | EnvironmentProfileArtifact
@@ -1352,7 +1616,10 @@ AnyArtifact: TypeAlias = Annotated[
     | ScenarioPhaseReceiptArtifact
     | ScenarioRunArtifact
     | DatasetManifestArtifact
-    | MutationDefinitionArtifact,
+    | MutationDefinitionArtifact
+    | PlanObservationArtifact
+    | PlanCollectionReceiptArtifact
+    | ComparisonReportArtifact,
     Field(discriminator="artifact_kind"),
 ]
 
@@ -1384,6 +1651,9 @@ ARTIFACT_MODELS: tuple[type[ArtifactDocument[Any]], ...] = (
     ScenarioRunArtifact,
     DatasetManifestArtifact,
     MutationDefinitionArtifact,
+    PlanObservationArtifact,
+    PlanCollectionReceiptArtifact,
+    ComparisonReportArtifact,
 )
 
 SelectorExpression.model_rebuild()

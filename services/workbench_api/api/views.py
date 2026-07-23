@@ -5,6 +5,7 @@ from functools import lru_cache
 from typing import Any
 
 from django.conf import settings
+from django.db import connections
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_GET, require_http_methods
@@ -20,12 +21,17 @@ from planguard.artifacts.models import (
     WorkloadGraphArtifact,
     ScenarioInstanceArtifact,
     ScenarioRunArtifact,
+    ObservedQueryFamilyArtifact,
+    PlanObservationArtifact,
+    ComparisonReportArtifact,
 )
 from planguard.canonical import canonical_data
 from planguard.errors import PlanGuardError
 from planguard.policy.engine import evaluate_policy
 from planguard.lab.academic import build_academic_catalog
 from planguard.scenario import ScenarioRunner, instantiate
+from planguard.postgres import PlanCollectionPolicy, collect_plan, import_plan, analyze_plan
+from planguard.comparison import compare_runs
 from planguard.store.bundle import export_run_bundle
 from planguard.store.filesystem import FilesystemArtifactStore
 from planguard.store.index import ArtifactIndex
@@ -83,7 +89,7 @@ def health(request: HttpRequest) -> JsonResponse:
         {
             "status": "ok",
             "service": "planguard-workbench-api",
-            "milestone": "D",
+            "milestone": "E",
             "mode": "explorer",
         }
     )
@@ -113,7 +119,10 @@ def capabilities(request: HttpRequest) -> JsonResponse:
                 "workload.graph": "supported",
                 "workload.motif": "supported",
                 "workload.episode": "supported",
-                "plan.postgresql": "unsupported",
+                "plan.postgresql": "supported",
+                "plan.postgresql.execute": "supported" if settings.PLANGUARD_PLAN_EXECUTION_ENABLED else "unsupported",
+                "comparison.semantic": "supported",
+                "policy.relative": "supported",
                 "scenario.execution": "supported" if settings.PLANGUARD_LAB_ENABLED else "unsupported",
                 "scenario.template": "supported",
                 "scenario.binding": "supported",
@@ -294,6 +303,8 @@ def _bundle_payload(run_id: str) -> dict[str, Any]:
         "workload_graphs": [canonical_data(item) for item in bundle.workload_graphs],
         "workload_motifs": [canonical_data(item) for item in bundle.workload_motifs],
         "workload_episodes": [canonical_data(item) for item in bundle.workload_episodes],
+        "plan_observations": [canonical_data(item) for item in bundle.plan_observations],
+        "plan_collection_receipts": [canonical_data(item) for item in bundle.plan_collection_receipts],
     }
 
 
@@ -348,7 +359,7 @@ def run_graph(request: HttpRequest, run_id: str) -> JsonResponse:
                 templates=bundle.templates,
                 families=bundle.families,
                 findings=bundle.findings,
-                producer=ProducerIdentity(name="planguard", version="0.4.0", build="workbench-api"),
+                producer=ProducerIdentity(name="planguard", version="0.5.0", build="workbench-api"),
                 family_scheme_key=scheme,
             )
             graph = built.graph
@@ -416,7 +427,7 @@ def evaluate_run_policy(request: HttpRequest, run_id: str) -> JsonResponse:
             policy = artifact_store().load(body["policy_artifact_id"])
         elif "policy_payload" in body:
             policy = BudgetPolicyArtifact(
-                producer=ProducerIdentity(name="planguard", version="0.4.0", build="workbench-api"),
+                producer=ProducerIdentity(name="planguard", version="0.5.0", build="workbench-api"),
                 payload=BudgetPolicyPayload.model_validate(body["policy_payload"]),
             ).seal()
             artifact_store().save(policy)
@@ -427,7 +438,7 @@ def evaluate_run_policy(request: HttpRequest, run_id: str) -> JsonResponse:
         evaluation = evaluate_policy(
             bundle,
             policy,
-            producer=ProducerIdentity(name="planguard", version="0.4.0", build="workbench-api"),
+            producer=ProducerIdentity(name="planguard", version="0.5.0", build="workbench-api"),
         )
         artifact_store().save(evaluation)
         _sync_index()
@@ -439,7 +450,7 @@ def evaluate_run_policy(request: HttpRequest, run_id: str) -> JsonResponse:
 @lru_cache(maxsize=1)
 def academic_catalog():
     catalog = build_academic_catalog(
-        producer=ProducerIdentity(name="planguard", version="0.4.0", build="workbench-api")
+        producer=ProducerIdentity(name="planguard", version="0.5.0", build="workbench-api")
     )
     catalog.persist(artifact_store())
     artifact_index().sync(artifact_store())
@@ -490,7 +501,7 @@ def instantiate_scenario(request: HttpRequest) -> JsonResponse:
             variant_key=str(body.get("variant_key", "naive")),
             mutations=tuple(mutation_specs),
             seed=int(body.get("seed", 1)),
-            producer=ProducerIdentity(name="planguard", version="0.4.0", build="workbench-api"),
+            producer=ProducerIdentity(name="planguard", version="0.5.0", build="workbench-api"),
             tags=tuple(body.get("tags", ())),
         )
         artifact_store().save(instance)
@@ -516,8 +527,8 @@ def execute_scenario(request: HttpRequest) -> JsonResponse:
             template = catalog.registry.require_template(str(body["template_key"]))
             binding = catalog.registry.require_binding(str(body["binding_key"]))
             mutation_specs = tuple((catalog.registry.require_mutation(str(item["mutation_key"])), dict(item.get("parameters", {}))) for item in body.get("mutations", []))
-            instance = instantiate(template, binding, parameters=dict(body.get("parameters", {})), variant_key=str(body.get("variant_key", "naive")), mutations=mutation_specs, seed=int(body.get("seed", 1)), producer=ProducerIdentity(name="planguard", version="0.4.0", build="workbench-api"), tags=tuple(body.get("tags", ())))
-        result = ScenarioRunner(registry=catalog.registry, store=artifact_store(), producer=ProducerIdentity(name="planguard", version="0.4.0", build="workbench-api")).run(instance)
+            instance = instantiate(template, binding, parameters=dict(body.get("parameters", {})), variant_key=str(body.get("variant_key", "naive")), mutations=mutation_specs, seed=int(body.get("seed", 1)), producer=ProducerIdentity(name="planguard", version="0.5.0", build="workbench-api"), tags=tuple(body.get("tags", ())))
+        result = ScenarioRunner(registry=catalog.registry, store=artifact_store(), producer=ProducerIdentity(name="planguard", version="0.5.0", build="workbench-api")).run(instance)
         artifact_index().sync(artifact_store())
         return JsonResponse(
             {
@@ -543,5 +554,143 @@ def scenario_run_detail(request: HttpRequest, scenario_run_id: str) -> JsonRespo
         instance = artifact_store().load(artifact.payload.scenario_instance_ref.artifact_id)
         dataset = artifact_store().load(artifact.payload.dataset_ref.artifact_id) if artifact.payload.dataset_ref else None
         return JsonResponse({"scenario_run": canonical_data(artifact), "scenario_instance": canonical_data(instance), "phase_receipts": [canonical_data(item) for item in receipts], "dataset_manifest": canonical_data(dataset) if dataset else None}, safe=True)
+    except Exception as exc:
+        return _error_response(exc, status=404)
+
+
+@require_GET
+def run_plans(request: HttpRequest, run_id: str) -> JsonResponse:
+    try:
+        _, bundle = load_analysis_bundle(artifact_store(), run_id, index=_sync_index())
+        return JsonResponse({
+            "items": [canonical_data(item) for item in bundle.plan_observations],
+            "receipts": [canonical_data(item) for item in bundle.plan_collection_receipts],
+            "count": len(bundle.plan_observations),
+        })
+    except Exception as exc:
+        return _error_response(exc, status=404)
+
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def import_run_plan(request: HttpRequest, run_id: str) -> JsonResponse:
+    try:
+        body = json.loads(request.body.decode("utf-8"))
+        family = artifact_store().load(str(body["family_id"]))
+        if not isinstance(family, ObservedQueryFamilyArtifact):
+            raise ValueError("family_id must refer to an observed_query_family artifact")
+        if family.payload.run_id != run_id:
+            raise ValueError("family_id does not belong to the requested run")
+        execution_ref = None
+        if body.get("representative_execution_id"):
+            execution_ref = artifact_store().load(str(body["representative_execution_id"])).reference()
+        producer = ProducerIdentity(name="planguard", version="0.5.0", build="workbench-api")
+        plan, receipt = import_plan(
+            raw_plan=body["raw_plan"], run_id=run_id, query_family_ref=family.reference(),
+            representative_execution_ref=execution_ref, producer=producer,
+            parameter_regime_key=body.get("parameter_regime_key"),
+            cache_protocol=body.get("cache_protocol", "unknown"),
+            server_version=body.get("server_version"),
+            database_settings=dict(body.get("database_settings", {})),
+        )
+        evidence, findings = analyze_plan(
+            plan, producer=producer,
+            high_volume_relations=frozenset(body.get("high_volume_relations", [])),
+        )
+        artifact_store().save(plan)
+        artifact_store().save(receipt)
+        for artifact in (*evidence, *findings):
+            artifact_store().save(artifact)
+        artifact_index().sync(artifact_store())
+        return JsonResponse({
+            "plan": canonical_data(plan),
+            "receipt": canonical_data(receipt),
+            "evidence": [canonical_data(item) for item in evidence],
+            "findings": [canonical_data(item) for item in findings],
+        }, status=201)
+    except Exception as exc:
+        return _error_response(exc, status=400)
+
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def collect_run_plan(request: HttpRequest, run_id: str) -> JsonResponse:
+    if not settings.PLANGUARD_PLAN_EXECUTION_ENABLED:
+        return JsonResponse({"error": "plan_execution_disabled", "message": "Database plan execution is disabled."}, status=403)
+    try:
+        body = json.loads(request.body.decode("utf-8"))
+        family = artifact_store().load(str(body["family_id"]))
+        if not isinstance(family, ObservedQueryFamilyArtifact) or family.payload.run_id != run_id:
+            raise ValueError("family_id must identify a family belonging to the requested run")
+        mode = body.get("mode", "estimated_only")
+        from planguard.artifacts.models import PlanCollectionMode
+        policy = PlanCollectionPolicy(
+            mode=PlanCollectionMode(mode), statement_timeout_ms=int(body.get("statement_timeout_ms", 2000)),
+            explicit_allowlist=frozenset([str(body["sql"])]) if body.get("allowlisted") else frozenset(),
+        )
+        producer = ProducerIdentity(name="planguard", version="0.5.0", build="workbench-api")
+        plan, receipt = collect_plan(
+            connection=connections[body.get("connection_alias", "default")],
+            sql=str(body["sql"]), params=body.get("params"), run_id=run_id,
+            query_family_ref=family.reference(), producer=producer, policy=policy,
+        )
+        artifact_store().save(receipt)
+        evidence = findings = ()
+        if plan:
+            artifact_store().save(plan)
+            evidence, findings = analyze_plan(plan, producer=producer, high_volume_relations=frozenset(body.get("high_volume_relations", [])))
+            for artifact in (*evidence, *findings): artifact_store().save(artifact)
+        artifact_index().sync(artifact_store())
+        return JsonResponse({"plan": canonical_data(plan) if plan else None, "receipt": canonical_data(receipt), "findings": [canonical_data(item) for item in findings]}, status=201)
+    except Exception as exc:
+        return _error_response(exc, status=400)
+
+
+@require_GET
+def plan_detail(request: HttpRequest, plan_id: str) -> JsonResponse:
+    try:
+        plan = artifact_store().load(plan_id)
+        if not isinstance(plan, PlanObservationArtifact): raise ValueError("Artifact is not a plan observation")
+        return JsonResponse(canonical_data(plan))
+    except Exception as exc:
+        return _error_response(exc, status=404)
+
+
+@require_GET
+def comparisons(request: HttpRequest) -> JsonResponse:
+    page = _sync_index().search(artifact_kind="comparison_report", query=request.GET.get("q") or None, status=request.GET.get("status") or None, limit=_int_arg(request, "limit", 50), offset=_int_arg(request, "offset", 0))
+    return JsonResponse({"items": list(page.items), "total": page.total, "limit": page.limit, "offset": page.offset})
+
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def create_comparison(request: HttpRequest) -> JsonResponse:
+    try:
+        body = json.loads(request.body.decode("utf-8"))
+        base_manifest, base = load_analysis_bundle(artifact_store(), str(body["baseline_run_id"]), index=_sync_index())
+        cand_manifest, cand = load_analysis_bundle(artifact_store(), str(body["candidate_run_id"]), index=_sync_index())
+        policy = None
+        if body.get("policy_artifact_id"):
+            policy = artifact_store().load(str(body["policy_artifact_id"]))
+            if not isinstance(policy, BudgetPolicyArtifact): raise ValueError("policy_artifact_id must identify a budget policy")
+        report = compare_runs(
+            baseline_manifest=base_manifest, candidate_manifest=cand_manifest,
+            baseline=base, candidate=cand, loader=artifact_store().load,
+            producer=ProducerIdentity(name="planguard", version="0.5.0", build="workbench-api"),
+            baseline_plans=base.plan_observations, candidate_plans=cand.plan_observations,
+            relative_policy=policy,
+        )
+        artifact_store().save(report); artifact_index().upsert(report)
+        return JsonResponse(canonical_data(report), status=201)
+    except Exception as exc:
+        return _error_response(exc, status=400)
+
+
+@require_GET
+def comparison_detail(request: HttpRequest, comparison_id: str) -> JsonResponse:
+    try:
+        report = artifact_store().load(comparison_id)
+        if not isinstance(report, ComparisonReportArtifact): raise ValueError("Artifact is not a comparison report")
+        return JsonResponse(canonical_data(report))
     except Exception as exc:
         return _error_response(exc, status=404)

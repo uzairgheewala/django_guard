@@ -1,0 +1,48 @@
+{
+  "artifact_id": "wmotif_cf2e4df7fcc3e42626a806b6be5dab24",
+  "artifact_kind": "workload_motif",
+  "content_hash": "sha256:f40b20861aa5d0a5e76e6024dfa9d50bc3f95e0ec654cbd41aecf331564db7a0",
+  "created_at": "1970-01-01T00:00:00Z",
+  "extensions": {},
+  "payload": {
+    "constraints": [
+      {
+        "constraint_key": "query-count",
+        "description": null,
+        "kind": "transaction_members_gte",
+        "parameters": {
+          "value": 5
+        }
+      }
+    ],
+    "description": "One transaction contains many captured executions.",
+    "edge_patterns": [],
+    "mechanism_keys": [
+      "excessive-transaction-scope"
+    ],
+    "motif_key": "long-transaction-accumulation.v1",
+    "node_roles": [
+      {
+        "allowed_kinds": [
+          "transaction"
+        ],
+        "description": null,
+        "role_key": "transaction"
+      }
+    ],
+    "title": "Long transaction query accumulation"
+  },
+  "producer": {
+    "build": "milestone-e-seed",
+    "name": "planguard",
+    "version": "0.5.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": "builtin-workload-motif.v2",
+    "input_refs": [],
+    "notes": []
+  },
+  "schema_version": "planguard.workload-motif.v1"
+}

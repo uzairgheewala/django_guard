@@ -4,6 +4,7 @@ const navigation = [
   ["/", "Home"],
   ["/runs", "Runs"],
   ["/scenarios", "Scenarios"],
+  ["/comparisons", "Comparisons"],
   ["/motifs", "Motifs"],
   ["/policies", "Policies"],
   ["/artifacts", "Artifacts"],
@@ -30,8 +31,8 @@ export function Layout() {
         </nav>
         <div className="milestone-note">
           <span className="status-dot supported" />
-          Milestone D
-          <small>Generic scenario laboratory</small>
+          Milestone E
+          <small>Plan intelligence & comparisons</small>
         </div>
       </aside>
       <main className="content">

@@ -1,0 +1,49 @@
+{
+  "artifact_id": "evd_6d5f8b8f28bc48f3a5c0c9a471fc8a69",
+  "artifact_kind": "evidence",
+  "content_hash": "sha256:f1edbf2a460ea2145d21403c5c16210e6148130f343930ac2aa08ea7671329cd",
+  "created_at": "2026-07-23T12:34:38.115568Z",
+  "extensions": {},
+  "payload": {
+    "claims": [
+      {
+        "claim_key": "large-sequential-scan",
+        "explanation": "The plan scans configured high-volume relation enrollment sequentially.",
+        "status": "supported",
+        "subject_refs": [
+          {
+            "artifact_id": "plan_f5b5a583721249e0a5d2366c8de9484d",
+            "artifact_kind": "plan_observation",
+            "content_hash": "sha256:48ba233f85755d234606bb31c84bf7de79d805e370b882dce938f436497bc5e2",
+            "schema_version": "planguard.plan-observation.v1"
+          }
+        ],
+        "values": {
+          "relation": "enrollment",
+          "rows": 42.0
+        }
+      }
+    ],
+    "run_id": "run_a1ef2403393a4603a0fd1705401a61cb"
+  },
+  "producer": {
+    "build": "milestone-e-seed",
+    "name": "planguard",
+    "version": "0.5.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": "plan-evidence:large-sequential-scan.v1",
+    "input_refs": [
+      {
+        "artifact_id": "plan_f5b5a583721249e0a5d2366c8de9484d",
+        "artifact_kind": "plan_observation",
+        "content_hash": "sha256:48ba233f85755d234606bb31c84bf7de79d805e370b882dce938f436497bc5e2",
+        "schema_version": "planguard.plan-observation.v1"
+      }
+    ],
+    "notes": []
+  },
+  "schema_version": "planguard.evidence.v1"
+}

@@ -1,0 +1,819 @@
+{
+  "$defs": {
+    "ArtifactReference": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "artifact_kind": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Artifact Kind",
+          "type": "string"
+        },
+        "content_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "schema_version": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Schema Version"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "artifact_kind",
+        "content_hash",
+        "schema_version"
+      ],
+      "title": "ArtifactReference",
+      "type": "object"
+    },
+    "ComparabilityState": {
+      "enum": [
+        "identical",
+        "compatible",
+        "controlled_change",
+        "confounding_change",
+        "unknown"
+      ],
+      "title": "ComparabilityState",
+      "type": "string"
+    },
+    "ComparisonReportPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "baseline_run_ref": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "candidate_run_ref": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "changed_dimensions": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Changed Dimensions",
+          "type": "array"
+        },
+        "dimensions": {
+          "items": {
+            "$ref": "#/$defs/DimensionAssessment"
+          },
+          "title": "Dimensions",
+          "type": "array"
+        },
+        "family_changes": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/FamilyChange"
+          },
+          "title": "Family Changes",
+          "type": "array"
+        },
+        "finding_changes": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/FindingChange"
+          },
+          "title": "Finding Changes",
+          "type": "array"
+        },
+        "limitations": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Limitations",
+          "type": "array"
+        },
+        "metric_deltas": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/MetricDelta"
+          },
+          "title": "Metric Deltas",
+          "type": "array"
+        },
+        "narrative": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Narrative",
+          "type": "array"
+        },
+        "plan_changes": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/PlanChange"
+          },
+          "title": "Plan Changes",
+          "type": "array"
+        },
+        "relative_policy_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "relative_rule_evaluations": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/RelativeRuleEvaluation"
+          },
+          "title": "Relative Rule Evaluations",
+          "type": "array"
+        },
+        "status": {
+          "$ref": "#/$defs/ComparisonStatus"
+        }
+      },
+      "required": [
+        "baseline_run_ref",
+        "candidate_run_ref",
+        "changed_dimensions",
+        "dimensions",
+        "family_changes",
+        "finding_changes",
+        "limitations",
+        "metric_deltas",
+        "narrative",
+        "plan_changes",
+        "relative_policy_ref",
+        "relative_rule_evaluations",
+        "status"
+      ],
+      "title": "ComparisonReportPayload",
+      "type": "object"
+    },
+    "ComparisonStatus": {
+      "enum": [
+        "valid",
+        "valid_with_controlled_changes",
+        "degraded",
+        "invalid"
+      ],
+      "title": "ComparisonStatus",
+      "type": "string"
+    },
+    "DimensionAssessment": {
+      "additionalProperties": false,
+      "properties": {
+        "affects": {
+          "default": [],
+          "items": {
+            "enum": [
+              "correctness",
+              "structure",
+              "plans",
+              "resources",
+              "timing"
+            ],
+            "type": "string"
+          },
+          "title": "Affects",
+          "type": "array"
+        },
+        "baseline_value": {
+          "anyOf": [
+            {},
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Baseline Value"
+        },
+        "candidate_value": {
+          "anyOf": [
+            {},
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Candidate Value"
+        },
+        "dimension_key": {
+          "title": "Dimension Key",
+          "type": "string"
+        },
+        "explanation": {
+          "title": "Explanation",
+          "type": "string"
+        },
+        "state": {
+          "$ref": "#/$defs/ComparabilityState"
+        }
+      },
+      "required": [
+        "affects",
+        "baseline_value",
+        "candidate_value",
+        "dimension_key",
+        "explanation",
+        "state"
+      ],
+      "title": "DimensionAssessment",
+      "type": "object"
+    },
+    "EvaluationStatus": {
+      "enum": [
+        "passed",
+        "failed",
+        "warned",
+        "not_evaluated"
+      ],
+      "title": "EvaluationStatus",
+      "type": "string"
+    },
+    "FamilyChange": {
+      "additionalProperties": false,
+      "properties": {
+        "baseline_family_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Baseline Family Refs",
+          "type": "array"
+        },
+        "candidate_family_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Candidate Family Refs",
+          "type": "array"
+        },
+        "change_kind": {
+          "enum": [
+            "added",
+            "removed",
+            "changed",
+            "split",
+            "merged",
+            "unchanged"
+          ],
+          "title": "Change Kind",
+          "type": "string"
+        },
+        "deltas": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/MetricDelta"
+          },
+          "title": "Deltas",
+          "type": "array"
+        },
+        "explanation": {
+          "title": "Explanation",
+          "type": "string"
+        },
+        "structural_shape_fingerprint": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Structural Shape Fingerprint"
+        }
+      },
+      "required": [
+        "baseline_family_refs",
+        "candidate_family_refs",
+        "change_kind",
+        "deltas",
+        "explanation",
+        "structural_shape_fingerprint"
+      ],
+      "title": "FamilyChange",
+      "type": "object"
+    },
+    "FindingChange": {
+      "additionalProperties": false,
+      "properties": {
+        "baseline_finding_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Baseline Finding Refs",
+          "type": "array"
+        },
+        "candidate_finding_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Candidate Finding Refs",
+          "type": "array"
+        },
+        "change_kind": {
+          "enum": [
+            "introduced",
+            "resolved",
+            "changed",
+            "unchanged"
+          ],
+          "title": "Change Kind",
+          "type": "string"
+        },
+        "explanation": {
+          "title": "Explanation",
+          "type": "string"
+        },
+        "mechanism_key": {
+          "title": "Mechanism Key",
+          "type": "string"
+        }
+      },
+      "required": [
+        "baseline_finding_refs",
+        "candidate_finding_refs",
+        "change_kind",
+        "explanation",
+        "mechanism_key"
+      ],
+      "title": "FindingChange",
+      "type": "object"
+    },
+    "MetricDelta": {
+      "additionalProperties": false,
+      "properties": {
+        "absolute_delta": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Absolute Delta"
+        },
+        "baseline": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Baseline"
+        },
+        "candidate": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Candidate"
+        },
+        "direction": {
+          "default": "unknown",
+          "enum": [
+            "improved",
+            "regressed",
+            "unchanged",
+            "unknown"
+          ],
+          "title": "Direction",
+          "type": "string"
+        },
+        "explanation": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Explanation"
+        },
+        "metric_key": {
+          "title": "Metric Key",
+          "type": "string"
+        },
+        "relative_delta": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Relative Delta"
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit"
+        },
+        "validity": {
+          "default": "valid",
+          "enum": [
+            "valid",
+            "advisory",
+            "not_comparable",
+            "not_available"
+          ],
+          "title": "Validity",
+          "type": "string"
+        }
+      },
+      "required": [
+        "absolute_delta",
+        "baseline",
+        "candidate",
+        "direction",
+        "explanation",
+        "metric_key",
+        "relative_delta",
+        "unit",
+        "validity"
+      ],
+      "title": "MetricDelta",
+      "type": "object"
+    },
+    "PlanChange": {
+      "additionalProperties": false,
+      "properties": {
+        "baseline_plan_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "candidate_plan_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "change_kind": {
+          "enum": [
+            "added",
+            "removed",
+            "changed",
+            "unchanged",
+            "not_comparable"
+          ],
+          "title": "Change Kind",
+          "type": "string"
+        },
+        "deltas": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/MetricDelta"
+          },
+          "title": "Deltas",
+          "type": "array"
+        },
+        "explanation": {
+          "title": "Explanation",
+          "type": "string"
+        },
+        "query_shape_fingerprint": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Query Shape Fingerprint"
+        },
+        "severity": {
+          "$ref": "#/$defs/SeverityLevel",
+          "default": "info"
+        },
+        "transitions": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Transitions",
+          "type": "array"
+        }
+      },
+      "required": [
+        "baseline_plan_ref",
+        "candidate_plan_ref",
+        "change_kind",
+        "deltas",
+        "explanation",
+        "query_shape_fingerprint",
+        "severity",
+        "transitions"
+      ],
+      "title": "PlanChange",
+      "type": "object"
+    },
+    "ProducerIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "build": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Build"
+        },
+        "name": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "version": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "build",
+        "name",
+        "version"
+      ],
+      "title": "ProducerIdentity",
+      "type": "object"
+    },
+    "Provenance": {
+      "additionalProperties": false,
+      "properties": {
+        "code_revision": {
+          "anyOf": [
+            {
+              "maxLength": 256,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Code Revision"
+        },
+        "configuration_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "derivation_key": {
+          "anyOf": [
+            {
+              "maxLength": 256,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Derivation Key"
+        },
+        "input_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Input Refs",
+          "type": "array"
+        },
+        "notes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "code_revision",
+        "configuration_ref",
+        "derivation_key",
+        "input_refs",
+        "notes"
+      ],
+      "title": "Provenance",
+      "type": "object"
+    },
+    "RelativeRuleEvaluation": {
+      "additionalProperties": false,
+      "properties": {
+        "measured_value": {
+          "anyOf": [
+            {},
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Measured Value"
+        },
+        "message": {
+          "title": "Message",
+          "type": "string"
+        },
+        "metric_key": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Metric Key"
+        },
+        "rule_key": {
+          "title": "Rule Key",
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/EvaluationStatus"
+        },
+        "subject_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Subject Refs",
+          "type": "array"
+        },
+        "threshold": {
+          "anyOf": [
+            {},
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Threshold"
+        }
+      },
+      "required": [
+        "measured_value",
+        "message",
+        "metric_key",
+        "rule_key",
+        "status",
+        "subject_refs",
+        "threshold"
+      ],
+      "title": "RelativeRuleEvaluation",
+      "type": "object"
+    },
+    "SeverityLevel": {
+      "enum": [
+        "info",
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
+      "title": "SeverityLevel",
+      "type": "string"
+    }
+  },
+  "$id": "https://planguard.dev/schemas/planguard.comparison-report.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifact_id": {
+      "title": "Artifact Id",
+      "type": "string"
+    },
+    "artifact_kind": {
+      "const": "comparison_report",
+      "default": "comparison_report",
+      "title": "Artifact Kind",
+      "type": "string"
+    },
+    "content_hash": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "title": "Content Hash",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "extensions": {
+      "additionalProperties": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Extensions",
+      "type": "object"
+    },
+    "payload": {
+      "$ref": "#/$defs/ComparisonReportPayload"
+    },
+    "producer": {
+      "$ref": "#/$defs/ProducerIdentity"
+    },
+    "provenance": {
+      "$ref": "#/$defs/Provenance"
+    },
+    "schema_version": {
+      "const": "planguard.comparison-report.v1",
+      "default": "planguard.comparison-report.v1",
+      "title": "Schema Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "artifact_id",
+    "artifact_kind",
+    "content_hash",
+    "created_at",
+    "extensions",
+    "payload",
+    "producer",
+    "provenance",
+    "schema_version"
+  ],
+  "title": "ComparisonReportArtifact",
+  "type": "object"
+}

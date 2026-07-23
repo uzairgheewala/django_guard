@@ -1,9 +1,14 @@
 # PlanGuard Workbench UI
 
-Milestone D adds Scenario Studio at `/scenarios`. It consumes canonical template, binding, mutation,
-instance, dataset, receipt, and scenario-run contracts from the workbench API. No scenario semantics
-are duplicated as frontend-only state: every runnable configuration is serializable to the same
-instance payload used by the CLI and Python runner.
+Milestone E adds Plan Explorer and Comparison Workbench while retaining Scenario Studio and all existing artifact/run views.
+
+```text
+/plans/:planId
+/comparisons
+/comparisons/:comparisonId
+```
+
+The UI consumes canonical plan and comparison artifacts. It does not infer scan transitions, comparability, or relative-policy outcomes in browser-only state.
 
 ```bash
 npm install

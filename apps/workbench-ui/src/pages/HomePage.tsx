@@ -17,9 +17,9 @@ export function HomePage() {
     <section>
       <header className="page-header">
         <div>
-          <p className="eyebrow">Milestone D</p>
-          <h1>Generic performance laboratory</h1>
-          <p>Define domain-neutral workload experiments, bind them to the academic lab, apply controlled mutations, and descend from scenario receipts into immutable query-family and workload-graph evidence.</p>
+          <p className="eyebrow">Milestone E</p>
+          <h1>Plan intelligence and optimization evidence</h1>
+          <p>Move from captured workload families into contextual PostgreSQL plans, then compare baseline and candidate runs only after their scenario and environment dimensions have been qualified.</p>
         </div>
       </header>
 
@@ -28,19 +28,19 @@ export function HomePage() {
         <article className="metric-card"><span>Artifacts</span><strong>{stats?.total_artifacts ?? "—"}</strong><small>Canonical source documents</small></article>
         <article className="metric-card"><span>Runs</span><strong>{stats?.runs ?? "—"}</strong><small>Captured operations</small></article>
         <article className="metric-card"><span>Findings</span><strong>{stats?.findings ?? "—"}</strong><small>Evidence-backed interpretations</small></article>
-        <article className="metric-card"><span>Scenarios</span><strong>{stats?.scenarios ?? "—"}</strong><small>Receipt-bearing laboratory runs</small></article>
+        <article className="metric-card"><span>Plans</span><strong>{stats?.plans ?? "—"}</strong><small>Canonical PostgreSQL observations</small></article>
       </div>
 
       <div className="callout">
-        <div><h2>Build and run a generic scenario</h2><p>Choose a workload template, academic binding, variant, data regime, and ordered mutations; every experiment links into the same workload explorer.</p></div>
-        <Link className="primary-button" to="/scenarios">Open Scenario Studio</Link>
+        <div><h2>Validate an optimization</h2><p>Select baseline and candidate runs, inspect controlled and confounding dimensions, and compare workload families, plans, findings, and resource evidence.</p></div>
+        <Link className="primary-button" to="/comparisons">Open Comparison Workbench</Link>
       </div>
 
       <div className="section-grid">
-        <article className="panel"><h2>Rebuildable registry</h2><p>SQLite accelerates search and provenance traversal, but every row can be reconstructed from immutable artifact bundles.</p></article>
-        <article className="panel"><h2>Observed versus inferred</h2><p>Every edge declares whether it was directly observed, deterministically derived, or causally inferred with confidence and evidence.</p></article>
-        <article className="panel"><h2>Motifs are not findings</h2><p>A workload episode describes a matched structural pattern. Detector and policy layers decide whether that pattern is harmful in context.</p></article>
-        <article className="panel"><h2>Lens synchronization</h2><p>Timeline, families, graph, and episodes remain projections of the same execution evidence rather than separate dashboard calculations.</p></article>
+        <article className="panel"><h2>Plans are contextual</h2><p>Scan and join operators are interpreted with relation, parameter-regime, actual-row, buffer, and collection-policy evidence.</p></article>
+        <article className="panel"><h2>Comparability first</h2><p>Scenario, seed, environment, capture policy, and intended implementation changes are qualified before timing deltas are treated as meaningful.</p></article>
+        <article className="panel"><h2>Semantic plan diffs</h2><p>Plan comparisons emphasize operator, relation, index, cardinality, loop, buffer, and spill transitions rather than unstable raw JSON.</p></article>
+        <article className="panel"><h2>Relative guards</h2><p>Versioned policies can require reductions or cap regressions against a qualified baseline.</p></article>
       </div>
 
       <article className="panel recent-runs-panel">

@@ -1,0 +1,55 @@
+{
+  "artifact_id": "plrc_0599c35d5a4947599c8d924b7722381e",
+  "artifact_kind": "plan_collection_receipt",
+  "content_hash": "sha256:65791ae4607dfff2c018ce2c52d0cdfb89609d445153e9229f89a359f37f8e28",
+  "created_at": "2026-07-23T12:43:12.193706Z",
+  "extensions": {},
+  "payload": {
+    "completed_at": "2026-07-23T12:43:12.193642Z",
+    "error": null,
+    "mode": "imported",
+    "notes": [
+      "Imported plan normalization did not execute SQL."
+    ],
+    "plan_ref": {
+      "artifact_id": "plan_c7b14e4a28f6467699053961fcdfc5f5",
+      "artifact_kind": "plan_observation",
+      "content_hash": "sha256:6a9501d5f6083218e90455568f07f26fadc6160e0650c2f02f6d39fec8dd467f",
+      "schema_version": "planguard.plan-observation.v1"
+    },
+    "query_family_ref": {
+      "artifact_id": "qfam_cbded497666ae3e01ef7c09e8a37ef57",
+      "artifact_kind": "observed_query_family",
+      "content_hash": "sha256:a138df951b77dd9bb1a453eb47b63ee30d0ba21ff9ded609f733e0601711a6df",
+      "schema_version": "planguard.observed-query-family.v1"
+    },
+    "representative_execution_ref": null,
+    "run_id": "run_43c46a33caeb45f58d117d9cc897d254",
+    "safety_checks": {
+      "executed_sql": false,
+      "source": "imported_json"
+    },
+    "started_at": "2026-07-23T12:43:12.193642Z",
+    "status": "collected"
+  },
+  "producer": {
+    "build": "milestone-e-seed",
+    "name": "planguard",
+    "version": "0.5.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": "postgres-plan-import.v1",
+    "input_refs": [
+      {
+        "artifact_id": "qfam_cbded497666ae3e01ef7c09e8a37ef57",
+        "artifact_kind": "observed_query_family",
+        "content_hash": "sha256:a138df951b77dd9bb1a453eb47b63ee30d0ba21ff9ded609f733e0601711a6df",
+        "schema_version": "planguard.observed-query-family.v1"
+      }
+    ],
+    "notes": []
+  },
+  "schema_version": "planguard.plan-collection-receipt.v1"
+}

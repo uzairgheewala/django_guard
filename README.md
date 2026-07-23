@@ -1,100 +1,78 @@
-# PlanGuard — Milestone D
+# PlanGuard — Milestone E
 
-Milestone D adds the generic experiment layer above the Milestone C visual workload workbench:
-
-```text
-scenario template
-  → application binding
-  → deterministic instance
-  → ordered mutations
-  → receipt-bearing execution
-  → captured query workload
-  → oracle evaluations
-  → linked Scenario Studio and Run Explorer
-```
-
-The academic laboratory is one binding environment. Scenario semantics remain domain-neutral in
-`planguard.scenario`; no student, course, or university type appears in the core contracts.
-
-## Delivered capabilities
-
-### Generic scenario kernel
-
-- versioned templates, roles, parameter domains, operation graphs, variants, oracles, and coverage obligations;
-- explicit application bindings for roles and variants;
-- deterministic scenario instances with content-derived identities;
-- ordered application, schema, data, runtime, and workload mutations;
-- scenario series and deterministic pairwise generation;
-- `bind` validation, `instantiate`, `scale`, `contrast`, and pairwise covering operations;
-- open registries for templates, bindings, mutations, and adapters;
-- explicit unsupported and non-evaluated states.
-
-### Receipt-bearing runner
-
-Every execution materializes receipts for:
+Milestone E adds safe PostgreSQL plan intelligence and comparability-first optimization analysis on top of the Milestone D generic scenario laboratory.
 
 ```text
-prepare_environment
-prepare_dataset
-apply_mutations
-execute_operation
-evaluate_oracles
-cleanup
+captured query family
+  → representative parameter regime
+  → safety policy
+  → EXPLAIN / authorized EXPLAIN ANALYZE
+  → canonical plan tree and features
+  → evidence-backed plan findings
+  → baseline/candidate comparability assessment
+  → workload, family, plan, finding, and resource diffs
+  → relative regression policy
 ```
 
-A failed phase still yields a valid scenario run, failure receipt, cleanup receipt, provenance, and
-any already-produced artifacts. The underlying `AnalysisSession` run records the
-`scenario_instance_ref`, so the Scenario Studio and workload explorer traverse the same immutable
-evidence graph.
+The source of truth remains immutable, versioned JSON artifacts. PostgreSQL plans and comparisons are not frontend-only views, and the SQLite workbench index remains disposable.
 
-### Deterministic academic laboratory
+## Milestone E capabilities
 
-The built-in `academic-lab.v1` adapter provides:
+### PostgreSQL plan engine
 
-- shared-schema multi-tenant domain semantics;
-- deterministic seed-controlled generation;
-- tiny, small, medium, and large logical scale profiles;
-- uniform, dominant-tenant, and Zipf-like distributions;
-- dataset fingerprints and materialization manifests;
-- tenant-isolation oracles;
-- PostgreSQL-shaped query emission through the manual capture adapter;
-- an optional Django model package under `apps/academic-lab` for future real ORM/PostgreSQL binding.
+- safe collection policies: `disabled`, `estimated_only`, `analyze_safe_selects`, `explicit_allowlist`, and `imported`;
+- explicit statement timeout and read-only/volatile-shape checks before `EXPLAIN ANALYZE`;
+- imported `FORMAT JSON` plans for offline analysis and CI fixtures;
+- canonical plan nodes with relation, index, join, estimates, actuals, loops, buffers, temporary I/O, memory, filters, and unknown-attribute preservation;
+- stable semantic plan-shape fingerprints;
+- parameter-regime and representative-execution provenance;
+- collection receipts for collected, rejected, failed, skipped, and capability-missing attempts;
+- contextual findings for high-volume sequential scans, cardinality misestimation, disk spills, and nested-loop multiplication.
 
-Generic templates are bound to ten academic operations:
+Plan operators are never treated as inherently bad. Findings carry evidence, confidence, limitations, and conservative remediation guidance.
 
-1. relation access fan-out → plan items and courses;
-2. nested relation fan-out → students, enrollments, and courses;
-3. repeated evaluation → student plan collection;
-4. count then fetch → advisor roster;
-5. per-item check/write → transcript import;
-6. per-item update → audit-status recalculation;
-7. aggregate amplification → graduation-risk report;
-8. offset pagination → course search;
-9. tenant-skew sensitivity → institution dashboard;
-10. long transaction accumulation → catalog update.
+### Comparison engine
 
-Built-in mutations include eager-loading removal, forced per-row writes, tenant-index removal,
-tenant-skew amplification, expanded hydration, extended transaction scope, stale statistics, and
-relation-fanout growth.
+Every comparison assesses these dimensions before interpreting deltas:
 
-### Scenario Studio
+- scenario template and binding;
+- scenario parameters and deterministic seed;
+- implementation variant;
+- environment profile;
+- capture policy.
 
-The workbench adds `/scenarios` with:
+Each dimension is classified as:
 
-- generic template selection;
-- visible academic role binding;
-- naïve and optimized variants;
-- scale, skew, fan-out, batching, pagination, and transaction controls;
-- ordered mutation selection;
-- deterministic seed control;
-- phase receipt timeline;
-- oracle results;
-- dataset-manifest links;
-- direct navigation to the captured workload run and Artifact Inspector;
-- recent scenario-run registry.
+```text
+identical
+compatible
+controlled_change
+confounding_change
+unknown
+```
 
-Laboratory execution is capability-gated by `PLANGUARD_LAB_ENABLED`. It defaults on only in local
-Django debug mode.
+The overall comparison becomes `valid`, `valid_with_controlled_changes`, `degraded`, or `invalid`. Structural and plan comparisons can remain useful when timing evidence is merely advisory.
+
+Comparison reports include:
+
+- query, template, family, finding, and database-time deltas;
+- query-family added/removed/changed/split/merged classifications;
+- semantic plan transitions such as `Seq Scan → Index Scan`;
+- index-set, buffer, temporary-I/O, and actual-execution-time deltas;
+- introduced and resolved finding mechanisms;
+- relative policy evaluations;
+- a provenance-linked evidence narrative and limitations.
+
+### Workbench UI
+
+New surfaces:
+
+- `/plans/{plan_id}` — canonical plan tree, actual-versus-estimated metrics, resource features, and raw plan JSON;
+- `/comparisons` — select baseline and candidate runs and create a persisted report;
+- `/comparisons/{comparison_id}` — comparability dimensions, metrics, family changes, plan transitions, and policy results;
+- the Run Explorer now has a Plans tab linked to the same canonical plan artifacts.
+
+Existing Scenario Studio, workload graph, query-family, motif, policy, artifact, and capability surfaces remain available.
 
 ## Install
 
@@ -104,80 +82,84 @@ python -m pip install -e '.[api]'
 python -m pip install -e '.[dev]'
 ```
 
-## Python usage
+## Imported-plan usage
 
 ```python
+import json
+
 from planguard.artifacts.models import ProducerIdentity
-from planguard.lab.academic import build_academic_catalog
-from planguard.scenario import ScenarioRunner, instantiate
-from planguard.store.filesystem import FilesystemArtifactStore
+from planguard.postgres import analyze_plan, import_plan
 
-producer = ProducerIdentity(name="planguard-demo", version="1")
-catalog = build_academic_catalog(producer=producer)
-store = FilesystemArtifactStore(".planguard")
-catalog.persist(store)
-
-template = catalog.registry.require_template("relation-access-fanout.v1")
-binding = catalog.registry.require_binding("academic.plan-item-course.v1")
-instance = instantiate(
-    template,
-    binding,
-    parameters={"parent_count": 25, "tenant_skew": "dominant"},
-    variant_key="optimized",
-    seed=42,
-    producer=producer,
+plan, receipt = import_plan(
+    raw_plan=json.loads(open("plan.json").read()),
+    run_id="run_example",
+    query_family_ref=family.reference(),
+    producer=ProducerIdentity(name="demo", version="1"),
 )
-result = ScenarioRunner(registry=catalog.registry, store=store, producer=producer).run(instance)
-print(result.scenario_run.artifact_id)
-print(result.captured_run.manifest.artifact_id)
+evidence, findings = analyze_plan(
+    plan,
+    producer=ProducerIdentity(name="demo", version="1"),
+    high_volume_relations=frozenset({"enrollment"}),
+)
 ```
+
+## Safe live collection
+
+```python
+from planguard.artifacts.models import PlanCollectionMode, ProducerIdentity
+from planguard.postgres import PlanCollectionPolicy, collect_plan
+
+plan, receipt = collect_plan(
+    connection=django_connection,
+    sql="SELECT * FROM enrollment WHERE student_id = %s",
+    params=[17],
+    run_id=run_id,
+    query_family_ref=family.reference(),
+    producer=ProducerIdentity(name="demo", version="1"),
+    policy=PlanCollectionPolicy(
+        mode=PlanCollectionMode.ESTIMATED_ONLY,
+        statement_timeout_ms=2_000,
+    ),
+)
+```
+
+`EXPLAIN ANALYZE` remains opt-in. The workbench endpoint that executes plans is disabled unless `PLANGUARD_PLAN_EXECUTION_ENABLED=1`.
 
 ## CLI
 
 ```bash
-planguard scenario-catalog --store examples/store
-planguard scenario-instantiate relation-access-fanout.v1 academic.plan-item-course.v1 \
-  --variant naive --parameter parent_count=20 --seed 42 --store examples/store
-planguard scenario-run --template relation-access-fanout.v1 \
-  --binding academic.plan-item-course.v1 --variant optimized \
-  --parameter parent_count=20 --mutation remove-eager-loading.v1 \
-  --seed 42 --store examples/store
+planguard plan-import RUN_ID FAMILY_ID plan.json --store examples/store --persist
+planguard compare BASELINE_RUN_ID CANDIDATE_RUN_ID --store examples/store --persist
 ```
 
-Existing capture, inspect, report, policy, index, search, and export commands remain available.
+All prior capture, inspect, report, policy, search, export, and scenario commands remain available.
 
 ## Workbench
 
 ```bash
-PLANGUARD_STORE=examples/store PLANGUARD_LAB_ENABLED=1 \
-  python services/workbench_api/manage.py runserver
+PLANGUARD_STORE=examples/store \
+PLANGUARD_LAB_ENABLED=1 \
+PLANGUARD_PLAN_EXECUTION_ENABLED=0 \
+python services/workbench_api/manage.py runserver
 
 cd apps/workbench-ui
 npm install
 npm run dev
 ```
 
-Primary surfaces now include:
-
-- `/scenarios` — template, binding, instance, mutation, execution, receipt, and oracle workbench;
-- `/runs/{run_id}` — the captured workload graph and query-family analysis linked from a scenario;
-- `/artifacts/{artifact_id}` — canonical scenario, dataset, receipt, and run documents;
-- all Milestone C run, motif, policy, registry, and capability screens.
-
 ## New contracts
 
 ```text
-planguard.scenario-template.v1
-planguard.scenario-binding.v1
-planguard.scenario-instance.v1
-planguard.scenario-series.v1
-planguard.scenario-phase-receipt.v1
-planguard.scenario-run.v1
-planguard.dataset-manifest.v1
-planguard.mutation-definition.v1
+planguard.plan-observation.v1
+planguard.plan-collection-receipt.v1
+planguard.comparison-report.v1
 ```
 
-Regenerate JSON Schema and TypeScript contracts with `make contracts`.
+Regenerate JSON Schema and TypeScript contracts with:
+
+```bash
+make contracts
+```
 
 ## Seed and test
 
@@ -186,13 +168,14 @@ make seed
 pytest
 ```
 
-The committed sample store contains ten generic templates, ten academic bindings, eight mutation
-definitions, representative naïve and optimized runs, a scale series, and a pairwise-generated
-scenario set. The SQLite index remains disposable and rebuildable from canonical JSON artifacts.
+The Milestone E seed creates a naïve and optimized relation-fan-out pair with the same template, binding, parameters, and deterministic seed. It imports representative analyzed-format sequential-scan and index-scan fixtures without executing SQL, persists explicit import receipts, and creates a `valid_with_controlled_changes` comparison protected by a relative query-count policy.
 
 ## Safety and scope
 
-Milestone D does not execute arbitrary SQL or alter a real schema. The built-in academic adapter is
-a deterministic laboratory simulator. Real Django/PostgreSQL adapters must be registered
-explicitly and remain subject to workbench capability gating. Scenario oracles report what was and
-was not evaluated; a missing oracle is never silently considered satisfied.
+- no ORM or SQL rewriting;
+- no automatic index creation;
+- no arbitrary query execution from imported artifacts;
+- `EXPLAIN ANALYZE` requires an execution-enabled workbench and a safety policy;
+- write-shaped and volatile-looking statements are rejected for analysis by default;
+- timing evidence is downgraded when environment comparability is incomplete;
+- raw plans preserve unknown PostgreSQL fields instead of silently discarding unsupported semantics.

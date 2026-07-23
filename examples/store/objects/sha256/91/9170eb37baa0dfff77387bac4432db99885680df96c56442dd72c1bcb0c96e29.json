@@ -1,0 +1,34 @@
+{
+  "artifact_id": "mut_ef6c633cefa0551cfd8920363b216288",
+  "artifact_kind": "mutation_definition",
+  "content_hash": "sha256:9170eb37baa0dfff77387bac4432db99885680df96c56442dd72c1bcb0c96e29",
+  "created_at": "1970-01-01T00:00:00Z",
+  "extensions": {},
+  "payload": {
+    "adapter_key": "academic-lab.v1",
+    "compatible_template_keys": [
+      "relation-access-fanout.v1",
+      "offset-pagination.v1"
+    ],
+    "description": "Increase columns and related collections materialized by reads.",
+    "mutation_class": "application",
+    "mutation_key": "expand-object-hydration.v1",
+    "parameter_domain": {},
+    "required_capabilities": [],
+    "reversible": true,
+    "title": "Expand object hydration"
+  },
+  "producer": {
+    "build": "milestone-e-seed",
+    "name": "planguard",
+    "version": "0.5.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": "academic-mutation.v1",
+    "input_refs": [],
+    "notes": []
+  },
+  "schema_version": "planguard.mutation-definition.v1"
+}
