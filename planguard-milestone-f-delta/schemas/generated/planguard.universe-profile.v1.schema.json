@@ -1,0 +1,828 @@
+{
+  "$defs": {
+    "ArtifactReference": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "artifact_kind": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Artifact Kind",
+          "type": "string"
+        },
+        "content_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "schema_version": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Schema Version"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "artifact_kind",
+        "content_hash",
+        "schema_version"
+      ],
+      "title": "ArtifactReference",
+      "type": "object"
+    },
+    "CoverageStrategyDefinition": {
+      "additionalProperties": false,
+      "properties": {
+        "dimensions": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Dimensions",
+          "type": "array"
+        },
+        "kind": {
+          "enum": [
+            "partition",
+            "boundary",
+            "pairwise",
+            "three_way",
+            "motif",
+            "mutation",
+            "plan_node",
+            "plan_transition",
+            "decision_boundary",
+            "metamorphic",
+            "custom"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "parameters": {
+          "additionalProperties": true,
+          "title": "Parameters",
+          "type": "object"
+        },
+        "priority": {
+          "default": 100,
+          "minimum": 0,
+          "title": "Priority",
+          "type": "integer"
+        },
+        "strategy_key": {
+          "title": "Strategy Key",
+          "type": "string"
+        }
+      },
+      "required": [
+        "dimensions",
+        "kind",
+        "parameters",
+        "priority",
+        "strategy_key"
+      ],
+      "title": "CoverageStrategyDefinition",
+      "type": "object"
+    },
+    "ParameterDomain": {
+      "additionalProperties": false,
+      "properties": {
+        "constraints": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/SelectorExpression"
+          },
+          "title": "Constraints",
+          "type": "array"
+        },
+        "default": {
+          "anyOf": [
+            {},
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Default"
+        },
+        "kind": {
+          "$ref": "#/$defs/ParameterDomainKind"
+        },
+        "maximum": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum"
+        },
+        "minimum": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum"
+        },
+        "partitions": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ParameterPartition"
+          },
+          "title": "Partitions",
+          "type": "array"
+        },
+        "registry_key": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Registry Key"
+        },
+        "step": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Step"
+        },
+        "values": {
+          "default": [],
+          "items": {},
+          "title": "Values",
+          "type": "array"
+        }
+      },
+      "required": [
+        "constraints",
+        "default",
+        "kind",
+        "maximum",
+        "minimum",
+        "partitions",
+        "registry_key",
+        "step",
+        "values"
+      ],
+      "title": "ParameterDomain",
+      "type": "object"
+    },
+    "ParameterDomainKind": {
+      "enum": [
+        "finite",
+        "integer_range",
+        "float_range",
+        "partitioned",
+        "registry",
+        "boolean",
+        "opaque"
+      ],
+      "title": "ParameterDomainKind",
+      "type": "string"
+    },
+    "ParameterPartition": {
+      "additionalProperties": false,
+      "properties": {
+        "include_maximum": {
+          "default": true,
+          "title": "Include Maximum",
+          "type": "boolean"
+        },
+        "include_minimum": {
+          "default": true,
+          "title": "Include Minimum",
+          "type": "boolean"
+        },
+        "key": {
+          "title": "Key",
+          "type": "string"
+        },
+        "maximum": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum"
+        },
+        "minimum": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum"
+        },
+        "representative_values": {
+          "default": [],
+          "items": {},
+          "title": "Representative Values",
+          "type": "array"
+        },
+        "title": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Title"
+        }
+      },
+      "required": [
+        "include_maximum",
+        "include_minimum",
+        "key",
+        "maximum",
+        "minimum",
+        "representative_values",
+        "title"
+      ],
+      "title": "ParameterPartition",
+      "type": "object"
+    },
+    "ProducerIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "build": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Build"
+        },
+        "name": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "version": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "build",
+        "name",
+        "version"
+      ],
+      "title": "ProducerIdentity",
+      "type": "object"
+    },
+    "Provenance": {
+      "additionalProperties": false,
+      "properties": {
+        "code_revision": {
+          "anyOf": [
+            {
+              "maxLength": 256,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Code Revision"
+        },
+        "configuration_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "derivation_key": {
+          "anyOf": [
+            {
+              "maxLength": 256,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Derivation Key"
+        },
+        "input_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Input Refs",
+          "type": "array"
+        },
+        "notes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "code_revision",
+        "configuration_ref",
+        "derivation_key",
+        "input_refs",
+        "notes"
+      ],
+      "title": "Provenance",
+      "type": "object"
+    },
+    "SelectorExpression": {
+      "additionalProperties": false,
+      "properties": {
+        "children": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/SelectorExpression"
+          },
+          "title": "Children",
+          "type": "array"
+        },
+        "field": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Field"
+        },
+        "operator": {
+          "$ref": "#/$defs/SelectorOperator"
+        },
+        "value": {
+          "anyOf": [
+            {},
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        }
+      },
+      "required": [
+        "children",
+        "field",
+        "operator",
+        "value"
+      ],
+      "title": "SelectorExpression",
+      "type": "object"
+    },
+    "SelectorOperator": {
+      "enum": [
+        "all",
+        "any",
+        "not",
+        "equals",
+        "not_equals",
+        "greater_than",
+        "greater_or_equal",
+        "less_than",
+        "less_or_equal",
+        "contains",
+        "exists",
+        "in_set"
+      ],
+      "title": "SelectorOperator",
+      "type": "string"
+    },
+    "UniverseAxis": {
+      "additionalProperties": false,
+      "properties": {
+        "axis_key": {
+          "title": "Axis Key",
+          "type": "string"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "domain": {
+          "$ref": "#/$defs/ParameterDomain"
+        },
+        "risk_weight": {
+          "default": 1.0,
+          "minimum": 0.0,
+          "title": "Risk Weight",
+          "type": "number"
+        },
+        "source_key": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Key"
+        },
+        "source_kind": {
+          "default": "scenario_parameter",
+          "enum": [
+            "scenario_parameter",
+            "registry",
+            "derived",
+            "capability",
+            "opaque"
+          ],
+          "title": "Source Kind",
+          "type": "string"
+        },
+        "tags": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Tags",
+          "type": "array"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        }
+      },
+      "required": [
+        "axis_key",
+        "description",
+        "domain",
+        "risk_weight",
+        "source_key",
+        "source_kind",
+        "tags",
+        "title"
+      ],
+      "title": "UniverseAxis",
+      "type": "object"
+    },
+    "UniverseConstraint": {
+      "additionalProperties": false,
+      "properties": {
+        "constraint_key": {
+          "title": "Constraint Key",
+          "type": "string"
+        },
+        "excluded": {
+          "default": false,
+          "title": "Excluded",
+          "type": "boolean"
+        },
+        "explanation": {
+          "title": "Explanation",
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/$defs/UniverseConstraintKind"
+        },
+        "require": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/UniversePredicate"
+          },
+          "title": "Require",
+          "type": "array"
+        },
+        "required_capabilities": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Required Capabilities",
+          "type": "array"
+        },
+        "when": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/UniversePredicate"
+          },
+          "title": "When",
+          "type": "array"
+        }
+      },
+      "required": [
+        "constraint_key",
+        "excluded",
+        "explanation",
+        "kind",
+        "require",
+        "required_capabilities",
+        "when"
+      ],
+      "title": "UniverseConstraint",
+      "type": "object"
+    },
+    "UniverseConstraintKind": {
+      "enum": [
+        "applicability",
+        "exclusion",
+        "implication",
+        "capability"
+      ],
+      "title": "UniverseConstraintKind",
+      "type": "string"
+    },
+    "UniversePredicate": {
+      "additionalProperties": false,
+      "properties": {
+        "field": {
+          "title": "Field",
+          "type": "string"
+        },
+        "operator": {
+          "enum": [
+            "equals",
+            "not_equals",
+            "in",
+            "not_in",
+            "greater_than",
+            "greater_or_equal",
+            "less_than",
+            "less_or_equal",
+            "exists"
+          ],
+          "title": "Operator",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {},
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        }
+      },
+      "required": [
+        "field",
+        "operator",
+        "value"
+      ],
+      "title": "UniversePredicate",
+      "type": "object"
+    },
+    "UniverseProfilePayload": {
+      "additionalProperties": false,
+      "properties": {
+        "axes": {
+          "items": {
+            "$ref": "#/$defs/UniverseAxis"
+          },
+          "title": "Axes",
+          "type": "array"
+        },
+        "binding_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Binding Refs",
+          "type": "array"
+        },
+        "constraints": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/UniverseConstraint"
+          },
+          "title": "Constraints",
+          "type": "array"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "mutation_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Mutation Refs",
+          "type": "array"
+        },
+        "strategies": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/CoverageStrategyDefinition"
+          },
+          "title": "Strategies",
+          "type": "array"
+        },
+        "tags": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Tags",
+          "type": "array"
+        },
+        "target_capabilities": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Target Capabilities",
+          "type": "array"
+        },
+        "template_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Template Refs",
+          "type": "array"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "universe_key": {
+          "title": "Universe Key",
+          "type": "string"
+        },
+        "unknown_axis_policy": {
+          "default": "preserve",
+          "enum": [
+            "preserve",
+            "reject"
+          ],
+          "title": "Unknown Axis Policy",
+          "type": "string"
+        },
+        "unsupported_analysis_policy": {
+          "default": "capability_gap",
+          "enum": [
+            "capability_gap",
+            "reject"
+          ],
+          "title": "Unsupported Analysis Policy",
+          "type": "string"
+        }
+      },
+      "required": [
+        "axes",
+        "binding_refs",
+        "constraints",
+        "description",
+        "mutation_refs",
+        "strategies",
+        "tags",
+        "target_capabilities",
+        "template_refs",
+        "title",
+        "universe_key",
+        "unknown_axis_policy",
+        "unsupported_analysis_policy"
+      ],
+      "title": "UniverseProfilePayload",
+      "type": "object"
+    }
+  },
+  "$id": "https://planguard.dev/schemas/planguard.universe-profile.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifact_id": {
+      "title": "Artifact Id",
+      "type": "string"
+    },
+    "artifact_kind": {
+      "const": "universe_profile",
+      "default": "universe_profile",
+      "title": "Artifact Kind",
+      "type": "string"
+    },
+    "content_hash": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "title": "Content Hash",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "extensions": {
+      "additionalProperties": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Extensions",
+      "type": "object"
+    },
+    "payload": {
+      "$ref": "#/$defs/UniverseProfilePayload"
+    },
+    "producer": {
+      "$ref": "#/$defs/ProducerIdentity"
+    },
+    "provenance": {
+      "$ref": "#/$defs/Provenance"
+    },
+    "schema_version": {
+      "const": "planguard.universe-profile.v1",
+      "default": "planguard.universe-profile.v1",
+      "title": "Schema Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "artifact_id",
+    "artifact_kind",
+    "content_hash",
+    "created_at",
+    "extensions",
+    "payload",
+    "producer",
+    "provenance",
+    "schema_version"
+  ],
+  "title": "UniverseProfileArtifact",
+  "type": "object"
+}

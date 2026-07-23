@@ -1,0 +1,54 @@
+{
+  "artifact_id": "env_181d82e8d533471eba01635ce6216a76",
+  "artifact_kind": "environment_profile",
+  "content_hash": "sha256:1fb6bd133ff4d55294409cd2730d652849be83e65860dcacedd65a7a3515d1e1",
+  "created_at": "2026-07-23T13:37:50.939029Z",
+  "extensions": {},
+  "payload": {
+    "architecture": "x86_64",
+    "database": {
+      "connection_aliases": [
+        "default"
+      ],
+      "database_hash": null,
+      "vendor": "postgresql",
+      "version": null
+    },
+    "environment_variables": {
+      "PLANGUARD_MODE": "capture"
+    },
+    "machine_profile": {
+      "processor": ""
+    },
+    "notes": [],
+    "operating_system": "Linux",
+    "python_version": "3.13.5",
+    "runtime_components": [
+      {
+        "details": {},
+        "name": "planguard",
+        "version": "0.6.0"
+      },
+      {
+        "details": {
+          "available": false
+        },
+        "name": "django",
+        "version": null
+      }
+    ]
+  },
+  "producer": {
+    "build": "milestone-f-seed",
+    "name": "planguard",
+    "version": "0.6.0"
+  },
+  "provenance": {
+    "code_revision": "milestone-d",
+    "configuration_ref": null,
+    "derivation_key": null,
+    "input_refs": [],
+    "notes": []
+  },
+  "schema_version": "planguard.environment-profile.v1"
+}

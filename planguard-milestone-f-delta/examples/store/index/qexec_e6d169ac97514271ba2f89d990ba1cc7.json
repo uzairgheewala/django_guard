@@ -1,0 +1,8 @@
+{
+  "artifact_id": "qexec_e6d169ac97514271ba2f89d990ba1cc7",
+  "artifact_kind": "query_execution",
+  "content_hash": "sha256:de32d21e915be7ec2c162a029d8fbf7047f994fad94c32f8255becc023bd333a",
+  "created_at": "2026-07-23T13:37:51.544120+00:00",
+  "path": "artifacts/qexec_e6d169ac97514271ba2f89d990ba1cc7.json",
+  "schema_version": "planguard.query-execution.v1"
+}

@@ -1,0 +1,877 @@
+{
+  "artifact_id": "rset_660a96bbdb144c06b056beb0a9cbe122",
+  "artifact_kind": "representative_set",
+  "content_hash": "sha256:7022d8a77cfd6616241415893d9f2b08a643865d9c09b3e93d616bdf1461fb3a",
+  "created_at": "1970-01-01T00:00:00Z",
+  "extensions": {},
+  "payload": {
+    "covered_cell_keys": [
+      "cell_02797fed1db4416d73e35b55",
+      "cell_032f330c5b0db6b3043eb2b6",
+      "cell_049dd92c2f612cc5a5ee3f0f",
+      "cell_069482a385f00937d1e29265",
+      "cell_0762ead775e046b2667da034",
+      "cell_081b2373a1706d2e5d35c956",
+      "cell_0e65df3c24f953237faa5ea4",
+      "cell_100c0e2518cc35e2a3018dbd",
+      "cell_109a0dec9be65072bf00711c",
+      "cell_1211fcc38f4d8e23b9f49142",
+      "cell_12dc7413428379274361659c",
+      "cell_12e81a2327b62244ba670dcb",
+      "cell_12f49a8b8ae1829ea449ac94",
+      "cell_136476dc61a246e16d806fb6",
+      "cell_1bd84c7cc3192ef1e3aadbb7",
+      "cell_2276b08575acf4667cc35982",
+      "cell_2522501bc780797625ab1924",
+      "cell_2812553ae5d4e039695d93e0",
+      "cell_299c587021cebecd45687f08",
+      "cell_2bfcaa9e1264149d26077494",
+      "cell_2ca8476d2b4797c4fc1921c1",
+      "cell_2daec2713efec29b959bcf89",
+      "cell_30e9bc42f36886aa80134bee",
+      "cell_31d017aef06555fad14edda5",
+      "cell_31e9fe29f712b6b6d1c4760c",
+      "cell_32fab9ec33c68e702dc9fc6e",
+      "cell_372902929d1260b5b943b897",
+      "cell_3840fe192728ddbb0529761f",
+      "cell_39d485dd795d118c989a9058",
+      "cell_3a56b5e5e3632665ef91624f",
+      "cell_3a6c8b6fbf28beedd919dd9a",
+      "cell_3b4a59cc4220b93b6bcb3519",
+      "cell_3c43ff62b68d87da000f9d19",
+      "cell_3c99e405c4f0cb704cb4717f",
+      "cell_3d170cc882ecef71597ce40a",
+      "cell_3ea7e83b21a7de529f48bafb",
+      "cell_40b0fcfd2a41b24046bab5ad",
+      "cell_429f212e7c3507359cec8b99",
+      "cell_453234c5d10200940c03e299",
+      "cell_478904a6e332061cf9528c7b",
+      "cell_47d5d316594c26e7147aeaca",
+      "cell_48a0c409591442a55b47d301",
+      "cell_4a3192ae8c229240931b104d",
+      "cell_4d4e8191dfd82891cfc5b33d",
+      "cell_50c89761ab7b02a0c6ad7d5d",
+      "cell_53ddda4beb0d8156fe19a088",
+      "cell_547402af0649eb4ec776e90a",
+      "cell_54e0cccdc8a64bc9f7bdddcd",
+      "cell_559abf6fe23c5149e48431a2",
+      "cell_55f2123aebd6a09181360c23",
+      "cell_599dfa0aca28ffe029611e48",
+      "cell_59f0bdf54bfedff6eccdd557",
+      "cell_5a59f110680464bff86d3605",
+      "cell_5c6de702831c421407a6523b",
+      "cell_5e17c3f2a2be5ca51bba0b01",
+      "cell_60e8130a08b79ba8b0ea2af0",
+      "cell_613930aafc81524ab62ed499",
+      "cell_696b6bb8af83c50ea0e8c7b6",
+      "cell_6f4b70ec1004ddc178cf61db",
+      "cell_6fad7cba1dd8270312bdd60c",
+      "cell_71708b3af2d0b4297bfa8e6e",
+      "cell_730cdbc5c30fc4d18019e850",
+      "cell_73e7033c6a951cd317c727df",
+      "cell_7b612c10804e72c83f817202",
+      "cell_7c0cc149112c6cb5af842a44",
+      "cell_811af288a9f3f825576ddbde",
+      "cell_82f360f3484925efebb32cf7",
+      "cell_85f33d90a2c207fa6000bbe1",
+      "cell_86d2de7266a1ec820813cd83",
+      "cell_87a45eac030658ea2343f012",
+      "cell_88fd6ee54871b254b67d5565",
+      "cell_89ca900511c6a60dd7f1ec47",
+      "cell_8d35552a95f61915247683f0",
+      "cell_8f2a01b52443b0fa7ba369fe",
+      "cell_8f9baf596721c931d8ac92e8",
+      "cell_96df39acb99154759e3426ad",
+      "cell_98cc4bfbb5dbeb6157c3d27e",
+      "cell_9eaa1eb78f107fd533687813",
+      "cell_9f6f8d2a01b54067505ad714",
+      "cell_a3e866e582b383162fdd9d51",
+      "cell_a6761514581c27848eded921",
+      "cell_a748a94d49df13054341492d",
+      "cell_a8b8549bd3854836ec10a0ed",
+      "cell_abc33adc18a3c3dfacfc8821",
+      "cell_acf3c54a1ec403eac144f1da",
+      "cell_b0f570cb05e2ddf73506852c",
+      "cell_b5f9d51d9396aeb732edf8c1",
+      "cell_b934b13d42dac50dd156cf13",
+      "cell_ba8aebc241c717e81bc8c465",
+      "cell_baec4d4988951bea3bbce597",
+      "cell_be7f5c38b6d27c4071d51f8b",
+      "cell_bfe671b7fb7d570af389f376",
+      "cell_c05db64d6dce6c55c4294cbe",
+      "cell_c1e0943aa9c71a8947104cec",
+      "cell_c1f056e2253da67ab683899e",
+      "cell_c235886dcaefc866b0a73c45",
+      "cell_c63dd16d9fb6800131210bd0",
+      "cell_c678fe7debe48e7d1f1c31bb",
+      "cell_c6e0bd2721ca1142bb105fa6",
+      "cell_c846542341c526440fe9a8e4",
+      "cell_c9bf833e1773634f71adf177",
+      "cell_d000a4d491cb029862d54fa8",
+      "cell_d009acc71ecd8eadfd86036f",
+      "cell_d02c6202e88a17eabba4f54f",
+      "cell_d44dc35e6ddd7741ab294912",
+      "cell_d6ad29ffcbbbb0503a40d130",
+      "cell_d93b2a6a5f56957f3faec6b7",
+      "cell_da2f2355a0dc165409d90aa4",
+      "cell_da3ceefd093f2472f20d0647",
+      "cell_da7d47f73e9305fadde7ac70",
+      "cell_da903f14a1f3642402aa5f30",
+      "cell_db9070024955eb4ff0838e74",
+      "cell_de5a9403139cfe7d62db14cc",
+      "cell_df0cfcc329929b882a8bd3af",
+      "cell_e01e1a527cd6a1df3c3653fe",
+      "cell_e0cc56ab9432f379b48a4d69",
+      "cell_e158f41fbebb266ce8692e28",
+      "cell_e1a032bb9b79ed2d5f259b70",
+      "cell_e4a997b40c297dc3887fe5a4",
+      "cell_e4d33277de8ff28f19ba6dab",
+      "cell_e4e4472a16195c666d24a4fc",
+      "cell_e68f71c2c5c61c315f7433fe",
+      "cell_e865441d5947ae4612f81566",
+      "cell_e9acda180ee12d4fd83b5427",
+      "cell_ec1186703c663d8a026650e8",
+      "cell_ec3dce3b35e770a7e1e7ed46",
+      "cell_ec6330d70b32723278a32cda",
+      "cell_ed1474d7777d82bb8b07d6e5",
+      "cell_ed93b0d5c114b1456eb5d1ad",
+      "cell_f29f434662d50e4d7b7950cb",
+      "cell_f2d2a82df55131d39ecbb6bc",
+      "cell_f32ea7b3863bd19b5605a972",
+      "cell_fb0a7a8d6898eb5f8f5d180b",
+      "cell_fb2c5a5f6cc84b066881a10a",
+      "cell_fc6191feca4a4f792559b43c",
+      "cell_fd35d95bfa9715872df50ced",
+      "cell_fdb2ace7f0ede67807729b4d",
+      "cell_feecd80699209be4fcfbe8fe",
+      "cell_ff56f06c0f5270e77fe5b093"
+    ],
+    "generation_notes": [
+      "Candidates are application bindings of generic templates; selection is deterministic for a fixed catalog and seed."
+    ],
+    "maximum_cases": 16,
+    "seed": 20260723,
+    "selections": [
+      {
+        "covered_cell_keys": [
+          "cell_1211fcc38f4d8e23b9f49142",
+          "cell_1bd84c7cc3192ef1e3aadbb7",
+          "cell_2ca8476d2b4797c4fc1921c1",
+          "cell_3b4a59cc4220b93b6bcb3519",
+          "cell_559abf6fe23c5149e48431a2",
+          "cell_6fad7cba1dd8270312bdd60c",
+          "cell_7c0cc149112c6cb5af842a44",
+          "cell_86d2de7266a1ec820813cd83",
+          "cell_a3e866e582b383162fdd9d51",
+          "cell_a748a94d49df13054341492d",
+          "cell_c05db64d6dce6c55c4294cbe",
+          "cell_d02c6202e88a17eabba4f54f",
+          "cell_da2f2355a0dc165409d90aa4",
+          "cell_e01e1a527cd6a1df3c3653fe",
+          "cell_ed1474d7777d82bb8b07d6e5",
+          "cell_f29f434662d50e4d7b7950cb",
+          "cell_fb0a7a8d6898eb5f8f5d180b",
+          "cell_fc6191feca4a4f792559b43c",
+          "cell_fdb2ace7f0ede67807729b4d"
+        ],
+        "marginal_coverage": 19,
+        "rationale": [
+          "Greedy maximum-risk-weight coverage selection."
+        ],
+        "scenario_instance_ref": {
+          "artifact_id": "sci_fea001e12205741f1983a19bd42b468d",
+          "artifact_kind": "scenario_instance",
+          "content_hash": "sha256:c8d3042890a2a220db5ecd6d26e8244c6483a52fa3a0b6193eef50a60f692c8e",
+          "schema_version": "planguard.scenario-instance.v1"
+        },
+        "score": 35.25
+      },
+      {
+        "covered_cell_keys": [
+          "cell_069482a385f00937d1e29265",
+          "cell_12dc7413428379274361659c",
+          "cell_2276b08575acf4667cc35982",
+          "cell_2bfcaa9e1264149d26077494",
+          "cell_3a6c8b6fbf28beedd919dd9a",
+          "cell_4d4e8191dfd82891cfc5b33d",
+          "cell_54e0cccdc8a64bc9f7bdddcd",
+          "cell_5a59f110680464bff86d3605",
+          "cell_a6761514581c27848eded921",
+          "cell_acf3c54a1ec403eac144f1da",
+          "cell_c678fe7debe48e7d1f1c31bb",
+          "cell_e1a032bb9b79ed2d5f259b70",
+          "cell_ec6330d70b32723278a32cda",
+          "cell_f2d2a82df55131d39ecbb6bc",
+          "cell_ff56f06c0f5270e77fe5b093"
+        ],
+        "marginal_coverage": 15,
+        "rationale": [
+          "Greedy maximum-risk-weight coverage selection."
+        ],
+        "scenario_instance_ref": {
+          "artifact_id": "sci_ab538dc53f813682e85e0473c344e63d",
+          "artifact_kind": "scenario_instance",
+          "content_hash": "sha256:a4dc04c3b8a76bb6d2696544c10b365b553e336a9e36cb797c49dfc8dc47609c",
+          "schema_version": "planguard.scenario-instance.v1"
+        },
+        "score": 29.25
+      },
+      {
+        "covered_cell_keys": [
+          "cell_372902929d1260b5b943b897",
+          "cell_3c99e405c4f0cb704cb4717f",
+          "cell_613930aafc81524ab62ed499",
+          "cell_8f9baf596721c931d8ac92e8",
+          "cell_96df39acb99154759e3426ad",
+          "cell_98cc4bfbb5dbeb6157c3d27e",
+          "cell_b934b13d42dac50dd156cf13",
+          "cell_bfe671b7fb7d570af389f376",
+          "cell_da3ceefd093f2472f20d0647",
+          "cell_da903f14a1f3642402aa5f30",
+          "cell_e4e4472a16195c666d24a4fc",
+          "cell_e865441d5947ae4612f81566"
+        ],
+        "marginal_coverage": 12,
+        "rationale": [
+          "Greedy maximum-risk-weight coverage selection."
+        ],
+        "scenario_instance_ref": {
+          "artifact_id": "sci_fb97529842c6b08754c7592e1600ac66",
+          "artifact_kind": "scenario_instance",
+          "content_hash": "sha256:b1455c683a61fb516b7eaf1ddf128f80c8d16b0f31b1f3a9f7eb77767059dc46",
+          "schema_version": "planguard.scenario-instance.v1"
+        },
+        "score": 24.5
+      },
+      {
+        "covered_cell_keys": [
+          "cell_299c587021cebecd45687f08",
+          "cell_3c43ff62b68d87da000f9d19",
+          "cell_47d5d316594c26e7147aeaca",
+          "cell_811af288a9f3f825576ddbde",
+          "cell_85f33d90a2c207fa6000bbe1",
+          "cell_c6e0bd2721ca1142bb105fa6",
+          "cell_d009acc71ecd8eadfd86036f",
+          "cell_d93b2a6a5f56957f3faec6b7",
+          "cell_da7d47f73e9305fadde7ac70",
+          "cell_f32ea7b3863bd19b5605a972"
+        ],
+        "marginal_coverage": 10,
+        "rationale": [
+          "Greedy maximum-risk-weight coverage selection."
+        ],
+        "scenario_instance_ref": {
+          "artifact_id": "sci_fde7ca08587bd83f4894f83fa34dfa1f",
+          "artifact_kind": "scenario_instance",
+          "content_hash": "sha256:6fef5eaf81f93003f94f4b0f17c44259fb70b940f3166c6a15a695cc5c8ee9ed",
+          "schema_version": "planguard.scenario-instance.v1"
+        },
+        "score": 21.5
+      },
+      {
+        "covered_cell_keys": [
+          "cell_109a0dec9be65072bf00711c",
+          "cell_30e9bc42f36886aa80134bee",
+          "cell_3a56b5e5e3632665ef91624f",
+          "cell_5e17c3f2a2be5ca51bba0b01",
+          "cell_6f4b70ec1004ddc178cf61db",
+          "cell_73e7033c6a951cd317c727df",
+          "cell_a8b8549bd3854836ec10a0ed",
+          "cell_b0f570cb05e2ddf73506852c",
+          "cell_c1f056e2253da67ab683899e",
+          "cell_e9acda180ee12d4fd83b5427"
+        ],
+        "marginal_coverage": 10,
+        "rationale": [
+          "Greedy maximum-risk-weight coverage selection."
+        ],
+        "scenario_instance_ref": {
+          "artifact_id": "sci_fcf19850a39d459f88477aa0639d1133",
+          "artifact_kind": "scenario_instance",
+          "content_hash": "sha256:01b2bc93177c86e07eeac8d6e3422f3bf1c5032cdd2e34a807d7184277c9ce1e",
+          "schema_version": "planguard.scenario-instance.v1"
+        },
+        "score": 21.5
+      },
+      {
+        "covered_cell_keys": [
+          "cell_02797fed1db4416d73e35b55",
+          "cell_136476dc61a246e16d806fb6",
+          "cell_547402af0649eb4ec776e90a",
+          "cell_8d35552a95f61915247683f0",
+          "cell_9f6f8d2a01b54067505ad714",
+          "cell_d000a4d491cb029862d54fa8",
+          "cell_db9070024955eb4ff0838e74",
+          "cell_e4a997b40c297dc3887fe5a4",
+          "cell_e68f71c2c5c61c315f7433fe",
+          "cell_fd35d95bfa9715872df50ced"
+        ],
+        "marginal_coverage": 10,
+        "rationale": [
+          "Greedy maximum-risk-weight coverage selection."
+        ],
+        "scenario_instance_ref": {
+          "artifact_id": "sci_f81c59d18dba2d87af7ce9d8a85e898e",
+          "artifact_kind": "scenario_instance",
+          "content_hash": "sha256:213f2a4c51893bd1dc19654ec40fdc44eb72ec151512d08e0ee8fafa319b8eee",
+          "schema_version": "planguard.scenario-instance.v1"
+        },
+        "score": 21.5
+      },
+      {
+        "covered_cell_keys": [
+          "cell_0762ead775e046b2667da034",
+          "cell_100c0e2518cc35e2a3018dbd",
+          "cell_3840fe192728ddbb0529761f",
+          "cell_39d485dd795d118c989a9058",
+          "cell_4a3192ae8c229240931b104d",
+          "cell_5c6de702831c421407a6523b",
+          "cell_c1e0943aa9c71a8947104cec",
+          "cell_d44dc35e6ddd7741ab294912",
+          "cell_de5a9403139cfe7d62db14cc",
+          "cell_ec3dce3b35e770a7e1e7ed46"
+        ],
+        "marginal_coverage": 10,
+        "rationale": [
+          "Greedy maximum-risk-weight coverage selection."
+        ],
+        "scenario_instance_ref": {
+          "artifact_id": "sci_9cc75d812e22d70d75676d072fad15af",
+          "artifact_kind": "scenario_instance",
+          "content_hash": "sha256:ac6d7335f462ae22db9ff61666e186f0c24bf8fe63237dc310e273da5b6f50e8",
+          "schema_version": "planguard.scenario-instance.v1"
+        },
+        "score": 21.5
+      },
+      {
+        "covered_cell_keys": [
+          "cell_049dd92c2f612cc5a5ee3f0f",
+          "cell_12e81a2327b62244ba670dcb",
+          "cell_478904a6e332061cf9528c7b",
+          "cell_696b6bb8af83c50ea0e8c7b6",
+          "cell_8f2a01b52443b0fa7ba369fe",
+          "cell_baec4d4988951bea3bbce597",
+          "cell_c235886dcaefc866b0a73c45",
+          "cell_c846542341c526440fe9a8e4"
+        ],
+        "marginal_coverage": 8,
+        "rationale": [
+          "Greedy maximum-risk-weight coverage selection."
+        ],
+        "scenario_instance_ref": {
+          "artifact_id": "sci_24e3d0b0b0be95c02b188c9433171bfa",
+          "artifact_kind": "scenario_instance",
+          "content_hash": "sha256:0573c372903389f1da7d12f6d9d11132bba40540c5a333bb2036499d42f67311",
+          "schema_version": "planguard.scenario-instance.v1"
+        },
+        "score": 17.75
+      },
+      {
+        "covered_cell_keys": [
+          "cell_2daec2713efec29b959bcf89",
+          "cell_453234c5d10200940c03e299",
+          "cell_50c89761ab7b02a0c6ad7d5d",
+          "cell_59f0bdf54bfedff6eccdd557",
+          "cell_88fd6ee54871b254b67d5565",
+          "cell_abc33adc18a3c3dfacfc8821",
+          "cell_ed93b0d5c114b1456eb5d1ad"
+        ],
+        "marginal_coverage": 7,
+        "rationale": [
+          "Greedy maximum-risk-weight coverage selection."
+        ],
+        "scenario_instance_ref": {
+          "artifact_id": "sci_edd4ab8fc97532fa22738ca49629380b",
+          "artifact_kind": "scenario_instance",
+          "content_hash": "sha256:709d4d06e654dd40fdc745f21fcb103a4e6ba9a8b511379e5fd0c3a3d7160878",
+          "schema_version": "planguard.scenario-instance.v1"
+        },
+        "score": 16.0
+      },
+      {
+        "covered_cell_keys": [
+          "cell_0e65df3c24f953237faa5ea4",
+          "cell_31e9fe29f712b6b6d1c4760c",
+          "cell_55f2123aebd6a09181360c23",
+          "cell_60e8130a08b79ba8b0ea2af0",
+          "cell_730cdbc5c30fc4d18019e850",
+          "cell_c63dd16d9fb6800131210bd0",
+          "cell_ec1186703c663d8a026650e8"
+        ],
+        "marginal_coverage": 7,
+        "rationale": [
+          "Greedy maximum-risk-weight coverage selection."
+        ],
+        "scenario_instance_ref": {
+          "artifact_id": "sci_be4ea1f144b4bdc914fa1d45236ac61f",
+          "artifact_kind": "scenario_instance",
+          "content_hash": "sha256:7947464016551571687966491e72712c22bdaacaf513debd7c3229b197ea5d65",
+          "schema_version": "planguard.scenario-instance.v1"
+        },
+        "score": 16.0
+      },
+      {
+        "covered_cell_keys": [
+          "cell_081b2373a1706d2e5d35c956",
+          "cell_429f212e7c3507359cec8b99",
+          "cell_87a45eac030658ea2343f012",
+          "cell_b5f9d51d9396aeb732edf8c1",
+          "cell_df0cfcc329929b882a8bd3af",
+          "cell_e4d33277de8ff28f19ba6dab"
+        ],
+        "marginal_coverage": 6,
+        "rationale": [
+          "Greedy maximum-risk-weight coverage selection."
+        ],
+        "scenario_instance_ref": {
+          "artifact_id": "sci_95945e2c39635c9d59dc138b9f8eede7",
+          "artifact_kind": "scenario_instance",
+          "content_hash": "sha256:2914eb87e472f1e3f1a7ae31282c6e041cfe269965e791b07c4e261e6f61c5ce",
+          "schema_version": "planguard.scenario-instance.v1"
+        },
+        "score": 13.5
+      },
+      {
+        "covered_cell_keys": [
+          "cell_32fab9ec33c68e702dc9fc6e",
+          "cell_3d170cc882ecef71597ce40a",
+          "cell_71708b3af2d0b4297bfa8e6e",
+          "cell_82f360f3484925efebb32cf7",
+          "cell_ba8aebc241c717e81bc8c465",
+          "cell_feecd80699209be4fcfbe8fe"
+        ],
+        "marginal_coverage": 6,
+        "rationale": [
+          "Greedy maximum-risk-weight coverage selection."
+        ],
+        "scenario_instance_ref": {
+          "artifact_id": "sci_7c9ee6eb6437b438ec0cf89cf76a1a3a",
+          "artifact_kind": "scenario_instance",
+          "content_hash": "sha256:c8f401cb0ae68ddc8673a58cbb3e25c62a6011fe20cacb72b47f01276a722d5a",
+          "schema_version": "planguard.scenario-instance.v1"
+        },
+        "score": 13.5
+      },
+      {
+        "covered_cell_keys": [
+          "cell_032f330c5b0db6b3043eb2b6",
+          "cell_2522501bc780797625ab1924",
+          "cell_48a0c409591442a55b47d301",
+          "cell_599dfa0aca28ffe029611e48",
+          "cell_7b612c10804e72c83f817202",
+          "cell_9eaa1eb78f107fd533687813"
+        ],
+        "marginal_coverage": 6,
+        "rationale": [
+          "Greedy maximum-risk-weight coverage selection."
+        ],
+        "scenario_instance_ref": {
+          "artifact_id": "sci_82fa7bff04fb9530dcce96fea5873f65",
+          "artifact_kind": "scenario_instance",
+          "content_hash": "sha256:78b313af50d039abcebec3c87ba0488c66e88bbeb9e3cfcc78e1bf475928101b",
+          "schema_version": "planguard.scenario-instance.v1"
+        },
+        "score": 12.5
+      },
+      {
+        "covered_cell_keys": [
+          "cell_31d017aef06555fad14edda5",
+          "cell_40b0fcfd2a41b24046bab5ad",
+          "cell_be7f5c38b6d27c4071d51f8b",
+          "cell_d6ad29ffcbbbb0503a40d130",
+          "cell_fb2c5a5f6cc84b066881a10a"
+        ],
+        "marginal_coverage": 5,
+        "rationale": [
+          "Greedy maximum-risk-weight coverage selection."
+        ],
+        "scenario_instance_ref": {
+          "artifact_id": "sci_9e59460fd5086424ae205a4062045cc6",
+          "artifact_kind": "scenario_instance",
+          "content_hash": "sha256:da106b7a88f65184d186e93564c9c8e05a391cc05ed8f02016cbf3d0da4fcd44",
+          "schema_version": "planguard.scenario-instance.v1"
+        },
+        "score": 12.5
+      },
+      {
+        "covered_cell_keys": [
+          "cell_12f49a8b8ae1829ea449ac94",
+          "cell_2812553ae5d4e039695d93e0",
+          "cell_53ddda4beb0d8156fe19a088",
+          "cell_89ca900511c6a60dd7f1ec47"
+        ],
+        "marginal_coverage": 4,
+        "rationale": [
+          "Greedy maximum-risk-weight coverage selection."
+        ],
+        "scenario_instance_ref": {
+          "artifact_id": "sci_7a9af90c3c00ba967e3f7dcec80a1ae6",
+          "artifact_kind": "scenario_instance",
+          "content_hash": "sha256:c3f2b0be5ae391bcead343b00ea4a62e62d35359af729fab1849f4ba7b30cd87",
+          "schema_version": "planguard.scenario-instance.v1"
+        },
+        "score": 11.0
+      },
+      {
+        "covered_cell_keys": [
+          "cell_3ea7e83b21a7de529f48bafb",
+          "cell_c9bf833e1773634f71adf177",
+          "cell_e0cc56ab9432f379b48a4d69",
+          "cell_e158f41fbebb266ce8692e28"
+        ],
+        "marginal_coverage": 4,
+        "rationale": [
+          "Greedy maximum-risk-weight coverage selection."
+        ],
+        "scenario_instance_ref": {
+          "artifact_id": "sci_f7c8106b25c1393ecaac646afb4b4631",
+          "artifact_kind": "scenario_instance",
+          "content_hash": "sha256:af13b91b35281060cb5309a0cd5342fa3330772bbffb1bb3f04413399019b257",
+          "schema_version": "planguard.scenario-instance.v1"
+        },
+        "score": 9.5
+      }
+    ],
+    "strategy_keys": [
+      "axis-partitions.v1",
+      "high-risk-pairwise.v1",
+      "mutation-coverage.v1"
+    ],
+    "uncovered_cell_keys": [
+      "cell_015a3af4e83afbc21d2cc9dc",
+      "cell_02108f2a6232fe481e038c43",
+      "cell_0635b3a2413c89eeca4f847f",
+      "cell_076bad902d900cb143e57822",
+      "cell_077a662f92c766c3c43b6e95",
+      "cell_09a26a17e7bbf540d0243b5f",
+      "cell_0aa6ea403c1f8ac590ad5905",
+      "cell_0d4430c629f582916408711f",
+      "cell_14bd3f2f6adf762753622264",
+      "cell_163de639c5ac5bdb8842ee9f",
+      "cell_1767bcf01ee920cf072db1d7",
+      "cell_17ed2d89e84c053d7ba56280",
+      "cell_1ade52ab8a5e23bc5dd4e427",
+      "cell_1b4ab664053f2db2b597882a",
+      "cell_1c2859bab069946d61ce126f",
+      "cell_1c91249f3c8513a3945c8467",
+      "cell_1ef92ba3b1bb621a50373f91",
+      "cell_21077d5c9db4b2e159ecff43",
+      "cell_212ab1bb167c32c1b3656364",
+      "cell_21b101d7b3d36f19d867e316",
+      "cell_21e0e02df8e78b772e234998",
+      "cell_2253ff0fdd0a846a9ef4ca0d",
+      "cell_22badd1f9e398a02507bd129",
+      "cell_27cea339182fc73731ff0b64",
+      "cell_2f2b7fe28c53907a0df9d1d0",
+      "cell_31f1da0b9ee279c228ea6cd1",
+      "cell_34014d2dc8c7d76ed050fc4e",
+      "cell_36b4f7a469006f728e827c59",
+      "cell_3e188b04870a7d1c803abff5",
+      "cell_3f92d4042ed20fc87cbcee69",
+      "cell_42af907dee7c0affb22fd45b",
+      "cell_4462f15482311849b7aaa1e1",
+      "cell_45ac676cd04e7bfa93046417",
+      "cell_4666f54bf1bf3582289d1284",
+      "cell_47e10c11312b66cc7d530c4a",
+      "cell_48d2d56f8ed5c93208dd4bc7",
+      "cell_49bdce77c8d873892292100b",
+      "cell_49cb24d03ab2ef9910838413",
+      "cell_4a9b663baaf72945301b396a",
+      "cell_4b9d3717bf917f2efe6b68a0",
+      "cell_4c4a638cb1986784ddc7433f",
+      "cell_4d2028cf8bef6f046b866759",
+      "cell_504fbd6882a0f0cd40c5ce3b",
+      "cell_51824053fcc797e7cfd1cec3",
+      "cell_539fe5b0241680ba0ada5a6f",
+      "cell_5535d58441e2fa9a468a39f1",
+      "cell_5c138f1a906c8d900bf31a2e",
+      "cell_5ce80f3414b91b1398c5e16f",
+      "cell_615c435d964c94814d51bdbf",
+      "cell_62f520bc1d9205e158683bc3",
+      "cell_6418d90aab025f7d173166bf",
+      "cell_6425c7a60f9993cd34e9a413",
+      "cell_646326125e711a2efc75ac95",
+      "cell_647168b7ed4b4af2d3d18dee",
+      "cell_6a35670bce001054ae9dfe20",
+      "cell_6b3e39c0a6653715f3ad6d1c",
+      "cell_6bd422cbe69df3f5f208ee1a",
+      "cell_6ed5b8cc9d7a1bb250d3bf50",
+      "cell_7086cc435d756ad9e1e6f690",
+      "cell_70b86b05dafc548588a0a5ee",
+      "cell_71dd7de10d65d1e81c397855",
+      "cell_724535375b87837d4181222c",
+      "cell_74ae507f83ecff964df7ec06",
+      "cell_756ba3064f0bd0e291d5dfef",
+      "cell_75c9d1dd0ad8f52b5df8dab9",
+      "cell_7748d884380a812335e6af6b",
+      "cell_8205579df846d0fde6666b67",
+      "cell_86a2a95c8006694f78ef1c2c",
+      "cell_8c8ca431af3ab9a22a3930da",
+      "cell_8dcac4cefd83d95d9f9d5879",
+      "cell_934dce95c37844e40f44b458",
+      "cell_9527ccce9c61414a86d88fad",
+      "cell_9583faf9ec5a58362540d760",
+      "cell_9a79745e1a69a55675d75e05",
+      "cell_9a8e7d11f8876a03c73f8756",
+      "cell_9d5ff06b77c3ae3355d584a1",
+      "cell_a07723fbb7fc724f0b3b8171",
+      "cell_a0a4da067c4aa0caea054260",
+      "cell_a2ccbb9e4020a4cbbc3067c6",
+      "cell_a6044b9b03d6f38f38cf81e3",
+      "cell_a69f2956211296565bdf5d6c",
+      "cell_a729c29ad1b4189d50c3f691",
+      "cell_a7aae866c30c3666c18d2fd6",
+      "cell_a7eeb4bc3d5e9dadc41b673a",
+      "cell_a826c53ff1f6f0c92577c7f3",
+      "cell_a85f769ec3cbdde1313b898e",
+      "cell_a998c69d2e637301635e5017",
+      "cell_a9f5cd3f1ca7fe3b6e23425e",
+      "cell_abdc0138940ab1cb3b428f0f",
+      "cell_ad30bb255c880c2273713310",
+      "cell_aef9dfb41b1fdf958c8f8dd6",
+      "cell_b29911b21ec81ed8b6c48def",
+      "cell_b3228724f942ecb64f4445ef",
+      "cell_b61ec71d32a26dd52364b756",
+      "cell_b9a70adb811a9daa0ae3bbac",
+      "cell_b9d2893d112d136f075abc9c",
+      "cell_bad8e566ef104cc84033d966",
+      "cell_bb4a8886563766650791b505",
+      "cell_bb669141bde64abbc53d5cd3",
+      "cell_bb8fdb851c44ec353b3edcbb",
+      "cell_bc8ea91ed9fa5fee657c41e3",
+      "cell_c28f789b522a0c5c69cd2eb3",
+      "cell_c3f1d9754a0cb63d435b2530",
+      "cell_c5894fd3837a361b82a63abb",
+      "cell_c58b7d01e5c35c341e1bfe8f",
+      "cell_c9ba407c49e2f5bec6d07864",
+      "cell_ca48be75f02f24ebdddcdf3f",
+      "cell_cac51f796ac041d03ba26df5",
+      "cell_cad4b9edf90da33dda09c098",
+      "cell_ccb57c668c93bbc8339ea32c",
+      "cell_cce3f2969ebc26ede0d57751",
+      "cell_cd7006752d545c5642667e19",
+      "cell_cddd9326186779d61eaf38bf",
+      "cell_cfd79ba793eea8eb1b8279de",
+      "cell_d2965c224a9314186a4bbdaf",
+      "cell_d58719e86a1bcd8538d37e4d",
+      "cell_d7ecff5545218a8c927f86ff",
+      "cell_d998701b9d7f047496305150",
+      "cell_d9aae22d7599ceac02a9e324",
+      "cell_db7f41cec38381c84b892e36",
+      "cell_dbbec4ea5e3b5eb1a17bec5c",
+      "cell_dd0942a5206318da10244d1e",
+      "cell_deb2f1f229bdeb0b6ccf835a",
+      "cell_e15c2dd919c05077b7c62be9",
+      "cell_e24d3fbf0dd6538d9822ff62",
+      "cell_e29ade936c6a80d51f57ffe2",
+      "cell_e3add7993aec982400164f9b",
+      "cell_e463d619d83cef27f1c62077",
+      "cell_e6350b70415b48b1e259a048",
+      "cell_ed79c86781bbfb68c0b2b539",
+      "cell_f03641c0f6bc5e65794eedca",
+      "cell_f0a3869174cc3319fd6dc2f8",
+      "cell_f2955d5d83ed3f4860d6e506",
+      "cell_f311958ab7d57d3f562ecd17",
+      "cell_f3f8ad0f7a27036262d1ca40",
+      "cell_f9f60aabdc59a93f4795a6e9",
+      "cell_fc053a6b7afae64483985117",
+      "cell_fe1829ae4c14164c247b3504",
+      "cell_fe2f422e9b239926b2117455"
+    ],
+    "universe_ref": {
+      "artifact_id": "univ_37629e58c031a63d412a3913cc46ac76",
+      "artifact_kind": "universe_profile",
+      "content_hash": "sha256:c64e43ab162e380d08ee3304c20e69abf2211bb04a035d8788fceeb9451e6986",
+      "schema_version": "planguard.universe-profile.v1"
+    },
+    "unsupported_cell_keys": []
+  },
+  "producer": {
+    "build": "milestone-f-seed",
+    "name": "planguard",
+    "version": "0.6.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": "representative-set-greedy.v1",
+    "input_refs": [
+      {
+        "artifact_id": "univ_37629e58c031a63d412a3913cc46ac76",
+        "artifact_kind": "universe_profile",
+        "content_hash": "sha256:c64e43ab162e380d08ee3304c20e69abf2211bb04a035d8788fceeb9451e6986",
+        "schema_version": "planguard.universe-profile.v1"
+      },
+      {
+        "artifact_id": "sct_13de9774b08f69fdf9fae93cd1ab6a89",
+        "artifact_kind": "scenario_template",
+        "content_hash": "sha256:b0ad10ade5a1c03d37837ee8efa20792594cfbd98c663a165172b66b9b487fcb",
+        "schema_version": "planguard.scenario-template.v1"
+      },
+      {
+        "artifact_id": "sct_51aad28c0e041d0ff3d2301af7221284",
+        "artifact_kind": "scenario_template",
+        "content_hash": "sha256:e0b9e16f718403200d618a93672a46ce9bbd41caf71dcf1bdb3d0f6d29b2f60d",
+        "schema_version": "planguard.scenario-template.v1"
+      },
+      {
+        "artifact_id": "sct_4d0e65e3464921a6d64e0d5bcf726dbd",
+        "artifact_kind": "scenario_template",
+        "content_hash": "sha256:02cb75951d9b545e8e8d19ab6d0e12365fdc09ba6070b2d7bf36f117c91169fb",
+        "schema_version": "planguard.scenario-template.v1"
+      },
+      {
+        "artifact_id": "sct_040a351cd1516198c2beb47864ec9b42",
+        "artifact_kind": "scenario_template",
+        "content_hash": "sha256:2b1a3867dc57e2b1c1ffbb93cae5b208d49684154ad12d3e03583d99ed53c7ef",
+        "schema_version": "planguard.scenario-template.v1"
+      },
+      {
+        "artifact_id": "sct_ec8b75dcb4d07ff5640b479208ced2bf",
+        "artifact_kind": "scenario_template",
+        "content_hash": "sha256:a40f8374d2ad652140ca5bcc8843897551cb5948c0b3c07bb939c74ebda4de2c",
+        "schema_version": "planguard.scenario-template.v1"
+      },
+      {
+        "artifact_id": "sct_b16cd82ee3c71bb085db29a8c6e47999",
+        "artifact_kind": "scenario_template",
+        "content_hash": "sha256:2e37bbf31935df39dd13a1ada60be808eecc24172145e79af0e6138bfd6a5477",
+        "schema_version": "planguard.scenario-template.v1"
+      },
+      {
+        "artifact_id": "sct_daa5095d8b052f06f9e3bde10dbec048",
+        "artifact_kind": "scenario_template",
+        "content_hash": "sha256:565d9fa0cb4e3f76449295fc27abef8af01a1aa09814e4011448bf5fc578a329",
+        "schema_version": "planguard.scenario-template.v1"
+      },
+      {
+        "artifact_id": "sct_6323050fb27a730e7c3c018090bc65b5",
+        "artifact_kind": "scenario_template",
+        "content_hash": "sha256:745d01e81aebcfe0230bcbc7c8b720128571deedc15378b054d66d85fa119eb8",
+        "schema_version": "planguard.scenario-template.v1"
+      },
+      {
+        "artifact_id": "sct_9ff29895bf76e67d63ea203f147cda75",
+        "artifact_kind": "scenario_template",
+        "content_hash": "sha256:2b7cd2a017310435574e723143a9716e90a173a07c11e6ab793f6b39d215c3f3",
+        "schema_version": "planguard.scenario-template.v1"
+      },
+      {
+        "artifact_id": "sct_5a4b42cfcd6564ca174c6101185db346",
+        "artifact_kind": "scenario_template",
+        "content_hash": "sha256:a916f04e2e80752f1c70f673d2c3956b4e2bf52dfafaec058c0e558a0cc2f6c9",
+        "schema_version": "planguard.scenario-template.v1"
+      },
+      {
+        "artifact_id": "scb_af4c697e2034557bd5d9d5c5bddf1cfd",
+        "artifact_kind": "scenario_binding",
+        "content_hash": "sha256:f4a253c82ed781634d26afd1f2299bf0edd32cd5375bd4f65b614d12f05b6b21",
+        "schema_version": "planguard.scenario-binding.v1"
+      },
+      {
+        "artifact_id": "scb_773c6d0ae1bed5352b500af882f003c6",
+        "artifact_kind": "scenario_binding",
+        "content_hash": "sha256:9ab5cfb8bc1133d6eaed68d47fa2c3a4cc58a9c6e52b5588a151a33a3b6d57f1",
+        "schema_version": "planguard.scenario-binding.v1"
+      },
+      {
+        "artifact_id": "scb_49208455151322bd3fcf0d8485b28eb6",
+        "artifact_kind": "scenario_binding",
+        "content_hash": "sha256:2a935260f6e0f5b6a911fa1a2b7a33c9befc4bf9c03a0020915a2ea5fd822214",
+        "schema_version": "planguard.scenario-binding.v1"
+      },
+      {
+        "artifact_id": "scb_e0d75b82e3b57afb2db027aea8722907",
+        "artifact_kind": "scenario_binding",
+        "content_hash": "sha256:d9721061d7a3461fbb536bfe60359b7f905a16b29c18ef2ebeadc4e2a01fb5ed",
+        "schema_version": "planguard.scenario-binding.v1"
+      },
+      {
+        "artifact_id": "scb_cf71d3bcc857d9a9d96243d42380c5ce",
+        "artifact_kind": "scenario_binding",
+        "content_hash": "sha256:31348b98b86be1cf9d8d7934ba704e30da6404544a634d68a12fac852bd33832",
+        "schema_version": "planguard.scenario-binding.v1"
+      },
+      {
+        "artifact_id": "scb_3e8dd4cb3c8af5f4904e01f95f1424a9",
+        "artifact_kind": "scenario_binding",
+        "content_hash": "sha256:870dad195d4881e4c09d9252d53f75c5d830b6340a05a14515ca5f7641a124fa",
+        "schema_version": "planguard.scenario-binding.v1"
+      },
+      {
+        "artifact_id": "scb_e2a0d94212eb240105d48f48e2675ccf",
+        "artifact_kind": "scenario_binding",
+        "content_hash": "sha256:0be117d2f62af3854961ae18d9a80db19568fdb36b17956aedf75b0e4210e4d4",
+        "schema_version": "planguard.scenario-binding.v1"
+      },
+      {
+        "artifact_id": "scb_652ecf4963e656dae67ea0adda7241fb",
+        "artifact_kind": "scenario_binding",
+        "content_hash": "sha256:f617b2ec822bce1686bf1115a069e98b39ec89762820e896758d14c8abc5416e",
+        "schema_version": "planguard.scenario-binding.v1"
+      },
+      {
+        "artifact_id": "scb_6bdff5aa77f33f2e0d735cb614acaa93",
+        "artifact_kind": "scenario_binding",
+        "content_hash": "sha256:46820b3e811ee12eabc762a3b44d863068803dd69f18164ff0a14a7c163edaae",
+        "schema_version": "planguard.scenario-binding.v1"
+      },
+      {
+        "artifact_id": "scb_0352a91bb87fcc6c66290cf4815f69b6",
+        "artifact_kind": "scenario_binding",
+        "content_hash": "sha256:b6a4c13bcb0639c2bcf9d390e25cc6fdfb0864f45323fbd8a622943212506478",
+        "schema_version": "planguard.scenario-binding.v1"
+      },
+      {
+        "artifact_id": "mut_32977ceb0f1e406914df98c807c98978",
+        "artifact_kind": "mutation_definition",
+        "content_hash": "sha256:caba1afd561f8398e241dab0758ecb4350fb7a4471e76e28677b06aeb14646cc",
+        "schema_version": "planguard.mutation-definition.v1"
+      },
+      {
+        "artifact_id": "mut_ef08344fdedc5a441b075ef538505825",
+        "artifact_kind": "mutation_definition",
+        "content_hash": "sha256:069be0c06dee6ce9db1fe61f701c9194194c743fdb2a56cb5cb5f12fac20810d",
+        "schema_version": "planguard.mutation-definition.v1"
+      },
+      {
+        "artifact_id": "mut_be3c2d5e24ce063c1ddc824df1c88f86",
+        "artifact_kind": "mutation_definition",
+        "content_hash": "sha256:f7c9b5b98539a54cbf6e18b03c617b6f030d6d5b8239ec70e147fd415370c509",
+        "schema_version": "planguard.mutation-definition.v1"
+      },
+      {
+        "artifact_id": "mut_dc1a70208a9799180c28a01b772732c1",
+        "artifact_kind": "mutation_definition",
+        "content_hash": "sha256:90fb4ac31a7271eb98d20811b468f9911dc9503a0a9ccc3fdbf828eebe18679d",
+        "schema_version": "planguard.mutation-definition.v1"
+      },
+      {
+        "artifact_id": "mut_1bb1c5f43a37bfa5587c93445c2942d4",
+        "artifact_kind": "mutation_definition",
+        "content_hash": "sha256:3126c098c4c70042f9de778513bbca55af0b555b5e47d4abe6e33646615a1390",
+        "schema_version": "planguard.mutation-definition.v1"
+      },
+      {
+        "artifact_id": "mut_5b13cef915a5fb0b7306fbe5f599f302",
+        "artifact_kind": "mutation_definition",
+        "content_hash": "sha256:188f0297bf7e1514475c872f1683f493feec395c9d9e3fd8c965b3f1cc92e772",
+        "schema_version": "planguard.mutation-definition.v1"
+      },
+      {
+        "artifact_id": "mut_25698450bceacdc27ccd590fac583b51",
+        "artifact_kind": "mutation_definition",
+        "content_hash": "sha256:d932acde6df3551cb5fd3c043d867f54e67dde1970fc827cc737d000fea0f167",
+        "schema_version": "planguard.mutation-definition.v1"
+      },
+      {
+        "artifact_id": "mut_4c65e2b6ee4d4080bf0279befd8c034a",
+        "artifact_kind": "mutation_definition",
+        "content_hash": "sha256:c2288bb833ef4cc4f3ae5340d110c813db680be38f52c595fec4493f736f37d9",
+        "schema_version": "planguard.mutation-definition.v1"
+      }
+    ],
+    "notes": []
+  },
+  "schema_version": "planguard.representative-set.v1"
+}

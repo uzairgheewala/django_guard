@@ -1,0 +1,165 @@
+{
+  "artifact_id": "dset_bd6f7f39fd81ff7fa19f095b47c0130f",
+  "artifact_kind": "dataset_manifest",
+  "content_hash": "sha256:5b0f4cfd6acd2c39b090adc7364468218e7183f51801c3cdecb9ab5a399eca34",
+  "created_at": "1970-01-01T00:00:00Z",
+  "extensions": {},
+  "payload": {
+    "constraints": [
+      "all domain rows carry institution_id",
+      "cross-tenant foreign keys are forbidden",
+      "materialized rows are a deterministic representative projection"
+    ],
+    "dataset_fingerprint": "sha256:58d5544a48ef265c1b894c07bbe41d9c56d097193fb27478064baa6c14e5c80a",
+    "dataset_key": "academic:small:uniform",
+    "dataset_version": "academic-dataset.v1",
+    "distributions": [
+      {
+        "distribution_key": "tenant-allocation",
+        "kind": "uniform",
+        "parameters": {
+          "weights": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "seed_offset": 0
+      },
+      {
+        "distribution_key": "course-popularity",
+        "kind": "bounded-uniform",
+        "parameters": {
+          "courses_per_tenant": 80
+        },
+        "seed_offset": 0
+      },
+      {
+        "distribution_key": "relation-fanout",
+        "kind": "fixed",
+        "parameters": {
+          "plan_items_per_student": 5
+        },
+        "seed_offset": 0
+      }
+    ],
+    "entity_counts": {
+      "course": 240,
+      "enrollment": 60000,
+      "institution": 3,
+      "plan_item": 25000,
+      "program": 3,
+      "student": 5000
+    },
+    "generator_key": "academic.synthetic.v1",
+    "metadata": {
+      "generator_material": {
+        "course_sample": [
+          "DSC10",
+          "CSE11",
+          "DSC12",
+          "CSE13",
+          "DSC14",
+          "CSE15",
+          "DSC16",
+          "CSE17",
+          "DSC18",
+          "CSE19",
+          "DSC20",
+          "CSE21",
+          "DSC22",
+          "CSE23",
+          "DSC24",
+          "CSE25",
+          "DSC26",
+          "CSE27",
+          "DSC28",
+          "CSE29",
+          "DSC30",
+          "CSE31",
+          "DSC32",
+          "CSE33",
+          "DSC34",
+          "CSE35",
+          "DSC36",
+          "CSE37",
+          "DSC38",
+          "CSE39",
+          "DSC40",
+          "CSE41"
+        ],
+        "institution_codes": [
+          "INST01",
+          "INST02",
+          "INST03"
+        ],
+        "logical_counts": {
+          "course": 240,
+          "enrollment": 60000,
+          "institution": 3,
+          "plan_item": 25000,
+          "program": 3,
+          "student": 5000
+        },
+        "scale_profile": "small",
+        "seed": 20260725,
+        "student_sample": [
+          "INST01-S000001",
+          "INST01-S000002",
+          "INST01-S000003",
+          "INST01-S000004",
+          "INST01-S000005",
+          "INST01-S000006",
+          "INST01-S000007",
+          "INST01-S000008",
+          "INST01-S000009",
+          "INST01-S000010",
+          "INST01-S000011",
+          "INST01-S000012",
+          "INST01-S000013",
+          "INST01-S000014",
+          "INST01-S000015",
+          "INST01-S000016",
+          "INST01-S000017",
+          "INST01-S000018",
+          "INST01-S000019",
+          "INST01-S000020",
+          "INST01-S000021",
+          "INST01-S000022",
+          "INST01-S000023",
+          "INST01-S000024",
+          "INST01-S000025",
+          "INST01-S000026",
+          "INST01-S000027",
+          "INST01-S000028",
+          "INST01-S000029",
+          "INST01-S000030",
+          "INST01-S000031",
+          "INST01-S000032"
+        ],
+        "tenant_skew": "uniform"
+      },
+      "materialized_counts": {
+        "enrollment": 2160,
+        "plan_item": 900,
+        "student": 180
+      }
+    },
+    "scale_profile": "small",
+    "seed": 20260725,
+    "tenant_count": 3
+  },
+  "producer": {
+    "build": "milestone-f-seed",
+    "name": "planguard",
+    "version": "0.6.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": "academic.synthetic.v1",
+    "input_refs": [],
+    "notes": []
+  },
+  "schema_version": "planguard.dataset-manifest.v1"
+}

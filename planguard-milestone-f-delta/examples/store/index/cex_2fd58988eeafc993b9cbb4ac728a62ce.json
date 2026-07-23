@@ -1,0 +1,8 @@
+{
+  "artifact_id": "cex_2fd58988eeafc993b9cbb4ac728a62ce",
+  "artifact_kind": "counterexample_candidate",
+  "content_hash": "sha256:fe9507dbccbde4c0186cb8f0a87346bab17a5097c2911c131147912d3b9ef9ab",
+  "created_at": "1970-01-01T00:00:00+00:00",
+  "path": "artifacts/cex_2fd58988eeafc993b9cbb4ac728a62ce.json",
+  "schema_version": "planguard.counterexample-candidate.v1"
+}

@@ -1,0 +1,328 @@
+{
+  "$defs": {
+    "ArtifactReference": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "artifact_kind": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Artifact Kind",
+          "type": "string"
+        },
+        "content_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "schema_version": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Schema Version"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "artifact_kind",
+        "content_hash",
+        "schema_version"
+      ],
+      "title": "ArtifactReference",
+      "type": "object"
+    },
+    "ProducerIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "build": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Build"
+        },
+        "name": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "version": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "build",
+        "name",
+        "version"
+      ],
+      "title": "ProducerIdentity",
+      "type": "object"
+    },
+    "Provenance": {
+      "additionalProperties": false,
+      "properties": {
+        "code_revision": {
+          "anyOf": [
+            {
+              "maxLength": 256,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Code Revision"
+        },
+        "configuration_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "derivation_key": {
+          "anyOf": [
+            {
+              "maxLength": 256,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Derivation Key"
+        },
+        "input_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Input Refs",
+          "type": "array"
+        },
+        "notes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "code_revision",
+        "configuration_ref",
+        "derivation_key",
+        "input_refs",
+        "notes"
+      ],
+      "title": "Provenance",
+      "type": "object"
+    },
+    "RepresentativeSelection": {
+      "additionalProperties": false,
+      "properties": {
+        "covered_cell_keys": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Covered Cell Keys",
+          "type": "array"
+        },
+        "marginal_coverage": {
+          "minimum": 0,
+          "title": "Marginal Coverage",
+          "type": "integer"
+        },
+        "rationale": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Rationale",
+          "type": "array"
+        },
+        "scenario_instance_ref": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "score": {
+          "minimum": 0.0,
+          "title": "Score",
+          "type": "number"
+        }
+      },
+      "required": [
+        "covered_cell_keys",
+        "marginal_coverage",
+        "rationale",
+        "scenario_instance_ref",
+        "score"
+      ],
+      "title": "RepresentativeSelection",
+      "type": "object"
+    },
+    "RepresentativeSetPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "covered_cell_keys": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Covered Cell Keys",
+          "type": "array"
+        },
+        "generation_notes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Generation Notes",
+          "type": "array"
+        },
+        "maximum_cases": {
+          "minimum": 1,
+          "title": "Maximum Cases",
+          "type": "integer"
+        },
+        "seed": {
+          "title": "Seed",
+          "type": "integer"
+        },
+        "selections": {
+          "items": {
+            "$ref": "#/$defs/RepresentativeSelection"
+          },
+          "title": "Selections",
+          "type": "array"
+        },
+        "strategy_keys": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Strategy Keys",
+          "type": "array"
+        },
+        "uncovered_cell_keys": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Uncovered Cell Keys",
+          "type": "array"
+        },
+        "universe_ref": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "unsupported_cell_keys": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Unsupported Cell Keys",
+          "type": "array"
+        }
+      },
+      "required": [
+        "covered_cell_keys",
+        "generation_notes",
+        "maximum_cases",
+        "seed",
+        "selections",
+        "strategy_keys",
+        "uncovered_cell_keys",
+        "universe_ref",
+        "unsupported_cell_keys"
+      ],
+      "title": "RepresentativeSetPayload",
+      "type": "object"
+    }
+  },
+  "$id": "https://planguard.dev/schemas/planguard.representative-set.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifact_id": {
+      "title": "Artifact Id",
+      "type": "string"
+    },
+    "artifact_kind": {
+      "const": "representative_set",
+      "default": "representative_set",
+      "title": "Artifact Kind",
+      "type": "string"
+    },
+    "content_hash": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "title": "Content Hash",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "extensions": {
+      "additionalProperties": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Extensions",
+      "type": "object"
+    },
+    "payload": {
+      "$ref": "#/$defs/RepresentativeSetPayload"
+    },
+    "producer": {
+      "$ref": "#/$defs/ProducerIdentity"
+    },
+    "provenance": {
+      "$ref": "#/$defs/Provenance"
+    },
+    "schema_version": {
+      "const": "planguard.representative-set.v1",
+      "default": "planguard.representative-set.v1",
+      "title": "Schema Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "artifact_id",
+    "artifact_kind",
+    "content_hash",
+    "created_at",
+    "extensions",
+    "payload",
+    "producer",
+    "provenance",
+    "schema_version"
+  ],
+  "title": "RepresentativeSetArtifact",
+  "type": "object"
+}

@@ -1,0 +1,48 @@
+{
+  "artifact_id": "evd_6d1a0ec63c3e4e6c963d6b4fb3ca5d3b",
+  "artifact_kind": "evidence",
+  "content_hash": "sha256:6315deb84dcf162307a64a416007c0bef1f65a94059b69ab6369ec9cc5d41ed7",
+  "created_at": "2026-07-23T13:37:51.555925Z",
+  "extensions": {},
+  "payload": {
+    "claims": [
+      {
+        "claim_key": "identical_execution_repeated",
+        "explanation": "The same shape, parameter binding, and origin repeated.",
+        "status": "supported",
+        "subject_refs": [
+          {
+            "artifact_id": "qfam_8488bdfc0a81cfab209a16f4690138a6",
+            "artifact_kind": "observed_query_family",
+            "content_hash": "sha256:451a4711da54f9cbc912c5b5c21d6e9af059cc0c0ee5097f1a49e092813c32b8",
+            "schema_version": "planguard.observed-query-family.v1"
+          }
+        ],
+        "values": {
+          "execution_count": 2
+        }
+      }
+    ],
+    "run_id": "run_05b7ed33903c44b9aa6c8fdc7a5a3138"
+  },
+  "producer": {
+    "build": "milestone-f-seed",
+    "name": "planguard",
+    "version": "0.6.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": "exact-duplicate-execution.v1",
+    "input_refs": [
+      {
+        "artifact_id": "qfam_8488bdfc0a81cfab209a16f4690138a6",
+        "artifact_kind": "observed_query_family",
+        "content_hash": "sha256:451a4711da54f9cbc912c5b5c21d6e9af059cc0c0ee5097f1a49e092813c32b8",
+        "schema_version": "planguard.observed-query-family.v1"
+      }
+    ],
+    "notes": []
+  },
+  "schema_version": "planguard.evidence.v1"
+}

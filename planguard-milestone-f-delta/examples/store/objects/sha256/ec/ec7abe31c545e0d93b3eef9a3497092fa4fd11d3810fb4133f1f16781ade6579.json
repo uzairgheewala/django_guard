@@ -1,0 +1,56 @@
+{
+  "artifact_id": "wmotif_12c0b7ae07a7a36893ed6a8aee67ba9a",
+  "artifact_kind": "workload_motif",
+  "content_hash": "sha256:ec7abe31c545e0d93b3eef9a3497092fa4fd11d3810fb4133f1f16781ade6579",
+  "created_at": "1970-01-01T00:00:00Z",
+  "extensions": {},
+  "payload": {
+    "constraints": [
+      {
+        "constraint_key": "repeated",
+        "description": null,
+        "kind": "execution_count_gt",
+        "parameters": {
+          "value": 1
+        }
+      },
+      {
+        "constraint_key": "binding-diversity",
+        "description": null,
+        "kind": "distinct_bindings_gt",
+        "parameters": {
+          "value": 1
+        }
+      }
+    ],
+    "description": "One structural or origin-sensitive family repeats with varying bindings.",
+    "edge_patterns": [],
+    "mechanism_keys": [
+      "round-trip-amplification"
+    ],
+    "motif_key": "parameterized-repetition.v1",
+    "node_roles": [
+      {
+        "allowed_kinds": [
+          "query_family"
+        ],
+        "description": null,
+        "role_key": "family"
+      }
+    ],
+    "title": "Parameterized structural repetition"
+  },
+  "producer": {
+    "build": "milestone-f-seed",
+    "name": "planguard",
+    "version": "0.6.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": "builtin-workload-motif.v2",
+    "input_refs": [],
+    "notes": []
+  },
+  "schema_version": "planguard.workload-motif.v1"
+}

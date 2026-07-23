@@ -1,0 +1,99 @@
+{
+  "artifact_id": "fnd_dafffe655fbf487880e88d960a4d67ed",
+  "artifact_kind": "finding",
+  "content_hash": "sha256:e5d1bda16351be21aa9d90f0123f7d2814ace8a515a253cfd59c16210dcbb1ab",
+  "created_at": "2026-07-23T13:37:50.960930Z",
+  "extensions": {},
+  "payload": {
+    "claims": [
+      {
+        "claim_key": "parameter_varying_lookup_cluster",
+        "explanation": "A single application origin emitted many structurally identical queries whose parameter bindings varied.",
+        "status": "supported",
+        "subject_refs": [
+          {
+            "artifact_id": "qfam_1eafe24ff87b430f2ad587e4eb159ef3",
+            "artifact_kind": "observed_query_family",
+            "content_hash": "sha256:1bbd006a1b8eb139ba2126171576ce206dcb7a1efdf9324cf4a644c954327fe4",
+            "schema_version": "planguard.observed-query-family.v1"
+          }
+        ],
+        "values": {
+          "distinct_parameter_bindings": 25,
+          "execution_count": 25,
+          "parameter_diversity_ratio": 1.0
+        }
+      }
+    ],
+    "confidence": {
+      "level": "high",
+      "score": 0.9
+    },
+    "detector_key": "likely-n-plus-one.v1",
+    "evidence_refs": [
+      {
+        "artifact_id": "evd_f7f12d6586b84a6eb39775e5a4d673aa",
+        "artifact_kind": "evidence",
+        "content_hash": "sha256:5f204e8c34d560ebe43581e076f08b990d27ae431d190d68a8f8d4af8ff99249",
+        "schema_version": "planguard.evidence.v1"
+      }
+    ],
+    "explanation": {
+      "details": [],
+      "summary": "25 same-origin executions used 25 distinct parameter bindings, which is consistent with per-parent relation loading."
+    },
+    "limitations": [
+      "Milestone B does not yet prove a parent-result dependency; workload graphs add that evidence later."
+    ],
+    "mechanism_key": "round_trip_amplification",
+    "metadata": {},
+    "remediation": {
+      "category": "round_trip_amplification",
+      "guidance": [
+        "Inspect lazy relation access inside iteration or serialization.",
+        "Consider select_related, prefetch_related, or an explicit batch query where semantics permit.",
+        "Verify that eager loading does not create excessive row amplification."
+      ]
+    },
+    "run_id": "run_d78d4aefa91749ab80b438302bed276f",
+    "severity": {
+      "level": "high",
+      "score": 0.9
+    },
+    "subject_refs": [
+      {
+        "artifact_id": "qfam_1eafe24ff87b430f2ad587e4eb159ef3",
+        "artifact_kind": "observed_query_family",
+        "content_hash": "sha256:1bbd006a1b8eb139ba2126171576ce206dcb7a1efdf9324cf4a644c954327fe4",
+        "schema_version": "planguard.observed-query-family.v1"
+      }
+    ],
+    "title": "Likely relation-driven N+1 workload"
+  },
+  "producer": {
+    "build": "milestone-f-seed",
+    "name": "planguard",
+    "version": "0.6.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": "likely-n-plus-one.v1",
+    "input_refs": [
+      {
+        "artifact_id": "qfam_1eafe24ff87b430f2ad587e4eb159ef3",
+        "artifact_kind": "observed_query_family",
+        "content_hash": "sha256:1bbd006a1b8eb139ba2126171576ce206dcb7a1efdf9324cf4a644c954327fe4",
+        "schema_version": "planguard.observed-query-family.v1"
+      },
+      {
+        "artifact_id": "evd_f7f12d6586b84a6eb39775e5a4d673aa",
+        "artifact_kind": "evidence",
+        "content_hash": "sha256:5f204e8c34d560ebe43581e076f08b990d27ae431d190d68a8f8d4af8ff99249",
+        "schema_version": "planguard.evidence.v1"
+      }
+    ],
+    "notes": []
+  },
+  "schema_version": "planguard.finding.v1"
+}

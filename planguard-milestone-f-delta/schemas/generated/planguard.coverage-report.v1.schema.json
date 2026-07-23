@@ -1,0 +1,484 @@
+{
+  "$defs": {
+    "ArtifactReference": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "artifact_kind": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Artifact Kind",
+          "type": "string"
+        },
+        "content_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "schema_version": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Schema Version"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "artifact_kind",
+        "content_hash",
+        "schema_version"
+      ],
+      "title": "ArtifactReference",
+      "type": "object"
+    },
+    "CoverageCell": {
+      "additionalProperties": false,
+      "properties": {
+        "capability_gaps": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Capability Gaps",
+          "type": "array"
+        },
+        "cell_key": {
+          "title": "Cell Key",
+          "type": "string"
+        },
+        "coordinates": {
+          "additionalProperties": true,
+          "title": "Coordinates",
+          "type": "object"
+        },
+        "reasons": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Reasons",
+          "type": "array"
+        },
+        "risk_weight": {
+          "default": 1.0,
+          "minimum": 0.0,
+          "title": "Risk Weight",
+          "type": "number"
+        },
+        "scenario_instance_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Scenario Instance Refs",
+          "type": "array"
+        },
+        "scenario_run_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Scenario Run Refs",
+          "type": "array"
+        },
+        "status": {
+          "$ref": "#/$defs/CoverageCellStatus"
+        },
+        "strategy_keys": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Strategy Keys",
+          "type": "array"
+        }
+      },
+      "required": [
+        "capability_gaps",
+        "cell_key",
+        "coordinates",
+        "reasons",
+        "risk_weight",
+        "scenario_instance_refs",
+        "scenario_run_refs",
+        "status",
+        "strategy_keys"
+      ],
+      "title": "CoverageCell",
+      "type": "object"
+    },
+    "CoverageCellStatus": {
+      "enum": [
+        "covered",
+        "uncovered",
+        "inapplicable",
+        "unsupported",
+        "unknown"
+      ],
+      "title": "CoverageCellStatus",
+      "type": "string"
+    },
+    "CoverageReportPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "capability_gaps": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Capability Gaps",
+          "type": "array"
+        },
+        "cells": {
+          "items": {
+            "$ref": "#/$defs/CoverageCell"
+          },
+          "title": "Cells",
+          "type": "array"
+        },
+        "dimension_coverage": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/DimensionCoverage"
+          },
+          "title": "Dimension Coverage",
+          "type": "array"
+        },
+        "evaluated_instance_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Evaluated Instance Refs",
+          "type": "array"
+        },
+        "evaluated_run_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Evaluated Run Refs",
+          "type": "array"
+        },
+        "interaction_coverage": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/InteractionCoverage"
+          },
+          "title": "Interaction Coverage",
+          "type": "array"
+        },
+        "limitations": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Limitations",
+          "type": "array"
+        },
+        "novel_observation_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Novel Observation Refs",
+          "type": "array"
+        },
+        "representative_set_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "status_counts": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Status Counts",
+          "type": "object"
+        },
+        "universe_ref": {
+          "$ref": "#/$defs/ArtifactReference"
+        }
+      },
+      "required": [
+        "capability_gaps",
+        "cells",
+        "dimension_coverage",
+        "evaluated_instance_refs",
+        "evaluated_run_refs",
+        "interaction_coverage",
+        "limitations",
+        "novel_observation_refs",
+        "representative_set_ref",
+        "status_counts",
+        "universe_ref"
+      ],
+      "title": "CoverageReportPayload",
+      "type": "object"
+    },
+    "DimensionCoverage": {
+      "additionalProperties": false,
+      "properties": {
+        "axis_key": {
+          "title": "Axis Key",
+          "type": "string"
+        },
+        "covered_values": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Covered Values",
+          "type": "array"
+        },
+        "inapplicable_values": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Inapplicable Values",
+          "type": "array"
+        },
+        "uncovered_values": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Uncovered Values",
+          "type": "array"
+        },
+        "unsupported_values": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Unsupported Values",
+          "type": "array"
+        }
+      },
+      "required": [
+        "axis_key",
+        "covered_values",
+        "inapplicable_values",
+        "uncovered_values",
+        "unsupported_values"
+      ],
+      "title": "DimensionCoverage",
+      "type": "object"
+    },
+    "InteractionCoverage": {
+      "additionalProperties": false,
+      "properties": {
+        "covered": {
+          "minimum": 0,
+          "title": "Covered",
+          "type": "integer"
+        },
+        "ratio": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Ratio",
+          "type": "number"
+        },
+        "strategy_key": {
+          "title": "Strategy Key",
+          "type": "string"
+        },
+        "total": {
+          "minimum": 0,
+          "title": "Total",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "covered",
+        "ratio",
+        "strategy_key",
+        "total"
+      ],
+      "title": "InteractionCoverage",
+      "type": "object"
+    },
+    "ProducerIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "build": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Build"
+        },
+        "name": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "version": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "build",
+        "name",
+        "version"
+      ],
+      "title": "ProducerIdentity",
+      "type": "object"
+    },
+    "Provenance": {
+      "additionalProperties": false,
+      "properties": {
+        "code_revision": {
+          "anyOf": [
+            {
+              "maxLength": 256,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Code Revision"
+        },
+        "configuration_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "derivation_key": {
+          "anyOf": [
+            {
+              "maxLength": 256,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Derivation Key"
+        },
+        "input_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Input Refs",
+          "type": "array"
+        },
+        "notes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "code_revision",
+        "configuration_ref",
+        "derivation_key",
+        "input_refs",
+        "notes"
+      ],
+      "title": "Provenance",
+      "type": "object"
+    }
+  },
+  "$id": "https://planguard.dev/schemas/planguard.coverage-report.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifact_id": {
+      "title": "Artifact Id",
+      "type": "string"
+    },
+    "artifact_kind": {
+      "const": "coverage_report",
+      "default": "coverage_report",
+      "title": "Artifact Kind",
+      "type": "string"
+    },
+    "content_hash": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "title": "Content Hash",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "extensions": {
+      "additionalProperties": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Extensions",
+      "type": "object"
+    },
+    "payload": {
+      "$ref": "#/$defs/CoverageReportPayload"
+    },
+    "producer": {
+      "$ref": "#/$defs/ProducerIdentity"
+    },
+    "provenance": {
+      "$ref": "#/$defs/Provenance"
+    },
+    "schema_version": {
+      "const": "planguard.coverage-report.v1",
+      "default": "planguard.coverage-report.v1",
+      "title": "Schema Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "artifact_id",
+    "artifact_kind",
+    "content_hash",
+    "created_at",
+    "extensions",
+    "payload",
+    "producer",
+    "provenance",
+    "schema_version"
+  ],
+  "title": "CoverageReportArtifact",
+  "type": "object"
+}

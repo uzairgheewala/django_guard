@@ -1,0 +1,75 @@
+{
+  "artifact_id": "nov_175e5940b4d91c6772059e37694d632d",
+  "artifact_kind": "novelty_signature",
+  "content_hash": "sha256:88eae52033cc61e06bc3fa50363ee6a2107c01d701f6c4b2cff35a3546a2d99a",
+  "created_at": "1970-01-01T00:00:00Z",
+  "extensions": {},
+  "payload": {
+    "corpus_size": 0,
+    "distance": null,
+    "explanation": [
+      "No exact signature exists in the current corpus.",
+      "The corpus is empty."
+    ],
+    "feature_vector": {
+      "family_count": 8,
+      "family_execution_buckets": {
+        "one": 8
+      },
+      "finding_mechanisms": [
+        "database_time_concentration"
+      ],
+      "motifs": [],
+      "plan_node_types": {},
+      "plan_shape_fingerprints": [],
+      "query_count_bucket": "small",
+      "query_shapes": [
+        "qsh_00750ed5cd1e8be81e19585c2b9b3331a6702c93dca5e9261059efe36889e0f0",
+        "qsh_b9397c748c5ee8f86300b9fc82d184bb0ec187348d48e05caa6b549c081dcafd"
+      ],
+      "statement_kinds": {
+        "select": 2
+      },
+      "template_count": 2
+    },
+    "nearest_signature_refs": [],
+    "novel_dimensions": [
+      "family_count:8",
+      "family_execution_buckets:one=8",
+      "finding_mechanisms:database_time_concentration",
+      "query_count_bucket:small",
+      "query_shapes:qsh_00750ed5cd1e8be81e19585c2b9b3331a6702c93dca5e9261059efe36889e0f0",
+      "query_shapes:qsh_b9397c748c5ee8f86300b9fc82d184bb0ec187348d48e05caa6b549c081dcafd",
+      "statement_kinds:select=2",
+      "template_count:2"
+    ],
+    "signature_hash": "sha256:e9d9f07845fa7bc704ef6046cfe59008428b4b021dbfc5a475f501de06d990be",
+    "status": "novel",
+    "subject_ref": {
+      "artifact_id": "run_b0f5689c64a64bd9a6e4f23fd1d7cfc8",
+      "artifact_kind": "run_manifest",
+      "content_hash": "sha256:f309094673ff2b935eabed8be8e76ee620bbc9bbf77e32730601bd6d8aea28cd",
+      "schema_version": "planguard.run-manifest.v1"
+    }
+  },
+  "producer": {
+    "build": "milestone-f-seed",
+    "name": "planguard",
+    "version": "0.6.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": "behavioral-novelty.v1",
+    "input_refs": [
+      {
+        "artifact_id": "run_b0f5689c64a64bd9a6e4f23fd1d7cfc8",
+        "artifact_kind": "run_manifest",
+        "content_hash": "sha256:f309094673ff2b935eabed8be8e76ee620bbc9bbf77e32730601bd6d8aea28cd",
+        "schema_version": "planguard.run-manifest.v1"
+      }
+    ],
+    "notes": []
+  },
+  "schema_version": "planguard.novelty-signature.v1"
+}

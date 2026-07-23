@@ -1,0 +1,50 @@
+{
+  "artifact_id": "evd_9e7db05309d646b3a34fcafdaaf8ef43",
+  "artifact_kind": "evidence",
+  "content_hash": "sha256:849a68e252e1eb3f0a60fa94ce45272afc4ce82ab033a89bf2027791eb95bda6",
+  "created_at": "2026-07-23T13:37:51.558442Z",
+  "extensions": {},
+  "payload": {
+    "claims": [
+      {
+        "claim_key": "family_dominates_database_time",
+        "explanation": null,
+        "status": "supported",
+        "subject_refs": [
+          {
+            "artifact_id": "qfam_341665aa5cb94af4f246c7d0efd05010",
+            "artifact_kind": "observed_query_family",
+            "content_hash": "sha256:62a1244a22801113a940b6f58fb3be8290d619f2bb8b8f1ded2d179a950b6002",
+            "schema_version": "planguard.observed-query-family.v1"
+          }
+        ],
+        "values": {
+          "database_time_share": 0.5675675675675674,
+          "family_total_ms": 16.799999999999997,
+          "run_total_ms": 29.6
+        }
+      }
+    ],
+    "run_id": "run_05b7ed33903c44b9aa6c8fdc7a5a3138"
+  },
+  "producer": {
+    "build": "milestone-f-seed",
+    "name": "planguard",
+    "version": "0.6.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": "slow-family-concentration.v1",
+    "input_refs": [
+      {
+        "artifact_id": "qfam_341665aa5cb94af4f246c7d0efd05010",
+        "artifact_kind": "observed_query_family",
+        "content_hash": "sha256:62a1244a22801113a940b6f58fb3be8290d619f2bb8b8f1ded2d179a950b6002",
+        "schema_version": "planguard.observed-query-family.v1"
+      }
+    ],
+    "notes": []
+  },
+  "schema_version": "planguard.evidence.v1"
+}

@@ -1,0 +1,77 @@
+{
+  "artifact_id": "cex_2fd58988eeafc993b9cbb4ac728a62ce",
+  "artifact_kind": "counterexample_candidate",
+  "content_hash": "sha256:fe9507dbccbde4c0186cb8f0a87346bab17a5097c2911c131147912d3b9ef9ab",
+  "created_at": "1970-01-01T00:00:00Z",
+  "extensions": {},
+  "payload": {
+    "label": "false_positive",
+    "novelty_signature_ref": {
+      "artifact_id": "nov_175e5940b4d91c6772059e37694d632d",
+      "artifact_kind": "novelty_signature",
+      "content_hash": "sha256:88eae52033cc61e06bc3fa50363ee6a2107c01d701f6c4b2cff35a3546a2d99a",
+      "schema_version": "planguard.novelty-signature.v1"
+    },
+    "preserved_predicate": {
+      "description": "The minimized workload retains at least two parent rows.",
+      "kind": "custom",
+      "parameters": {
+        "minimum_parent_count": 2
+      },
+      "predicate_key": "minimum-parent-count.v1",
+      "subject_ref": null
+    },
+    "reporter_notes": [
+      "Seeded example of the counterexample lifecycle."
+    ],
+    "scenario_instance_ref": {
+      "artifact_id": "sci_fea001e12205741f1983a19bd42b468d",
+      "artifact_kind": "scenario_instance",
+      "content_hash": "sha256:c8d3042890a2a220db5ecd6d26e8244c6483a52fa3a0b6193eef50a60f692c8e",
+      "schema_version": "planguard.scenario-instance.v1"
+    },
+    "source_ref": {
+      "artifact_id": "run_b0f5689c64a64bd9a6e4f23fd1d7cfc8",
+      "artifact_kind": "run_manifest",
+      "content_hash": "sha256:f309094673ff2b935eabed8be8e76ee620bbc9bbf77e32730601bd6d8aea28cd",
+      "schema_version": "planguard.run-manifest.v1"
+    },
+    "status": "created",
+    "tags": [
+      "milestone-f",
+      "seeded"
+    ]
+  },
+  "producer": {
+    "build": "milestone-f-seed",
+    "name": "planguard",
+    "version": "0.6.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": "counterexample-capture.v1",
+    "input_refs": [
+      {
+        "artifact_id": "run_b0f5689c64a64bd9a6e4f23fd1d7cfc8",
+        "artifact_kind": "run_manifest",
+        "content_hash": "sha256:f309094673ff2b935eabed8be8e76ee620bbc9bbf77e32730601bd6d8aea28cd",
+        "schema_version": "planguard.run-manifest.v1"
+      },
+      {
+        "artifact_id": "sci_fea001e12205741f1983a19bd42b468d",
+        "artifact_kind": "scenario_instance",
+        "content_hash": "sha256:c8d3042890a2a220db5ecd6d26e8244c6483a52fa3a0b6193eef50a60f692c8e",
+        "schema_version": "planguard.scenario-instance.v1"
+      },
+      {
+        "artifact_id": "nov_175e5940b4d91c6772059e37694d632d",
+        "artifact_kind": "novelty_signature",
+        "content_hash": "sha256:88eae52033cc61e06bc3fa50363ee6a2107c01d701f6c4b2cff35a3546a2d99a",
+        "schema_version": "planguard.novelty-signature.v1"
+      }
+    ],
+    "notes": []
+  },
+  "schema_version": "planguard.counterexample-candidate.v1"
+}

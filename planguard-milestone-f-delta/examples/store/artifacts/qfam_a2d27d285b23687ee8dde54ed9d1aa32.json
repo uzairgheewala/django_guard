@@ -1,0 +1,77 @@
+{
+  "artifact_id": "qfam_a2d27d285b23687ee8dde54ed9d1aa32",
+  "artifact_kind": "observed_query_family",
+  "content_hash": "sha256:ca03dff1582ed78190772414f87902a2814142c205fc06cf1aa90ad6bad9d904",
+  "created_at": "2026-07-23T13:37:50.953912Z",
+  "extensions": {},
+  "payload": {
+    "aggregates": {
+      "distinct_parameter_bindings": 1,
+      "execution_count": 1,
+      "failed_execution_count": 0,
+      "maximum_duration_ms": 1.26,
+      "mean_duration_ms": 1.26,
+      "median_duration_ms": 1.26,
+      "total_duration_ms": 1.26
+    },
+    "dimension_values": {
+      "origin.frame": "stk_91fe6bf65244416f4d41df627eecba1563fbb2f895cea3e399bf25f342b573be",
+      "parameters.binding": "binding:7589234ec83bcdf4f2797a490d8d63d7fde95f1ef0e8b35bcf00c91fea9991ef",
+      "query.shape": "qsh_42398e0e606491ca0a090656151987bd9e047db78c5c6a65b8592d826fa7e07a"
+    },
+    "family_scheme_key": "exact-execution.v1",
+    "member_execution_refs": [
+      {
+        "artifact_id": "qexec_2ab519f7ca20465b8f244918b4841fc3",
+        "artifact_kind": "query_execution",
+        "content_hash": "sha256:6ef3e4fccaec59a08f47a5f29be6169836c9e9a73926a23789d07fe689224665",
+        "schema_version": "planguard.query-execution.v1"
+      }
+    ],
+    "parameter_regimes": [
+      {
+        "details": {},
+        "member_count": 1,
+        "regime_key": "tuple-3"
+      }
+    ],
+    "query_template_ref": {
+      "artifact_id": "qtpl_7ef66b82adb44ad58b3e546144cd00eb",
+      "artifact_kind": "query_template",
+      "content_hash": null,
+      "schema_version": "planguard.query-template.v1"
+    },
+    "run_id": "run_d78d4aefa91749ab80b438302bed276f",
+    "temporal": {
+      "first_sequence": 47,
+      "last_sequence": 47,
+      "span_ms": 1.2599999999999998
+    }
+  },
+  "producer": {
+    "build": "milestone-f-seed",
+    "name": "planguard",
+    "version": "0.6.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": "query-family-project.v1",
+    "input_refs": [
+      {
+        "artifact_id": "qexec_2ab519f7ca20465b8f244918b4841fc3",
+        "artifact_kind": "query_execution",
+        "content_hash": "sha256:6ef3e4fccaec59a08f47a5f29be6169836c9e9a73926a23789d07fe689224665",
+        "schema_version": "planguard.query-execution.v1"
+      },
+      {
+        "artifact_id": "fsch_d4916bc5ca9e44ed80b70ea80b2a33cc",
+        "artifact_kind": "family_scheme",
+        "content_hash": "sha256:cce963c17721a42deb7ec627811edee20c1a4afc7532b12ec09dba8a3df961c6",
+        "schema_version": "planguard.family-scheme.v1"
+      }
+    ],
+    "notes": []
+  },
+  "schema_version": "planguard.observed-query-family.v1"
+}

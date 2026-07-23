@@ -1,0 +1,34 @@
+{
+  "artifact_id": "mut_ef08344fdedc5a441b075ef538505825",
+  "artifact_kind": "mutation_definition",
+  "content_hash": "sha256:069be0c06dee6ce9db1fe61f701c9194194c743fdb2a56cb5cb5f12fac20810d",
+  "created_at": "1970-01-01T00:00:00Z",
+  "extensions": {},
+  "payload": {
+    "adapter_key": "academic-lab.v1",
+    "compatible_template_keys": [
+      "per-item-check-write.v1",
+      "per-item-update.v1"
+    ],
+    "description": "Replace a bulk mutation with one statement per item.",
+    "mutation_class": "application",
+    "mutation_key": "force-per-row-write.v1",
+    "parameter_domain": {},
+    "required_capabilities": [],
+    "reversible": true,
+    "title": "Force per-row writes"
+  },
+  "producer": {
+    "build": "milestone-f-seed",
+    "name": "planguard",
+    "version": "0.6.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": "academic-mutation.v1",
+    "input_refs": [],
+    "notes": []
+  },
+  "schema_version": "planguard.mutation-definition.v1"
+}

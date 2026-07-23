@@ -1,0 +1,892 @@
+{
+  "artifact_id": "univ_37629e58c031a63d412a3913cc46ac76",
+  "artifact_kind": "universe_profile",
+  "content_hash": "sha256:c64e43ab162e380d08ee3304c20e69abf2211bb04a035d8788fceeb9451e6986",
+  "created_at": "1970-01-01T00:00:00Z",
+  "extensions": {},
+  "payload": {
+    "axes": [
+      {
+        "axis_key": "template_key",
+        "description": null,
+        "domain": {
+          "constraints": [],
+          "default": null,
+          "kind": "finite",
+          "maximum": null,
+          "minimum": null,
+          "partitions": [],
+          "registry_key": null,
+          "step": null,
+          "values": [
+            "aggregate-report.v1",
+            "count-then-fetch.v1",
+            "long-transaction-accumulation.v1",
+            "nested-relation-fanout.v1",
+            "offset-pagination.v1",
+            "per-item-check-write.v1",
+            "per-item-update.v1",
+            "relation-access-fanout.v1",
+            "repeated-evaluation.v1",
+            "tenant-skew-sensitivity.v1"
+          ]
+        },
+        "risk_weight": 2.0,
+        "source_key": "scenario.templates",
+        "source_kind": "registry",
+        "tags": [],
+        "title": "Workload topology"
+      },
+      {
+        "axis_key": "binding_key",
+        "description": null,
+        "domain": {
+          "constraints": [],
+          "default": null,
+          "kind": "finite",
+          "maximum": null,
+          "minimum": null,
+          "partitions": [],
+          "registry_key": null,
+          "step": null,
+          "values": [
+            "academic.advisor-roster.v1",
+            "academic.audit-status-recalculation.v1",
+            "academic.catalog-update.v1",
+            "academic.course-search.v1",
+            "academic.graduation-risk-report.v1",
+            "academic.institution-dashboard.v1",
+            "academic.plan-item-course.v1",
+            "academic.student-enrollment-offering.v1",
+            "academic.student-plan-queryset.v1",
+            "academic.transcript-import.v1"
+          ]
+        },
+        "risk_weight": 1.0,
+        "source_key": "scenario.bindings",
+        "source_kind": "registry",
+        "tags": [],
+        "title": "Application binding"
+      },
+      {
+        "axis_key": "variant_key",
+        "description": null,
+        "domain": {
+          "constraints": [],
+          "default": "naive",
+          "kind": "finite",
+          "maximum": null,
+          "minimum": null,
+          "partitions": [],
+          "registry_key": null,
+          "step": null,
+          "values": [
+            "naive",
+            "optimized"
+          ]
+        },
+        "risk_weight": 1.0,
+        "source_key": "variant_key",
+        "source_kind": "scenario_parameter",
+        "tags": [],
+        "title": "Implementation variant"
+      },
+      {
+        "axis_key": "scale_profile",
+        "description": null,
+        "domain": {
+          "constraints": [],
+          "default": "tiny",
+          "kind": "finite",
+          "maximum": null,
+          "minimum": null,
+          "partitions": [],
+          "registry_key": null,
+          "step": null,
+          "values": [
+            "tiny",
+            "small",
+            "medium",
+            "large"
+          ]
+        },
+        "risk_weight": 1.5,
+        "source_key": "scale_profile",
+        "source_kind": "scenario_parameter",
+        "tags": [],
+        "title": "Logical data scale"
+      },
+      {
+        "axis_key": "tenant_skew",
+        "description": null,
+        "domain": {
+          "constraints": [],
+          "default": "uniform",
+          "kind": "finite",
+          "maximum": null,
+          "minimum": null,
+          "partitions": [],
+          "registry_key": null,
+          "step": null,
+          "values": [
+            "uniform",
+            "dominant",
+            "zipf"
+          ]
+        },
+        "risk_weight": 1.5,
+        "source_key": "tenant_skew",
+        "source_kind": "scenario_parameter",
+        "tags": [],
+        "title": "Tenant distribution"
+      },
+      {
+        "axis_key": "parent_count",
+        "description": null,
+        "domain": {
+          "constraints": [],
+          "default": 8,
+          "kind": "partitioned",
+          "maximum": null,
+          "minimum": null,
+          "partitions": [
+            {
+              "include_maximum": true,
+              "include_minimum": true,
+              "key": "empty",
+              "maximum": 0,
+              "minimum": 0,
+              "representative_values": [
+                0
+              ],
+              "title": null
+            },
+            {
+              "include_maximum": true,
+              "include_minimum": true,
+              "key": "singleton",
+              "maximum": 1,
+              "minimum": 1,
+              "representative_values": [
+                1
+              ],
+              "title": null
+            },
+            {
+              "include_maximum": true,
+              "include_minimum": true,
+              "key": "small",
+              "maximum": 10,
+              "minimum": 2,
+              "representative_values": [
+                5
+              ],
+              "title": null
+            },
+            {
+              "include_maximum": true,
+              "include_minimum": true,
+              "key": "medium",
+              "maximum": 100,
+              "minimum": 11,
+              "representative_values": [
+                50
+              ],
+              "title": null
+            },
+            {
+              "include_maximum": true,
+              "include_minimum": true,
+              "key": "large",
+              "maximum": 1000,
+              "minimum": 101,
+              "representative_values": [
+                250
+              ],
+              "title": null
+            }
+          ],
+          "registry_key": null,
+          "step": null,
+          "values": []
+        },
+        "risk_weight": 2.0,
+        "source_key": "parent_count",
+        "source_kind": "scenario_parameter",
+        "tags": [],
+        "title": "Parent cardinality"
+      },
+      {
+        "axis_key": "relation_fanout",
+        "description": null,
+        "domain": {
+          "constraints": [],
+          "default": 5,
+          "kind": "partitioned",
+          "maximum": null,
+          "minimum": null,
+          "partitions": [
+            {
+              "include_maximum": true,
+              "include_minimum": true,
+              "key": "none",
+              "maximum": 0,
+              "minimum": 0,
+              "representative_values": [
+                0
+              ],
+              "title": null
+            },
+            {
+              "include_maximum": true,
+              "include_minimum": true,
+              "key": "one",
+              "maximum": 1,
+              "minimum": 1,
+              "representative_values": [
+                1
+              ],
+              "title": null
+            },
+            {
+              "include_maximum": true,
+              "include_minimum": true,
+              "key": "bounded",
+              "maximum": 10,
+              "minimum": 2,
+              "representative_values": [
+                5
+              ],
+              "title": null
+            },
+            {
+              "include_maximum": true,
+              "include_minimum": true,
+              "key": "high",
+              "maximum": 100,
+              "minimum": 11,
+              "representative_values": [
+                25
+              ],
+              "title": null
+            }
+          ],
+          "registry_key": null,
+          "step": null,
+          "values": []
+        },
+        "risk_weight": 1.5,
+        "source_key": "relation_fanout",
+        "source_kind": "scenario_parameter",
+        "tags": [],
+        "title": "Relation fan-out"
+      },
+      {
+        "axis_key": "transaction_scope",
+        "description": null,
+        "domain": {
+          "constraints": [],
+          "default": "autocommit",
+          "kind": "finite",
+          "maximum": null,
+          "minimum": null,
+          "partitions": [],
+          "registry_key": null,
+          "step": null,
+          "values": [
+            "autocommit",
+            "short_atomic",
+            "long_atomic"
+          ]
+        },
+        "risk_weight": 1.0,
+        "source_key": "transaction_scope",
+        "source_kind": "scenario_parameter",
+        "tags": [],
+        "title": "Transaction scope"
+      },
+      {
+        "axis_key": "mutation_key",
+        "description": null,
+        "domain": {
+          "constraints": [],
+          "default": "none",
+          "kind": "finite",
+          "maximum": null,
+          "minimum": null,
+          "partitions": [],
+          "registry_key": null,
+          "step": null,
+          "values": [
+            "none",
+            "expand-object-hydration.v1",
+            "extend-transaction-scope.v1",
+            "force-per-row-write.v1",
+            "increase-relation-fanout.v1",
+            "increase-tenant-skew.v1",
+            "remove-composite-tenant-index.v1",
+            "remove-eager-loading.v1",
+            "stale-statistics.v1"
+          ]
+        },
+        "risk_weight": 1.5,
+        "source_key": "scenario.mutations",
+        "source_kind": "registry",
+        "tags": [],
+        "title": "Controlled perturbation"
+      }
+    ],
+    "binding_refs": [
+      {
+        "artifact_id": "scb_af4c697e2034557bd5d9d5c5bddf1cfd",
+        "artifact_kind": "scenario_binding",
+        "content_hash": "sha256:f4a253c82ed781634d26afd1f2299bf0edd32cd5375bd4f65b614d12f05b6b21",
+        "schema_version": "planguard.scenario-binding.v1"
+      },
+      {
+        "artifact_id": "scb_773c6d0ae1bed5352b500af882f003c6",
+        "artifact_kind": "scenario_binding",
+        "content_hash": "sha256:9ab5cfb8bc1133d6eaed68d47fa2c3a4cc58a9c6e52b5588a151a33a3b6d57f1",
+        "schema_version": "planguard.scenario-binding.v1"
+      },
+      {
+        "artifact_id": "scb_49208455151322bd3fcf0d8485b28eb6",
+        "artifact_kind": "scenario_binding",
+        "content_hash": "sha256:2a935260f6e0f5b6a911fa1a2b7a33c9befc4bf9c03a0020915a2ea5fd822214",
+        "schema_version": "planguard.scenario-binding.v1"
+      },
+      {
+        "artifact_id": "scb_e0d75b82e3b57afb2db027aea8722907",
+        "artifact_kind": "scenario_binding",
+        "content_hash": "sha256:d9721061d7a3461fbb536bfe60359b7f905a16b29c18ef2ebeadc4e2a01fb5ed",
+        "schema_version": "planguard.scenario-binding.v1"
+      },
+      {
+        "artifact_id": "scb_cf71d3bcc857d9a9d96243d42380c5ce",
+        "artifact_kind": "scenario_binding",
+        "content_hash": "sha256:31348b98b86be1cf9d8d7934ba704e30da6404544a634d68a12fac852bd33832",
+        "schema_version": "planguard.scenario-binding.v1"
+      },
+      {
+        "artifact_id": "scb_3e8dd4cb3c8af5f4904e01f95f1424a9",
+        "artifact_kind": "scenario_binding",
+        "content_hash": "sha256:870dad195d4881e4c09d9252d53f75c5d830b6340a05a14515ca5f7641a124fa",
+        "schema_version": "planguard.scenario-binding.v1"
+      },
+      {
+        "artifact_id": "scb_e2a0d94212eb240105d48f48e2675ccf",
+        "artifact_kind": "scenario_binding",
+        "content_hash": "sha256:0be117d2f62af3854961ae18d9a80db19568fdb36b17956aedf75b0e4210e4d4",
+        "schema_version": "planguard.scenario-binding.v1"
+      },
+      {
+        "artifact_id": "scb_652ecf4963e656dae67ea0adda7241fb",
+        "artifact_kind": "scenario_binding",
+        "content_hash": "sha256:f617b2ec822bce1686bf1115a069e98b39ec89762820e896758d14c8abc5416e",
+        "schema_version": "planguard.scenario-binding.v1"
+      },
+      {
+        "artifact_id": "scb_6bdff5aa77f33f2e0d735cb614acaa93",
+        "artifact_kind": "scenario_binding",
+        "content_hash": "sha256:46820b3e811ee12eabc762a3b44d863068803dd69f18164ff0a14a7c163edaae",
+        "schema_version": "planguard.scenario-binding.v1"
+      },
+      {
+        "artifact_id": "scb_0352a91bb87fcc6c66290cf4815f69b6",
+        "artifact_kind": "scenario_binding",
+        "content_hash": "sha256:b6a4c13bcb0639c2bcf9d390e25cc6fdfb0864f45323fbd8a622943212506478",
+        "schema_version": "planguard.scenario-binding.v1"
+      }
+    ],
+    "constraints": [
+      {
+        "constraint_key": "binding-matches-template",
+        "excluded": false,
+        "explanation": "A binding must reference the selected scenario template.",
+        "kind": "applicability",
+        "require": [],
+        "required_capabilities": [],
+        "when": []
+      },
+      {
+        "constraint_key": "fanout-needs-relation-topology",
+        "excluded": false,
+        "explanation": "Nontrivial relation fan-out is only meaningful for relation traversal templates.",
+        "kind": "exclusion",
+        "require": [
+          {
+            "field": "template_key",
+            "operator": "in",
+            "value": [
+              "relation-access-fanout.v1",
+              "nested-relation-fanout.v1"
+            ]
+          }
+        ],
+        "required_capabilities": [],
+        "when": [
+          {
+            "field": "relation_fanout",
+            "operator": "not_equals",
+            "value": "none"
+          }
+        ]
+      },
+      {
+        "constraint_key": "long-transaction-mutation-needs-transactional-workload",
+        "excluded": false,
+        "explanation": "The transaction-scope mutation implies a long atomic transaction.",
+        "kind": "implication",
+        "require": [
+          {
+            "field": "transaction_scope",
+            "operator": "equals",
+            "value": "long_atomic"
+          }
+        ],
+        "required_capabilities": [],
+        "when": [
+          {
+            "field": "mutation_key",
+            "operator": "equals",
+            "value": "extend-transaction-scope.v1"
+          }
+        ]
+      },
+      {
+        "constraint_key": "write-mutation-needs-write-topology",
+        "excluded": false,
+        "explanation": "Per-row write perturbations require a write-oriented scenario.",
+        "kind": "exclusion",
+        "require": [
+          {
+            "field": "template_key",
+            "operator": "in",
+            "value": [
+              "per-item-check-write.v1",
+              "per-item-update.v1"
+            ]
+          }
+        ],
+        "required_capabilities": [],
+        "when": [
+          {
+            "field": "mutation_key",
+            "operator": "equals",
+            "value": "force-per-row-write.v1"
+          }
+        ]
+      },
+      {
+        "constraint_key": "tenant-index-mutation-needs-tenant-query",
+        "excluded": false,
+        "explanation": "Tenant index perturbations require a tenant-scoped workload.",
+        "kind": "exclusion",
+        "require": [
+          {
+            "field": "template_key",
+            "operator": "in",
+            "value": [
+              "tenant-skew-sensitivity.v1",
+              "aggregate-report.v1"
+            ]
+          }
+        ],
+        "required_capabilities": [],
+        "when": [
+          {
+            "field": "mutation_key",
+            "operator": "equals",
+            "value": "remove-composite-tenant-index.v1"
+          }
+        ]
+      }
+    ],
+    "description": "A constrained universe of generic workload topologies, application bindings, data regimes, implementation variants, and controlled perturbations.",
+    "mutation_refs": [
+      {
+        "artifact_id": "mut_32977ceb0f1e406914df98c807c98978",
+        "artifact_kind": "mutation_definition",
+        "content_hash": "sha256:caba1afd561f8398e241dab0758ecb4350fb7a4471e76e28677b06aeb14646cc",
+        "schema_version": "planguard.mutation-definition.v1"
+      },
+      {
+        "artifact_id": "mut_ef08344fdedc5a441b075ef538505825",
+        "artifact_kind": "mutation_definition",
+        "content_hash": "sha256:069be0c06dee6ce9db1fe61f701c9194194c743fdb2a56cb5cb5f12fac20810d",
+        "schema_version": "planguard.mutation-definition.v1"
+      },
+      {
+        "artifact_id": "mut_be3c2d5e24ce063c1ddc824df1c88f86",
+        "artifact_kind": "mutation_definition",
+        "content_hash": "sha256:f7c9b5b98539a54cbf6e18b03c617b6f030d6d5b8239ec70e147fd415370c509",
+        "schema_version": "planguard.mutation-definition.v1"
+      },
+      {
+        "artifact_id": "mut_dc1a70208a9799180c28a01b772732c1",
+        "artifact_kind": "mutation_definition",
+        "content_hash": "sha256:90fb4ac31a7271eb98d20811b468f9911dc9503a0a9ccc3fdbf828eebe18679d",
+        "schema_version": "planguard.mutation-definition.v1"
+      },
+      {
+        "artifact_id": "mut_1bb1c5f43a37bfa5587c93445c2942d4",
+        "artifact_kind": "mutation_definition",
+        "content_hash": "sha256:3126c098c4c70042f9de778513bbca55af0b555b5e47d4abe6e33646615a1390",
+        "schema_version": "planguard.mutation-definition.v1"
+      },
+      {
+        "artifact_id": "mut_5b13cef915a5fb0b7306fbe5f599f302",
+        "artifact_kind": "mutation_definition",
+        "content_hash": "sha256:188f0297bf7e1514475c872f1683f493feec395c9d9e3fd8c965b3f1cc92e772",
+        "schema_version": "planguard.mutation-definition.v1"
+      },
+      {
+        "artifact_id": "mut_25698450bceacdc27ccd590fac583b51",
+        "artifact_kind": "mutation_definition",
+        "content_hash": "sha256:d932acde6df3551cb5fd3c043d867f54e67dde1970fc827cc737d000fea0f167",
+        "schema_version": "planguard.mutation-definition.v1"
+      },
+      {
+        "artifact_id": "mut_4c65e2b6ee4d4080bf0279befd8c034a",
+        "artifact_kind": "mutation_definition",
+        "content_hash": "sha256:c2288bb833ef4cc4f3ae5340d110c813db680be38f52c595fec4493f736f37d9",
+        "schema_version": "planguard.mutation-definition.v1"
+      }
+    ],
+    "strategies": [
+      {
+        "dimensions": [
+          "template_key",
+          "binding_key",
+          "variant_key",
+          "scale_profile",
+          "tenant_skew",
+          "parent_count",
+          "relation_fanout",
+          "transaction_scope",
+          "mutation_key"
+        ],
+        "kind": "partition",
+        "parameters": {},
+        "priority": 10,
+        "strategy_key": "axis-partitions.v1"
+      },
+      {
+        "dimensions": [
+          "parent_count",
+          "relation_fanout"
+        ],
+        "kind": "boundary",
+        "parameters": {},
+        "priority": 20,
+        "strategy_key": "boundary-values.v1"
+      },
+      {
+        "dimensions": [
+          "template_key",
+          "variant_key",
+          "scale_profile",
+          "tenant_skew",
+          "mutation_key"
+        ],
+        "kind": "pairwise",
+        "parameters": {},
+        "priority": 30,
+        "strategy_key": "high-risk-pairwise.v1"
+      },
+      {
+        "dimensions": [
+          "template_key"
+        ],
+        "kind": "motif",
+        "parameters": {},
+        "priority": 40,
+        "strategy_key": "motif-coverage.v1"
+      },
+      {
+        "dimensions": [
+          "mutation_key"
+        ],
+        "kind": "mutation",
+        "parameters": {},
+        "priority": 50,
+        "strategy_key": "mutation-coverage.v1"
+      },
+      {
+        "dimensions": [
+          "parent_count",
+          "scale_profile"
+        ],
+        "kind": "metamorphic",
+        "parameters": {},
+        "priority": 60,
+        "strategy_key": "metamorphic-scale.v1"
+      }
+    ],
+    "tags": [
+      "builtin",
+      "django",
+      "postgresql",
+      "milestone-f"
+    ],
+    "target_capabilities": [
+      "scenario.template",
+      "scenario.binding",
+      "scenario.execution",
+      "query.capture.django",
+      "query.family",
+      "workload.graph",
+      "workload.motif",
+      "plan.postgresql",
+      "comparison.semantic"
+    ],
+    "template_refs": [
+      {
+        "artifact_id": "sct_13de9774b08f69fdf9fae93cd1ab6a89",
+        "artifact_kind": "scenario_template",
+        "content_hash": "sha256:b0ad10ade5a1c03d37837ee8efa20792594cfbd98c663a165172b66b9b487fcb",
+        "schema_version": "planguard.scenario-template.v1"
+      },
+      {
+        "artifact_id": "sct_51aad28c0e041d0ff3d2301af7221284",
+        "artifact_kind": "scenario_template",
+        "content_hash": "sha256:e0b9e16f718403200d618a93672a46ce9bbd41caf71dcf1bdb3d0f6d29b2f60d",
+        "schema_version": "planguard.scenario-template.v1"
+      },
+      {
+        "artifact_id": "sct_4d0e65e3464921a6d64e0d5bcf726dbd",
+        "artifact_kind": "scenario_template",
+        "content_hash": "sha256:02cb75951d9b545e8e8d19ab6d0e12365fdc09ba6070b2d7bf36f117c91169fb",
+        "schema_version": "planguard.scenario-template.v1"
+      },
+      {
+        "artifact_id": "sct_040a351cd1516198c2beb47864ec9b42",
+        "artifact_kind": "scenario_template",
+        "content_hash": "sha256:2b1a3867dc57e2b1c1ffbb93cae5b208d49684154ad12d3e03583d99ed53c7ef",
+        "schema_version": "planguard.scenario-template.v1"
+      },
+      {
+        "artifact_id": "sct_ec8b75dcb4d07ff5640b479208ced2bf",
+        "artifact_kind": "scenario_template",
+        "content_hash": "sha256:a40f8374d2ad652140ca5bcc8843897551cb5948c0b3c07bb939c74ebda4de2c",
+        "schema_version": "planguard.scenario-template.v1"
+      },
+      {
+        "artifact_id": "sct_b16cd82ee3c71bb085db29a8c6e47999",
+        "artifact_kind": "scenario_template",
+        "content_hash": "sha256:2e37bbf31935df39dd13a1ada60be808eecc24172145e79af0e6138bfd6a5477",
+        "schema_version": "planguard.scenario-template.v1"
+      },
+      {
+        "artifact_id": "sct_daa5095d8b052f06f9e3bde10dbec048",
+        "artifact_kind": "scenario_template",
+        "content_hash": "sha256:565d9fa0cb4e3f76449295fc27abef8af01a1aa09814e4011448bf5fc578a329",
+        "schema_version": "planguard.scenario-template.v1"
+      },
+      {
+        "artifact_id": "sct_6323050fb27a730e7c3c018090bc65b5",
+        "artifact_kind": "scenario_template",
+        "content_hash": "sha256:745d01e81aebcfe0230bcbc7c8b720128571deedc15378b054d66d85fa119eb8",
+        "schema_version": "planguard.scenario-template.v1"
+      },
+      {
+        "artifact_id": "sct_9ff29895bf76e67d63ea203f147cda75",
+        "artifact_kind": "scenario_template",
+        "content_hash": "sha256:2b7cd2a017310435574e723143a9716e90a173a07c11e6ab793f6b39d215c3f3",
+        "schema_version": "planguard.scenario-template.v1"
+      },
+      {
+        "artifact_id": "sct_5a4b42cfcd6564ca174c6101185db346",
+        "artifact_kind": "scenario_template",
+        "content_hash": "sha256:a916f04e2e80752f1c70f673d2c3956b4e2bf52dfafaec058c0e558a0cc2f6c9",
+        "schema_version": "planguard.scenario-template.v1"
+      }
+    ],
+    "title": "Django/PostgreSQL workload behavior",
+    "universe_key": "django-postgres-core.v1",
+    "unknown_axis_policy": "preserve",
+    "unsupported_analysis_policy": "capability_gap"
+  },
+  "producer": {
+    "build": "milestone-f-seed",
+    "name": "planguard",
+    "version": "0.6.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": "builtin-universe-profile.v1",
+    "input_refs": [
+      {
+        "artifact_id": "sct_13de9774b08f69fdf9fae93cd1ab6a89",
+        "artifact_kind": "scenario_template",
+        "content_hash": "sha256:b0ad10ade5a1c03d37837ee8efa20792594cfbd98c663a165172b66b9b487fcb",
+        "schema_version": "planguard.scenario-template.v1"
+      },
+      {
+        "artifact_id": "sct_51aad28c0e041d0ff3d2301af7221284",
+        "artifact_kind": "scenario_template",
+        "content_hash": "sha256:e0b9e16f718403200d618a93672a46ce9bbd41caf71dcf1bdb3d0f6d29b2f60d",
+        "schema_version": "planguard.scenario-template.v1"
+      },
+      {
+        "artifact_id": "sct_4d0e65e3464921a6d64e0d5bcf726dbd",
+        "artifact_kind": "scenario_template",
+        "content_hash": "sha256:02cb75951d9b545e8e8d19ab6d0e12365fdc09ba6070b2d7bf36f117c91169fb",
+        "schema_version": "planguard.scenario-template.v1"
+      },
+      {
+        "artifact_id": "sct_040a351cd1516198c2beb47864ec9b42",
+        "artifact_kind": "scenario_template",
+        "content_hash": "sha256:2b1a3867dc57e2b1c1ffbb93cae5b208d49684154ad12d3e03583d99ed53c7ef",
+        "schema_version": "planguard.scenario-template.v1"
+      },
+      {
+        "artifact_id": "sct_ec8b75dcb4d07ff5640b479208ced2bf",
+        "artifact_kind": "scenario_template",
+        "content_hash": "sha256:a40f8374d2ad652140ca5bcc8843897551cb5948c0b3c07bb939c74ebda4de2c",
+        "schema_version": "planguard.scenario-template.v1"
+      },
+      {
+        "artifact_id": "sct_b16cd82ee3c71bb085db29a8c6e47999",
+        "artifact_kind": "scenario_template",
+        "content_hash": "sha256:2e37bbf31935df39dd13a1ada60be808eecc24172145e79af0e6138bfd6a5477",
+        "schema_version": "planguard.scenario-template.v1"
+      },
+      {
+        "artifact_id": "sct_daa5095d8b052f06f9e3bde10dbec048",
+        "artifact_kind": "scenario_template",
+        "content_hash": "sha256:565d9fa0cb4e3f76449295fc27abef8af01a1aa09814e4011448bf5fc578a329",
+        "schema_version": "planguard.scenario-template.v1"
+      },
+      {
+        "artifact_id": "sct_6323050fb27a730e7c3c018090bc65b5",
+        "artifact_kind": "scenario_template",
+        "content_hash": "sha256:745d01e81aebcfe0230bcbc7c8b720128571deedc15378b054d66d85fa119eb8",
+        "schema_version": "planguard.scenario-template.v1"
+      },
+      {
+        "artifact_id": "sct_9ff29895bf76e67d63ea203f147cda75",
+        "artifact_kind": "scenario_template",
+        "content_hash": "sha256:2b7cd2a017310435574e723143a9716e90a173a07c11e6ab793f6b39d215c3f3",
+        "schema_version": "planguard.scenario-template.v1"
+      },
+      {
+        "artifact_id": "sct_5a4b42cfcd6564ca174c6101185db346",
+        "artifact_kind": "scenario_template",
+        "content_hash": "sha256:a916f04e2e80752f1c70f673d2c3956b4e2bf52dfafaec058c0e558a0cc2f6c9",
+        "schema_version": "planguard.scenario-template.v1"
+      },
+      {
+        "artifact_id": "scb_af4c697e2034557bd5d9d5c5bddf1cfd",
+        "artifact_kind": "scenario_binding",
+        "content_hash": "sha256:f4a253c82ed781634d26afd1f2299bf0edd32cd5375bd4f65b614d12f05b6b21",
+        "schema_version": "planguard.scenario-binding.v1"
+      },
+      {
+        "artifact_id": "scb_773c6d0ae1bed5352b500af882f003c6",
+        "artifact_kind": "scenario_binding",
+        "content_hash": "sha256:9ab5cfb8bc1133d6eaed68d47fa2c3a4cc58a9c6e52b5588a151a33a3b6d57f1",
+        "schema_version": "planguard.scenario-binding.v1"
+      },
+      {
+        "artifact_id": "scb_49208455151322bd3fcf0d8485b28eb6",
+        "artifact_kind": "scenario_binding",
+        "content_hash": "sha256:2a935260f6e0f5b6a911fa1a2b7a33c9befc4bf9c03a0020915a2ea5fd822214",
+        "schema_version": "planguard.scenario-binding.v1"
+      },
+      {
+        "artifact_id": "scb_e0d75b82e3b57afb2db027aea8722907",
+        "artifact_kind": "scenario_binding",
+        "content_hash": "sha256:d9721061d7a3461fbb536bfe60359b7f905a16b29c18ef2ebeadc4e2a01fb5ed",
+        "schema_version": "planguard.scenario-binding.v1"
+      },
+      {
+        "artifact_id": "scb_cf71d3bcc857d9a9d96243d42380c5ce",
+        "artifact_kind": "scenario_binding",
+        "content_hash": "sha256:31348b98b86be1cf9d8d7934ba704e30da6404544a634d68a12fac852bd33832",
+        "schema_version": "planguard.scenario-binding.v1"
+      },
+      {
+        "artifact_id": "scb_3e8dd4cb3c8af5f4904e01f95f1424a9",
+        "artifact_kind": "scenario_binding",
+        "content_hash": "sha256:870dad195d4881e4c09d9252d53f75c5d830b6340a05a14515ca5f7641a124fa",
+        "schema_version": "planguard.scenario-binding.v1"
+      },
+      {
+        "artifact_id": "scb_e2a0d94212eb240105d48f48e2675ccf",
+        "artifact_kind": "scenario_binding",
+        "content_hash": "sha256:0be117d2f62af3854961ae18d9a80db19568fdb36b17956aedf75b0e4210e4d4",
+        "schema_version": "planguard.scenario-binding.v1"
+      },
+      {
+        "artifact_id": "scb_652ecf4963e656dae67ea0adda7241fb",
+        "artifact_kind": "scenario_binding",
+        "content_hash": "sha256:f617b2ec822bce1686bf1115a069e98b39ec89762820e896758d14c8abc5416e",
+        "schema_version": "planguard.scenario-binding.v1"
+      },
+      {
+        "artifact_id": "scb_6bdff5aa77f33f2e0d735cb614acaa93",
+        "artifact_kind": "scenario_binding",
+        "content_hash": "sha256:46820b3e811ee12eabc762a3b44d863068803dd69f18164ff0a14a7c163edaae",
+        "schema_version": "planguard.scenario-binding.v1"
+      },
+      {
+        "artifact_id": "scb_0352a91bb87fcc6c66290cf4815f69b6",
+        "artifact_kind": "scenario_binding",
+        "content_hash": "sha256:b6a4c13bcb0639c2bcf9d390e25cc6fdfb0864f45323fbd8a622943212506478",
+        "schema_version": "planguard.scenario-binding.v1"
+      },
+      {
+        "artifact_id": "mut_32977ceb0f1e406914df98c807c98978",
+        "artifact_kind": "mutation_definition",
+        "content_hash": "sha256:caba1afd561f8398e241dab0758ecb4350fb7a4471e76e28677b06aeb14646cc",
+        "schema_version": "planguard.mutation-definition.v1"
+      },
+      {
+        "artifact_id": "mut_ef08344fdedc5a441b075ef538505825",
+        "artifact_kind": "mutation_definition",
+        "content_hash": "sha256:069be0c06dee6ce9db1fe61f701c9194194c743fdb2a56cb5cb5f12fac20810d",
+        "schema_version": "planguard.mutation-definition.v1"
+      },
+      {
+        "artifact_id": "mut_be3c2d5e24ce063c1ddc824df1c88f86",
+        "artifact_kind": "mutation_definition",
+        "content_hash": "sha256:f7c9b5b98539a54cbf6e18b03c617b6f030d6d5b8239ec70e147fd415370c509",
+        "schema_version": "planguard.mutation-definition.v1"
+      },
+      {
+        "artifact_id": "mut_dc1a70208a9799180c28a01b772732c1",
+        "artifact_kind": "mutation_definition",
+        "content_hash": "sha256:90fb4ac31a7271eb98d20811b468f9911dc9503a0a9ccc3fdbf828eebe18679d",
+        "schema_version": "planguard.mutation-definition.v1"
+      },
+      {
+        "artifact_id": "mut_1bb1c5f43a37bfa5587c93445c2942d4",
+        "artifact_kind": "mutation_definition",
+        "content_hash": "sha256:3126c098c4c70042f9de778513bbca55af0b555b5e47d4abe6e33646615a1390",
+        "schema_version": "planguard.mutation-definition.v1"
+      },
+      {
+        "artifact_id": "mut_5b13cef915a5fb0b7306fbe5f599f302",
+        "artifact_kind": "mutation_definition",
+        "content_hash": "sha256:188f0297bf7e1514475c872f1683f493feec395c9d9e3fd8c965b3f1cc92e772",
+        "schema_version": "planguard.mutation-definition.v1"
+      },
+      {
+        "artifact_id": "mut_25698450bceacdc27ccd590fac583b51",
+        "artifact_kind": "mutation_definition",
+        "content_hash": "sha256:d932acde6df3551cb5fd3c043d867f54e67dde1970fc827cc737d000fea0f167",
+        "schema_version": "planguard.mutation-definition.v1"
+      },
+      {
+        "artifact_id": "mut_4c65e2b6ee4d4080bf0279befd8c034a",
+        "artifact_kind": "mutation_definition",
+        "content_hash": "sha256:c2288bb833ef4cc4f3ae5340d110c813db680be38f52c595fec4493f736f37d9",
+        "schema_version": "planguard.mutation-definition.v1"
+      }
+    ],
+    "notes": []
+  },
+  "schema_version": "planguard.universe-profile.v1"
+}

@@ -1,0 +1,8 @@
+{
+  "artifact_id": "min_ee3d76de0d6657f91323d8767a60ef2a",
+  "artifact_kind": "minimization_run",
+  "content_hash": "sha256:b2c131a5bcc7a1a671c3182871e188b6576c2ab7f39a042b656410f1b91dcf39",
+  "created_at": "1970-01-01T00:00:00+00:00",
+  "path": "artifacts/min_ee3d76de0d6657f91323d8767a60ef2a.json",
+  "schema_version": "planguard.minimization-run.v1"
+}

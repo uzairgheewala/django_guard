@@ -1,0 +1,91 @@
+{
+  "artifact_id": "scb_773c6d0ae1bed5352b500af882f003c6",
+  "artifact_kind": "scenario_binding",
+  "content_hash": "sha256:9ab5cfb8bc1133d6eaed68d47fa2c3a4cc58a9c6e52b5588a151a33a3b6d57f1",
+  "created_at": "1970-01-01T00:00:00Z",
+  "extensions": {},
+  "payload": {
+    "adapter_key": "academic-lab.v1",
+    "application_key": "academic-lab.v1",
+    "binding_key": "academic.student-enrollment-offering.v1",
+    "capabilities": [
+      "scenario.execution",
+      "dataset.synthetic",
+      "query.capture.manual"
+    ],
+    "role_bindings": [
+      {
+        "binding_kind": "model",
+        "configuration": {},
+        "role_key": "primary_entity",
+        "target": "academic_lab.Student"
+      },
+      {
+        "binding_kind": "model",
+        "configuration": {},
+        "role_key": "related_entity",
+        "target": "academic_lab.Enrollment"
+      },
+      {
+        "binding_kind": "callable",
+        "configuration": {},
+        "role_key": "operation",
+        "target": "academic.students_enrollments_courses"
+      },
+      {
+        "binding_kind": "dataset",
+        "configuration": {},
+        "role_key": "dataset",
+        "target": "academic.synthetic.v1"
+      },
+      {
+        "binding_kind": "value",
+        "configuration": {},
+        "role_key": "result",
+        "target": "academic.operation-result.v1"
+      }
+    ],
+    "tags": [
+      "academic",
+      "nested-relation-fanout.v1"
+    ],
+    "template_ref": {
+      "artifact_id": "sct_51aad28c0e041d0ff3d2301af7221284",
+      "artifact_kind": "scenario_template",
+      "content_hash": "sha256:e0b9e16f718403200d618a93672a46ce9bbd41caf71dcf1bdb3d0f6d29b2f60d",
+      "schema_version": "planguard.scenario-template.v1"
+    },
+    "variant_bindings": [
+      {
+        "configuration": {},
+        "target": "academic.students_enrollments_courses.naive",
+        "variant_key": "naive"
+      },
+      {
+        "configuration": {},
+        "target": "academic.students_enrollments_courses.optimized",
+        "variant_key": "optimized"
+      }
+    ]
+  },
+  "producer": {
+    "build": "milestone-f-seed",
+    "name": "planguard",
+    "version": "0.6.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": "academic-scenario-binding.v1",
+    "input_refs": [
+      {
+        "artifact_id": "sct_51aad28c0e041d0ff3d2301af7221284",
+        "artifact_kind": "scenario_template",
+        "content_hash": "sha256:e0b9e16f718403200d618a93672a46ce9bbd41caf71dcf1bdb3d0f6d29b2f60d",
+        "schema_version": "planguard.scenario-template.v1"
+      }
+    ],
+    "notes": []
+  },
+  "schema_version": "planguard.scenario-binding.v1"
+}

@@ -1,0 +1,91 @@
+{
+  "artifact_id": "scb_0352a91bb87fcc6c66290cf4815f69b6",
+  "artifact_kind": "scenario_binding",
+  "content_hash": "sha256:b6a4c13bcb0639c2bcf9d390e25cc6fdfb0864f45323fbd8a622943212506478",
+  "created_at": "1970-01-01T00:00:00Z",
+  "extensions": {},
+  "payload": {
+    "adapter_key": "academic-lab.v1",
+    "application_key": "academic-lab.v1",
+    "binding_key": "academic.catalog-update.v1",
+    "capabilities": [
+      "scenario.execution",
+      "dataset.synthetic",
+      "query.capture.manual"
+    ],
+    "role_bindings": [
+      {
+        "binding_kind": "model",
+        "configuration": {},
+        "role_key": "primary_entity",
+        "target": "academic_lab.Course"
+      },
+      {
+        "binding_kind": "model",
+        "configuration": {},
+        "role_key": "related_entity",
+        "target": "academic_lab.Course"
+      },
+      {
+        "binding_kind": "callable",
+        "configuration": {},
+        "role_key": "operation",
+        "target": "academic.catalog_update"
+      },
+      {
+        "binding_kind": "dataset",
+        "configuration": {},
+        "role_key": "dataset",
+        "target": "academic.synthetic.v1"
+      },
+      {
+        "binding_kind": "value",
+        "configuration": {},
+        "role_key": "result",
+        "target": "academic.operation-result.v1"
+      }
+    ],
+    "tags": [
+      "academic",
+      "long-transaction-accumulation.v1"
+    ],
+    "template_ref": {
+      "artifact_id": "sct_5a4b42cfcd6564ca174c6101185db346",
+      "artifact_kind": "scenario_template",
+      "content_hash": "sha256:a916f04e2e80752f1c70f673d2c3956b4e2bf52dfafaec058c0e558a0cc2f6c9",
+      "schema_version": "planguard.scenario-template.v1"
+    },
+    "variant_bindings": [
+      {
+        "configuration": {},
+        "target": "academic.catalog_update.naive",
+        "variant_key": "naive"
+      },
+      {
+        "configuration": {},
+        "target": "academic.catalog_update.optimized",
+        "variant_key": "optimized"
+      }
+    ]
+  },
+  "producer": {
+    "build": "milestone-f-seed",
+    "name": "planguard",
+    "version": "0.6.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": "academic-scenario-binding.v1",
+    "input_refs": [
+      {
+        "artifact_id": "sct_5a4b42cfcd6564ca174c6101185db346",
+        "artifact_kind": "scenario_template",
+        "content_hash": "sha256:a916f04e2e80752f1c70f673d2c3956b4e2bf52dfafaec058c0e558a0cc2f6c9",
+        "schema_version": "planguard.scenario-template.v1"
+      }
+    ],
+    "notes": []
+  },
+  "schema_version": "planguard.scenario-binding.v1"
+}

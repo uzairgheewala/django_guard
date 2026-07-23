@@ -1,0 +1,31 @@
+{
+  "artifact_id": "mut_dc1a70208a9799180c28a01b772732c1",
+  "artifact_kind": "mutation_definition",
+  "content_hash": "sha256:90fb4ac31a7271eb98d20811b468f9911dc9503a0a9ccc3fdbf828eebe18679d",
+  "created_at": "1970-01-01T00:00:00Z",
+  "extensions": {},
+  "payload": {
+    "adapter_key": "academic-lab.v1",
+    "compatible_template_keys": [],
+    "description": "Concentrate most logical rows in the first tenant.",
+    "mutation_class": "data",
+    "mutation_key": "increase-tenant-skew.v1",
+    "parameter_domain": {},
+    "required_capabilities": [],
+    "reversible": true,
+    "title": "Increase tenant skew"
+  },
+  "producer": {
+    "build": "milestone-f-seed",
+    "name": "planguard",
+    "version": "0.6.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": "academic-mutation.v1",
+    "input_refs": [],
+    "notes": []
+  },
+  "schema_version": "planguard.mutation-definition.v1"
+}

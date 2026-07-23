@@ -1,0 +1,8 @@
+{
+  "artifact_id": "univ_37629e58c031a63d412a3913cc46ac76",
+  "artifact_kind": "universe_profile",
+  "content_hash": "sha256:c64e43ab162e380d08ee3304c20e69abf2211bb04a035d8788fceeb9451e6986",
+  "created_at": "1970-01-01T00:00:00+00:00",
+  "path": "artifacts/univ_37629e58c031a63d412a3913cc46ac76.json",
+  "schema_version": "planguard.universe-profile.v1"
+}

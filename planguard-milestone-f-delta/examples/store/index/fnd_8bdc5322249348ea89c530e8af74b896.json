@@ -1,0 +1,8 @@
+{
+  "artifact_id": "fnd_8bdc5322249348ea89c530e8af74b896",
+  "artifact_kind": "finding",
+  "content_hash": "sha256:7818b26bb2382f00958fb0b49fd659ee091090ebd966d387680c8c9b004894e6",
+  "created_at": "2026-07-23T13:37:50.960021+00:00",
+  "path": "artifacts/fnd_8bdc5322249348ea89c530e8af74b896.json",
+  "schema_version": "planguard.finding.v1"
+}

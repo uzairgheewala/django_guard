@@ -1,0 +1,8 @@
+{
+  "artifact_id": "cov_264b405c4cd6cf54861f64314108ed30",
+  "artifact_kind": "coverage_report",
+  "content_hash": "sha256:8f363d1a08eac17871ddcd2cd24384f6443005c3798aad54206fb3d7f9b9f051",
+  "created_at": "1970-01-01T00:00:00+00:00",
+  "path": "artifacts/cov_264b405c4cd6cf54861f64314108ed30.json",
+  "schema_version": "planguard.coverage-report.v1"
+}

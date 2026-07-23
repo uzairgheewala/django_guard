@@ -1,0 +1,31 @@
+{
+  "artifact_id": "mut_5b13cef915a5fb0b7306fbe5f599f302",
+  "artifact_kind": "mutation_definition",
+  "content_hash": "sha256:188f0297bf7e1514475c872f1683f493feec395c9d9e3fd8c965b3f1cc92e772",
+  "created_at": "1970-01-01T00:00:00Z",
+  "extensions": {},
+  "payload": {
+    "adapter_key": "academic-lab.v1",
+    "compatible_template_keys": [],
+    "description": "Place all operation queries inside one long transaction.",
+    "mutation_class": "runtime",
+    "mutation_key": "extend-transaction-scope.v1",
+    "parameter_domain": {},
+    "required_capabilities": [],
+    "reversible": true,
+    "title": "Extend transaction scope"
+  },
+  "producer": {
+    "build": "milestone-f-seed",
+    "name": "planguard",
+    "version": "0.6.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": "academic-mutation.v1",
+    "input_refs": [],
+    "notes": []
+  },
+  "schema_version": "planguard.mutation-definition.v1"
+}

@@ -1,0 +1,34 @@
+{
+  "artifact_id": "mut_4c65e2b6ee4d4080bf0279befd8c034a",
+  "artifact_kind": "mutation_definition",
+  "content_hash": "sha256:c2288bb833ef4cc4f3ae5340d110c813db680be38f52c595fec4493f736f37d9",
+  "created_at": "1970-01-01T00:00:00Z",
+  "extensions": {},
+  "payload": {
+    "adapter_key": "academic-lab.v1",
+    "compatible_template_keys": [
+      "relation-access-fanout.v1",
+      "nested-relation-fanout.v1"
+    ],
+    "description": "Increase child rows per parent while preserving tenant isolation.",
+    "mutation_class": "data",
+    "mutation_key": "increase-relation-fanout.v1",
+    "parameter_domain": {},
+    "required_capabilities": [],
+    "reversible": true,
+    "title": "Increase relation fan-out"
+  },
+  "producer": {
+    "build": "milestone-f-seed",
+    "name": "planguard",
+    "version": "0.6.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": "academic-mutation.v1",
+    "input_refs": [],
+    "notes": []
+  },
+  "schema_version": "planguard.mutation-definition.v1"
+}

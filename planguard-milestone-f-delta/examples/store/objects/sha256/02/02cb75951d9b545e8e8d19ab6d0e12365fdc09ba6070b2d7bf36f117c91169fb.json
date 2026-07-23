@@ -1,0 +1,324 @@
+{
+  "artifact_id": "sct_4d0e65e3464921a6d64e0d5bcf726dbd",
+  "artifact_kind": "scenario_template",
+  "content_hash": "sha256:02cb75951d9b545e8e8d19ab6d0e12365fdc09ba6070b2d7bf36f117c91169fb",
+  "created_at": "1970-01-01T00:00:00Z",
+  "extensions": {},
+  "payload": {
+    "compatible_template_keys": [],
+    "coverage_obligations": [
+      {
+        "description": null,
+        "kind": "boundary_partitions",
+        "obligation_key": "scale-boundaries",
+        "parameters": {
+          "parameter": "parent_count"
+        }
+      },
+      {
+        "description": null,
+        "kind": "pairwise",
+        "obligation_key": "scale-skew-pairwise",
+        "parameters": {
+          "parameters": [
+            "scale_profile",
+            "tenant_skew"
+          ]
+        }
+      },
+      {
+        "description": null,
+        "kind": "mechanism",
+        "obligation_key": "mechanism:redundant-execution",
+        "parameters": {
+          "mechanism": "redundant-execution"
+        }
+      }
+    ],
+    "description": "Evaluate one logical collection repeatedly within an operation.",
+    "operation_edges": [
+      {
+        "attributes": {},
+        "from_node": "prepare",
+        "kind": "control_flow",
+        "to_node": "execute"
+      },
+      {
+        "attributes": {},
+        "from_node": "execute",
+        "kind": "produces",
+        "to_node": "result"
+      }
+    ],
+    "operation_nodes": [
+      {
+        "attributes": {},
+        "kind": "prepare_dataset",
+        "node_key": "prepare",
+        "phase": "prepare_dataset",
+        "role_ref": "dataset"
+      },
+      {
+        "attributes": {},
+        "kind": "repeated_evaluation",
+        "node_key": "execute",
+        "phase": "execute_operation",
+        "role_ref": "operation"
+      },
+      {
+        "attributes": {},
+        "kind": "result",
+        "node_key": "result",
+        "phase": "evaluate_oracles",
+        "role_ref": "result"
+      }
+    ],
+    "oracles": [
+      {
+        "description": null,
+        "disposition": "fail",
+        "kind": "result_nonempty",
+        "oracle_key": "result-nonempty",
+        "parameters": {},
+        "required_capabilities": [],
+        "subject_selector": null
+      },
+      {
+        "description": null,
+        "disposition": "fail",
+        "kind": "tenant_isolation",
+        "oracle_key": "tenant-isolation",
+        "parameters": {},
+        "required_capabilities": [],
+        "subject_selector": null
+      },
+      {
+        "description": null,
+        "disposition": "warn",
+        "kind": "variant_query_bound",
+        "oracle_key": "query-bound",
+        "parameters": {
+          "mechanism": "redundant-execution"
+        },
+        "required_capabilities": [],
+        "subject_selector": null
+      }
+    ],
+    "parameters": [
+      {
+        "description": null,
+        "domain": {
+          "constraints": [],
+          "default": "tiny",
+          "kind": "finite",
+          "maximum": null,
+          "minimum": null,
+          "partitions": [],
+          "registry_key": null,
+          "step": null,
+          "values": [
+            "tiny",
+            "small",
+            "medium",
+            "large"
+          ]
+        },
+        "parameter_key": "scale_profile",
+        "required": false,
+        "tags": []
+      },
+      {
+        "description": null,
+        "domain": {
+          "constraints": [],
+          "default": "uniform",
+          "kind": "finite",
+          "maximum": null,
+          "minimum": null,
+          "partitions": [],
+          "registry_key": null,
+          "step": null,
+          "values": [
+            "uniform",
+            "dominant",
+            "zipf"
+          ]
+        },
+        "parameter_key": "tenant_skew",
+        "required": false,
+        "tags": []
+      },
+      {
+        "description": null,
+        "domain": {
+          "constraints": [],
+          "default": 8,
+          "kind": "integer_range",
+          "maximum": 1000,
+          "minimum": 0,
+          "partitions": [],
+          "registry_key": null,
+          "step": null,
+          "values": []
+        },
+        "parameter_key": "parent_count",
+        "required": false,
+        "tags": []
+      },
+      {
+        "description": null,
+        "domain": {
+          "constraints": [],
+          "default": 5,
+          "kind": "integer_range",
+          "maximum": 100,
+          "minimum": 0,
+          "partitions": [],
+          "registry_key": null,
+          "step": null,
+          "values": []
+        },
+        "parameter_key": "relation_fanout",
+        "required": false,
+        "tags": []
+      },
+      {
+        "description": null,
+        "domain": {
+          "constraints": [],
+          "default": 50,
+          "kind": "integer_range",
+          "maximum": 1000,
+          "minimum": 1,
+          "partitions": [],
+          "registry_key": null,
+          "step": null,
+          "values": []
+        },
+        "parameter_key": "batch_size",
+        "required": false,
+        "tags": []
+      },
+      {
+        "description": null,
+        "domain": {
+          "constraints": [],
+          "default": 0,
+          "kind": "integer_range",
+          "maximum": 1000000,
+          "minimum": 0,
+          "partitions": [],
+          "registry_key": null,
+          "step": null,
+          "values": []
+        },
+        "parameter_key": "page_offset",
+        "required": false,
+        "tags": []
+      },
+      {
+        "description": null,
+        "domain": {
+          "constraints": [],
+          "default": "autocommit",
+          "kind": "finite",
+          "maximum": null,
+          "minimum": null,
+          "partitions": [],
+          "registry_key": null,
+          "step": null,
+          "values": [
+            "autocommit",
+            "short_atomic",
+            "long_atomic"
+          ]
+        },
+        "parameter_key": "transaction_scope",
+        "required": false,
+        "tags": []
+      }
+    ],
+    "roles": [
+      {
+        "cardinality": "one",
+        "contract_key": null,
+        "description": null,
+        "kind": "relational_entity",
+        "required": true,
+        "role_key": "primary_entity"
+      },
+      {
+        "cardinality": "one",
+        "contract_key": null,
+        "description": null,
+        "kind": "relational_entity",
+        "required": false,
+        "role_key": "related_entity"
+      },
+      {
+        "cardinality": "one",
+        "contract_key": null,
+        "description": null,
+        "kind": "application_operation",
+        "required": true,
+        "role_key": "operation"
+      },
+      {
+        "cardinality": "one",
+        "contract_key": null,
+        "description": null,
+        "kind": "dataset",
+        "required": true,
+        "role_key": "dataset"
+      },
+      {
+        "cardinality": "one",
+        "contract_key": null,
+        "description": null,
+        "kind": "result",
+        "required": true,
+        "role_key": "result"
+      }
+    ],
+    "tags": [
+      "generic",
+      "database-workload",
+      "redundant-execution"
+    ],
+    "template_key": "repeated-evaluation.v1",
+    "title": "Repeated evaluation",
+    "variants": [
+      {
+        "description": null,
+        "implementation_role": "operation.naive",
+        "tags": [
+          "baseline"
+        ],
+        "title": "Naive",
+        "variant_key": "naive"
+      },
+      {
+        "description": null,
+        "implementation_role": "operation.optimized",
+        "tags": [
+          "candidate"
+        ],
+        "title": "Optimized",
+        "variant_key": "optimized"
+      }
+    ]
+  },
+  "producer": {
+    "build": "milestone-f-seed",
+    "name": "planguard",
+    "version": "0.6.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": "builtin-scenario-template.v1",
+    "input_refs": [],
+    "notes": []
+  },
+  "schema_version": "planguard.scenario-template.v1"
+}

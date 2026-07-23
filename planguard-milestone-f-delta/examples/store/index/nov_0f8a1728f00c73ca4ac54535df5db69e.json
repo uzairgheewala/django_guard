@@ -1,0 +1,8 @@
+{
+  "artifact_id": "nov_0f8a1728f00c73ca4ac54535df5db69e",
+  "artifact_kind": "novelty_signature",
+  "content_hash": "sha256:0deabd5afce7b466fdd9a40141fe8b4bcf49e3d71771347e6f97245ad2269a25",
+  "created_at": "1970-01-01T00:00:00+00:00",
+  "path": "artifacts/nov_0f8a1728f00c73ca4ac54535df5db69e.json",
+  "schema_version": "planguard.novelty-signature.v1"
+}

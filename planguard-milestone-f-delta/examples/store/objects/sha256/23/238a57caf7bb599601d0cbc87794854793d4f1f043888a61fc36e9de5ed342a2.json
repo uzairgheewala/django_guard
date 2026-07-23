@@ -1,0 +1,54 @@
+{
+  "artifact_id": "spr_f060fba895f14b309a5f7a3c09a9954c",
+  "artifact_kind": "scenario_phase_receipt",
+  "content_hash": "sha256:238a57caf7bb599601d0cbc87794854793d4f1f043888a61fc36e9de5ed342a2",
+  "created_at": "2026-07-23T13:37:50.787106Z",
+  "extensions": {},
+  "payload": {
+    "capability_gaps": [],
+    "completed_at": "2026-07-23T13:37:50.787081Z",
+    "error": null,
+    "input_refs": [],
+    "output_refs": [
+      {
+        "artifact_id": "dset_97cd30ede4463d1c37e91823087546c6",
+        "artifact_kind": "dataset_manifest",
+        "content_hash": "sha256:fbb04e6931a2abfb91bc648183df2d1ca6ba0b00db93d9b15751b493c12d69f7",
+        "schema_version": "planguard.dataset-manifest.v1"
+      }
+    ],
+    "phase_key": "prepare_dataset",
+    "scenario_instance_ref": {
+      "artifact_id": "sci_fea001e12205741f1983a19bd42b468d",
+      "artifact_kind": "scenario_instance",
+      "content_hash": "sha256:c8d3042890a2a220db5ecd6d26e8244c6483a52fa3a0b6193eef50a60f692c8e",
+      "schema_version": "planguard.scenario-instance.v1"
+    },
+    "scenario_run_id": "scrun_5da1dbe0adf846c4a86d4ac3f4ca2488",
+    "started_at": "2026-07-23T13:37:50.780218Z",
+    "statistics": {
+      "dataset_type": "AcademicDataset"
+    },
+    "status": "succeeded"
+  },
+  "producer": {
+    "build": "milestone-f-seed",
+    "name": "planguard",
+    "version": "0.6.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": "scenario-phase:prepare_dataset.v1",
+    "input_refs": [
+      {
+        "artifact_id": "sci_fea001e12205741f1983a19bd42b468d",
+        "artifact_kind": "scenario_instance",
+        "content_hash": "sha256:c8d3042890a2a220db5ecd6d26e8244c6483a52fa3a0b6193eef50a60f692c8e",
+        "schema_version": "planguard.scenario-instance.v1"
+      }
+    ],
+    "notes": []
+  },
+  "schema_version": "planguard.scenario-phase-receipt.v1"
+}

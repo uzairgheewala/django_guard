@@ -1,0 +1,96 @@
+{
+  "artifact_id": "nov_e02dd092250da913bb64842b55599daa",
+  "artifact_kind": "novelty_signature",
+  "content_hash": "sha256:dae80c85dd09e60fe06e2895867ca0b769fae673674282b0454300ab04b50ad6",
+  "created_at": "1970-01-01T00:00:00Z",
+  "extensions": {},
+  "payload": {
+    "corpus_size": 2,
+    "distance": 0.8888888888888888,
+    "explanation": [
+      "No exact signature exists in the current corpus.",
+      "Nearest behavioral distance: 0.889."
+    ],
+    "feature_vector": {
+      "family_count": 4,
+      "family_execution_buckets": {
+        "one": 4
+      },
+      "finding_mechanisms": [
+        "database_time_concentration"
+      ],
+      "motifs": [],
+      "plan_node_types": {},
+      "plan_shape_fingerprints": [],
+      "query_count_bucket": "one",
+      "query_shapes": [
+        "qsh_2d96eea23104224e60e09392f02587c4553868225d617d4ec5cc290b0f931bed"
+      ],
+      "statement_kinds": {
+        "select": 1
+      },
+      "template_count": 1
+    },
+    "nearest_signature_refs": [
+      {
+        "artifact_id": "nov_0f8a1728f00c73ca4ac54535df5db69e",
+        "artifact_kind": "novelty_signature",
+        "content_hash": "sha256:0deabd5afce7b466fdd9a40141fe8b4bcf49e3d71771347e6f97245ad2269a25",
+        "schema_version": "planguard.novelty-signature.v1"
+      },
+      {
+        "artifact_id": "nov_175e5940b4d91c6772059e37694d632d",
+        "artifact_kind": "novelty_signature",
+        "content_hash": "sha256:88eae52033cc61e06bc3fa50363ee6a2107c01d701f6c4b2cff35a3546a2d99a",
+        "schema_version": "planguard.novelty-signature.v1"
+      }
+    ],
+    "novel_dimensions": [
+      "family_count:4",
+      "family_execution_buckets:one=4",
+      "query_count_bucket:one",
+      "query_shapes:qsh_2d96eea23104224e60e09392f02587c4553868225d617d4ec5cc290b0f931bed",
+      "template_count:1"
+    ],
+    "signature_hash": "sha256:6f40e72f2d9f6b5b8b929862b66e7c5b80accfb3c77940d93cf44684c668ae04",
+    "status": "novel",
+    "subject_ref": {
+      "artifact_id": "run_428cb0e545014a738707f38481161616",
+      "artifact_kind": "run_manifest",
+      "content_hash": "sha256:f8452086c82c4263053b1c80ecb8172caf650299f50d53fb1e462a2550ee0bc5",
+      "schema_version": "planguard.run-manifest.v1"
+    }
+  },
+  "producer": {
+    "build": "milestone-f-seed",
+    "name": "planguard",
+    "version": "0.6.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": "behavioral-novelty.v1",
+    "input_refs": [
+      {
+        "artifact_id": "run_428cb0e545014a738707f38481161616",
+        "artifact_kind": "run_manifest",
+        "content_hash": "sha256:f8452086c82c4263053b1c80ecb8172caf650299f50d53fb1e462a2550ee0bc5",
+        "schema_version": "planguard.run-manifest.v1"
+      },
+      {
+        "artifact_id": "nov_0f8a1728f00c73ca4ac54535df5db69e",
+        "artifact_kind": "novelty_signature",
+        "content_hash": "sha256:0deabd5afce7b466fdd9a40141fe8b4bcf49e3d71771347e6f97245ad2269a25",
+        "schema_version": "planguard.novelty-signature.v1"
+      },
+      {
+        "artifact_id": "nov_175e5940b4d91c6772059e37694d632d",
+        "artifact_kind": "novelty_signature",
+        "content_hash": "sha256:88eae52033cc61e06bc3fa50363ee6a2107c01d701f6c4b2cff35a3546a2d99a",
+        "schema_version": "planguard.novelty-signature.v1"
+      }
+    ],
+    "notes": []
+  },
+  "schema_version": "planguard.novelty-signature.v1"
+}

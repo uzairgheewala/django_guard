@@ -1,0 +1,186 @@
+{
+  "artifact_id": "min_ee3d76de0d6657f91323d8767a60ef2a",
+  "artifact_kind": "minimization_run",
+  "content_hash": "sha256:b2c131a5bcc7a1a671c3182871e188b6576c2ab7f39a042b656410f1b91dcf39",
+  "created_at": "1970-01-01T00:00:00Z",
+  "extensions": {},
+  "payload": {
+    "candidate_ref": {
+      "artifact_id": "cex_2fd58988eeafc993b9cbb4ac728a62ce",
+      "artifact_kind": "counterexample_candidate",
+      "content_hash": "sha256:fe9507dbccbde4c0186cb8f0a87346bab17a5097c2911c131147912d3b9ef9ab",
+      "schema_version": "planguard.counterexample-candidate.v1"
+    },
+    "capability_gaps": [],
+    "explanation": [
+      "Greedy deterministic shrinking completed.",
+      "The minimizer proves only the configured preserved predicate."
+    ],
+    "minimized_complexity": 5.0,
+    "minimized_instance_ref": {
+      "artifact_id": "sci_cb96fb66bf440bfdddb56ed7dfa56fc9",
+      "artifact_kind": "scenario_instance",
+      "content_hash": "sha256:5a64f8193fbe194cb97eab33c090cd2c2365102cd831ee4f06831e12b9b3841d",
+      "schema_version": "planguard.scenario-instance.v1"
+    },
+    "original_complexity": 61.0,
+    "original_instance_ref": {
+      "artifact_id": "sci_fea001e12205741f1983a19bd42b468d",
+      "artifact_kind": "scenario_instance",
+      "content_hash": "sha256:c8d3042890a2a220db5ecd6d26e8244c6483a52fa3a0b6193eef50a60f692c8e",
+      "schema_version": "planguard.scenario-instance.v1"
+    },
+    "preserved_predicate": {
+      "description": "The minimized workload retains at least two parent rows.",
+      "kind": "custom",
+      "parameters": {
+        "minimum_parent_count": 2
+      },
+      "predicate_key": "minimum-parent-count.v1",
+      "subject_ref": null
+    },
+    "status": "completed",
+    "steps": [
+      {
+        "after": {
+          "batch_size": 0
+        },
+        "before": {
+          "batch_size": 50
+        },
+        "explanation": "Accepted because the predicate remained true.",
+        "mutation": "shrink:batch_size",
+        "predicate_preserved": true,
+        "step_index": 0
+      },
+      {
+        "after": {
+          "parent_count": 0
+        },
+        "before": {
+          "parent_count": 8
+        },
+        "explanation": "Rejected because the predicate no longer held.",
+        "mutation": "shrink:parent_count",
+        "predicate_preserved": false,
+        "step_index": 1
+      },
+      {
+        "after": {
+          "parent_count": 1
+        },
+        "before": {
+          "parent_count": 8
+        },
+        "explanation": "Rejected because the predicate no longer held.",
+        "mutation": "shrink:parent_count",
+        "predicate_preserved": false,
+        "step_index": 2
+      },
+      {
+        "after": {
+          "parent_count": 4
+        },
+        "before": {
+          "parent_count": 8
+        },
+        "explanation": "Accepted because the predicate remained true.",
+        "mutation": "shrink:parent_count",
+        "predicate_preserved": true,
+        "step_index": 3
+      },
+      {
+        "after": {
+          "parent_count": 0
+        },
+        "before": {
+          "parent_count": 4
+        },
+        "explanation": "Rejected because the predicate no longer held.",
+        "mutation": "shrink:parent_count",
+        "predicate_preserved": false,
+        "step_index": 4
+      },
+      {
+        "after": {
+          "parent_count": 1
+        },
+        "before": {
+          "parent_count": 4
+        },
+        "explanation": "Rejected because the predicate no longer held.",
+        "mutation": "shrink:parent_count",
+        "predicate_preserved": false,
+        "step_index": 5
+      },
+      {
+        "after": {
+          "parent_count": 2
+        },
+        "before": {
+          "parent_count": 4
+        },
+        "explanation": "Accepted because the predicate remained true.",
+        "mutation": "shrink:parent_count",
+        "predicate_preserved": true,
+        "step_index": 6
+      },
+      {
+        "after": {
+          "parent_count": 0
+        },
+        "before": {
+          "parent_count": 2
+        },
+        "explanation": "Rejected because the predicate no longer held.",
+        "mutation": "shrink:parent_count",
+        "predicate_preserved": false,
+        "step_index": 7
+      },
+      {
+        "after": {
+          "parent_count": 1
+        },
+        "before": {
+          "parent_count": 2
+        },
+        "explanation": "Rejected because the predicate no longer held.",
+        "mutation": "shrink:parent_count",
+        "predicate_preserved": false,
+        "step_index": 8
+      }
+    ]
+  },
+  "producer": {
+    "build": "milestone-f-seed",
+    "name": "planguard",
+    "version": "0.6.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": "counterexample-minimize.v1",
+    "input_refs": [
+      {
+        "artifact_id": "cex_2fd58988eeafc993b9cbb4ac728a62ce",
+        "artifact_kind": "counterexample_candidate",
+        "content_hash": "sha256:fe9507dbccbde4c0186cb8f0a87346bab17a5097c2911c131147912d3b9ef9ab",
+        "schema_version": "planguard.counterexample-candidate.v1"
+      },
+      {
+        "artifact_id": "sci_fea001e12205741f1983a19bd42b468d",
+        "artifact_kind": "scenario_instance",
+        "content_hash": "sha256:c8d3042890a2a220db5ecd6d26e8244c6483a52fa3a0b6193eef50a60f692c8e",
+        "schema_version": "planguard.scenario-instance.v1"
+      },
+      {
+        "artifact_id": "sci_cb96fb66bf440bfdddb56ed7dfa56fc9",
+        "artifact_kind": "scenario_instance",
+        "content_hash": "sha256:5a64f8193fbe194cb97eab33c090cd2c2365102cd831ee4f06831e12b9b3841d",
+        "schema_version": "planguard.scenario-instance.v1"
+      }
+    ],
+    "notes": []
+  },
+  "schema_version": "planguard.minimization-run.v1"
+}

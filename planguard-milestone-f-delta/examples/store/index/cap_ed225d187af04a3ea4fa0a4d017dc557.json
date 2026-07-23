@@ -1,0 +1,8 @@
+{
+  "artifact_id": "cap_ed225d187af04a3ea4fa0a4d017dc557",
+  "artifact_kind": "capture_policy",
+  "content_hash": "sha256:d4dec5f2cee42ab4f9ef84b3c2813f3981bedffe5274fbe03b4a4190c72f50a3",
+  "created_at": "2026-07-23T13:37:50.795314+00:00",
+  "path": "artifacts/cap_ed225d187af04a3ea4fa0a4d017dc557.json",
+  "schema_version": "planguard.capture-policy.v1"
+}

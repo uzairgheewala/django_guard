@@ -1,0 +1,8 @@
+{
+  "artifact_id": "wkg_c3a280133cb973747104c1fb4070de08",
+  "artifact_kind": "workload_graph",
+  "content_hash": "sha256:081c18d9089cfdad855b938dc2f15606680731ebe6185ed21b6c63eb5b505aec",
+  "created_at": "2026-07-23T13:37:51.435062+00:00",
+  "path": "artifacts/wkg_c3a280133cb973747104c1fb4070de08.json",
+  "schema_version": "planguard.workload-graph.v1"
+}

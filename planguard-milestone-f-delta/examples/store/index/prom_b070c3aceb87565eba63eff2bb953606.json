@@ -1,0 +1,8 @@
+{
+  "artifact_id": "prom_b070c3aceb87565eba63eff2bb953606",
+  "artifact_kind": "corpus_promotion",
+  "content_hash": "sha256:ff5fa8e7f20d977f45b68e373e5d235cb84fb4d7f7c26080f7152822a958f66f",
+  "created_at": "1970-01-01T00:00:00+00:00",
+  "path": "artifacts/prom_b070c3aceb87565eba63eff2bb953606.json",
+  "schema_version": "planguard.corpus-promotion.v1"
+}

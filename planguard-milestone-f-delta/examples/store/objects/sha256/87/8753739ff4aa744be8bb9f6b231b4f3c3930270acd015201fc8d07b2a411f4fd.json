@@ -1,0 +1,77 @@
+{
+  "artifact_id": "wep_32447216278583c2f07a1b558f380b05",
+  "artifact_kind": "workload_episode",
+  "content_hash": "sha256:8753739ff4aa744be8bb9f6b231b4f3c3930270acd015201fc8d07b2a411f4fd",
+  "created_at": "2026-07-23T13:37:51.563764Z",
+  "extensions": {},
+  "payload": {
+    "constraint_evaluations": [
+      {
+        "constraint_key": "repeated",
+        "explanation": null,
+        "status": "satisfied",
+        "values": {
+          "execution_count": 24
+        }
+      },
+      {
+        "constraint_key": "binding-diversity",
+        "explanation": null,
+        "status": "satisfied",
+        "values": {
+          "distinct_parameter_bindings": 19
+        }
+      }
+    ],
+    "edge_ids": [],
+    "family_scheme_key": "shape-origin.v1",
+    "match_confidence": 1.0,
+    "metadata": {},
+    "motif_key": "parameterized-repetition.v1",
+    "node_bindings": {
+      "family": "family:qfam_963951366dec8c17695413fe711ae32e"
+    },
+    "run_id": "run_05b7ed33903c44b9aa6c8fdc7a5a3138",
+    "subject_refs": [
+      {
+        "artifact_id": "qfam_963951366dec8c17695413fe711ae32e",
+        "artifact_kind": "observed_query_family",
+        "content_hash": "sha256:dee7741c04f016fdc7caaf9b5964e296096fe452b8f6f17359e2d4d1cdcfd450",
+        "schema_version": "planguard.observed-query-family.v1"
+      }
+    ],
+    "title": "Parameterized structural repetition"
+  },
+  "producer": {
+    "build": "milestone-f-seed",
+    "name": "planguard",
+    "version": "0.6.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": "workload-motif-match.v1",
+    "input_refs": [
+      {
+        "artifact_id": "wkg_967127b7766b2d52a338e099895f0dbf",
+        "artifact_kind": "workload_graph",
+        "content_hash": "sha256:2a860b353209a06aaa3300b43cea38d4c2f3e60972ee28091a7a49cc3d0438c2",
+        "schema_version": "planguard.workload-graph.v1"
+      },
+      {
+        "artifact_id": "wmotif_12c0b7ae07a7a36893ed6a8aee67ba9a",
+        "artifact_kind": "workload_motif",
+        "content_hash": "sha256:ec7abe31c545e0d93b3eef9a3497092fa4fd11d3810fb4133f1f16781ade6579",
+        "schema_version": "planguard.workload-motif.v1"
+      },
+      {
+        "artifact_id": "qfam_963951366dec8c17695413fe711ae32e",
+        "artifact_kind": "observed_query_family",
+        "content_hash": "sha256:dee7741c04f016fdc7caaf9b5964e296096fe452b8f6f17359e2d4d1cdcfd450",
+        "schema_version": "planguard.observed-query-family.v1"
+      }
+    ],
+    "notes": []
+  },
+  "schema_version": "planguard.workload-episode.v1"
+}

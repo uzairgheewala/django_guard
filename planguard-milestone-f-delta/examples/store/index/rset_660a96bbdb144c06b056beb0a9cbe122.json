@@ -1,0 +1,8 @@
+{
+  "artifact_id": "rset_660a96bbdb144c06b056beb0a9cbe122",
+  "artifact_kind": "representative_set",
+  "content_hash": "sha256:7022d8a77cfd6616241415893d9f2b08a643865d9c09b3e93d616bdf1461fb3a",
+  "created_at": "1970-01-01T00:00:00+00:00",
+  "path": "artifacts/rset_660a96bbdb144c06b056beb0a9cbe122.json",
+  "schema_version": "planguard.representative-set.v1"
+}
