@@ -1,0 +1,884 @@
+{
+  "artifact_id": "expser_17ca6b78ca8f4d00b361b8ad0f0ea044",
+  "artifact_kind": "experiment_series",
+  "content_hash": "sha256:46e9c971dde622bd4e48189e3ad9c7a85086594a06469835752b46ac70b23026",
+  "created_at": "2026-07-23T14:38:17.260255Z",
+  "extensions": {},
+  "payload": {
+    "capability_gaps": [],
+    "comparability_notes": [],
+    "distributions": [
+      {
+        "confidence_high": 5.479196686452793,
+        "confidence_low": 5.452803313547207,
+        "excluded_count": 0,
+        "maximum": 5.502,
+        "mean": 5.466,
+        "median": 5.46,
+        "median_absolute_deviation": 0.041999999999999815,
+        "metric_key": "database_time_ms",
+        "minimum": 5.418,
+        "p95": 5.502,
+        "sample_count": 28,
+        "standard_deviation": 0.03562770457569954,
+        "unit": null
+      },
+      {
+        "confidence_high": 5.0,
+        "confidence_low": 5.0,
+        "excluded_count": 0,
+        "maximum": 5.0,
+        "mean": 5.0,
+        "median": 5.0,
+        "median_absolute_deviation": 0.0,
+        "metric_key": "query_count",
+        "minimum": 5.0,
+        "p95": 5.0,
+        "sample_count": 28,
+        "standard_deviation": 0.0,
+        "unit": null
+      },
+      {
+        "confidence_high": 17.12925067037134,
+        "confidence_low": 5.537415996295325,
+        "excluded_count": 7,
+        "maximum": 30.0,
+        "mean": 11.333333333333334,
+        "median": 3.0,
+        "median_absolute_deviation": 2.0,
+        "metric_key": "shared_blocks_read",
+        "minimum": 1.0,
+        "p95": 30.0,
+        "sample_count": 21,
+        "standard_deviation": 13.551137713614061,
+        "unit": null
+      },
+      {
+        "confidence_high": 7.0383933729055865,
+        "confidence_low": 6.985606627094414,
+        "excluded_count": 0,
+        "maximum": 7.084,
+        "mean": 7.0120000000000005,
+        "median": 7.0,
+        "median_absolute_deviation": 0.08399999999999963,
+        "metric_key": "wall_time_ms",
+        "minimum": 6.916,
+        "p95": 7.084,
+        "sample_count": 28,
+        "standard_deviation": 0.07125540915139908,
+        "unit": null
+      }
+    ],
+    "environment_refs": [],
+    "independent_dimension": "parent_count",
+    "limitations": [
+      "Timing intervals are descriptive and do not prove causal improvement without controlled comparability."
+    ],
+    "protocol_ref": {
+      "artifact_id": "bproto_d6c98490e6add23aa8b46fd11ee8e16c",
+      "artifact_kind": "benchmark_protocol",
+      "content_hash": "sha256:ddcb17b20306372212196ba615c4ae3b9c41b21a235cba09e01ab004c41a8dba",
+      "schema_version": "planguard.benchmark-protocol.v1"
+    },
+    "samples": [
+      {
+        "analysis_run_ref": null,
+        "case_key": "parent_count=1",
+        "completed_at": "2026-07-23T14:38:17.259554Z",
+        "dimensions": {
+          "parent_count": 1
+        },
+        "excluded_reason": null,
+        "iteration": 0,
+        "metrics": {
+          "database_time_ms": 5.418,
+          "query_count": 5.0,
+          "shared_blocks_read": 1.0,
+          "wall_time_ms": 6.916
+        },
+        "scenario_run_ref": null,
+        "started_at": "2026-07-23T14:38:17.259546Z",
+        "valid": true,
+        "warmup": true
+      },
+      {
+        "analysis_run_ref": null,
+        "case_key": "parent_count=1",
+        "completed_at": "2026-07-23T14:38:17.259574Z",
+        "dimensions": {
+          "parent_count": 1
+        },
+        "excluded_reason": null,
+        "iteration": 1,
+        "metrics": {
+          "database_time_ms": 5.46,
+          "query_count": 5.0,
+          "shared_blocks_read": 1.0,
+          "wall_time_ms": 7.0
+        },
+        "scenario_run_ref": null,
+        "started_at": "2026-07-23T14:38:17.259569Z",
+        "valid": true,
+        "warmup": true
+      },
+      {
+        "analysis_run_ref": null,
+        "case_key": "parent_count=1",
+        "completed_at": "2026-07-23T14:38:17.259584Z",
+        "dimensions": {
+          "parent_count": 1
+        },
+        "excluded_reason": null,
+        "iteration": 2,
+        "metrics": {
+          "database_time_ms": 5.502,
+          "query_count": 5.0,
+          "shared_blocks_read": 1.0,
+          "wall_time_ms": 7.084
+        },
+        "scenario_run_ref": null,
+        "started_at": "2026-07-23T14:38:17.259581Z",
+        "valid": true,
+        "warmup": false
+      },
+      {
+        "analysis_run_ref": null,
+        "case_key": "parent_count=1",
+        "completed_at": "2026-07-23T14:38:17.259594Z",
+        "dimensions": {
+          "parent_count": 1
+        },
+        "excluded_reason": null,
+        "iteration": 3,
+        "metrics": {
+          "database_time_ms": 5.418,
+          "query_count": 5.0,
+          "shared_blocks_read": 1.0,
+          "wall_time_ms": 6.916
+        },
+        "scenario_run_ref": null,
+        "started_at": "2026-07-23T14:38:17.259591Z",
+        "valid": true,
+        "warmup": false
+      },
+      {
+        "analysis_run_ref": null,
+        "case_key": "parent_count=1",
+        "completed_at": "2026-07-23T14:38:17.259605Z",
+        "dimensions": {
+          "parent_count": 1
+        },
+        "excluded_reason": null,
+        "iteration": 4,
+        "metrics": {
+          "database_time_ms": 5.46,
+          "query_count": 5.0,
+          "shared_blocks_read": 1.0,
+          "wall_time_ms": 7.0
+        },
+        "scenario_run_ref": null,
+        "started_at": "2026-07-23T14:38:17.259603Z",
+        "valid": true,
+        "warmup": false
+      },
+      {
+        "analysis_run_ref": null,
+        "case_key": "parent_count=1",
+        "completed_at": "2026-07-23T14:38:17.259614Z",
+        "dimensions": {
+          "parent_count": 1
+        },
+        "excluded_reason": null,
+        "iteration": 5,
+        "metrics": {
+          "database_time_ms": 5.502,
+          "query_count": 5.0,
+          "shared_blocks_read": 1.0,
+          "wall_time_ms": 7.084
+        },
+        "scenario_run_ref": null,
+        "started_at": "2026-07-23T14:38:17.259612Z",
+        "valid": true,
+        "warmup": false
+      },
+      {
+        "analysis_run_ref": null,
+        "case_key": "parent_count=1",
+        "completed_at": "2026-07-23T14:38:17.259623Z",
+        "dimensions": {
+          "parent_count": 1
+        },
+        "excluded_reason": null,
+        "iteration": 6,
+        "metrics": {
+          "database_time_ms": 5.418,
+          "query_count": 5.0,
+          "shared_blocks_read": 1.0,
+          "wall_time_ms": 6.916
+        },
+        "scenario_run_ref": null,
+        "started_at": "2026-07-23T14:38:17.259620Z",
+        "valid": true,
+        "warmup": false
+      },
+      {
+        "analysis_run_ref": null,
+        "case_key": "parent_count=1",
+        "completed_at": "2026-07-23T14:38:17.259631Z",
+        "dimensions": {
+          "parent_count": 1
+        },
+        "excluded_reason": null,
+        "iteration": 7,
+        "metrics": {
+          "database_time_ms": 5.46,
+          "query_count": 5.0,
+          "shared_blocks_read": 1.0,
+          "wall_time_ms": 7.0
+        },
+        "scenario_run_ref": null,
+        "started_at": "2026-07-23T14:38:17.259629Z",
+        "valid": true,
+        "warmup": false
+      },
+      {
+        "analysis_run_ref": null,
+        "case_key": "parent_count=1",
+        "completed_at": "2026-07-23T14:38:17.259639Z",
+        "dimensions": {
+          "parent_count": 1
+        },
+        "excluded_reason": null,
+        "iteration": 8,
+        "metrics": {
+          "database_time_ms": 5.502,
+          "query_count": 5.0,
+          "shared_blocks_read": 1.0,
+          "wall_time_ms": 7.084
+        },
+        "scenario_run_ref": null,
+        "started_at": "2026-07-23T14:38:17.259637Z",
+        "valid": true,
+        "warmup": false
+      },
+      {
+        "analysis_run_ref": null,
+        "case_key": "parent_count=10",
+        "completed_at": "2026-07-23T14:38:17.259650Z",
+        "dimensions": {
+          "parent_count": 10
+        },
+        "excluded_reason": null,
+        "iteration": 0,
+        "metrics": {
+          "database_time_ms": 5.418,
+          "query_count": 5.0,
+          "shared_blocks_read": 3.0,
+          "wall_time_ms": 6.916
+        },
+        "scenario_run_ref": null,
+        "started_at": "2026-07-23T14:38:17.259647Z",
+        "valid": true,
+        "warmup": true
+      },
+      {
+        "analysis_run_ref": null,
+        "case_key": "parent_count=10",
+        "completed_at": "2026-07-23T14:38:17.259660Z",
+        "dimensions": {
+          "parent_count": 10
+        },
+        "excluded_reason": null,
+        "iteration": 1,
+        "metrics": {
+          "database_time_ms": 5.46,
+          "query_count": 5.0,
+          "shared_blocks_read": 3.0,
+          "wall_time_ms": 7.0
+        },
+        "scenario_run_ref": null,
+        "started_at": "2026-07-23T14:38:17.259656Z",
+        "valid": true,
+        "warmup": true
+      },
+      {
+        "analysis_run_ref": null,
+        "case_key": "parent_count=10",
+        "completed_at": "2026-07-23T14:38:17.259668Z",
+        "dimensions": {
+          "parent_count": 10
+        },
+        "excluded_reason": null,
+        "iteration": 2,
+        "metrics": {
+          "database_time_ms": 5.502,
+          "query_count": 5.0,
+          "shared_blocks_read": 3.0,
+          "wall_time_ms": 7.084
+        },
+        "scenario_run_ref": null,
+        "started_at": "2026-07-23T14:38:17.259666Z",
+        "valid": true,
+        "warmup": false
+      },
+      {
+        "analysis_run_ref": null,
+        "case_key": "parent_count=10",
+        "completed_at": "2026-07-23T14:38:17.259679Z",
+        "dimensions": {
+          "parent_count": 10
+        },
+        "excluded_reason": null,
+        "iteration": 3,
+        "metrics": {
+          "database_time_ms": 5.418,
+          "query_count": 5.0,
+          "shared_blocks_read": 3.0,
+          "wall_time_ms": 6.916
+        },
+        "scenario_run_ref": null,
+        "started_at": "2026-07-23T14:38:17.259677Z",
+        "valid": true,
+        "warmup": false
+      },
+      {
+        "analysis_run_ref": null,
+        "case_key": "parent_count=10",
+        "completed_at": "2026-07-23T14:38:17.259688Z",
+        "dimensions": {
+          "parent_count": 10
+        },
+        "excluded_reason": null,
+        "iteration": 4,
+        "metrics": {
+          "database_time_ms": 5.46,
+          "query_count": 5.0,
+          "shared_blocks_read": 3.0,
+          "wall_time_ms": 7.0
+        },
+        "scenario_run_ref": null,
+        "started_at": "2026-07-23T14:38:17.259686Z",
+        "valid": true,
+        "warmup": false
+      },
+      {
+        "analysis_run_ref": null,
+        "case_key": "parent_count=10",
+        "completed_at": "2026-07-23T14:38:17.259697Z",
+        "dimensions": {
+          "parent_count": 10
+        },
+        "excluded_reason": null,
+        "iteration": 5,
+        "metrics": {
+          "database_time_ms": 5.502,
+          "query_count": 5.0,
+          "shared_blocks_read": 3.0,
+          "wall_time_ms": 7.084
+        },
+        "scenario_run_ref": null,
+        "started_at": "2026-07-23T14:38:17.259695Z",
+        "valid": true,
+        "warmup": false
+      },
+      {
+        "analysis_run_ref": null,
+        "case_key": "parent_count=10",
+        "completed_at": "2026-07-23T14:38:17.259706Z",
+        "dimensions": {
+          "parent_count": 10
+        },
+        "excluded_reason": null,
+        "iteration": 6,
+        "metrics": {
+          "database_time_ms": 5.418,
+          "query_count": 5.0,
+          "shared_blocks_read": 3.0,
+          "wall_time_ms": 6.916
+        },
+        "scenario_run_ref": null,
+        "started_at": "2026-07-23T14:38:17.259704Z",
+        "valid": true,
+        "warmup": false
+      },
+      {
+        "analysis_run_ref": null,
+        "case_key": "parent_count=10",
+        "completed_at": "2026-07-23T14:38:17.259715Z",
+        "dimensions": {
+          "parent_count": 10
+        },
+        "excluded_reason": null,
+        "iteration": 7,
+        "metrics": {
+          "database_time_ms": 5.46,
+          "query_count": 5.0,
+          "shared_blocks_read": 3.0,
+          "wall_time_ms": 7.0
+        },
+        "scenario_run_ref": null,
+        "started_at": "2026-07-23T14:38:17.259713Z",
+        "valid": true,
+        "warmup": false
+      },
+      {
+        "analysis_run_ref": null,
+        "case_key": "parent_count=10",
+        "completed_at": "2026-07-23T14:38:17.259723Z",
+        "dimensions": {
+          "parent_count": 10
+        },
+        "excluded_reason": null,
+        "iteration": 8,
+        "metrics": {
+          "database_time_ms": 5.502,
+          "query_count": 5.0,
+          "shared_blocks_read": 3.0,
+          "wall_time_ms": 7.084
+        },
+        "scenario_run_ref": null,
+        "started_at": "2026-07-23T14:38:17.259721Z",
+        "valid": true,
+        "warmup": false
+      },
+      {
+        "analysis_run_ref": null,
+        "case_key": "parent_count=100",
+        "completed_at": "2026-07-23T14:38:17.259733Z",
+        "dimensions": {
+          "parent_count": 100
+        },
+        "excluded_reason": null,
+        "iteration": 0,
+        "metrics": {
+          "database_time_ms": 5.418,
+          "query_count": 5.0,
+          "shared_blocks_read": 30.0,
+          "wall_time_ms": 6.916
+        },
+        "scenario_run_ref": null,
+        "started_at": "2026-07-23T14:38:17.259731Z",
+        "valid": true,
+        "warmup": true
+      },
+      {
+        "analysis_run_ref": null,
+        "case_key": "parent_count=100",
+        "completed_at": "2026-07-23T14:38:17.259742Z",
+        "dimensions": {
+          "parent_count": 100
+        },
+        "excluded_reason": null,
+        "iteration": 1,
+        "metrics": {
+          "database_time_ms": 5.46,
+          "query_count": 5.0,
+          "shared_blocks_read": 30.0,
+          "wall_time_ms": 7.0
+        },
+        "scenario_run_ref": null,
+        "started_at": "2026-07-23T14:38:17.259740Z",
+        "valid": true,
+        "warmup": true
+      },
+      {
+        "analysis_run_ref": null,
+        "case_key": "parent_count=100",
+        "completed_at": "2026-07-23T14:38:17.259750Z",
+        "dimensions": {
+          "parent_count": 100
+        },
+        "excluded_reason": null,
+        "iteration": 2,
+        "metrics": {
+          "database_time_ms": 5.502,
+          "query_count": 5.0,
+          "shared_blocks_read": 30.0,
+          "wall_time_ms": 7.084
+        },
+        "scenario_run_ref": null,
+        "started_at": "2026-07-23T14:38:17.259748Z",
+        "valid": true,
+        "warmup": false
+      },
+      {
+        "analysis_run_ref": null,
+        "case_key": "parent_count=100",
+        "completed_at": "2026-07-23T14:38:17.259759Z",
+        "dimensions": {
+          "parent_count": 100
+        },
+        "excluded_reason": null,
+        "iteration": 3,
+        "metrics": {
+          "database_time_ms": 5.418,
+          "query_count": 5.0,
+          "shared_blocks_read": 30.0,
+          "wall_time_ms": 6.916
+        },
+        "scenario_run_ref": null,
+        "started_at": "2026-07-23T14:38:17.259757Z",
+        "valid": true,
+        "warmup": false
+      },
+      {
+        "analysis_run_ref": null,
+        "case_key": "parent_count=100",
+        "completed_at": "2026-07-23T14:38:17.259768Z",
+        "dimensions": {
+          "parent_count": 100
+        },
+        "excluded_reason": null,
+        "iteration": 4,
+        "metrics": {
+          "database_time_ms": 5.46,
+          "query_count": 5.0,
+          "shared_blocks_read": 30.0,
+          "wall_time_ms": 7.0
+        },
+        "scenario_run_ref": null,
+        "started_at": "2026-07-23T14:38:17.259765Z",
+        "valid": true,
+        "warmup": false
+      },
+      {
+        "analysis_run_ref": null,
+        "case_key": "parent_count=100",
+        "completed_at": "2026-07-23T14:38:17.259776Z",
+        "dimensions": {
+          "parent_count": 100
+        },
+        "excluded_reason": null,
+        "iteration": 5,
+        "metrics": {
+          "database_time_ms": 5.502,
+          "query_count": 5.0,
+          "shared_blocks_read": 30.0,
+          "wall_time_ms": 7.084
+        },
+        "scenario_run_ref": null,
+        "started_at": "2026-07-23T14:38:17.259774Z",
+        "valid": true,
+        "warmup": false
+      },
+      {
+        "analysis_run_ref": null,
+        "case_key": "parent_count=100",
+        "completed_at": "2026-07-23T14:38:17.259785Z",
+        "dimensions": {
+          "parent_count": 100
+        },
+        "excluded_reason": null,
+        "iteration": 6,
+        "metrics": {
+          "database_time_ms": 5.418,
+          "query_count": 5.0,
+          "shared_blocks_read": 30.0,
+          "wall_time_ms": 6.916
+        },
+        "scenario_run_ref": null,
+        "started_at": "2026-07-23T14:38:17.259783Z",
+        "valid": true,
+        "warmup": false
+      },
+      {
+        "analysis_run_ref": null,
+        "case_key": "parent_count=100",
+        "completed_at": "2026-07-23T14:38:17.259793Z",
+        "dimensions": {
+          "parent_count": 100
+        },
+        "excluded_reason": null,
+        "iteration": 7,
+        "metrics": {
+          "database_time_ms": 5.46,
+          "query_count": 5.0,
+          "shared_blocks_read": 30.0,
+          "wall_time_ms": 7.0
+        },
+        "scenario_run_ref": null,
+        "started_at": "2026-07-23T14:38:17.259791Z",
+        "valid": true,
+        "warmup": false
+      },
+      {
+        "analysis_run_ref": null,
+        "case_key": "parent_count=100",
+        "completed_at": "2026-07-23T14:38:17.259802Z",
+        "dimensions": {
+          "parent_count": 100
+        },
+        "excluded_reason": null,
+        "iteration": 8,
+        "metrics": {
+          "database_time_ms": 5.502,
+          "query_count": 5.0,
+          "shared_blocks_read": 30.0,
+          "wall_time_ms": 7.084
+        },
+        "scenario_run_ref": null,
+        "started_at": "2026-07-23T14:38:17.259800Z",
+        "valid": true,
+        "warmup": false
+      },
+      {
+        "analysis_run_ref": null,
+        "case_key": "parent_count=1000",
+        "completed_at": "2026-07-23T14:38:17.259812Z",
+        "dimensions": {
+          "parent_count": 1000
+        },
+        "excluded_reason": null,
+        "iteration": 0,
+        "metrics": {
+          "database_time_ms": 5.418,
+          "query_count": 5.0,
+          "shared_blocks_read": 300.0,
+          "wall_time_ms": 6.916
+        },
+        "scenario_run_ref": null,
+        "started_at": "2026-07-23T14:38:17.259809Z",
+        "valid": true,
+        "warmup": true
+      },
+      {
+        "analysis_run_ref": null,
+        "case_key": "parent_count=1000",
+        "completed_at": "2026-07-23T14:38:17.259822Z",
+        "dimensions": {
+          "parent_count": 1000
+        },
+        "excluded_reason": null,
+        "iteration": 1,
+        "metrics": {
+          "database_time_ms": 5.46,
+          "query_count": 5.0,
+          "shared_blocks_read": 300.0,
+          "wall_time_ms": 7.0
+        },
+        "scenario_run_ref": null,
+        "started_at": "2026-07-23T14:38:17.259818Z",
+        "valid": true,
+        "warmup": true
+      },
+      {
+        "analysis_run_ref": null,
+        "case_key": "parent_count=1000",
+        "completed_at": "2026-07-23T14:38:17.259831Z",
+        "dimensions": {
+          "parent_count": 1000
+        },
+        "excluded_reason": null,
+        "iteration": 2,
+        "metrics": {
+          "database_time_ms": 5.502,
+          "query_count": 5.0,
+          "shared_blocks_read": 300.0,
+          "wall_time_ms": 7.084
+        },
+        "scenario_run_ref": null,
+        "started_at": "2026-07-23T14:38:17.259828Z",
+        "valid": true,
+        "warmup": false
+      },
+      {
+        "analysis_run_ref": null,
+        "case_key": "parent_count=1000",
+        "completed_at": "2026-07-23T14:38:17.259839Z",
+        "dimensions": {
+          "parent_count": 1000
+        },
+        "excluded_reason": null,
+        "iteration": 3,
+        "metrics": {
+          "database_time_ms": 5.418,
+          "query_count": 5.0,
+          "shared_blocks_read": 300.0,
+          "wall_time_ms": 6.916
+        },
+        "scenario_run_ref": null,
+        "started_at": "2026-07-23T14:38:17.259837Z",
+        "valid": true,
+        "warmup": false
+      },
+      {
+        "analysis_run_ref": null,
+        "case_key": "parent_count=1000",
+        "completed_at": "2026-07-23T14:38:17.259847Z",
+        "dimensions": {
+          "parent_count": 1000
+        },
+        "excluded_reason": null,
+        "iteration": 4,
+        "metrics": {
+          "database_time_ms": 5.46,
+          "query_count": 5.0,
+          "shared_blocks_read": 300.0,
+          "wall_time_ms": 7.0
+        },
+        "scenario_run_ref": null,
+        "started_at": "2026-07-23T14:38:17.259845Z",
+        "valid": true,
+        "warmup": false
+      },
+      {
+        "analysis_run_ref": null,
+        "case_key": "parent_count=1000",
+        "completed_at": "2026-07-23T14:38:17.259856Z",
+        "dimensions": {
+          "parent_count": 1000
+        },
+        "excluded_reason": null,
+        "iteration": 5,
+        "metrics": {
+          "database_time_ms": 5.502,
+          "query_count": 5.0,
+          "shared_blocks_read": 300.0,
+          "wall_time_ms": 7.084
+        },
+        "scenario_run_ref": null,
+        "started_at": "2026-07-23T14:38:17.259854Z",
+        "valid": true,
+        "warmup": false
+      },
+      {
+        "analysis_run_ref": null,
+        "case_key": "parent_count=1000",
+        "completed_at": "2026-07-23T14:38:17.259865Z",
+        "dimensions": {
+          "parent_count": 1000
+        },
+        "excluded_reason": null,
+        "iteration": 6,
+        "metrics": {
+          "database_time_ms": 5.418,
+          "query_count": 5.0,
+          "shared_blocks_read": 300.0,
+          "wall_time_ms": 6.916
+        },
+        "scenario_run_ref": null,
+        "started_at": "2026-07-23T14:38:17.259863Z",
+        "valid": true,
+        "warmup": false
+      },
+      {
+        "analysis_run_ref": null,
+        "case_key": "parent_count=1000",
+        "completed_at": "2026-07-23T14:38:17.259874Z",
+        "dimensions": {
+          "parent_count": 1000
+        },
+        "excluded_reason": null,
+        "iteration": 7,
+        "metrics": {
+          "database_time_ms": 5.46,
+          "query_count": 5.0,
+          "shared_blocks_read": 300.0,
+          "wall_time_ms": 7.0
+        },
+        "scenario_run_ref": null,
+        "started_at": "2026-07-23T14:38:17.259871Z",
+        "valid": true,
+        "warmup": false
+      },
+      {
+        "analysis_run_ref": null,
+        "case_key": "parent_count=1000",
+        "completed_at": "2026-07-23T14:38:17.259882Z",
+        "dimensions": {
+          "parent_count": 1000
+        },
+        "excluded_reason": null,
+        "iteration": 8,
+        "metrics": {
+          "database_time_ms": 5.502,
+          "query_count": 5.0,
+          "shared_blocks_read": 300.0,
+          "wall_time_ms": 7.084
+        },
+        "scenario_run_ref": null,
+        "started_at": "2026-07-23T14:38:17.259880Z",
+        "valid": true,
+        "warmup": false
+      }
+    ],
+    "scaling_assessments": [
+      {
+        "classification": "approximately_constant",
+        "confidence": 1.0,
+        "explanation": [
+          "Observed log-log slope 0.000 across 4 points.",
+          "Descriptive fit R² 1.000; this is not a formal Big-O proof."
+        ],
+        "independent_dimension": "parent_count",
+        "metric_key": "database_time_ms",
+        "sample_points": 4,
+        "slope": 0.0,
+        "transition_at": null
+      },
+      {
+        "classification": "approximately_constant",
+        "confidence": 1.0,
+        "explanation": [
+          "Observed log-log slope 0.000 across 4 points.",
+          "Descriptive fit R² 1.000; this is not a formal Big-O proof."
+        ],
+        "independent_dimension": "parent_count",
+        "metric_key": "query_count",
+        "sample_points": 4,
+        "slope": 0.0,
+        "transition_at": null
+      },
+      {
+        "classification": "approximately_linear",
+        "confidence": 0.9774446410439194,
+        "explanation": [
+          "Observed log-log slope 0.843 across 4 points.",
+          "Descriptive fit R² 0.977; this is not a formal Big-O proof."
+        ],
+        "independent_dimension": "parent_count",
+        "metric_key": "shared_blocks_read",
+        "sample_points": 4,
+        "slope": 0.8431363764158988,
+        "transition_at": null
+      },
+      {
+        "classification": "approximately_constant",
+        "confidence": 1.0,
+        "explanation": [
+          "Observed log-log slope 0.000 across 4 points.",
+          "Descriptive fit R² 1.000; this is not a formal Big-O proof."
+        ],
+        "independent_dimension": "parent_count",
+        "metric_key": "wall_time_ms",
+        "sample_points": 4,
+        "slope": 0.0,
+        "transition_at": null
+      }
+    ],
+    "scenario_series_ref": null,
+    "status": "completed"
+  },
+  "producer": {
+    "build": "milestone-g-seed",
+    "name": "planguard",
+    "version": "0.7.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": "benchmark-series.v1",
+    "input_refs": [
+      {
+        "artifact_id": "bproto_d6c98490e6add23aa8b46fd11ee8e16c",
+        "artifact_kind": "benchmark_protocol",
+        "content_hash": "sha256:ddcb17b20306372212196ba615c4ae3b9c41b21a235cba09e01ab004c41a8dba",
+        "schema_version": "planguard.benchmark-protocol.v1"
+      }
+    ],
+    "notes": [
+      "Started at 2026-07-23T14:38:17.259543+00:00"
+    ]
+  },
+  "schema_version": "planguard.experiment-series.v1"
+}

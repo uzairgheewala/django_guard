@@ -1,0 +1,107 @@
+{
+  "artifact_id": "demo_ca40efece7d9856c6ab3c0fd4695fe33",
+  "artifact_kind": "demonstration_case",
+  "content_hash": "sha256:6fa05c80b1dc7c3208c82dce6e7f4a67a3693f2088a2d7b87d35a70daa89fbcc",
+  "created_at": "1970-01-01T00:00:00Z",
+  "extensions": {},
+  "payload": {
+    "baseline_run_ref": {
+      "artifact_id": "run_172620afaaac45a99db8302271f06455",
+      "artifact_kind": "run_manifest",
+      "content_hash": "sha256:526a7ef02ec07adc5b8b97df8c7bd0e81387d4872eb7342c80e2c2112b4fc9ee",
+      "schema_version": "planguard.run-manifest.v1"
+    },
+    "benchmark_series_refs": [
+      {
+        "artifact_id": "expser_bd5874fc9e1141c48217d103380725ae",
+        "artifact_kind": "experiment_series",
+        "content_hash": "sha256:28ed8a760c0bc32aab6ec11134d4dd2032df03be9e67c109a18bfde120275e64",
+        "schema_version": "planguard.experiment-series.v1"
+      }
+    ],
+    "candidate_run_ref": {
+      "artifact_id": "run_75dd8faf4ea446a0992e7f8666b4cb43",
+      "artifact_kind": "run_manifest",
+      "content_hash": "sha256:ef910d81b140b0a0b43d6ce17516664866a77f8a6c5e89775cf1f09ef290a773",
+      "schema_version": "planguard.run-manifest.v1"
+    },
+    "case_key": "academic.nested-relation-fanout.v1",
+    "comparison_ref": null,
+    "description": "Generic nested-relation-fanout.v1 scenario bound to the deterministic academic laboratory.",
+    "documentation_path": "docs/cases/nested-fanout.md",
+    "expected_mechanisms": [
+      "nested-round-trip-amplification"
+    ],
+    "policy_refs": [
+      {
+        "artifact_id": "bpol_586e0be096964d3fa142d591a75023ed",
+        "artifact_kind": "budget_policy",
+        "content_hash": "sha256:f42a951424067a3be1f56c3f475c0a8ed6b4b6fc8317f22e2bc7b8e2d35f8b5d",
+        "schema_version": "planguard.budget-policy.v1"
+      },
+      {
+        "artifact_id": "bpol_04c12a9d8e3d4464b6acd48a20307eb8",
+        "artifact_kind": "budget_policy",
+        "content_hash": "sha256:25a9b074952ef9e91325cf8bf19bbaceee2058fdb711b5a54986ab5208a0ba9e",
+        "schema_version": "planguard.budget-policy.v1"
+      }
+    ],
+    "scenario_binding_ref": {
+      "artifact_id": "scb_9457777f9225d945cf90f85abb29d615",
+      "artifact_kind": "scenario_binding",
+      "content_hash": "sha256:5899dee2b331cd7276bb5b1b677fac729ed0739caeccf7c6c63bd457b8d918bb",
+      "schema_version": "planguard.scenario-binding.v1"
+    },
+    "scenario_template_ref": {
+      "artifact_id": "sct_1f4fe3a176a3e4561317de837a6adaaf",
+      "artifact_kind": "scenario_template",
+      "content_hash": "sha256:8fc6e2771b21fba1ef94628aa376295f3060f9e895f9b1bae7a45a7a67ed50b5",
+      "schema_version": "planguard.scenario-template.v1"
+    },
+    "tags": [
+      "academic",
+      "oss-case",
+      "nested-relation-fanout.v1"
+    ],
+    "title": "Nested relation fan-out",
+    "verified": true
+  },
+  "producer": {
+    "build": "milestone-g-seed",
+    "name": "planguard",
+    "version": "0.7.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": "demonstration-case.v1",
+    "input_refs": [
+      {
+        "artifact_id": "sct_1f4fe3a176a3e4561317de837a6adaaf",
+        "artifact_kind": "scenario_template",
+        "content_hash": "sha256:8fc6e2771b21fba1ef94628aa376295f3060f9e895f9b1bae7a45a7a67ed50b5",
+        "schema_version": "planguard.scenario-template.v1"
+      },
+      {
+        "artifact_id": "scb_9457777f9225d945cf90f85abb29d615",
+        "artifact_kind": "scenario_binding",
+        "content_hash": "sha256:5899dee2b331cd7276bb5b1b677fac729ed0739caeccf7c6c63bd457b8d918bb",
+        "schema_version": "planguard.scenario-binding.v1"
+      },
+      {
+        "artifact_id": "run_172620afaaac45a99db8302271f06455",
+        "artifact_kind": "run_manifest",
+        "content_hash": "sha256:526a7ef02ec07adc5b8b97df8c7bd0e81387d4872eb7342c80e2c2112b4fc9ee",
+        "schema_version": "planguard.run-manifest.v1"
+      },
+      {
+        "artifact_id": "run_75dd8faf4ea446a0992e7f8666b4cb43",
+        "artifact_kind": "run_manifest",
+        "content_hash": "sha256:ef910d81b140b0a0b43d6ce17516664866a77f8a6c5e89775cf1f09ef290a773",
+        "schema_version": "planguard.run-manifest.v1"
+      }
+    ],
+    "notes": []
+  },
+  "schema_version": "planguard.demonstration-case.v1"
+}

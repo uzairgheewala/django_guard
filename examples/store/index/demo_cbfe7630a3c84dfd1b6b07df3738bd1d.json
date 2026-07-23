@@ -1,0 +1,8 @@
+{
+  "artifact_id": "demo_cbfe7630a3c84dfd1b6b07df3738bd1d",
+  "artifact_kind": "demonstration_case",
+  "content_hash": "sha256:c1f4205f327e35552e98524682840658446accceba6231522457b547ac22fbbf",
+  "created_at": "1970-01-01T00:00:00+00:00",
+  "path": "artifacts/demo_cbfe7630a3c84dfd1b6b07df3738bd1d.json",
+  "schema_version": "planguard.demonstration-case.v1"
+}

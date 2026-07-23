@@ -1,0 +1,390 @@
+{
+  "$defs": {
+    "ArtifactReference": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "artifact_kind": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Artifact Kind",
+          "type": "string"
+        },
+        "content_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "schema_version": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Schema Version"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "artifact_kind",
+        "content_hash",
+        "schema_version"
+      ],
+      "title": "ArtifactReference",
+      "type": "object"
+    },
+    "BenchmarkDimension": {
+      "additionalProperties": false,
+      "properties": {
+        "dimension_key": {
+          "title": "Dimension Key",
+          "type": "string"
+        },
+        "ordered": {
+          "default": true,
+          "title": "Ordered",
+          "type": "boolean"
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit"
+        },
+        "values": {
+          "items": {},
+          "title": "Values",
+          "type": "array"
+        }
+      },
+      "required": [
+        "dimension_key",
+        "ordered",
+        "unit",
+        "values"
+      ],
+      "title": "BenchmarkDimension",
+      "type": "object"
+    },
+    "BenchmarkProtocolPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "cache_protocol": {
+          "$ref": "#/$defs/CacheProtocol",
+          "default": "uncontrolled"
+        },
+        "concurrency_levels": {
+          "default": [
+            1
+          ],
+          "items": {
+            "type": "integer"
+          },
+          "title": "Concurrency Levels",
+          "type": "array"
+        },
+        "confidence_level": {
+          "default": 0.95,
+          "exclusiveMaximum": 1.0,
+          "exclusiveMinimum": 0.0,
+          "title": "Confidence Level",
+          "type": "number"
+        },
+        "dimensions": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/BenchmarkDimension"
+          },
+          "title": "Dimensions",
+          "type": "array"
+        },
+        "measured_iterations": {
+          "default": 5,
+          "minimum": 1,
+          "title": "Measured Iterations",
+          "type": "integer"
+        },
+        "metrics": {
+          "default": [
+            "wall_time_ms",
+            "database_time_ms",
+            "query_count"
+          ],
+          "items": {
+            "type": "string"
+          },
+          "title": "Metrics",
+          "type": "array"
+        },
+        "notes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "outlier_policy": {
+          "$ref": "#/$defs/OutlierPolicy",
+          "default": "mad"
+        },
+        "protocol_key": {
+          "title": "Protocol Key",
+          "type": "string"
+        },
+        "random_seed": {
+          "default": 1,
+          "title": "Random Seed",
+          "type": "integer"
+        },
+        "randomize_case_order": {
+          "default": false,
+          "title": "Randomize Case Order",
+          "type": "boolean"
+        },
+        "required_environment_fields": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Required Environment Fields",
+          "type": "array"
+        },
+        "timeout_seconds": {
+          "default": 60.0,
+          "exclusiveMinimum": 0.0,
+          "title": "Timeout Seconds",
+          "type": "number"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "warmup_iterations": {
+          "default": 1,
+          "minimum": 0,
+          "title": "Warmup Iterations",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "cache_protocol",
+        "concurrency_levels",
+        "confidence_level",
+        "dimensions",
+        "measured_iterations",
+        "metrics",
+        "notes",
+        "outlier_policy",
+        "protocol_key",
+        "random_seed",
+        "randomize_case_order",
+        "required_environment_fields",
+        "timeout_seconds",
+        "title",
+        "warmup_iterations"
+      ],
+      "title": "BenchmarkProtocolPayload",
+      "type": "object"
+    },
+    "CacheProtocol": {
+      "enum": [
+        "uncontrolled",
+        "cold",
+        "warm",
+        "cold_then_warm",
+        "mixed"
+      ],
+      "title": "CacheProtocol",
+      "type": "string"
+    },
+    "OutlierPolicy": {
+      "enum": [
+        "none",
+        "iqr",
+        "mad"
+      ],
+      "title": "OutlierPolicy",
+      "type": "string"
+    },
+    "ProducerIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "build": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Build"
+        },
+        "name": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "version": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "build",
+        "name",
+        "version"
+      ],
+      "title": "ProducerIdentity",
+      "type": "object"
+    },
+    "Provenance": {
+      "additionalProperties": false,
+      "properties": {
+        "code_revision": {
+          "anyOf": [
+            {
+              "maxLength": 256,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Code Revision"
+        },
+        "configuration_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "derivation_key": {
+          "anyOf": [
+            {
+              "maxLength": 256,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Derivation Key"
+        },
+        "input_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Input Refs",
+          "type": "array"
+        },
+        "notes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "code_revision",
+        "configuration_ref",
+        "derivation_key",
+        "input_refs",
+        "notes"
+      ],
+      "title": "Provenance",
+      "type": "object"
+    }
+  },
+  "$id": "https://planguard.dev/schemas/planguard.benchmark-protocol.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifact_id": {
+      "title": "Artifact Id",
+      "type": "string"
+    },
+    "artifact_kind": {
+      "const": "benchmark_protocol",
+      "default": "benchmark_protocol",
+      "title": "Artifact Kind",
+      "type": "string"
+    },
+    "content_hash": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "title": "Content Hash",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "extensions": {
+      "additionalProperties": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Extensions",
+      "type": "object"
+    },
+    "payload": {
+      "$ref": "#/$defs/BenchmarkProtocolPayload"
+    },
+    "producer": {
+      "$ref": "#/$defs/ProducerIdentity"
+    },
+    "provenance": {
+      "$ref": "#/$defs/Provenance"
+    },
+    "schema_version": {
+      "const": "planguard.benchmark-protocol.v1",
+      "default": "planguard.benchmark-protocol.v1",
+      "title": "Schema Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "artifact_id",
+    "artifact_kind",
+    "content_hash",
+    "created_at",
+    "extensions",
+    "payload",
+    "producer",
+    "provenance",
+    "schema_version"
+  ],
+  "title": "BenchmarkProtocolArtifact",
+  "type": "object"
+}

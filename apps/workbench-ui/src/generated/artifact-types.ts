@@ -50,6 +50,106 @@ export interface ArtifactReference {
   "content_hash": string;
 }
 
+export interface ArtifactSanitizationArtifact {
+  "schema_version": "planguard.artifact-sanitization.v1";
+  "artifact_kind": "artifact_sanitization";
+  "artifact_id": string;
+  "created_at": string;
+  "producer": ProducerIdentity;
+  "provenance": Provenance;
+  "payload": ArtifactSanitizationPayload;
+  "extensions": Record<string, Record<string, unknown>>;
+  "content_hash": string;
+}
+
+export interface ArtifactSanitizationPayload {
+  "source_ref": ArtifactReference;
+  "sanitized_ref": ArtifactReference | null;
+  "status": WorkflowStatus;
+  "applied_rule_keys": Array<string>;
+  "redacted_paths": Array<string>;
+  "preserved_structure": boolean;
+  "before_bytes": number;
+  "after_bytes": number;
+  "warnings": Array<string>;
+}
+
+export interface ArtifactTrustReportArtifact {
+  "schema_version": "planguard.artifact-trust-report.v1";
+  "artifact_kind": "artifact_trust_report";
+  "artifact_id": string;
+  "created_at": string;
+  "producer": ProducerIdentity;
+  "provenance": Provenance;
+  "payload": ArtifactTrustReportPayload;
+  "extensions": Record<string, Record<string, unknown>>;
+  "content_hash": string;
+}
+
+export interface ArtifactTrustReportPayload {
+  "subject_refs": Array<ArtifactReference>;
+  "trust_state": TrustState;
+  "verified_refs": Array<ArtifactReference>;
+  "failed_refs": Array<ArtifactReference>;
+  "missing_refs": Array<ArtifactReference>;
+  "quarantined_paths": Array<string>;
+  "checks": Record<string, unknown>;
+  "explanation": Array<string>;
+}
+
+export interface BenchmarkDimension {
+  "dimension_key": string;
+  "values": Array<unknown>;
+  "ordered": boolean;
+  "unit": string | null;
+}
+
+export interface BenchmarkProtocolArtifact {
+  "schema_version": "planguard.benchmark-protocol.v1";
+  "artifact_kind": "benchmark_protocol";
+  "artifact_id": string;
+  "created_at": string;
+  "producer": ProducerIdentity;
+  "provenance": Provenance;
+  "payload": BenchmarkProtocolPayload;
+  "extensions": Record<string, Record<string, unknown>>;
+  "content_hash": string;
+}
+
+export interface BenchmarkProtocolPayload {
+  "protocol_key": string;
+  "title": string;
+  "warmup_iterations": number;
+  "measured_iterations": number;
+  "cache_protocol": CacheProtocol;
+  "randomize_case_order": boolean;
+  "random_seed": number;
+  "outlier_policy": OutlierPolicy;
+  "confidence_level": number;
+  "timeout_seconds": number;
+  "concurrency_levels": Array<number>;
+  "dimensions": Array<BenchmarkDimension>;
+  "required_environment_fields": Array<string>;
+  "metrics": Array<string>;
+  "notes": Array<string>;
+}
+
+export interface BenchmarkSample {
+  "case_key": string;
+  "iteration": number;
+  "warmup": boolean;
+  "dimensions": Record<string, unknown>;
+  "metrics": Record<string, number>;
+  "scenario_run_ref": ArtifactReference | null;
+  "analysis_run_ref": ArtifactReference | null;
+  "valid": boolean;
+  "excluded_reason": string | null;
+  "started_at": string | null;
+  "completed_at": string | null;
+}
+
+export type BenchmarkStatus = "created" | "running" | "completed" | "degraded" | "failed";
+
 export interface BudgetEvaluationArtifact {
   "schema_version": "planguard.budget-evaluation.v1";
   "artifact_kind": "budget_evaluation";
@@ -106,6 +206,8 @@ export interface BundleIntegrity {
   "verified": boolean;
   "missing_refs": Array<ArtifactReference>;
 }
+
+export type CacheProtocol = "uncontrolled" | "cold" | "warm" | "cold_then_warm" | "mixed";
 
 export interface CapabilityGap {
   "capability": string;
@@ -213,11 +315,107 @@ export interface ConstraintEvaluation {
   "explanation": string | null;
 }
 
+export interface CorpusPromotionArtifact {
+  "schema_version": "planguard.corpus-promotion.v1";
+  "artifact_kind": "corpus_promotion";
+  "artifact_id": string;
+  "created_at": string;
+  "producer": ProducerIdentity;
+  "provenance": Provenance;
+  "payload": CorpusPromotionPayload;
+  "extensions": Record<string, Record<string, unknown>>;
+  "content_hash": string;
+}
+
+export interface CorpusPromotionPayload {
+  "candidate_ref": ArtifactReference;
+  "minimization_ref": ArtifactReference | null;
+  "source_instance_ref": ArtifactReference;
+  "status": WorkflowStatus;
+  "target_collections": Array<"detector_fixture" | "scenario_corpus" | "universe_profile" | "mutation_registry" | "golden_plan">;
+  "promoted_artifact_refs": Array<ArtifactReference>;
+  "reviewer_notes": Array<string>;
+  "promotion_key": string;
+}
+
+export interface CounterexampleCandidateArtifact {
+  "schema_version": "planguard.counterexample-candidate.v1";
+  "artifact_kind": "counterexample_candidate";
+  "artifact_id": string;
+  "created_at": string;
+  "producer": ProducerIdentity;
+  "provenance": Provenance;
+  "payload": CounterexampleCandidatePayload;
+  "extensions": Record<string, Record<string, unknown>>;
+  "content_hash": string;
+}
+
+export interface CounterexampleCandidatePayload {
+  "source_ref": ArtifactReference;
+  "label": CounterexampleLabel;
+  "preserved_predicate": PreservedPredicate;
+  "scenario_instance_ref": ArtifactReference | null;
+  "novelty_signature_ref": ArtifactReference | null;
+  "status": WorkflowStatus;
+  "reporter_notes": Array<string>;
+  "tags": Array<string>;
+}
+
+export type CounterexampleLabel = "false_positive" | "false_negative" | "unexpected_regression" | "unexpected_non_regression" | "unclassified";
+
+export interface CoverageCell {
+  "cell_key": string;
+  "coordinates": Record<string, unknown>;
+  "status": CoverageCellStatus;
+  "strategy_keys": Array<string>;
+  "scenario_instance_refs": Array<ArtifactReference>;
+  "scenario_run_refs": Array<ArtifactReference>;
+  "capability_gaps": Array<string>;
+  "reasons": Array<string>;
+  "risk_weight": number;
+}
+
+export type CoverageCellStatus = "covered" | "uncovered" | "inapplicable" | "unsupported" | "unknown";
+
 export interface CoverageObligation {
   "obligation_key": string;
   "kind": string;
   "parameters": Record<string, unknown>;
   "description": string | null;
+}
+
+export interface CoverageReportArtifact {
+  "schema_version": "planguard.coverage-report.v1";
+  "artifact_kind": "coverage_report";
+  "artifact_id": string;
+  "created_at": string;
+  "producer": ProducerIdentity;
+  "provenance": Provenance;
+  "payload": CoverageReportPayload;
+  "extensions": Record<string, Record<string, unknown>>;
+  "content_hash": string;
+}
+
+export interface CoverageReportPayload {
+  "universe_ref": ArtifactReference;
+  "representative_set_ref": ArtifactReference | null;
+  "evaluated_instance_refs": Array<ArtifactReference>;
+  "evaluated_run_refs": Array<ArtifactReference>;
+  "cells": Array<CoverageCell>;
+  "dimension_coverage": Array<DimensionCoverage>;
+  "interaction_coverage": Array<InteractionCoverage>;
+  "status_counts": Record<string, number>;
+  "capability_gaps": Array<string>;
+  "novel_observation_refs": Array<ArtifactReference>;
+  "limitations": Array<string>;
+}
+
+export interface CoverageStrategyDefinition {
+  "strategy_key": string;
+  "kind": "partition" | "boundary" | "pairwise" | "three_way" | "motif" | "mutation" | "plan_node" | "plan_transition" | "decision_boundary" | "metamorphic" | "custom";
+  "dimensions": Array<string>;
+  "parameters": Record<string, unknown>;
+  "priority": number;
 }
 
 export interface DatabaseIdentity {
@@ -251,6 +449,35 @@ export interface DatasetManifestPayload {
   "dataset_fingerprint": string;
   "tenant_count": number;
   "metadata": Record<string, unknown>;
+}
+
+export interface DemonstrationCaseArtifact {
+  "schema_version": "planguard.demonstration-case.v1";
+  "artifact_kind": "demonstration_case";
+  "artifact_id": string;
+  "created_at": string;
+  "producer": ProducerIdentity;
+  "provenance": Provenance;
+  "payload": DemonstrationCasePayload;
+  "extensions": Record<string, Record<string, unknown>>;
+  "content_hash": string;
+}
+
+export interface DemonstrationCasePayload {
+  "case_key": string;
+  "title": string;
+  "description": string;
+  "scenario_template_ref": ArtifactReference;
+  "scenario_binding_ref": ArtifactReference;
+  "baseline_run_ref": ArtifactReference | null;
+  "candidate_run_ref": ArtifactReference | null;
+  "comparison_ref": ArtifactReference | null;
+  "policy_refs": Array<ArtifactReference>;
+  "benchmark_series_refs": Array<ArtifactReference>;
+  "documentation_path": string;
+  "expected_mechanisms": Array<string>;
+  "verified": boolean;
+  "tags": Array<string>;
 }
 
 export interface DetectorReceiptArtifact {
@@ -288,6 +515,14 @@ export interface DimensionAssessment {
   "candidate_value": unknown | null;
   "explanation": string;
   "affects": Array<"correctness" | "structure" | "plans" | "resources" | "timing">;
+}
+
+export interface DimensionCoverage {
+  "axis_key": string;
+  "covered_values": Array<string>;
+  "uncovered_values": Array<string>;
+  "unsupported_values": Array<string>;
+  "inapplicable_values": Array<string>;
 }
 
 export interface DistributionSpec {
@@ -345,6 +580,32 @@ export interface EvidenceClaim {
 export interface EvidencePayload {
   "run_id": string;
   "claims": Array<EvidenceClaim>;
+}
+
+export interface ExperimentSeriesArtifact {
+  "schema_version": "planguard.experiment-series.v1";
+  "artifact_kind": "experiment_series";
+  "artifact_id": string;
+  "created_at": string;
+  "producer": ProducerIdentity;
+  "provenance": Provenance;
+  "payload": ExperimentSeriesPayload;
+  "extensions": Record<string, Record<string, unknown>>;
+  "content_hash": string;
+}
+
+export interface ExperimentSeriesPayload {
+  "protocol_ref": ArtifactReference;
+  "scenario_series_ref": ArtifactReference | null;
+  "status": BenchmarkStatus;
+  "independent_dimension": string | null;
+  "samples": Array<BenchmarkSample>;
+  "distributions": Array<MetricDistribution>;
+  "scaling_assessments": Array<ScalingAssessment>;
+  "environment_refs": Array<ArtifactReference>;
+  "comparability_notes": Array<string>;
+  "capability_gaps": Array<string>;
+  "limitations": Array<string>;
 }
 
 export interface FamilyAggregates {
@@ -435,6 +696,13 @@ export interface FindingPayload {
 
 export type InferenceMethod = "observed" | "derived" | "inferred";
 
+export interface InteractionCoverage {
+  "strategy_key": string;
+  "covered": number;
+  "total": number;
+  "ratio": number;
+}
+
 export interface MetricDelta {
   "metric_key": string;
   "baseline": number | number | null;
@@ -445,6 +713,56 @@ export interface MetricDelta {
   "direction": "improved" | "regressed" | "unchanged" | "unknown";
   "validity": "valid" | "advisory" | "not_comparable" | "not_available";
   "explanation": string | null;
+}
+
+export interface MetricDistribution {
+  "metric_key": string;
+  "sample_count": number;
+  "excluded_count": number;
+  "minimum": number | null;
+  "maximum": number | null;
+  "mean": number | null;
+  "median": number | null;
+  "p95": number | null;
+  "standard_deviation": number | null;
+  "median_absolute_deviation": number | null;
+  "confidence_low": number | null;
+  "confidence_high": number | null;
+  "unit": string | null;
+}
+
+export interface MinimizationRunArtifact {
+  "schema_version": "planguard.minimization-run.v1";
+  "artifact_kind": "minimization_run";
+  "artifact_id": string;
+  "created_at": string;
+  "producer": ProducerIdentity;
+  "provenance": Provenance;
+  "payload": MinimizationRunPayload;
+  "extensions": Record<string, Record<string, unknown>>;
+  "content_hash": string;
+}
+
+export interface MinimizationRunPayload {
+  "candidate_ref": ArtifactReference;
+  "original_instance_ref": ArtifactReference;
+  "minimized_instance_ref": ArtifactReference | null;
+  "status": WorkflowStatus;
+  "steps": Array<MinimizationStep>;
+  "original_complexity": number;
+  "minimized_complexity": number | null;
+  "preserved_predicate": PreservedPredicate;
+  "capability_gaps": Array<string>;
+  "explanation": Array<string>;
+}
+
+export interface MinimizationStep {
+  "step_index": number;
+  "mutation": string;
+  "before": Record<string, unknown>;
+  "after": Record<string, unknown>;
+  "predicate_preserved": boolean;
+  "explanation": string;
 }
 
 export interface MotifConstraintDefinition {
@@ -491,6 +809,32 @@ export interface MutationDefinitionPayload {
   "description": string | null;
 }
 
+export interface NoveltySignatureArtifact {
+  "schema_version": "planguard.novelty-signature.v1";
+  "artifact_kind": "novelty_signature";
+  "artifact_id": string;
+  "created_at": string;
+  "producer": ProducerIdentity;
+  "provenance": Provenance;
+  "payload": NoveltySignaturePayload;
+  "extensions": Record<string, Record<string, unknown>>;
+  "content_hash": string;
+}
+
+export interface NoveltySignaturePayload {
+  "subject_ref": ArtifactReference;
+  "feature_vector": Record<string, unknown>;
+  "signature_hash": string;
+  "status": NoveltyStatus;
+  "novel_dimensions": Array<string>;
+  "nearest_signature_refs": Array<ArtifactReference>;
+  "distance": number | null;
+  "corpus_size": number;
+  "explanation": Array<string>;
+}
+
+export type NoveltyStatus = "novel" | "known" | "partial" | "not_evaluated";
+
 export interface ObservedQueryFamilyArtifact {
   "schema_version": "planguard.observed-query-family.v1";
   "artifact_kind": "observed_query_family";
@@ -536,6 +880,8 @@ export interface OracleEvaluation {
 export type OracleStatus = "satisfied" | "not_satisfied" | "unknown" | "not_evaluated";
 
 export type OriginCaptureMode = "none" | "first_application_frame" | "trimmed_application_stack" | "full_stack";
+
+export type OutlierPolicy = "none" | "iqr" | "mad";
 
 export type ParameterCaptureMode = "none" | "shape" | "shape_and_hash" | "preserve";
 
@@ -711,6 +1057,49 @@ export interface PlanObservationPayload {
   "capability_gaps": Array<string>;
 }
 
+export type PluginComponentType = "detector" | "reporter" | "family_dimension" | "selector_operator" | "workload_motif" | "plan_extractor" | "scenario_adapter" | "mutation" | "artifact_store" | "coverage_strategy";
+
+export type PluginDeterminism = "deterministic" | "environment_dependent" | "nondeterministic";
+
+export interface PluginManifestArtifact {
+  "schema_version": "planguard.plugin-manifest.v1";
+  "artifact_kind": "plugin_manifest";
+  "artifact_id": string;
+  "created_at": string;
+  "producer": ProducerIdentity;
+  "provenance": Provenance;
+  "payload": PluginManifestPayload;
+  "extensions": Record<string, Record<string, unknown>>;
+  "content_hash": string;
+}
+
+export interface PluginManifestPayload {
+  "plugin_key": string;
+  "plugin_version": string;
+  "package_name": string;
+  "entry_point_group": string;
+  "entry_point_name": string;
+  "component_type": PluginComponentType;
+  "contract_version": string;
+  "required_capabilities": Array<string>;
+  "accepted_schema_versions": Array<string>;
+  "emitted_schema_versions": Array<string>;
+  "determinism": PluginDeterminism;
+  "configuration_schema": Record<string, unknown>;
+  "safety_profile": Record<string, unknown>;
+  "enabled_by_default": boolean;
+  "description": string | null;
+  "tags": Array<string>;
+}
+
+export interface PreservedPredicate {
+  "predicate_key": string;
+  "kind": "finding_present" | "finding_absent" | "policy_failed" | "policy_passed" | "plan_transition" | "oracle_failed" | "custom";
+  "subject_ref": ArtifactReference | null;
+  "parameters": Record<string, unknown>;
+  "description": string;
+}
+
 export interface ProducerIdentity {
   "name": string;
   "version": string;
@@ -823,6 +1212,15 @@ export interface QueryTransaction {
 
 export type RawSqlMode = "omit" | "redact" | "preserve";
 
+export interface RedactionRule {
+  "rule_key": string;
+  "kind": "field_name" | "value_pattern" | "artifact_path" | "sql_literal" | "parameter_value" | "absolute_path" | "custom";
+  "pattern": string | null;
+  "replacement": string;
+  "risk_level": SecurityRiskLevel;
+  "enabled": boolean;
+}
+
 export interface RelativeRuleEvaluation {
   "rule_key": string;
   "status": EvaluationStatus;
@@ -833,9 +1231,72 @@ export interface RelativeRuleEvaluation {
   "message": string;
 }
 
+export interface ReleaseManifestArtifact {
+  "schema_version": "planguard.release-manifest.v1";
+  "artifact_kind": "release_manifest";
+  "artifact_id": string;
+  "created_at": string;
+  "producer": ProducerIdentity;
+  "provenance": Provenance;
+  "payload": ReleaseManifestPayload;
+  "extensions": Record<string, Record<string, unknown>>;
+  "content_hash": string;
+}
+
+export interface ReleaseManifestPayload {
+  "release_key": string;
+  "package_version": string;
+  "status": ReleaseStatus;
+  "plugin_contract_version": string;
+  "artifact_schema_versions": Array<string>;
+  "package_checksums": Record<string, string>;
+  "demonstration_case_refs": Array<ArtifactReference>;
+  "plugin_manifest_refs": Array<ArtifactReference>;
+  "documentation_paths": Array<string>;
+  "compatibility": Record<string, unknown>;
+  "validation_summary": Record<string, unknown>;
+  "security_audit_ref": ArtifactReference | null;
+  "trust_report_ref": ArtifactReference | null;
+  "release_notes": Array<string>;
+}
+
+export type ReleaseStatus = "draft" | "candidate" | "verified" | "rejected";
+
 export interface RemediationGuidance {
   "category": string;
   "guidance": Array<string>;
+}
+
+export interface RepresentativeSelection {
+  "scenario_instance_ref": ArtifactReference;
+  "covered_cell_keys": Array<string>;
+  "marginal_coverage": number;
+  "score": number;
+  "rationale": Array<string>;
+}
+
+export interface RepresentativeSetArtifact {
+  "schema_version": "planguard.representative-set.v1";
+  "artifact_kind": "representative_set";
+  "artifact_id": string;
+  "created_at": string;
+  "producer": ProducerIdentity;
+  "provenance": Provenance;
+  "payload": RepresentativeSetPayload;
+  "extensions": Record<string, Record<string, unknown>>;
+  "content_hash": string;
+}
+
+export interface RepresentativeSetPayload {
+  "universe_ref": ArtifactReference;
+  "strategy_keys": Array<string>;
+  "maximum_cases": number;
+  "seed": number;
+  "selections": Array<RepresentativeSelection>;
+  "covered_cell_keys": Array<string>;
+  "uncovered_cell_keys": Array<string>;
+  "unsupported_cell_keys": Array<string>;
+  "generation_notes": Array<string>;
 }
 
 export interface RoleBinding {
@@ -894,6 +1355,19 @@ export interface RuntimeComponent {
   "version": string | null;
   "details": Record<string, unknown>;
 }
+
+export interface ScalingAssessment {
+  "metric_key": string;
+  "independent_dimension": string;
+  "classification": ScalingClassification;
+  "slope": number | null;
+  "transition_at": unknown | null;
+  "sample_points": number;
+  "confidence": number;
+  "explanation": Array<string>;
+}
+
+export type ScalingClassification = "approximately_constant" | "approximately_linear" | "superlinear" | "sublinear" | "threshold_transition" | "inconclusive";
 
 export interface ScenarioBindingArtifact {
   "schema_version": "planguard.scenario-binding.v1";
@@ -1098,6 +1572,45 @@ export interface Score {
   "score": number;
 }
 
+export interface SecurityAuditArtifact {
+  "schema_version": "planguard.security-audit.v1";
+  "artifact_kind": "security_audit";
+  "artifact_id": string;
+  "created_at": string;
+  "producer": ProducerIdentity;
+  "provenance": Provenance;
+  "payload": SecurityAuditPayload;
+  "extensions": Record<string, Record<string, unknown>>;
+  "content_hash": string;
+}
+
+export interface SecurityAuditPayload {
+  "subject_refs": Array<ArtifactReference>;
+  "scanned_artifact_count": number;
+  "trust_state": TrustState;
+  "findings": Array<SecurityFinding>;
+  "status_counts": Record<string, number>;
+  "integrity_verified": number;
+  "integrity_failed": number;
+  "missing_reference_count": number;
+  "scanned_bytes": number;
+  "rules": Array<RedactionRule>;
+  "limitations": Array<string>;
+}
+
+export interface SecurityFinding {
+  "finding_key": string;
+  "risk_level": SecurityRiskLevel;
+  "category": string;
+  "artifact_ref": ArtifactReference | null;
+  "json_path": string | null;
+  "evidence": string;
+  "recommendation": string;
+  "automatically_redactable": boolean;
+}
+
+export type SecurityRiskLevel = "info" | "low" | "medium" | "high" | "critical";
+
 export interface SelectorExpression {
   "operator": SelectorOperator;
   "field": string | null;
@@ -1116,11 +1629,72 @@ export interface SourceFrame {
   "function": string | null;
 }
 
+export type TrustState = "trusted" | "partial" | "untrusted" | "quarantined" | "unknown";
+
+export interface UniverseAxis {
+  "axis_key": string;
+  "title": string;
+  "domain": ParameterDomain;
+  "source_kind": "scenario_parameter" | "registry" | "derived" | "capability" | "opaque";
+  "source_key": string | null;
+  "risk_weight": number;
+  "description": string | null;
+  "tags": Array<string>;
+}
+
+export interface UniverseConstraint {
+  "constraint_key": string;
+  "kind": UniverseConstraintKind;
+  "when": Array<UniversePredicate>;
+  "require": Array<UniversePredicate>;
+  "excluded": boolean;
+  "required_capabilities": Array<string>;
+  "explanation": string;
+}
+
+export type UniverseConstraintKind = "applicability" | "exclusion" | "implication" | "capability";
+
+export interface UniversePredicate {
+  "field": string;
+  "operator": "equals" | "not_equals" | "in" | "not_in" | "greater_than" | "greater_or_equal" | "less_than" | "less_or_equal" | "exists";
+  "value": unknown | null;
+}
+
+export interface UniverseProfileArtifact {
+  "schema_version": "planguard.universe-profile.v1";
+  "artifact_kind": "universe_profile";
+  "artifact_id": string;
+  "created_at": string;
+  "producer": ProducerIdentity;
+  "provenance": Provenance;
+  "payload": UniverseProfilePayload;
+  "extensions": Record<string, Record<string, unknown>>;
+  "content_hash": string;
+}
+
+export interface UniverseProfilePayload {
+  "universe_key": string;
+  "title": string;
+  "description": string;
+  "target_capabilities": Array<string>;
+  "axes": Array<UniverseAxis>;
+  "constraints": Array<UniverseConstraint>;
+  "strategies": Array<CoverageStrategyDefinition>;
+  "template_refs": Array<ArtifactReference>;
+  "binding_refs": Array<ArtifactReference>;
+  "mutation_refs": Array<ArtifactReference>;
+  "unknown_axis_policy": "preserve" | "reject";
+  "unsupported_analysis_policy": "capability_gap" | "reject";
+  "tags": Array<string>;
+}
+
 export interface VariantBinding {
   "variant_key": string;
   "target": string;
   "configuration": Record<string, unknown>;
 }
+
+export type WorkflowStatus = "created" | "running" | "completed" | "failed" | "rejected";
 
 export interface WorkloadEdge {
   "edge_id": string;
@@ -1213,7 +1787,7 @@ export interface WorkloadNode {
 
 export type WorkloadNodeKind = "operation" | "query_execution" | "query_family" | "transaction" | "finding" | "evidence" | "episode";
 
-export type AnyArtifact = RunManifestArtifact | EnvironmentProfileArtifact | CapturePolicyArtifact | CapabilityGapArtifact | QueryExecutionArtifact | QueryTemplateArtifact | FamilySchemeArtifact | ObservedQueryFamilyArtifact | EvidenceArtifact | FindingArtifact | DetectorReceiptArtifact | BudgetPolicyArtifact | BudgetEvaluationArtifact | AnalysisSummaryArtifact | WorkloadGraphArtifact | WorkloadMotifArtifact | WorkloadEpisodeArtifact | ScenarioTemplateArtifact | ScenarioBindingArtifact | ScenarioInstanceArtifact | ScenarioSeriesArtifact | ScenarioPhaseReceiptArtifact | ScenarioRunArtifact | DatasetManifestArtifact | MutationDefinitionArtifact | PlanObservationArtifact | PlanCollectionReceiptArtifact | ComparisonReportArtifact;
+export type AnyArtifact = RunManifestArtifact | EnvironmentProfileArtifact | CapturePolicyArtifact | CapabilityGapArtifact | QueryExecutionArtifact | QueryTemplateArtifact | FamilySchemeArtifact | ObservedQueryFamilyArtifact | EvidenceArtifact | FindingArtifact | DetectorReceiptArtifact | BudgetPolicyArtifact | BudgetEvaluationArtifact | AnalysisSummaryArtifact | WorkloadGraphArtifact | WorkloadMotifArtifact | WorkloadEpisodeArtifact | ScenarioTemplateArtifact | ScenarioBindingArtifact | ScenarioInstanceArtifact | ScenarioSeriesArtifact | ScenarioPhaseReceiptArtifact | ScenarioRunArtifact | DatasetManifestArtifact | MutationDefinitionArtifact | PlanObservationArtifact | PlanCollectionReceiptArtifact | ComparisonReportArtifact | UniverseProfileArtifact | RepresentativeSetArtifact | CoverageReportArtifact | NoveltySignatureArtifact | CounterexampleCandidateArtifact | MinimizationRunArtifact | CorpusPromotionArtifact | BenchmarkProtocolArtifact | ExperimentSeriesArtifact | SecurityAuditArtifact | ArtifactSanitizationArtifact | ArtifactTrustReportArtifact | PluginManifestArtifact | DemonstrationCaseArtifact | ReleaseManifestArtifact;
 
 export type MaterializedArtifact = AnyArtifact & {
   artifact_id: string;

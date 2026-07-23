@@ -1,0 +1,8 @@
+{
+  "artifact_id": "rel_1b641c343a0080678d9546e7220776ec",
+  "artifact_kind": "release_manifest",
+  "content_hash": "sha256:115b12287ea621e10ea56f01e810feb44ee95a18ce51cf18646187961adb6edd",
+  "created_at": "1970-01-01T00:00:00+00:00",
+  "path": "artifacts/rel_1b641c343a0080678d9546e7220776ec.json",
+  "schema_version": "planguard.release-manifest.v1"
+}

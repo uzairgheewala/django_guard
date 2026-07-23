@@ -1,0 +1,89 @@
+{
+  "artifact_id": "demo_07e127cf276063bc04cc035e45080774",
+  "artifact_kind": "demonstration_case",
+  "content_hash": "sha256:aa1e0b0f4ef0bbe2a83249408bc39c4f179f9fd05d224e3d909192243a04c7e1",
+  "created_at": "1970-01-01T00:00:00Z",
+  "extensions": {},
+  "payload": {
+    "baseline_run_ref": {
+      "artifact_id": "run_cf0693bd4a164211a496946bd0a12bca",
+      "artifact_kind": "run_manifest",
+      "content_hash": "sha256:3bf2050203119f33a45d6ad89dd08e9ff2d4076f7486e923cd5763503aee904a",
+      "schema_version": "planguard.run-manifest.v1"
+    },
+    "benchmark_series_refs": [],
+    "candidate_run_ref": null,
+    "case_key": "academic.aggregate-report.v1",
+    "comparison_ref": null,
+    "description": "Generic aggregate-report.v1 scenario bound to the deterministic academic laboratory.",
+    "documentation_path": "docs/cases/aggregate-report.md",
+    "expected_mechanisms": [
+      "report-amplification"
+    ],
+    "policy_refs": [
+      {
+        "artifact_id": "bpol_586e0be096964d3fa142d591a75023ed",
+        "artifact_kind": "budget_policy",
+        "content_hash": "sha256:f42a951424067a3be1f56c3f475c0a8ed6b4b6fc8317f22e2bc7b8e2d35f8b5d",
+        "schema_version": "planguard.budget-policy.v1"
+      },
+      {
+        "artifact_id": "bpol_04c12a9d8e3d4464b6acd48a20307eb8",
+        "artifact_kind": "budget_policy",
+        "content_hash": "sha256:25a9b074952ef9e91325cf8bf19bbaceee2058fdb711b5a54986ab5208a0ba9e",
+        "schema_version": "planguard.budget-policy.v1"
+      }
+    ],
+    "scenario_binding_ref": {
+      "artifact_id": "scb_4439e4a64da6db7c6cea29e6018dbf16",
+      "artifact_kind": "scenario_binding",
+      "content_hash": "sha256:6fcaeabaf997727383ecb9653fda167125a9808aa091732b294951b8ad612ecc",
+      "schema_version": "planguard.scenario-binding.v1"
+    },
+    "scenario_template_ref": {
+      "artifact_id": "sct_ecd8f1d69b92eca7a97a4389a91be4fc",
+      "artifact_kind": "scenario_template",
+      "content_hash": "sha256:f5f1bdb8619340e4ed7d5177c8faa48f917fbbb0c253665ce4a417e378115165",
+      "schema_version": "planguard.scenario-template.v1"
+    },
+    "tags": [
+      "academic",
+      "oss-case",
+      "aggregate-report.v1"
+    ],
+    "title": "Aggregate report amplification",
+    "verified": true
+  },
+  "producer": {
+    "build": "milestone-g-seed",
+    "name": "planguard",
+    "version": "0.7.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": "demonstration-case.v1",
+    "input_refs": [
+      {
+        "artifact_id": "sct_ecd8f1d69b92eca7a97a4389a91be4fc",
+        "artifact_kind": "scenario_template",
+        "content_hash": "sha256:f5f1bdb8619340e4ed7d5177c8faa48f917fbbb0c253665ce4a417e378115165",
+        "schema_version": "planguard.scenario-template.v1"
+      },
+      {
+        "artifact_id": "scb_4439e4a64da6db7c6cea29e6018dbf16",
+        "artifact_kind": "scenario_binding",
+        "content_hash": "sha256:6fcaeabaf997727383ecb9653fda167125a9808aa091732b294951b8ad612ecc",
+        "schema_version": "planguard.scenario-binding.v1"
+      },
+      {
+        "artifact_id": "run_cf0693bd4a164211a496946bd0a12bca",
+        "artifact_kind": "run_manifest",
+        "content_hash": "sha256:3bf2050203119f33a45d6ad89dd08e9ff2d4076f7486e923cd5763503aee904a",
+        "schema_version": "planguard.run-manifest.v1"
+      }
+    ],
+    "notes": []
+  },
+  "schema_version": "planguard.demonstration-case.v1"
+}

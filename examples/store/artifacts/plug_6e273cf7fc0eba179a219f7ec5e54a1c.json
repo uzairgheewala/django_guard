@@ -1,0 +1,46 @@
+{
+  "artifact_id": "plug_6e273cf7fc0eba179a219f7ec5e54a1c",
+  "artifact_kind": "plugin_manifest",
+  "content_hash": "sha256:26037973ea64f60fe87039ca2d0ef3ec8696074a5cf9c786e8e8f4380edadc24",
+  "created_at": "1970-01-01T00:00:00Z",
+  "extensions": {},
+  "payload": {
+    "accepted_schema_versions": [
+      "planguard.any-artifact.v1"
+    ],
+    "component_type": "artifact_store",
+    "configuration_schema": {},
+    "contract_version": "planguard.plugin.v1",
+    "description": "Immutable content-addressed local artifact store.",
+    "determinism": "environment_dependent",
+    "emitted_schema_versions": [
+      "planguard.any-artifact.v1"
+    ],
+    "enabled_by_default": true,
+    "entry_point_group": "planguard.plugins",
+    "entry_point_name": "filesystem-store",
+    "package_name": "planguard",
+    "plugin_key": "core.filesystem-store.v1",
+    "plugin_version": "1.0.0",
+    "required_capabilities": [],
+    "safety_profile": {
+      "atomic_writes": true,
+      "content_addressed": true,
+      "network_access": false
+    },
+    "tags": []
+  },
+  "producer": {
+    "build": "milestone-g-seed",
+    "name": "planguard",
+    "version": "0.7.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": "builtin-plugin-manifest.v1",
+    "input_refs": [],
+    "notes": []
+  },
+  "schema_version": "planguard.plugin-manifest.v1"
+}

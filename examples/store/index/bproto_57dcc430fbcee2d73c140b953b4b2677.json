@@ -1,0 +1,8 @@
+{
+  "artifact_id": "bproto_57dcc430fbcee2d73c140b953b4b2677",
+  "artifact_kind": "benchmark_protocol",
+  "content_hash": "sha256:d1ad6f8d0bda97fa0a0bc687bb5017a7ef17cac87b9dcdd115281e3673483c88",
+  "created_at": "1970-01-01T00:00:00+00:00",
+  "path": "artifacts/bproto_57dcc430fbcee2d73c140b953b4b2677.json",
+  "schema_version": "planguard.benchmark-protocol.v1"
+}

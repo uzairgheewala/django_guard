@@ -1,0 +1,44 @@
+{
+  "artifact_id": "plug_1ac1ac72c220c47e94fddec1a6759ee3",
+  "artifact_kind": "plugin_manifest",
+  "content_hash": "sha256:10cb4008d31497f9c08626115af54f9b4ad939d771e91c294ed1ccd80e6f46b9",
+  "created_at": "1970-01-01T00:00:00Z",
+  "extensions": {},
+  "payload": {
+    "accepted_schema_versions": [],
+    "component_type": "scenario_adapter",
+    "configuration_schema": {},
+    "contract_version": "planguard.plugin.v1",
+    "description": "Deterministic multi-tenant academic workload laboratory.",
+    "determinism": "deterministic",
+    "emitted_schema_versions": [
+      "planguard.scenario-run.v1",
+      "planguard.dataset-manifest.v1"
+    ],
+    "enabled_by_default": true,
+    "entry_point_group": "planguard.plugins",
+    "entry_point_name": "academic-lab",
+    "package_name": "planguard",
+    "plugin_key": "core.academic-lab.v1",
+    "plugin_version": "1.0.0",
+    "required_capabilities": [
+      "scenario.execution",
+      "query.capture.manual"
+    ],
+    "safety_profile": {},
+    "tags": []
+  },
+  "producer": {
+    "build": "milestone-g-seed",
+    "name": "planguard",
+    "version": "0.7.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": "builtin-plugin-manifest.v1",
+    "input_refs": [],
+    "notes": []
+  },
+  "schema_version": "planguard.plugin-manifest.v1"
+}

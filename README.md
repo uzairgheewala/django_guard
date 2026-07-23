@@ -1,78 +1,109 @@
-# PlanGuard — Milestone E
+# PlanGuard — Milestone G
 
-Milestone E adds safe PostgreSQL plan intelligence and comparability-first optimization analysis on top of the Milestone D generic scenario laboratory.
-
-```text
-captured query family
-  → representative parameter regime
-  → safety policy
-  → EXPLAIN / authorized EXPLAIN ANALYZE
-  → canonical plan tree and features
-  → evidence-backed plan findings
-  → baseline/candidate comparability assessment
-  → workload, family, plan, finding, and resource diffs
-  → relative regression policy
-```
-
-The source of truth remains immutable, versioned JSON artifacts. PostgreSQL plans and comparisons are not frontend-only views, and the SQLite workbench index remains disposable.
-
-## Milestone E capabilities
-
-### PostgreSQL plan engine
-
-- safe collection policies: `disabled`, `estimated_only`, `analyze_safe_selects`, `explicit_allowlist`, and `imported`;
-- explicit statement timeout and read-only/volatile-shape checks before `EXPLAIN ANALYZE`;
-- imported `FORMAT JSON` plans for offline analysis and CI fixtures;
-- canonical plan nodes with relation, index, join, estimates, actuals, loops, buffers, temporary I/O, memory, filters, and unknown-attribute preservation;
-- stable semantic plan-shape fingerprints;
-- parameter-regime and representative-execution provenance;
-- collection receipts for collected, rejected, failed, skipped, and capability-missing attempts;
-- contextual findings for high-volume sequential scans, cardinality misestimation, disk spills, and nested-loop multiplication.
-
-Plan operators are never treated as inherently bad. Findings carry evidence, confidence, limitations, and conservative remediation guidance.
-
-### Comparison engine
-
-Every comparison assesses these dimensions before interpreting deltas:
-
-- scenario template and binding;
-- scenario parameters and deterministic seed;
-- implementation variant;
-- environment profile;
-- capture policy.
-
-Each dimension is classified as:
+PlanGuard is an artifact-first Django/PostgreSQL workload analysis, experiment, and regression platform. Milestone G completes the mature standalone OSS boundary: repeatable benchmark series, operational safety and sanitization, versioned plugin contracts, and a verified demonstration/release corpus.
 
 ```text
-identical
-compatible
-controlled_change
-confounding_change
-unknown
+captured workload evidence
+  → query families and workload motifs
+  → PostgreSQL plans and semantic comparisons
+  → generic scenarios and declared-universe coverage
+  → repeated benchmark series
+  → security audit and trust verification
+  → versioned plugins and demonstration cases
+  → immutable release manifest
 ```
 
-The overall comparison becomes `valid`, `valid_with_controlled_changes`, `degraded`, or `invalid`. Structural and plan comparisons can remain useful when timing evidence is merely advisory.
+Canonical JSON artifacts remain the source of truth. The SQLite workbench index is disposable, timing evidence is explicitly qualified by comparability, and an extension cannot silently invent new persisted semantics outside the versioned artifact boundary.
 
-Comparison reports include:
+## Milestone G capabilities
 
-- query, template, family, finding, and database-time deltas;
-- query-family added/removed/changed/split/merged classifications;
-- semantic plan transitions such as `Seq Scan → Index Scan`;
-- index-set, buffer, temporary-I/O, and actual-execution-time deltas;
-- introduced and resolved finding mechanisms;
-- relative policy evaluations;
-- a provenance-linked evidence narrative and limitations.
+### Reliable experiment series
+
+`BenchmarkProtocolArtifact` declares:
+
+- warm-up and measured iterations;
+- cache-state protocol;
+- randomization and deterministic seed;
+- outlier policy;
+- confidence level;
+- dimension domains;
+- concurrency levels;
+- required environment fields;
+- metrics and timeouts.
+
+`ExperimentSeriesArtifact` retains every sample, including warm-ups, failed workers, exclusions, environment references, robust metric distributions, and conservative observed-scaling assessments. PlanGuard reports approximately constant, sublinear, approximately linear, superlinear, threshold-transition, or inconclusive behavior over the measured range. It does not claim formal Big-O complexity from a short benchmark.
+
+The generic concurrency harness starts workers behind one barrier and records wall time, throughput, errors, timeouts, and adapter-provided lock/resource metrics.
+
+### Artifact security and operational hardening
+
+Milestone G adds:
+
+- HMAC-safe capture defaults retained from earlier milestones;
+- pattern-backed security audits;
+- explicit findings for preserved SQL and parameter values;
+- credential, bearer-token, email, payment-card, private-key, and path detection;
+- schema-preserving sanitized derivative artifacts;
+- sanitization receipts with exact redacted paths;
+- content-hash and provenance-reference trust reports;
+- invalid-import quarantine;
+- import-size, audit-size, capture-size, and store-quota controls;
+- explorer/laboratory and live-plan execution gates.
+
+A clean scanner result does not prove that an artifact contains no sensitive information. The limitation is persisted in each security audit.
+
+### Stable plugin contracts
+
+Every extension is represented by a `PluginManifestArtifact` declaring:
+
+- plugin key and version;
+- Python package and entry point;
+- component type;
+- accepted and emitted artifact schemas;
+- required capabilities;
+- determinism class;
+- configuration schema;
+- safety profile;
+- default enablement.
+
+Built-in manifests cover detectors, PostgreSQL plan extractors, the academic scenario adapter, coverage strategies, the filesystem store, and reporters. Third-party entry points use the `planguard.plugins` group. Duplicate keys and unavailable required capabilities fail explicitly. Optional execution is bounded by a timeout contract.
+
+### Demonstration corpus and releases
+
+A `DemonstrationCaseArtifact` binds one reusable case to:
+
+- generic scenario template;
+- application binding;
+- baseline and candidate runs when available;
+- semantic comparison;
+- policies;
+- benchmark series;
+- case documentation;
+- expected mechanisms.
+
+A `ReleaseManifestArtifact` binds package version, all artifact schema versions, plugin contract version, demonstration cases, security/trust evidence, compatibility, checksums, documentation, and validation results into one immutable release candidate.
+
+Eight documented academic bindings are seeded:
+
+1. relation fan-out;
+2. nested fan-out;
+3. repeated evaluation;
+4. count then fetch;
+5. per-item check/write;
+6. aggregate-report amplification;
+7. offset-pagination degradation;
+8. tenant-skew sensitivity.
 
 ### Workbench UI
 
 New surfaces:
 
-- `/plans/{plan_id}` — canonical plan tree, actual-versus-estimated metrics, resource features, and raw plan JSON;
-- `/comparisons` — select baseline and candidate runs and create a persisted report;
-- `/comparisons/{comparison_id}` — comparability dimensions, metrics, family changes, plan transitions, and policy results;
-- the Run Explorer now has a Plans tab linked to the same canonical plan artifacts.
+- `/benchmarks` — protocols, repeated series, robust distributions, and observed scaling;
+- `/security` — audits, trust checks, and schema-preserving sanitization;
+- `/plugins` — built-in and discovered plugin contracts;
+- `/release` — demonstration verification and release-manifest construction.
 
-Existing Scenario Studio, workload graph, query-family, motif, policy, artifact, and capability surfaces remain available.
+All prior run, family, workload-graph, scenario, plan, comparison, universe, detector, policy, artifact, and capability surfaces remain available.
 
 ## Install
 
@@ -82,57 +113,34 @@ python -m pip install -e '.[api]'
 python -m pip install -e '.[dev]'
 ```
 
-## Imported-plan usage
-
-```python
-import json
-
-from planguard.artifacts.models import ProducerIdentity
-from planguard.postgres import analyze_plan, import_plan
-
-plan, receipt = import_plan(
-    raw_plan=json.loads(open("plan.json").read()),
-    run_id="run_example",
-    query_family_ref=family.reference(),
-    producer=ProducerIdentity(name="demo", version="1"),
-)
-evidence, findings = analyze_plan(
-    plan,
-    producer=ProducerIdentity(name="demo", version="1"),
-    high_volume_relations=frozenset({"enrollment"}),
-)
-```
-
-## Safe live collection
-
-```python
-from planguard.artifacts.models import PlanCollectionMode, ProducerIdentity
-from planguard.postgres import PlanCollectionPolicy, collect_plan
-
-plan, receipt = collect_plan(
-    connection=django_connection,
-    sql="SELECT * FROM enrollment WHERE student_id = %s",
-    params=[17],
-    run_id=run_id,
-    query_family_ref=family.reference(),
-    producer=ProducerIdentity(name="demo", version="1"),
-    policy=PlanCollectionPolicy(
-        mode=PlanCollectionMode.ESTIMATED_ONLY,
-        statement_timeout_ms=2_000,
-    ),
-)
-```
-
-`EXPLAIN ANALYZE` remains opt-in. The workbench endpoint that executes plans is disabled unless `PLANGUARD_PLAN_EXECUTION_ENABLED=1`.
-
-## CLI
+## Core CLI workflows
 
 ```bash
-planguard plan-import RUN_ID FAMILY_ID plan.json --store examples/store --persist
-planguard compare BASELINE_RUN_ID CANDIDATE_RUN_ID --store examples/store --persist
+# Benchmark protocols and a repeated series
+planguard benchmark-catalog --store examples/store
+planguard benchmark-run BENCHMARK_PROTOCOL_ID \
+  --metric-model linear \
+  --store examples/store \
+  --persist
+
+# Security and trust
+planguard security-audit --all --store examples/store --persist
+planguard sanitize-artifact ARTIFACT_ID --store examples/store --persist
+planguard trust-verify --all --store examples/store --persist
+
+# Plugin contracts
+planguard plugin-list --discover --store examples/store --persist
+
+# Demonstration and release verification
+planguard demo-verify --store examples/store
+planguard release-build \
+  --release-key planguard-0.7.0 \
+  --status candidate \
+  --store examples/store \
+  --persist
 ```
 
-All prior capture, inspect, report, policy, search, export, and scenario commands remain available.
+All previous capture, query-family, policy, workload, scenario, plan, comparison, universe, novelty, and counterexample commands remain available.
 
 ## Workbench
 
@@ -147,12 +155,19 @@ npm install
 npm run dev
 ```
 
-## New contracts
+Invalid imports are quarantined beneath the configured `PLANGUARD_QUARANTINE` directory. Live PostgreSQL plan execution remains disabled unless explicitly enabled.
+
+## New Milestone G contracts
 
 ```text
-planguard.plan-observation.v1
-planguard.plan-collection-receipt.v1
-planguard.comparison-report.v1
+planguard.benchmark-protocol.v1
+planguard.experiment-series.v1
+planguard.security-audit.v1
+planguard.artifact-sanitization.v1
+planguard.artifact-trust-report.v1
+planguard.plugin-manifest.v1
+planguard.demonstration-case.v1
+planguard.release-manifest.v1
 ```
 
 Regenerate JSON Schema and TypeScript contracts with:
@@ -168,14 +183,30 @@ make seed
 pytest
 ```
 
-The Milestone E seed creates a naïve and optimized relation-fan-out pair with the same template, binding, parameters, and deterministic seed. It imports representative analyzed-format sequential-scan and index-scan fixtures without executing SQL, persists explicit import receipts, and creates a `valid_with_controlled_changes` comparison protected by a relative query-count policy.
+The Milestone G seed adds benchmark protocols and series, plugin manifests, a deliberately unsafe capture-policy sample and its sanitized derivative, a security audit, a trust report, eight demonstration cases, and one verified release manifest.
 
-## Safety and scope
+## Documentation
 
-- no ORM or SQL rewriting;
-- no automatic index creation;
-- no arbitrary query execution from imported artifacts;
-- `EXPLAIN ANALYZE` requires an execution-enabled workbench and a safety policy;
-- write-shaped and volatile-looking statements are rejected for analysis by default;
-- timing evidence is downgraded when environment comparability is incomplete;
-- raw plans preserve unknown PostgreSQL fields instead of silently discarding unsupported semantics.
+- [Architecture](docs/architecture.md)
+- [Benchmark methodology](docs/benchmarking.md)
+- [Security and redaction](docs/security.md)
+- [Plugin contracts](docs/plugins.md)
+- [Artifact schema policy](docs/artifact-schemas.md)
+- [Milestone G implementation record](docs/milestone-g-implementation.md)
+- [Contributing](CONTRIBUTING.md)
+- [Security policy](SECURITY.md)
+- [Contributing guide](CONTRIBUTING.md)
+- [Code of conduct](CODE_OF_CONDUCT.md)
+- [Apache 2.0 license](LICENSE)
+- [Changelog](CHANGELOG.md)
+
+## Scope and honesty
+
+- performance timing is advisory when environment comparability is degraded;
+- observed scaling is not a proof of asymptotic complexity;
+- scanner coverage cannot prove the absence of sensitive information;
+- sanitization creates a new derivative and never mutates the original artifact;
+- unknown plugin schemas and capabilities remain explicit;
+- third-party plugins are not trusted merely because discovery succeeds;
+- no ORM/SQL rewriting or automatic index creation is introduced;
+- Pathforge integration remains a later adapter boundary rather than a PlanGuard core dependency.

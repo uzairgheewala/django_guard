@@ -1,0 +1,8 @@
+{
+  "artifact_id": "mut_8107d553cf099e9a5b3d6cceda978e1e",
+  "artifact_kind": "mutation_definition",
+  "content_hash": "sha256:20d460b6973bb962dfdebbaa35e53b026ceb0288e1d7aaad2a576bf78155db22",
+  "created_at": "1970-01-01T00:00:00+00:00",
+  "path": "artifacts/mut_8107d553cf099e9a5b3d6cceda978e1e.json",
+  "schema_version": "planguard.mutation-definition.v1"
+}

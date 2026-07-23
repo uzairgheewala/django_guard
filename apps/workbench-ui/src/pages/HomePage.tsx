@@ -17,9 +17,9 @@ export function HomePage() {
     <section>
       <header className="page-header">
         <div>
-          <p className="eyebrow">Milestone E</p>
-          <h1>Plan intelligence and optimization evidence</h1>
-          <p>Move from captured workload families into contextual PostgreSQL plans, then compare baseline and candidate runs only after their scenario and environment dimensions have been qualified.</p>
+          <p className="eyebrow">Milestone G</p>
+          <h1>Reliable experiments, safe artifacts, and OSS maturity</h1>
+          <p>Run repeatable experiment series, protect sensitive evidence, verify artifact trust, inspect plugin contracts, and publish reproducible demonstration cases through immutable release manifests.</p>
         </div>
       </header>
 
@@ -28,19 +28,19 @@ export function HomePage() {
         <article className="metric-card"><span>Artifacts</span><strong>{stats?.total_artifacts ?? "—"}</strong><small>Canonical source documents</small></article>
         <article className="metric-card"><span>Runs</span><strong>{stats?.runs ?? "—"}</strong><small>Captured operations</small></article>
         <article className="metric-card"><span>Findings</span><strong>{stats?.findings ?? "—"}</strong><small>Evidence-backed interpretations</small></article>
-        <article className="metric-card"><span>Plans</span><strong>{stats?.plans ?? "—"}</strong><small>Canonical PostgreSQL observations</small></article>
+        <article className="metric-card"><span>Benchmarks</span><strong>{stats?.benchmark_series ?? "—"}</strong><small>Repeated experiment series</small></article>
       </div>
 
       <div className="callout">
-        <div><h2>Validate an optimization</h2><p>Select baseline and candidate runs, inspect controlled and confounding dimensions, and compare workload families, plans, findings, and resource evidence.</p></div>
-        <Link className="primary-button" to="/comparisons">Open Comparison Workbench</Link>
+        <div><h2>Run a controlled experiment series</h2><p>Separate warm-ups, retain failures and exclusions, inspect robust summaries, and avoid mistaking one noisy timing for a causal optimization.</p></div>
+        <Link className="primary-button" to="/benchmarks">Open Benchmark Lab</Link>
       </div>
 
       <div className="section-grid">
-        <article className="panel"><h2>Plans are contextual</h2><p>Scan and join operators are interpreted with relation, parameter-regime, actual-row, buffer, and collection-policy evidence.</p></article>
-        <article className="panel"><h2>Comparability first</h2><p>Scenario, seed, environment, capture policy, and intended implementation changes are qualified before timing deltas are treated as meaningful.</p></article>
-        <article className="panel"><h2>Semantic plan diffs</h2><p>Plan comparisons emphasize operator, relation, index, cardinality, loop, buffer, and spill transitions rather than unstable raw JSON.</p></article>
-        <article className="panel"><h2>Relative guards</h2><p>Versioned policies can require reductions or cap regressions against a qualified baseline.</p></article>
+        <article className="panel"><h2>Reliable experiment series</h2><p>Protocols capture warm-ups, repetitions, cache conditions, exclusions, distributions, and observed scaling over declared dimensions.</p></article>
+        <article className="panel"><h2>Artifact security</h2><p>Pattern-backed audits, schema-preserving sanitization, integrity verification, quotas, and quarantine keep evidence sharing explicit.</p></article>
+        <article className="panel"><h2>Versioned plugins</h2><p>Every extension declares its component type, schemas, capabilities, determinism, configuration, and safety profile.</p></article>
+        <article className="panel"><h2>Reproducible OSS cases</h2><p>Demonstration cases and release manifests bind canonical inputs, documentation, checksums, security evidence, and validation results.</p></article>
       </div>
 
       <article className="panel recent-runs-panel">

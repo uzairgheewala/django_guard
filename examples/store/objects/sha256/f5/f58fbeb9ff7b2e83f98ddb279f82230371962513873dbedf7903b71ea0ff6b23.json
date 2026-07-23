@@ -1,0 +1,70 @@
+{
+  "artifact_id": "sanrec_0b50b2cecf144ed1940d3c19a832a6c9",
+  "artifact_kind": "artifact_sanitization",
+  "content_hash": "sha256:f58fbeb9ff7b2e83f98ddb279f82230371962513873dbedf7903b71ea0ff6b23",
+  "created_at": "2026-07-23T14:38:17.311302Z",
+  "extensions": {},
+  "payload": {
+    "after_bytes": 1162,
+    "applied_rule_keys": [
+      "absolute-path.v1",
+      "bearer-token.v1",
+      "credential-field.v1",
+      "email-address.v1",
+      "payment-card.v1",
+      "preserved-parameter.v1",
+      "preserved-sql.v1",
+      "private-key.v1"
+    ],
+    "before_bytes": 977,
+    "preserved_structure": true,
+    "redacted_paths": [
+      "$.extensions.dev.planguard.demo.api_key",
+      "$.payload.notes[0]",
+      "$.payload.policy_key",
+      "$.payload.raw_sql_mode"
+    ],
+    "sanitized_ref": {
+      "artifact_id": "san_afe12d23f89844ae8a52387b2e0a38dd",
+      "artifact_kind": "capture_policy",
+      "content_hash": "sha256:a2686dcdee3314da4862901367d59e606479cb16e808a68863b2907e078c808c",
+      "schema_version": "planguard.capture-policy.v1"
+    },
+    "source_ref": {
+      "artifact_id": "cap_b13814964c6540f59dd58c4601ad9296",
+      "artifact_kind": "capture_policy",
+      "content_hash": "sha256:fa0ff1d5711669935f0dfcee85b7ad8b613322826fded97fdd9de899674a4abd",
+      "schema_version": "planguard.capture-policy.v1"
+    },
+    "status": "completed",
+    "warnings": [
+      "The sanitized artifact must be re-audited before external sharing."
+    ]
+  },
+  "producer": {
+    "build": "milestone-g-seed",
+    "name": "planguard",
+    "version": "0.7.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": "artifact-sanitization-receipt.v1",
+    "input_refs": [
+      {
+        "artifact_id": "cap_b13814964c6540f59dd58c4601ad9296",
+        "artifact_kind": "capture_policy",
+        "content_hash": "sha256:fa0ff1d5711669935f0dfcee85b7ad8b613322826fded97fdd9de899674a4abd",
+        "schema_version": "planguard.capture-policy.v1"
+      },
+      {
+        "artifact_id": "san_afe12d23f89844ae8a52387b2e0a38dd",
+        "artifact_kind": "capture_policy",
+        "content_hash": "sha256:a2686dcdee3314da4862901367d59e606479cb16e808a68863b2907e078c808c",
+        "schema_version": "planguard.capture-policy.v1"
+      }
+    ],
+    "notes": []
+  },
+  "schema_version": "planguard.artifact-sanitization.v1"
+}

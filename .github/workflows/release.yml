@@ -1,0 +1,31 @@
+name: Release candidate
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install --upgrade pip build
+      - run: python -m pip install -e '.[dev]'
+      - run: python scripts/generate_contracts.py --check
+      - run: pytest
+      - run: python -m build
+      - run: PYTHONPATH=packages/planguard-core/src python -m planguard.cli verify --store examples/store
+      - run: PYTHONPATH=packages/planguard-core/src python -m planguard.cli demo-verify --store examples/store
+      - run: PYTHONPATH=packages/planguard-core/src python -m planguard.cli release-build --store examples/store --status candidate
+      - uses: actions/upload-artifact@v4
+        with:
+          name: distributions
+          path: dist/*

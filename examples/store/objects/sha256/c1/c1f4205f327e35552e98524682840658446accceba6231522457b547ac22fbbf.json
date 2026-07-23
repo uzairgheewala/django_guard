@@ -1,0 +1,89 @@
+{
+  "artifact_id": "demo_cbfe7630a3c84dfd1b6b07df3738bd1d",
+  "artifact_kind": "demonstration_case",
+  "content_hash": "sha256:c1f4205f327e35552e98524682840658446accceba6231522457b547ac22fbbf",
+  "created_at": "1970-01-01T00:00:00Z",
+  "extensions": {},
+  "payload": {
+    "baseline_run_ref": {
+      "artifact_id": "run_d50f7fbabfc147558c1edc913b343aed",
+      "artifact_kind": "run_manifest",
+      "content_hash": "sha256:cab2133bb5b17a8161ed347d821f0314dddbe27dab7fc14818d862ec39d1895b",
+      "schema_version": "planguard.run-manifest.v1"
+    },
+    "benchmark_series_refs": [],
+    "candidate_run_ref": null,
+    "case_key": "academic.tenant-skew-sensitivity.v1",
+    "comparison_ref": null,
+    "description": "Generic tenant-skew-sensitivity.v1 scenario bound to the deterministic academic laboratory.",
+    "documentation_path": "docs/cases/tenant-skew.md",
+    "expected_mechanisms": [
+      "data-skew-sensitivity"
+    ],
+    "policy_refs": [
+      {
+        "artifact_id": "bpol_586e0be096964d3fa142d591a75023ed",
+        "artifact_kind": "budget_policy",
+        "content_hash": "sha256:f42a951424067a3be1f56c3f475c0a8ed6b4b6fc8317f22e2bc7b8e2d35f8b5d",
+        "schema_version": "planguard.budget-policy.v1"
+      },
+      {
+        "artifact_id": "bpol_04c12a9d8e3d4464b6acd48a20307eb8",
+        "artifact_kind": "budget_policy",
+        "content_hash": "sha256:25a9b074952ef9e91325cf8bf19bbaceee2058fdb711b5a54986ab5208a0ba9e",
+        "schema_version": "planguard.budget-policy.v1"
+      }
+    ],
+    "scenario_binding_ref": {
+      "artifact_id": "scb_87930782421be46ffc59bc644f7febc5",
+      "artifact_kind": "scenario_binding",
+      "content_hash": "sha256:eeafbe89e645c445145d6eab974b3eeffc1ceb1bb4610e577940adaaeb49d480",
+      "schema_version": "planguard.scenario-binding.v1"
+    },
+    "scenario_template_ref": {
+      "artifact_id": "sct_78188718a6f276a57d4b7c364ca228b3",
+      "artifact_kind": "scenario_template",
+      "content_hash": "sha256:f2134bc99c20534fa50d60fc12865884281a1c42df83c2d2de59a1f683f0e8fd",
+      "schema_version": "planguard.scenario-template.v1"
+    },
+    "tags": [
+      "academic",
+      "oss-case",
+      "tenant-skew-sensitivity.v1"
+    ],
+    "title": "Tenant skew sensitivity",
+    "verified": true
+  },
+  "producer": {
+    "build": "milestone-g-seed",
+    "name": "planguard",
+    "version": "0.7.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": "demonstration-case.v1",
+    "input_refs": [
+      {
+        "artifact_id": "sct_78188718a6f276a57d4b7c364ca228b3",
+        "artifact_kind": "scenario_template",
+        "content_hash": "sha256:f2134bc99c20534fa50d60fc12865884281a1c42df83c2d2de59a1f683f0e8fd",
+        "schema_version": "planguard.scenario-template.v1"
+      },
+      {
+        "artifact_id": "scb_87930782421be46ffc59bc644f7febc5",
+        "artifact_kind": "scenario_binding",
+        "content_hash": "sha256:eeafbe89e645c445145d6eab974b3eeffc1ceb1bb4610e577940adaaeb49d480",
+        "schema_version": "planguard.scenario-binding.v1"
+      },
+      {
+        "artifact_id": "run_d50f7fbabfc147558c1edc913b343aed",
+        "artifact_kind": "run_manifest",
+        "content_hash": "sha256:cab2133bb5b17a8161ed347d821f0314dddbe27dab7fc14818d862ec39d1895b",
+        "schema_version": "planguard.run-manifest.v1"
+      }
+    ],
+    "notes": []
+  },
+  "schema_version": "planguard.demonstration-case.v1"
+}

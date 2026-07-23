@@ -1,0 +1,50 @@
+{
+  "artifact_id": "san_afe12d23f89844ae8a52387b2e0a38dd",
+  "artifact_kind": "capture_policy",
+  "content_hash": "sha256:a2686dcdee3314da4862901367d59e606479cb16e808a68863b2907e078c808c",
+  "created_at": "2026-07-23T14:38:17.302081Z",
+  "extensions": {
+    "dev.planguard.demo": {
+      "api_key": "[REDACTED]"
+    }
+  },
+  "payload": {
+    "application_roots": [],
+    "exclude_module_patterns": [],
+    "hmac_key_id": null,
+    "include_connection_aliases": [],
+    "limits": {
+      "max_artifact_bytes": 100000000,
+      "max_query_count": 100000,
+      "max_raw_sql_bytes": 1000000,
+      "max_stack_depth": 32
+    },
+    "notes": [
+      "Authorization: [REDACTED]"
+    ],
+    "origin_capture_mode": "first_application_frame",
+    "parameter_capture_mode": "preserve",
+    "policy_key": "[REDACTED]",
+    "raw_sql_mode": "redact"
+  },
+  "producer": {
+    "build": "milestone-g-seed",
+    "name": "planguard",
+    "version": "0.7.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": "artifact-sanitization.v1",
+    "input_refs": [
+      {
+        "artifact_id": "cap_b13814964c6540f59dd58c4601ad9296",
+        "artifact_kind": "capture_policy",
+        "content_hash": "sha256:fa0ff1d5711669935f0dfcee85b7ad8b613322826fded97fdd9de899674a4abd",
+        "schema_version": "planguard.capture-policy.v1"
+      }
+    ],
+    "notes": []
+  },
+  "schema_version": "planguard.capture-policy.v1"
+}

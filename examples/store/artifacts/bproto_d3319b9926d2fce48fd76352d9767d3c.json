@@ -1,0 +1,61 @@
+{
+  "artifact_id": "bproto_d3319b9926d2fce48fd76352d9767d3c",
+  "artifact_kind": "benchmark_protocol",
+  "content_hash": "sha256:2ce702d36dc979c63a49556123cd8c481250f75399d27276a2dc14b82a43148e",
+  "created_at": "1970-01-01T00:00:00Z",
+  "extensions": {},
+  "payload": {
+    "cache_protocol": "warm",
+    "concurrency_levels": [
+      1,
+      2,
+      4,
+      8
+    ],
+    "confidence_level": 0.95,
+    "dimensions": [
+      {
+        "dimension_key": "concurrency",
+        "ordered": true,
+        "unit": "workers",
+        "values": [
+          1,
+          2,
+          4,
+          8
+        ]
+      }
+    ],
+    "measured_iterations": 5,
+    "metrics": [
+      "wall_time_ms",
+      "throughput_ops_s",
+      "error_count",
+      "lock_wait_ms"
+    ],
+    "notes": [
+      "A concurrency series must report failed and timed-out workers rather than omitting them."
+    ],
+    "outlier_policy": "iqr",
+    "protocol_key": "concurrent-write-pressure.v1",
+    "random_seed": 1,
+    "randomize_case_order": false,
+    "required_environment_fields": [],
+    "timeout_seconds": 60.0,
+    "title": "Concurrent write pressure",
+    "warmup_iterations": 1
+  },
+  "producer": {
+    "build": "milestone-g-seed",
+    "name": "planguard",
+    "version": "0.7.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": "builtin-benchmark-protocol.v1",
+    "input_refs": [],
+    "notes": []
+  },
+  "schema_version": "planguard.benchmark-protocol.v1"
+}

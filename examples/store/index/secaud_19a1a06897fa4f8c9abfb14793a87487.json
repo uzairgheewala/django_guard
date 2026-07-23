@@ -1,0 +1,8 @@
+{
+  "artifact_id": "secaud_19a1a06897fa4f8c9abfb14793a87487",
+  "artifact_kind": "security_audit",
+  "content_hash": "sha256:204b290cff1444a410ad620a90404f6bda5c3608067095d21a98c491a03bb79f",
+  "created_at": "2026-07-23T14:38:17.310619+00:00",
+  "path": "artifacts/secaud_19a1a06897fa4f8c9abfb14793a87487.json",
+  "schema_version": "planguard.security-audit.v1"
+}

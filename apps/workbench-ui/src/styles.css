@@ -355,3 +355,60 @@ select, input[type="number"] { min-width: 190px; border: 1px solid #cbd5e5; bord
   .dimension-list > div, .plan-change-list > div { border-color: #2c3850; }
   .plan-change-list code { background: #10192a; }
 }
+
+/* Milestone F universe and detector laboratories */
+.universe-layout, .detector-lab-layout { display: grid; grid-template-columns: minmax(320px, .9fr) minmax(0, 1.25fr); gap: 18px; align-items: start; }
+.universe-controls, .universe-results, .detector-lab-controls { display: grid; gap: 18px; }
+.universe-controls .panel, .universe-results .panel, .detector-lab-controls .panel { display: grid; gap: 14px; }
+.universe-controls label, .detector-lab-controls label { display: grid; gap: 6px; color: #596780; font-size: 13px; font-weight: 700; }
+.universe-controls select, .universe-controls input, .detector-lab-controls select, .detector-lab-controls input { width: 100%; border: 1px solid #cbd5e5; border-radius: 9px; padding: 9px 10px; background: white; color: inherit; font: inherit; }
+.axis-list, .dimension-coverage-list, .representative-list, .counterexample-list { display: grid; gap: 8px; }
+.axis-list > div, .dimension-coverage-list > div, .representative-list > div, .counterexample-list > div { border: 1px solid #e0e7f1; border-radius: 10px; padding: 10px 12px; display: grid; gap: 5px; }
+.axis-list code, .representative-list code, .counterexample-list code { overflow-wrap: anywhere; color: #738099; font-size: 11px; }
+.axis-list small, .dimension-coverage-list small, .counterexample-list small { color: #75829a; }
+.strategy-list { display: grid; gap: 8px; max-height: 320px; overflow: auto; }
+.representative-list > div { grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; }
+.representative-list > div > span:first-child, .counterexample-list > div > span:first-child { display: grid; gap: 3px; }
+.coverage-status-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 9px; }
+.coverage-status { border: 1px solid #dfe6f2; border-radius: 10px; padding: 10px; display: grid; gap: 3px; text-transform: capitalize; }
+.coverage-status strong { font-size: 22px; }
+.coverage-covered { background: #e7f6ed; color: #27764a; }
+.coverage-uncovered { background: #fff2d8; color: #8a5a10; }
+.coverage-inapplicable { background: #eef1f6; color: #59677d; }
+.coverage-unsupported { background: #fde8e8; color: #a0323c; }
+.coverage-unknown { background: #ece8ff; color: #6545a8; }
+.interaction-list { display: grid; gap: 10px; }
+.interaction-list > div { display: grid; grid-template-columns: minmax(0, 1fr) minmax(140px, .7fr); gap: 14px; align-items: center; }
+.interaction-list span { display: grid; gap: 3px; }
+.interaction-list small { color: #748198; }
+.interaction-list progress { width: 100%; height: 10px; }
+.novelty-result { border-left: 4px solid #5f80dc; background: #f3f6ff; padding: 12px 14px; border-radius: 0 10px 10px 0; display: grid; gap: 8px; }
+.novelty-result strong { overflow-wrap: anywhere; font-size: 11px; }
+.novelty-known { background: #e6f5ec; color: #27764a; }
+.novelty-partial { background: #fff2d8; color: #8a5a10; }
+.novelty-novel { background: #ece8ff; color: #6545a8; }
+.counterexample-list > div.selected { border-color: #6b8ce2; background: #f0f4ff; }
+.counterexample-list p { margin: 5px 0 0; }
+@media (max-width: 1080px) { .universe-layout, .detector-lab-layout { grid-template-columns: 1fr; } }
+@media (max-width: 720px) { .coverage-status-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .representative-list > div, .interaction-list > div { grid-template-columns: 1fr; } }
+@media (prefers-color-scheme: dark) {
+  .universe-controls select, .universe-controls input, .detector-lab-controls select, .detector-lab-controls input { background: #0f1728; border-color: #38455d; color: #eef3fd; }
+  .axis-list > div, .dimension-coverage-list > div, .representative-list > div, .counterexample-list > div { border-color: #2c3850; }
+  .novelty-result, .counterexample-list > div.selected { background: #192846; }
+}
+
+/* Milestone G benchmark, security, plugin, and release surfaces */
+.benchmark-grid { align-items: start; }
+.security-controls, .release-builder { display: grid; gap: 1rem; grid-template-columns: minmax(16rem, 1fr) auto; align-items: end; }
+.security-controls .button-row { grid-column: 1 / -1; }
+.button-row { display: flex; flex-wrap: wrap; gap: .65rem; }
+.plugin-grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); margin: 1rem 0; }
+.plain-row.static { cursor: default; }
+.status-pill.supported { border-color: color-mix(in srgb, var(--success) 45%, var(--border)); color: var(--success); }
+.status-pill.failed { border-color: color-mix(in srgb, var(--danger) 45%, var(--border)); color: var(--danger); }
+.severity.info, .severity.low { color: var(--muted); }
+.severity.medium { color: var(--warning); }
+.severity.high, .severity.critical { color: var(--danger); }
+@media (max-width: 760px) {
+  .security-controls, .release-builder { grid-template-columns: 1fr; }
+}

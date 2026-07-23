@@ -43,6 +43,14 @@ export interface RegistryStats {
   scenario_templates?: number;
   plans?: number;
   comparisons?: number;
+  universes?: number;
+  coverage_reports?: number;
+  counterexamples?: number;
+  benchmark_series?: number;
+  security_audits?: number;
+  plugins?: number;
+  demonstrations?: number;
+  releases?: number;
   by_kind: Record<string, number>;
 }
 
@@ -294,4 +302,147 @@ export function createComparison(baselineRunId: string, candidateRunId: string, 
 
 export function getComparison(comparisonId: string): Promise<ArtifactDocumentLike> {
   return request(`/api/v1/comparisons/${encodeURIComponent(comparisonId)}`);
+}
+
+export interface UniverseCatalogResponse {
+  universes: ArtifactDocumentLike[];
+  coverage_strategies: Array<Record<string, unknown>>;
+  execution_enabled: boolean;
+}
+
+export interface RepresentativeSetResponse {
+  representative_set: ArtifactDocumentLike;
+  instances: ArtifactDocumentLike[];
+}
+
+export function getUniverseCatalog(): Promise<UniverseCatalogResponse> {
+  return request("/api/v1/universes/catalog");
+}
+
+export function getUniverse(universeId: string): Promise<ArtifactDocumentLike> {
+  return request(`/api/v1/universes/${encodeURIComponent(universeId)}`);
+}
+
+export function generateRepresentatives(
+  universeId: string,
+  payload: { maximum_cases: number; seed: number; strategy_keys: string[] },
+): Promise<RepresentativeSetResponse> {
+  return request(`/api/v1/universes/${encodeURIComponent(universeId)}/representatives`, {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
+export function evaluateUniverseCoverage(
+  universeId: string,
+  payload: { representative_set_id?: string; scenario_instance_ids?: string[]; scenario_run_ids?: string[] } = {},
+): Promise<ArtifactDocumentLike> {
+  return request(`/api/v1/universes/${encodeURIComponent(universeId)}/coverage`, {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
+export function listCoverageReports(limit = 50): Promise<ArtifactListResponse> {
+  return request(`/api/v1/coverage-reports${queryString({ limit })}`);
+}
+
+export function evaluateRunNovelty(runId: string): Promise<ArtifactDocumentLike> {
+  return request(`/api/v1/runs/${encodeURIComponent(runId)}/novelty`, {
+    method: "POST",
+    body: "{}",
+  });
+}
+
+export interface CounterexampleListResponse {
+  items: IndexedArtifactSummary[];
+  total: number;
+  limit: number;
+  offset: number;
+}
+
+export function listCounterexamples(filters: { q?: string; status?: string; limit?: number; offset?: number } = {}): Promise<CounterexampleListResponse> {
+  return request(`/api/v1/counterexamples${queryString(filters)}`);
+}
+
+export function createCounterexample(payload: Record<string, unknown>): Promise<ArtifactDocumentLike> {
+  return request("/api/v1/counterexamples/create", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
+export function minimizeCounterexample(candidateId: string): Promise<{ minimization: ArtifactDocumentLike; minimized_instance: ArtifactDocumentLike }> {
+  return request(`/api/v1/counterexamples/${encodeURIComponent(candidateId)}/minimize`, {
+    method: "POST",
+    body: "{}",
+  });
+}
+
+export function promoteCounterexample(
+  candidateId: string,
+  payload: { minimization_id?: string; target_collections?: string[]; reviewer_notes?: string[] } = {},
+): Promise<ArtifactDocumentLike> {
+  return request(`/api/v1/counterexamples/${encodeURIComponent(candidateId)}/promote`, {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
+export interface BenchmarkProtocolResponse {
+  items: ArtifactDocumentLike[];
+}
+
+export interface BenchmarkSeriesListResponse {
+  items: IndexedArtifactSummary[];
+  total: number;
+  limit: number;
+  offset: number;
+}
+
+export function getBenchmarkProtocols(): Promise<BenchmarkProtocolResponse> {
+  return request("/api/v1/benchmarks/protocols");
+}
+
+export function runBenchmark(protocolId: string, metricModel: string): Promise<ArtifactDocumentLike> {
+  return request("/api/v1/benchmarks/run", {
+    method: "POST",
+    body: JSON.stringify({ protocol_id: protocolId, metric_model: metricModel }),
+  });
+}
+
+export function listBenchmarkSeries(limit = 50): Promise<BenchmarkSeriesListResponse> {
+  return request(`/api/v1/benchmarks/series${queryString({ limit })}`);
+}
+
+export function getBenchmarkSeries(seriesId: string): Promise<ArtifactDocumentLike> {
+  return request(`/api/v1/benchmarks/series/${encodeURIComponent(seriesId)}`);
+}
+
+export function runSecurityAudit(payload: { artifact_ids?: string[]; all?: boolean }): Promise<ArtifactDocumentLike> {
+  return request("/api/v1/security/audit", { method: "POST", body: JSON.stringify(payload) });
+}
+
+export function sanitizeArtifact(artifactId: string): Promise<{ sanitized: ArtifactDocumentLike; receipt: ArtifactDocumentLike }> {
+  return request("/api/v1/security/sanitize", { method: "POST", body: JSON.stringify({ artifact_id: artifactId }) });
+}
+
+export function verifyTrust(payload: { artifact_ids?: string[]; all?: boolean }): Promise<ArtifactDocumentLike> {
+  return request("/api/v1/security/trust", { method: "POST", body: JSON.stringify(payload) });
+}
+
+export function getPlugins(discover = false): Promise<{ items: ArtifactDocumentLike[]; discovery: Array<{ manifest: ArtifactDocumentLike; loaded: boolean; error?: string | null }> }> {
+  return request(`/api/v1/plugins${queryString({ discover })}`);
+}
+
+export function getDemonstrations(): Promise<{ items: Array<{ artifact: ArtifactDocumentLike; valid: boolean; missing: string[] }> }> {
+  return request("/api/v1/demonstrations");
+}
+
+export function getReleases(): Promise<{ items: ArtifactDocumentLike[] }> {
+  return request("/api/v1/releases");
+}
+
+export function buildRelease(payload: { release_key: string; status: string }): Promise<ArtifactDocumentLike> {
+  return request("/api/v1/releases/build", { method: "POST", body: JSON.stringify(payload) });
 }

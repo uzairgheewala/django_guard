@@ -1,0 +1,8 @@
+{
+  "artifact_id": "plug_21fc9b3151e36eb5b64dca8cd9a5d16e",
+  "artifact_kind": "plugin_manifest",
+  "content_hash": "sha256:364dcc5fece763780f04908c31e8b7ea538a3bec7023b8099034e16ea7685274",
+  "created_at": "1970-01-01T00:00:00+00:00",
+  "path": "artifacts/plug_21fc9b3151e36eb5b64dca8cd9a5d16e.json",
+  "schema_version": "planguard.plugin-manifest.v1"
+}

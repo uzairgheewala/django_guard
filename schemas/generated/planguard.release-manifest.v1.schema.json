@@ -1,0 +1,336 @@
+{
+  "$defs": {
+    "ArtifactReference": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "artifact_kind": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Artifact Kind",
+          "type": "string"
+        },
+        "content_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "schema_version": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Schema Version"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "artifact_kind",
+        "content_hash",
+        "schema_version"
+      ],
+      "title": "ArtifactReference",
+      "type": "object"
+    },
+    "ProducerIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "build": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Build"
+        },
+        "name": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "version": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "build",
+        "name",
+        "version"
+      ],
+      "title": "ProducerIdentity",
+      "type": "object"
+    },
+    "Provenance": {
+      "additionalProperties": false,
+      "properties": {
+        "code_revision": {
+          "anyOf": [
+            {
+              "maxLength": 256,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Code Revision"
+        },
+        "configuration_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "derivation_key": {
+          "anyOf": [
+            {
+              "maxLength": 256,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Derivation Key"
+        },
+        "input_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Input Refs",
+          "type": "array"
+        },
+        "notes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "code_revision",
+        "configuration_ref",
+        "derivation_key",
+        "input_refs",
+        "notes"
+      ],
+      "title": "Provenance",
+      "type": "object"
+    },
+    "ReleaseManifestPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_schema_versions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Artifact Schema Versions",
+          "type": "array"
+        },
+        "compatibility": {
+          "additionalProperties": true,
+          "title": "Compatibility",
+          "type": "object"
+        },
+        "demonstration_case_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Demonstration Case Refs",
+          "type": "array"
+        },
+        "documentation_paths": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Documentation Paths",
+          "type": "array"
+        },
+        "package_checksums": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Package Checksums",
+          "type": "object"
+        },
+        "package_version": {
+          "title": "Package Version",
+          "type": "string"
+        },
+        "plugin_contract_version": {
+          "title": "Plugin Contract Version",
+          "type": "string"
+        },
+        "plugin_manifest_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Plugin Manifest Refs",
+          "type": "array"
+        },
+        "release_key": {
+          "title": "Release Key",
+          "type": "string"
+        },
+        "release_notes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Release Notes",
+          "type": "array"
+        },
+        "security_audit_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "status": {
+          "$ref": "#/$defs/ReleaseStatus"
+        },
+        "trust_report_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "validation_summary": {
+          "additionalProperties": true,
+          "title": "Validation Summary",
+          "type": "object"
+        }
+      },
+      "required": [
+        "artifact_schema_versions",
+        "compatibility",
+        "demonstration_case_refs",
+        "documentation_paths",
+        "package_checksums",
+        "package_version",
+        "plugin_contract_version",
+        "plugin_manifest_refs",
+        "release_key",
+        "release_notes",
+        "security_audit_ref",
+        "status",
+        "trust_report_ref",
+        "validation_summary"
+      ],
+      "title": "ReleaseManifestPayload",
+      "type": "object"
+    },
+    "ReleaseStatus": {
+      "enum": [
+        "draft",
+        "candidate",
+        "verified",
+        "rejected"
+      ],
+      "title": "ReleaseStatus",
+      "type": "string"
+    }
+  },
+  "$id": "https://planguard.dev/schemas/planguard.release-manifest.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifact_id": {
+      "title": "Artifact Id",
+      "type": "string"
+    },
+    "artifact_kind": {
+      "const": "release_manifest",
+      "default": "release_manifest",
+      "title": "Artifact Kind",
+      "type": "string"
+    },
+    "content_hash": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "title": "Content Hash",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "extensions": {
+      "additionalProperties": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Extensions",
+      "type": "object"
+    },
+    "payload": {
+      "$ref": "#/$defs/ReleaseManifestPayload"
+    },
+    "producer": {
+      "$ref": "#/$defs/ProducerIdentity"
+    },
+    "provenance": {
+      "$ref": "#/$defs/Provenance"
+    },
+    "schema_version": {
+      "const": "planguard.release-manifest.v1",
+      "default": "planguard.release-manifest.v1",
+      "title": "Schema Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "artifact_id",
+    "artifact_kind",
+    "content_hash",
+    "created_at",
+    "extensions",
+    "payload",
+    "producer",
+    "provenance",
+    "schema_version"
+  ],
+  "title": "ReleaseManifestArtifact",
+  "type": "object"
+}

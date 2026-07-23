@@ -1,0 +1,319 @@
+{
+  "artifact_id": "rel_1b641c343a0080678d9546e7220776ec",
+  "artifact_kind": "release_manifest",
+  "content_hash": "sha256:115b12287ea621e10ea56f01e810feb44ee95a18ce51cf18646187961adb6edd",
+  "created_at": "1970-01-01T00:00:00Z",
+  "extensions": {},
+  "payload": {
+    "artifact_schema_versions": [
+      "planguard.analysis-summary.v1",
+      "planguard.artifact-sanitization.v1",
+      "planguard.artifact-trust-report.v1",
+      "planguard.benchmark-protocol.v1",
+      "planguard.budget-evaluation.v1",
+      "planguard.budget-policy.v1",
+      "planguard.capability-gap.v1",
+      "planguard.capture-policy.v1",
+      "planguard.comparison-report.v1",
+      "planguard.corpus-promotion.v1",
+      "planguard.counterexample-candidate.v1",
+      "planguard.coverage-report.v1",
+      "planguard.dataset-manifest.v1",
+      "planguard.demonstration-case.v1",
+      "planguard.detector-receipt.v1",
+      "planguard.environment-profile.v1",
+      "planguard.evidence.v1",
+      "planguard.experiment-series.v1",
+      "planguard.family-scheme.v1",
+      "planguard.finding.v1",
+      "planguard.minimization-run.v1",
+      "planguard.mutation-definition.v1",
+      "planguard.novelty-signature.v1",
+      "planguard.observed-query-family.v1",
+      "planguard.plan-collection-receipt.v1",
+      "planguard.plan-observation.v1",
+      "planguard.plugin-manifest.v1",
+      "planguard.query-execution.v1",
+      "planguard.query-template.v1",
+      "planguard.release-manifest.v1",
+      "planguard.representative-set.v1",
+      "planguard.run-manifest.v1",
+      "planguard.scenario-binding.v1",
+      "planguard.scenario-instance.v1",
+      "planguard.scenario-phase-receipt.v1",
+      "planguard.scenario-run.v1",
+      "planguard.scenario-series.v1",
+      "planguard.scenario-template.v1",
+      "planguard.security-audit.v1",
+      "planguard.universe-profile.v1",
+      "planguard.workload-episode.v1",
+      "planguard.workload-graph.v1",
+      "planguard.workload-motif.v1"
+    ],
+    "compatibility": {
+      "artifact_reading": "Milestone A through G v1 schemas",
+      "django": ">=5.2,<5.3",
+      "postgresql": "FORMAT JSON plan compatibility with preserved unknown nodes",
+      "python": ">=3.11"
+    },
+    "demonstration_case_refs": [
+      {
+        "artifact_id": "demo_c014f80b6e411a42d6d36f60154c9c5c",
+        "artifact_kind": "demonstration_case",
+        "content_hash": "sha256:4701ddea92036e6df2f44b6a0f4ff535486b93fca7ea628f555bd466dfebb324",
+        "schema_version": "planguard.demonstration-case.v1"
+      },
+      {
+        "artifact_id": "demo_ca40efece7d9856c6ab3c0fd4695fe33",
+        "artifact_kind": "demonstration_case",
+        "content_hash": "sha256:6fa05c80b1dc7c3208c82dce6e7f4a67a3693f2088a2d7b87d35a70daa89fbcc",
+        "schema_version": "planguard.demonstration-case.v1"
+      },
+      {
+        "artifact_id": "demo_89270f9f3ce6a66fc74d2599c86e5454",
+        "artifact_kind": "demonstration_case",
+        "content_hash": "sha256:ee39c66dd254046625cd6a170ac14a3ff606d7d51e976c191f998d463d0bd5ca",
+        "schema_version": "planguard.demonstration-case.v1"
+      },
+      {
+        "artifact_id": "demo_03081c7a20b6b74a0ab8f06281a87009",
+        "artifact_kind": "demonstration_case",
+        "content_hash": "sha256:6df3f3a89c911997b0fcd1f1585b26b43902bd48e4fa7bc9bbc51120856e7d50",
+        "schema_version": "planguard.demonstration-case.v1"
+      },
+      {
+        "artifact_id": "demo_97614314ef415979a0083b9eadff97df",
+        "artifact_kind": "demonstration_case",
+        "content_hash": "sha256:f5229be4010e5b6e7e18d86fe59edc43808c772839ca8ecad3b8120e74840d5a",
+        "schema_version": "planguard.demonstration-case.v1"
+      },
+      {
+        "artifact_id": "demo_07e127cf276063bc04cc035e45080774",
+        "artifact_kind": "demonstration_case",
+        "content_hash": "sha256:aa1e0b0f4ef0bbe2a83249408bc39c4f179f9fd05d224e3d909192243a04c7e1",
+        "schema_version": "planguard.demonstration-case.v1"
+      },
+      {
+        "artifact_id": "demo_5d54fcb7748607491b99e0c601efb160",
+        "artifact_kind": "demonstration_case",
+        "content_hash": "sha256:7a5e8f2b3bdae4d3ac6f6464f373437ce3957bca17198c19097e6d4381b90905",
+        "schema_version": "planguard.demonstration-case.v1"
+      },
+      {
+        "artifact_id": "demo_cbfe7630a3c84dfd1b6b07df3738bd1d",
+        "artifact_kind": "demonstration_case",
+        "content_hash": "sha256:c1f4205f327e35552e98524682840658446accceba6231522457b547ac22fbbf",
+        "schema_version": "planguard.demonstration-case.v1"
+      }
+    ],
+    "documentation_paths": [
+      "CHANGELOG.md",
+      "CODE_OF_CONDUCT.md",
+      "CONTRIBUTING.md",
+      "LICENSE",
+      "README.md",
+      "SECURITY.md",
+      "docs/architecture.md",
+      "docs/artifact-schemas.md",
+      "docs/benchmarking.md",
+      "docs/milestone-g-implementation.md",
+      "docs/plugins.md",
+      "docs/security.md"
+    ],
+    "package_checksums": {
+      "CHANGELOG.md": "sha256:9e2fab7987ad2716946bfb8032351f025b54f17d4c14f482618f27f6dafdc188",
+      "CODE_OF_CONDUCT.md": "sha256:f7fcd653f3d08ee12ac1bfbbec3c429edc4aaa2095cf3bb72e07c991dbcb4454",
+      "CONTRIBUTING.md": "sha256:913fa4cce92961cb9d7d3a7a459ee8b187d5f7ac858a44f39ad3bb4a690c4f36",
+      "LICENSE": "sha256:eecbe7f1e7f9311e653fddcc485b47d402b8cfdc88808853f9bb885029fb57b6",
+      "README.md": "sha256:2e1ee8b7b06ef7d8fb888342e5355d985d6c313e2f23b31aeee6f4ebbff09a09",
+      "SECURITY.md": "sha256:e4309e361d2b2f799050687edc9f0dac44f6f0a36eb87c24213325af2e80a5be",
+      "docs/benchmarking.md": "sha256:96de3d0e047f6f7f8e571674ff66cbf9188c059fd148a22d9d47e65009c5bab2",
+      "docs/milestone-g-implementation.md": "sha256:2ed9755812648845772c7e4cc957cd4d5bcb3c3f766d0e438db3dc1c3fcb3a2e",
+      "docs/plugins.md": "sha256:af9e640c01e76f17f726fa402609000cdfbac85f85f9c4090569bc9cb48450bf",
+      "docs/security.md": "sha256:b36c3bb398faf9e09766f05c72e96dfcc88fea52ac1b9409e19d4e6b11a7cb16",
+      "pyproject.toml": "sha256:5ba143be068082b1ec647c7cad767beba1636a63defd1c934f058c8da45f47da"
+    },
+    "package_version": "0.7.0",
+    "plugin_contract_version": "planguard.plugin.v1",
+    "plugin_manifest_refs": [
+      {
+        "artifact_id": "plug_53963d04db7cdfc7bd05d789bf5c6a1a",
+        "artifact_kind": "plugin_manifest",
+        "content_hash": "sha256:2eae2133febd1f24936dd6b4be43c27ece3e2607fc37568561b2ebbab39032e0",
+        "schema_version": "planguard.plugin-manifest.v1"
+      },
+      {
+        "artifact_id": "plug_f6147276d0a51df6aaccb2edf2481f64",
+        "artifact_kind": "plugin_manifest",
+        "content_hash": "sha256:8d159cbaa2a3d67b765b22fe5e81f6b83bc99dcf1dc1a52fa43bccbf8caad4b5",
+        "schema_version": "planguard.plugin-manifest.v1"
+      },
+      {
+        "artifact_id": "plug_1ac1ac72c220c47e94fddec1a6759ee3",
+        "artifact_kind": "plugin_manifest",
+        "content_hash": "sha256:10cb4008d31497f9c08626115af54f9b4ad939d771e91c294ed1ccd80e6f46b9",
+        "schema_version": "planguard.plugin-manifest.v1"
+      },
+      {
+        "artifact_id": "plug_21fc9b3151e36eb5b64dca8cd9a5d16e",
+        "artifact_kind": "plugin_manifest",
+        "content_hash": "sha256:364dcc5fece763780f04908c31e8b7ea538a3bec7023b8099034e16ea7685274",
+        "schema_version": "planguard.plugin-manifest.v1"
+      },
+      {
+        "artifact_id": "plug_6e273cf7fc0eba179a219f7ec5e54a1c",
+        "artifact_kind": "plugin_manifest",
+        "content_hash": "sha256:26037973ea64f60fe87039ca2d0ef3ec8696074a5cf9c786e8e8f4380edadc24",
+        "schema_version": "planguard.plugin-manifest.v1"
+      },
+      {
+        "artifact_id": "plug_98f66db7b1f5f5cd704efd4b8f0ca0c5",
+        "artifact_kind": "plugin_manifest",
+        "content_hash": "sha256:c962cbd8db4b44c0311174d247e1f240216a40ec8331a4da2aea5b435fe32fbc",
+        "schema_version": "planguard.plugin-manifest.v1"
+      }
+    ],
+    "release_key": "planguard-0.7.0-milestone-g",
+    "release_notes": [
+      "PlanGuard treats structural evidence as authoritative when timing comparability is degraded.",
+      "Execution-capable laboratory and live plan collection remain explicitly gated."
+    ],
+    "security_audit_ref": {
+      "artifact_id": "secaud_19a1a06897fa4f8c9abfb14793a87487",
+      "artifact_kind": "security_audit",
+      "content_hash": "sha256:204b290cff1444a410ad620a90404f6bda5c3608067095d21a98c491a03bb79f",
+      "schema_version": "planguard.security-audit.v1"
+    },
+    "status": "verified",
+    "trust_report_ref": {
+      "artifact_id": "trust_f09ba5b4b2df479d814978b0f3df3c9b",
+      "artifact_kind": "artifact_trust_report",
+      "content_hash": "sha256:50845252e798f054899e6b9c9ea22738e066691e73b89d4eb18b59f0e43b8025",
+      "schema_version": "planguard.artifact-trust-report.v1"
+    },
+    "validation_summary": {
+      "canonical_artifact_integrity_failures": 0,
+      "contracts_regenerated_byte_for_byte": true,
+      "demonstration_cases": 8,
+      "frontend_files_transpiled": 26,
+      "full_vite_build_executed": false,
+      "optional_suites_skipped": 3,
+      "package_wheel_built": true,
+      "plugin_manifests": 6,
+      "python_tests_passed": 52,
+      "sample_plugin_wheel_built": true,
+      "security_findings": 4,
+      "seeded_benchmark_series": 3
+    }
+  },
+  "producer": {
+    "build": "milestone-g-seed",
+    "name": "planguard",
+    "version": "0.7.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": "release-manifest.v1",
+    "input_refs": [
+      {
+        "artifact_id": "demo_c014f80b6e411a42d6d36f60154c9c5c",
+        "artifact_kind": "demonstration_case",
+        "content_hash": "sha256:4701ddea92036e6df2f44b6a0f4ff535486b93fca7ea628f555bd466dfebb324",
+        "schema_version": "planguard.demonstration-case.v1"
+      },
+      {
+        "artifact_id": "demo_ca40efece7d9856c6ab3c0fd4695fe33",
+        "artifact_kind": "demonstration_case",
+        "content_hash": "sha256:6fa05c80b1dc7c3208c82dce6e7f4a67a3693f2088a2d7b87d35a70daa89fbcc",
+        "schema_version": "planguard.demonstration-case.v1"
+      },
+      {
+        "artifact_id": "demo_89270f9f3ce6a66fc74d2599c86e5454",
+        "artifact_kind": "demonstration_case",
+        "content_hash": "sha256:ee39c66dd254046625cd6a170ac14a3ff606d7d51e976c191f998d463d0bd5ca",
+        "schema_version": "planguard.demonstration-case.v1"
+      },
+      {
+        "artifact_id": "demo_03081c7a20b6b74a0ab8f06281a87009",
+        "artifact_kind": "demonstration_case",
+        "content_hash": "sha256:6df3f3a89c911997b0fcd1f1585b26b43902bd48e4fa7bc9bbc51120856e7d50",
+        "schema_version": "planguard.demonstration-case.v1"
+      },
+      {
+        "artifact_id": "demo_97614314ef415979a0083b9eadff97df",
+        "artifact_kind": "demonstration_case",
+        "content_hash": "sha256:f5229be4010e5b6e7e18d86fe59edc43808c772839ca8ecad3b8120e74840d5a",
+        "schema_version": "planguard.demonstration-case.v1"
+      },
+      {
+        "artifact_id": "demo_07e127cf276063bc04cc035e45080774",
+        "artifact_kind": "demonstration_case",
+        "content_hash": "sha256:aa1e0b0f4ef0bbe2a83249408bc39c4f179f9fd05d224e3d909192243a04c7e1",
+        "schema_version": "planguard.demonstration-case.v1"
+      },
+      {
+        "artifact_id": "demo_5d54fcb7748607491b99e0c601efb160",
+        "artifact_kind": "demonstration_case",
+        "content_hash": "sha256:7a5e8f2b3bdae4d3ac6f6464f373437ce3957bca17198c19097e6d4381b90905",
+        "schema_version": "planguard.demonstration-case.v1"
+      },
+      {
+        "artifact_id": "demo_cbfe7630a3c84dfd1b6b07df3738bd1d",
+        "artifact_kind": "demonstration_case",
+        "content_hash": "sha256:c1f4205f327e35552e98524682840658446accceba6231522457b547ac22fbbf",
+        "schema_version": "planguard.demonstration-case.v1"
+      },
+      {
+        "artifact_id": "plug_53963d04db7cdfc7bd05d789bf5c6a1a",
+        "artifact_kind": "plugin_manifest",
+        "content_hash": "sha256:2eae2133febd1f24936dd6b4be43c27ece3e2607fc37568561b2ebbab39032e0",
+        "schema_version": "planguard.plugin-manifest.v1"
+      },
+      {
+        "artifact_id": "plug_f6147276d0a51df6aaccb2edf2481f64",
+        "artifact_kind": "plugin_manifest",
+        "content_hash": "sha256:8d159cbaa2a3d67b765b22fe5e81f6b83bc99dcf1dc1a52fa43bccbf8caad4b5",
+        "schema_version": "planguard.plugin-manifest.v1"
+      },
+      {
+        "artifact_id": "plug_1ac1ac72c220c47e94fddec1a6759ee3",
+        "artifact_kind": "plugin_manifest",
+        "content_hash": "sha256:10cb4008d31497f9c08626115af54f9b4ad939d771e91c294ed1ccd80e6f46b9",
+        "schema_version": "planguard.plugin-manifest.v1"
+      },
+      {
+        "artifact_id": "plug_21fc9b3151e36eb5b64dca8cd9a5d16e",
+        "artifact_kind": "plugin_manifest",
+        "content_hash": "sha256:364dcc5fece763780f04908c31e8b7ea538a3bec7023b8099034e16ea7685274",
+        "schema_version": "planguard.plugin-manifest.v1"
+      },
+      {
+        "artifact_id": "plug_6e273cf7fc0eba179a219f7ec5e54a1c",
+        "artifact_kind": "plugin_manifest",
+        "content_hash": "sha256:26037973ea64f60fe87039ca2d0ef3ec8696074a5cf9c786e8e8f4380edadc24",
+        "schema_version": "planguard.plugin-manifest.v1"
+      },
+      {
+        "artifact_id": "plug_98f66db7b1f5f5cd704efd4b8f0ca0c5",
+        "artifact_kind": "plugin_manifest",
+        "content_hash": "sha256:c962cbd8db4b44c0311174d247e1f240216a40ec8331a4da2aea5b435fe32fbc",
+        "schema_version": "planguard.plugin-manifest.v1"
+      },
+      {
+        "artifact_id": "secaud_19a1a06897fa4f8c9abfb14793a87487",
+        "artifact_kind": "security_audit",
+        "content_hash": "sha256:204b290cff1444a410ad620a90404f6bda5c3608067095d21a98c491a03bb79f",
+        "schema_version": "planguard.security-audit.v1"
+      },
+      {
+        "artifact_id": "trust_f09ba5b4b2df479d814978b0f3df3c9b",
+        "artifact_kind": "artifact_trust_report",
+        "content_hash": "sha256:50845252e798f054899e6b9c9ea22738e066691e73b89d4eb18b59f0e43b8025",
+        "schema_version": "planguard.artifact-trust-report.v1"
+      }
+    ],
+    "notes": []
+  },
+  "schema_version": "planguard.release-manifest.v1"
+}

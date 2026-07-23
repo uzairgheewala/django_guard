@@ -1,0 +1,8 @@
+{
+  "artifact_id": "expser_17ca6b78ca8f4d00b361b8ad0f0ea044",
+  "artifact_kind": "experiment_series",
+  "content_hash": "sha256:46e9c971dde622bd4e48189e3ad9c7a85086594a06469835752b46ac70b23026",
+  "created_at": "2026-07-23T14:38:17.260255+00:00",
+  "path": "artifacts/expser_17ca6b78ca8f4d00b361b8ad0f0ea044.json",
+  "schema_version": "planguard.experiment-series.v1"
+}

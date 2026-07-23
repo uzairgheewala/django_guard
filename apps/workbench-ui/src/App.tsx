@@ -12,6 +12,12 @@ import { ScenarioStudioPage } from "./pages/ScenarioStudioPage";
 import { PlanExplorerPage } from "./pages/PlanExplorerPage";
 import { ComparisonsPage } from "./pages/ComparisonsPage";
 import { ComparisonDetailPage } from "./pages/ComparisonDetailPage";
+import { UniverseExplorerPage } from "./pages/UniverseExplorerPage";
+import { DetectorLabPage } from "./pages/DetectorLabPage";
+import { BenchmarkLabPage } from "./pages/BenchmarkLabPage";
+import { SecurityCenterPage } from "./pages/SecurityCenterPage";
+import { PluginsPage } from "./pages/PluginsPage";
+import { ReleasePage } from "./pages/ReleasePage";
 
 export default function App() {
   return (
@@ -25,6 +31,12 @@ export default function App() {
           <Route path="plans/:planId" element={<PlanExplorerPage />} />
           <Route path="comparisons" element={<ComparisonsPage />} />
           <Route path="comparisons/:comparisonId" element={<ComparisonDetailPage />} />
+          <Route path="universes" element={<UniverseExplorerPage />} />
+          <Route path="detectors" element={<DetectorLabPage />} />
+          <Route path="benchmarks" element={<BenchmarkLabPage />} />
+          <Route path="security" element={<SecurityCenterPage />} />
+          <Route path="plugins" element={<PluginsPage />} />
+          <Route path="release" element={<ReleasePage />} />
           <Route path="motifs" element={<MotifsPage />} />
           <Route path="policies" element={<PolicyStudioPage />} />
           <Route path="artifacts" element={<ArtifactsPage />} />

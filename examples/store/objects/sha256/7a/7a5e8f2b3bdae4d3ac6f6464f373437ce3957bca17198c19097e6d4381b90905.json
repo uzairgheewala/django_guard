@@ -1,0 +1,89 @@
+{
+  "artifact_id": "demo_5d54fcb7748607491b99e0c601efb160",
+  "artifact_kind": "demonstration_case",
+  "content_hash": "sha256:7a5e8f2b3bdae4d3ac6f6464f373437ce3957bca17198c19097e6d4381b90905",
+  "created_at": "1970-01-01T00:00:00Z",
+  "extensions": {},
+  "payload": {
+    "baseline_run_ref": {
+      "artifact_id": "run_c0f2b729722340a0b345a5e0da65ffc2",
+      "artifact_kind": "run_manifest",
+      "content_hash": "sha256:cf21571d7dfaf5a9030b870e0980b041fe511aedcdfa0b4444f93e93963b01de",
+      "schema_version": "planguard.run-manifest.v1"
+    },
+    "benchmark_series_refs": [],
+    "candidate_run_ref": null,
+    "case_key": "academic.offset-pagination.v1",
+    "comparison_ref": null,
+    "description": "Generic offset-pagination.v1 scenario bound to the deterministic academic laboratory.",
+    "documentation_path": "docs/cases/offset-pagination.md",
+    "expected_mechanisms": [
+      "pagination-amplification"
+    ],
+    "policy_refs": [
+      {
+        "artifact_id": "bpol_586e0be096964d3fa142d591a75023ed",
+        "artifact_kind": "budget_policy",
+        "content_hash": "sha256:f42a951424067a3be1f56c3f475c0a8ed6b4b6fc8317f22e2bc7b8e2d35f8b5d",
+        "schema_version": "planguard.budget-policy.v1"
+      },
+      {
+        "artifact_id": "bpol_04c12a9d8e3d4464b6acd48a20307eb8",
+        "artifact_kind": "budget_policy",
+        "content_hash": "sha256:25a9b074952ef9e91325cf8bf19bbaceee2058fdb711b5a54986ab5208a0ba9e",
+        "schema_version": "planguard.budget-policy.v1"
+      }
+    ],
+    "scenario_binding_ref": {
+      "artifact_id": "scb_2281e1a9e3e0605bc588af06027bb055",
+      "artifact_kind": "scenario_binding",
+      "content_hash": "sha256:fcbe5b25bb3b8e40e6520efcf3cbd5b1c5be0108873382a35c94a9e2e3446e78",
+      "schema_version": "planguard.scenario-binding.v1"
+    },
+    "scenario_template_ref": {
+      "artifact_id": "sct_b1fc48c64eeb7f1deeefa50aa0ec705e",
+      "artifact_kind": "scenario_template",
+      "content_hash": "sha256:8700c9689a0838fe63b2ef637b12e7f439b0ea08205e7d8f3d7be1554ab8e408",
+      "schema_version": "planguard.scenario-template.v1"
+    },
+    "tags": [
+      "academic",
+      "oss-case",
+      "offset-pagination.v1"
+    ],
+    "title": "Deep offset pagination",
+    "verified": true
+  },
+  "producer": {
+    "build": "milestone-g-seed",
+    "name": "planguard",
+    "version": "0.7.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": "demonstration-case.v1",
+    "input_refs": [
+      {
+        "artifact_id": "sct_b1fc48c64eeb7f1deeefa50aa0ec705e",
+        "artifact_kind": "scenario_template",
+        "content_hash": "sha256:8700c9689a0838fe63b2ef637b12e7f439b0ea08205e7d8f3d7be1554ab8e408",
+        "schema_version": "planguard.scenario-template.v1"
+      },
+      {
+        "artifact_id": "scb_2281e1a9e3e0605bc588af06027bb055",
+        "artifact_kind": "scenario_binding",
+        "content_hash": "sha256:fcbe5b25bb3b8e40e6520efcf3cbd5b1c5be0108873382a35c94a9e2e3446e78",
+        "schema_version": "planguard.scenario-binding.v1"
+      },
+      {
+        "artifact_id": "run_c0f2b729722340a0b345a5e0da65ffc2",
+        "artifact_kind": "run_manifest",
+        "content_hash": "sha256:cf21571d7dfaf5a9030b870e0980b041fe511aedcdfa0b4444f93e93963b01de",
+        "schema_version": "planguard.run-manifest.v1"
+      }
+    ],
+    "notes": []
+  },
+  "schema_version": "planguard.demonstration-case.v1"
+}

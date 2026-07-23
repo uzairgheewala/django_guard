@@ -1,0 +1,444 @@
+{
+  "$defs": {
+    "ArtifactReference": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "artifact_kind": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Artifact Kind",
+          "type": "string"
+        },
+        "content_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "schema_version": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Schema Version"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "artifact_kind",
+        "content_hash",
+        "schema_version"
+      ],
+      "title": "ArtifactReference",
+      "type": "object"
+    },
+    "ProducerIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "build": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Build"
+        },
+        "name": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "version": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "build",
+        "name",
+        "version"
+      ],
+      "title": "ProducerIdentity",
+      "type": "object"
+    },
+    "Provenance": {
+      "additionalProperties": false,
+      "properties": {
+        "code_revision": {
+          "anyOf": [
+            {
+              "maxLength": 256,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Code Revision"
+        },
+        "configuration_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "derivation_key": {
+          "anyOf": [
+            {
+              "maxLength": 256,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Derivation Key"
+        },
+        "input_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Input Refs",
+          "type": "array"
+        },
+        "notes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "code_revision",
+        "configuration_ref",
+        "derivation_key",
+        "input_refs",
+        "notes"
+      ],
+      "title": "Provenance",
+      "type": "object"
+    },
+    "RedactionRule": {
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "default": true,
+          "title": "Enabled",
+          "type": "boolean"
+        },
+        "kind": {
+          "enum": [
+            "field_name",
+            "value_pattern",
+            "artifact_path",
+            "sql_literal",
+            "parameter_value",
+            "absolute_path",
+            "custom"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "pattern": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Pattern"
+        },
+        "replacement": {
+          "default": "[REDACTED]",
+          "title": "Replacement",
+          "type": "string"
+        },
+        "risk_level": {
+          "$ref": "#/$defs/SecurityRiskLevel",
+          "default": "medium"
+        },
+        "rule_key": {
+          "title": "Rule Key",
+          "type": "string"
+        }
+      },
+      "required": [
+        "enabled",
+        "kind",
+        "pattern",
+        "replacement",
+        "risk_level",
+        "rule_key"
+      ],
+      "title": "RedactionRule",
+      "type": "object"
+    },
+    "SecurityAuditPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "findings": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/SecurityFinding"
+          },
+          "title": "Findings",
+          "type": "array"
+        },
+        "integrity_failed": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Integrity Failed",
+          "type": "integer"
+        },
+        "integrity_verified": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Integrity Verified",
+          "type": "integer"
+        },
+        "limitations": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Limitations",
+          "type": "array"
+        },
+        "missing_reference_count": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Missing Reference Count",
+          "type": "integer"
+        },
+        "rules": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/RedactionRule"
+          },
+          "title": "Rules",
+          "type": "array"
+        },
+        "scanned_artifact_count": {
+          "minimum": 0,
+          "title": "Scanned Artifact Count",
+          "type": "integer"
+        },
+        "scanned_bytes": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Scanned Bytes",
+          "type": "integer"
+        },
+        "status_counts": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Status Counts",
+          "type": "object"
+        },
+        "subject_refs": {
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Subject Refs",
+          "type": "array"
+        },
+        "trust_state": {
+          "$ref": "#/$defs/TrustState"
+        }
+      },
+      "required": [
+        "findings",
+        "integrity_failed",
+        "integrity_verified",
+        "limitations",
+        "missing_reference_count",
+        "rules",
+        "scanned_artifact_count",
+        "scanned_bytes",
+        "status_counts",
+        "subject_refs",
+        "trust_state"
+      ],
+      "title": "SecurityAuditPayload",
+      "type": "object"
+    },
+    "SecurityFinding": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "automatically_redactable": {
+          "default": false,
+          "title": "Automatically Redactable",
+          "type": "boolean"
+        },
+        "category": {
+          "title": "Category",
+          "type": "string"
+        },
+        "evidence": {
+          "title": "Evidence",
+          "type": "string"
+        },
+        "finding_key": {
+          "title": "Finding Key",
+          "type": "string"
+        },
+        "json_path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Json Path"
+        },
+        "recommendation": {
+          "title": "Recommendation",
+          "type": "string"
+        },
+        "risk_level": {
+          "$ref": "#/$defs/SecurityRiskLevel"
+        }
+      },
+      "required": [
+        "artifact_ref",
+        "automatically_redactable",
+        "category",
+        "evidence",
+        "finding_key",
+        "json_path",
+        "recommendation",
+        "risk_level"
+      ],
+      "title": "SecurityFinding",
+      "type": "object"
+    },
+    "SecurityRiskLevel": {
+      "enum": [
+        "info",
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
+      "title": "SecurityRiskLevel",
+      "type": "string"
+    },
+    "TrustState": {
+      "enum": [
+        "trusted",
+        "partial",
+        "untrusted",
+        "quarantined",
+        "unknown"
+      ],
+      "title": "TrustState",
+      "type": "string"
+    }
+  },
+  "$id": "https://planguard.dev/schemas/planguard.security-audit.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifact_id": {
+      "title": "Artifact Id",
+      "type": "string"
+    },
+    "artifact_kind": {
+      "const": "security_audit",
+      "default": "security_audit",
+      "title": "Artifact Kind",
+      "type": "string"
+    },
+    "content_hash": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "title": "Content Hash",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "extensions": {
+      "additionalProperties": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Extensions",
+      "type": "object"
+    },
+    "payload": {
+      "$ref": "#/$defs/SecurityAuditPayload"
+    },
+    "producer": {
+      "$ref": "#/$defs/ProducerIdentity"
+    },
+    "provenance": {
+      "$ref": "#/$defs/Provenance"
+    },
+    "schema_version": {
+      "const": "planguard.security-audit.v1",
+      "default": "planguard.security-audit.v1",
+      "title": "Schema Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "artifact_id",
+    "artifact_kind",
+    "content_hash",
+    "created_at",
+    "extensions",
+    "payload",
+    "producer",
+    "provenance",
+    "schema_version"
+  ],
+  "title": "SecurityAuditArtifact",
+  "type": "object"
+}

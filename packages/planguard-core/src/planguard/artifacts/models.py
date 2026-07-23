@@ -1,4 +1,4 @@
-"""Canonical PlanGuard artifact contracts through Milestone B.
+"""Canonical PlanGuard artifact contracts through Milestone G.
 
 The module intentionally keeps persisted contracts together so the generated
 JSON Schema and TypeScript boundary are derived from one source of truth.
@@ -1407,6 +1407,558 @@ class ComparisonReportPayload(FrozenModel):
     limitations: tuple[str, ...] = ()
 
 
+
+# ---------------------------------------------------------------------------
+# Milestone F universe coverage, novelty, and corpus-evolution contracts.
+# ---------------------------------------------------------------------------
+
+
+class UniverseConstraintKind(StrEnum):
+    APPLICABILITY = "applicability"
+    EXCLUSION = "exclusion"
+    IMPLICATION = "implication"
+    CAPABILITY = "capability"
+
+
+class CoverageCellStatus(StrEnum):
+    COVERED = "covered"
+    UNCOVERED = "uncovered"
+    INAPPLICABLE = "inapplicable"
+    UNSUPPORTED = "unsupported"
+    UNKNOWN = "unknown"
+
+
+class NoveltyStatus(StrEnum):
+    NOVEL = "novel"
+    KNOWN = "known"
+    PARTIAL = "partial"
+    NOT_EVALUATED = "not_evaluated"
+
+
+class CounterexampleLabel(StrEnum):
+    FALSE_POSITIVE = "false_positive"
+    FALSE_NEGATIVE = "false_negative"
+    UNEXPECTED_REGRESSION = "unexpected_regression"
+    UNEXPECTED_NON_REGRESSION = "unexpected_non_regression"
+    UNCLASSIFIED = "unclassified"
+
+
+class WorkflowStatus(StrEnum):
+    CREATED = "created"
+    RUNNING = "running"
+    COMPLETED = "completed"
+    FAILED = "failed"
+    REJECTED = "rejected"
+
+
+class UniverseAxis(FrozenModel):
+    axis_key: str
+    title: str
+    domain: ParameterDomain
+    source_kind: Literal["scenario_parameter", "registry", "derived", "capability", "opaque"] = "scenario_parameter"
+    source_key: str | None = None
+    risk_weight: float = Field(default=1.0, ge=0.0)
+    description: str | None = None
+    tags: tuple[str, ...] = ()
+
+
+class UniversePredicate(FrozenModel):
+    field: str
+    operator: Literal["equals", "not_equals", "in", "not_in", "greater_than", "greater_or_equal", "less_than", "less_or_equal", "exists"]
+    value: JsonValue | None = None
+
+    @field_validator("value")
+    @classmethod
+    def validate_value(cls, value):
+        canonical_data(value)
+        return value
+
+
+class UniverseConstraint(FrozenModel):
+    constraint_key: str
+    kind: UniverseConstraintKind
+    when: tuple[UniversePredicate, ...] = ()
+    require: tuple[UniversePredicate, ...] = ()
+    excluded: bool = False
+    required_capabilities: tuple[str, ...] = ()
+    explanation: str
+
+
+class CoverageStrategyDefinition(FrozenModel):
+    strategy_key: str
+    kind: Literal["partition", "boundary", "pairwise", "three_way", "motif", "mutation", "plan_node", "plan_transition", "decision_boundary", "metamorphic", "custom"]
+    dimensions: tuple[str, ...] = ()
+    parameters: JsonObject = Field(default_factory=dict)
+    priority: int = Field(default=100, ge=0)
+
+
+class UniverseProfilePayload(FrozenModel):
+    universe_key: str
+    title: str
+    description: str
+    target_capabilities: tuple[str, ...]
+    axes: tuple[UniverseAxis, ...]
+    constraints: tuple[UniverseConstraint, ...] = ()
+    strategies: tuple[CoverageStrategyDefinition, ...] = ()
+    template_refs: tuple[ArtifactReference, ...] = ()
+    binding_refs: tuple[ArtifactReference, ...] = ()
+    mutation_refs: tuple[ArtifactReference, ...] = ()
+    unknown_axis_policy: Literal["preserve", "reject"] = "preserve"
+    unsupported_analysis_policy: Literal["capability_gap", "reject"] = "capability_gap"
+    tags: tuple[str, ...] = ()
+
+    @model_validator(mode="after")
+    def validate_universe(self) -> "UniverseProfilePayload":
+        axis_keys = [axis.axis_key for axis in self.axes]
+        if len(axis_keys) != len(set(axis_keys)):
+            raise ValueError("Universe axis keys must be unique")
+        strategy_keys = [strategy.strategy_key for strategy in self.strategies]
+        if len(strategy_keys) != len(set(strategy_keys)):
+            raise ValueError("Coverage strategy keys must be unique")
+        return self
+
+
+class CoverageCell(FrozenModel):
+    cell_key: str
+    coordinates: JsonObject
+    status: CoverageCellStatus
+    strategy_keys: tuple[str, ...] = ()
+    scenario_instance_refs: tuple[ArtifactReference, ...] = ()
+    scenario_run_refs: tuple[ArtifactReference, ...] = ()
+    capability_gaps: tuple[str, ...] = ()
+    reasons: tuple[str, ...] = ()
+    risk_weight: float = Field(default=1.0, ge=0.0)
+
+    @field_validator("coordinates")
+    @classmethod
+    def validate_coordinates(cls, value: JsonObject) -> JsonObject:
+        canonical_data(value)
+        return value
+
+
+class DimensionCoverage(FrozenModel):
+    axis_key: str
+    covered_values: tuple[str, ...] = ()
+    uncovered_values: tuple[str, ...] = ()
+    unsupported_values: tuple[str, ...] = ()
+    inapplicable_values: tuple[str, ...] = ()
+
+
+class InteractionCoverage(FrozenModel):
+    strategy_key: str
+    covered: int = Field(ge=0)
+    total: int = Field(ge=0)
+    ratio: float = Field(ge=0.0, le=1.0)
+
+
+class RepresentativeSelection(FrozenModel):
+    scenario_instance_ref: ArtifactReference
+    covered_cell_keys: tuple[str, ...]
+    marginal_coverage: int = Field(ge=0)
+    score: float = Field(ge=0.0)
+    rationale: tuple[str, ...] = ()
+
+
+class RepresentativeSetPayload(FrozenModel):
+    universe_ref: ArtifactReference
+    strategy_keys: tuple[str, ...]
+    maximum_cases: int = Field(ge=1)
+    seed: int
+    selections: tuple[RepresentativeSelection, ...]
+    covered_cell_keys: tuple[str, ...] = ()
+    uncovered_cell_keys: tuple[str, ...] = ()
+    unsupported_cell_keys: tuple[str, ...] = ()
+    generation_notes: tuple[str, ...] = ()
+
+
+class CoverageReportPayload(FrozenModel):
+    universe_ref: ArtifactReference
+    representative_set_ref: ArtifactReference | None = None
+    evaluated_instance_refs: tuple[ArtifactReference, ...] = ()
+    evaluated_run_refs: tuple[ArtifactReference, ...] = ()
+    cells: tuple[CoverageCell, ...]
+    dimension_coverage: tuple[DimensionCoverage, ...] = ()
+    interaction_coverage: tuple[InteractionCoverage, ...] = ()
+    status_counts: dict[str, int]
+    capability_gaps: tuple[str, ...] = ()
+    novel_observation_refs: tuple[ArtifactReference, ...] = ()
+    limitations: tuple[str, ...] = ()
+
+    @model_validator(mode="after")
+    def validate_counts(self) -> "CoverageReportPayload":
+        actual: dict[str, int] = {}
+        for cell in self.cells:
+            actual[str(cell.status)] = actual.get(str(cell.status), 0) + 1
+        if actual != self.status_counts:
+            raise ValueError("Coverage report status_counts must match cells")
+        return self
+
+
+class NoveltySignaturePayload(FrozenModel):
+    subject_ref: ArtifactReference
+    feature_vector: JsonObject
+    signature_hash: str = Field(pattern=r"^sha256:[0-9a-f]{64}$")
+    status: NoveltyStatus
+    novel_dimensions: tuple[str, ...] = ()
+    nearest_signature_refs: tuple[ArtifactReference, ...] = ()
+    distance: float | None = Field(default=None, ge=0.0)
+    corpus_size: int = Field(default=0, ge=0)
+    explanation: tuple[str, ...] = ()
+
+    @field_validator("feature_vector")
+    @classmethod
+    def validate_features(cls, value: JsonObject) -> JsonObject:
+        canonical_data(value)
+        return value
+
+
+class PreservedPredicate(FrozenModel):
+    predicate_key: str
+    kind: Literal["finding_present", "finding_absent", "policy_failed", "policy_passed", "plan_transition", "oracle_failed", "custom"]
+    subject_ref: ArtifactReference | None = None
+    parameters: JsonObject = Field(default_factory=dict)
+    description: str
+
+
+class CounterexampleCandidatePayload(FrozenModel):
+    source_ref: ArtifactReference
+    label: CounterexampleLabel
+    preserved_predicate: PreservedPredicate
+    scenario_instance_ref: ArtifactReference | None = None
+    novelty_signature_ref: ArtifactReference | None = None
+    status: WorkflowStatus = WorkflowStatus.CREATED
+    reporter_notes: tuple[str, ...] = ()
+    tags: tuple[str, ...] = ()
+
+
+class MinimizationStep(FrozenModel):
+    step_index: int = Field(ge=0)
+    mutation: str
+    before: JsonObject
+    after: JsonObject
+    predicate_preserved: bool
+    explanation: str
+
+
+class MinimizationRunPayload(FrozenModel):
+    candidate_ref: ArtifactReference
+    original_instance_ref: ArtifactReference
+    minimized_instance_ref: ArtifactReference | None = None
+    status: WorkflowStatus
+    steps: tuple[MinimizationStep, ...] = ()
+    original_complexity: float = Field(ge=0.0)
+    minimized_complexity: float | None = Field(default=None, ge=0.0)
+    preserved_predicate: PreservedPredicate
+    capability_gaps: tuple[str, ...] = ()
+    explanation: tuple[str, ...] = ()
+
+
+class CorpusPromotionPayload(FrozenModel):
+    candidate_ref: ArtifactReference
+    minimization_ref: ArtifactReference | None = None
+    source_instance_ref: ArtifactReference
+    status: WorkflowStatus
+    target_collections: tuple[Literal["detector_fixture", "scenario_corpus", "universe_profile", "mutation_registry", "golden_plan"], ...]
+    promoted_artifact_refs: tuple[ArtifactReference, ...] = ()
+    reviewer_notes: tuple[str, ...] = ()
+    promotion_key: str
+
+
+# ---------------------------------------------------------------------------
+# Milestone G benchmark, security, plugin, and OSS release contracts.
+# ---------------------------------------------------------------------------
+
+
+class CacheProtocol(StrEnum):
+    UNCONTROLLED = "uncontrolled"
+    COLD = "cold"
+    WARM = "warm"
+    COLD_THEN_WARM = "cold_then_warm"
+    MIXED = "mixed"
+
+
+class OutlierPolicy(StrEnum):
+    NONE = "none"
+    IQR = "iqr"
+    MAD = "mad"
+
+
+class BenchmarkStatus(StrEnum):
+    CREATED = "created"
+    RUNNING = "running"
+    COMPLETED = "completed"
+    DEGRADED = "degraded"
+    FAILED = "failed"
+
+
+class ScalingClassification(StrEnum):
+    APPROXIMATELY_CONSTANT = "approximately_constant"
+    APPROXIMATELY_LINEAR = "approximately_linear"
+    SUPERLINEAR = "superlinear"
+    SUBLINEAR = "sublinear"
+    THRESHOLD_TRANSITION = "threshold_transition"
+    INCONCLUSIVE = "inconclusive"
+
+
+class SecurityRiskLevel(StrEnum):
+    INFO = "info"
+    LOW = "low"
+    MEDIUM = "medium"
+    HIGH = "high"
+    CRITICAL = "critical"
+
+
+class TrustState(StrEnum):
+    TRUSTED = "trusted"
+    PARTIAL = "partial"
+    UNTRUSTED = "untrusted"
+    QUARANTINED = "quarantined"
+    UNKNOWN = "unknown"
+
+
+class PluginComponentType(StrEnum):
+    DETECTOR = "detector"
+    REPORTER = "reporter"
+    FAMILY_DIMENSION = "family_dimension"
+    SELECTOR_OPERATOR = "selector_operator"
+    WORKLOAD_MOTIF = "workload_motif"
+    PLAN_EXTRACTOR = "plan_extractor"
+    SCENARIO_ADAPTER = "scenario_adapter"
+    MUTATION = "mutation"
+    ARTIFACT_STORE = "artifact_store"
+    COVERAGE_STRATEGY = "coverage_strategy"
+
+
+class PluginDeterminism(StrEnum):
+    DETERMINISTIC = "deterministic"
+    ENVIRONMENT_DEPENDENT = "environment_dependent"
+    NONDETERMINISTIC = "nondeterministic"
+
+
+class ReleaseStatus(StrEnum):
+    DRAFT = "draft"
+    CANDIDATE = "candidate"
+    VERIFIED = "verified"
+    REJECTED = "rejected"
+
+
+class BenchmarkDimension(FrozenModel):
+    dimension_key: str
+    values: tuple[JsonValue, ...]
+    ordered: bool = True
+    unit: str | None = None
+
+    @field_validator("values")
+    @classmethod
+    def validate_values(cls, value: tuple[JsonValue, ...]) -> tuple[JsonValue, ...]:
+        canonical_data(value)
+        if not value:
+            raise ValueError("Benchmark dimensions require at least one value")
+        return value
+
+
+class BenchmarkProtocolPayload(FrozenModel):
+    protocol_key: str
+    title: str
+    warmup_iterations: int = Field(default=1, ge=0)
+    measured_iterations: int = Field(default=5, ge=1)
+    cache_protocol: CacheProtocol = CacheProtocol.UNCONTROLLED
+    randomize_case_order: bool = False
+    random_seed: int = 1
+    outlier_policy: OutlierPolicy = OutlierPolicy.MAD
+    confidence_level: float = Field(default=0.95, gt=0.0, lt=1.0)
+    timeout_seconds: float = Field(default=60.0, gt=0.0)
+    concurrency_levels: tuple[int, ...] = (1,)
+    dimensions: tuple[BenchmarkDimension, ...] = ()
+    required_environment_fields: tuple[str, ...] = ()
+    metrics: tuple[str, ...] = ("wall_time_ms", "database_time_ms", "query_count")
+    notes: tuple[str, ...] = ()
+
+    @field_validator("concurrency_levels")
+    @classmethod
+    def validate_concurrency(cls, value: tuple[int, ...]) -> tuple[int, ...]:
+        if not value or any(item < 1 for item in value):
+            raise ValueError("Concurrency levels must contain positive integers")
+        return value
+
+
+class BenchmarkSample(FrozenModel):
+    case_key: str
+    iteration: int = Field(ge=0)
+    warmup: bool = False
+    dimensions: JsonObject = Field(default_factory=dict)
+    metrics: dict[str, float] = Field(default_factory=dict)
+    scenario_run_ref: ArtifactReference | None = None
+    analysis_run_ref: ArtifactReference | None = None
+    valid: bool = True
+    excluded_reason: str | None = None
+    started_at: datetime | None = None
+    completed_at: datetime | None = None
+
+    @field_validator("dimensions", "metrics")
+    @classmethod
+    def validate_sample_data(cls, value):
+        canonical_data(value)
+        return value
+
+
+class MetricDistribution(FrozenModel):
+    metric_key: str
+    sample_count: int = Field(ge=0)
+    excluded_count: int = Field(ge=0)
+    minimum: float | None = None
+    maximum: float | None = None
+    mean: float | None = None
+    median: float | None = None
+    p95: float | None = None
+    standard_deviation: float | None = None
+    median_absolute_deviation: float | None = None
+    confidence_low: float | None = None
+    confidence_high: float | None = None
+    unit: str | None = None
+
+
+class ScalingAssessment(FrozenModel):
+    metric_key: str
+    independent_dimension: str
+    classification: ScalingClassification
+    slope: float | None = None
+    transition_at: JsonValue | None = None
+    sample_points: int = Field(default=0, ge=0)
+    confidence: float = Field(default=0.0, ge=0.0, le=1.0)
+    explanation: tuple[str, ...] = ()
+
+    @field_validator("transition_at")
+    @classmethod
+    def validate_transition(cls, value):
+        canonical_data(value)
+        return value
+
+
+class ExperimentSeriesPayload(FrozenModel):
+    protocol_ref: ArtifactReference
+    scenario_series_ref: ArtifactReference | None = None
+    status: BenchmarkStatus
+    independent_dimension: str | None = None
+    samples: tuple[BenchmarkSample, ...]
+    distributions: tuple[MetricDistribution, ...] = ()
+    scaling_assessments: tuple[ScalingAssessment, ...] = ()
+    environment_refs: tuple[ArtifactReference, ...] = ()
+    comparability_notes: tuple[str, ...] = ()
+    capability_gaps: tuple[str, ...] = ()
+    limitations: tuple[str, ...] = ()
+
+
+class RedactionRule(FrozenModel):
+    rule_key: str
+    kind: Literal["field_name", "value_pattern", "artifact_path", "sql_literal", "parameter_value", "absolute_path", "custom"]
+    pattern: str | None = None
+    replacement: str = "[REDACTED]"
+    risk_level: SecurityRiskLevel = SecurityRiskLevel.MEDIUM
+    enabled: bool = True
+
+
+class SecurityFinding(FrozenModel):
+    finding_key: str
+    risk_level: SecurityRiskLevel
+    category: str
+    artifact_ref: ArtifactReference | None = None
+    json_path: str | None = None
+    evidence: str
+    recommendation: str
+    automatically_redactable: bool = False
+
+
+class SecurityAuditPayload(FrozenModel):
+    subject_refs: tuple[ArtifactReference, ...]
+    scanned_artifact_count: int = Field(ge=0)
+    trust_state: TrustState
+    findings: tuple[SecurityFinding, ...] = ()
+    status_counts: dict[str, int] = Field(default_factory=dict)
+    integrity_verified: int = Field(default=0, ge=0)
+    integrity_failed: int = Field(default=0, ge=0)
+    missing_reference_count: int = Field(default=0, ge=0)
+    scanned_bytes: int = Field(default=0, ge=0)
+    rules: tuple[RedactionRule, ...] = ()
+    limitations: tuple[str, ...] = ()
+
+
+class ArtifactSanitizationPayload(FrozenModel):
+    source_ref: ArtifactReference
+    sanitized_ref: ArtifactReference | None = None
+    status: WorkflowStatus
+    applied_rule_keys: tuple[str, ...] = ()
+    redacted_paths: tuple[str, ...] = ()
+    preserved_structure: bool = True
+    before_bytes: int = Field(default=0, ge=0)
+    after_bytes: int = Field(default=0, ge=0)
+    warnings: tuple[str, ...] = ()
+
+
+class ArtifactTrustReportPayload(FrozenModel):
+    subject_refs: tuple[ArtifactReference, ...]
+    trust_state: TrustState
+    verified_refs: tuple[ArtifactReference, ...] = ()
+    failed_refs: tuple[ArtifactReference, ...] = ()
+    missing_refs: tuple[ArtifactReference, ...] = ()
+    quarantined_paths: tuple[str, ...] = ()
+    checks: JsonObject = Field(default_factory=dict)
+    explanation: tuple[str, ...] = ()
+
+
+class PluginManifestPayload(FrozenModel):
+    plugin_key: str
+    plugin_version: str
+    package_name: str
+    entry_point_group: str = "planguard.plugins"
+    entry_point_name: str
+    component_type: PluginComponentType
+    contract_version: str = "planguard.plugin.v1"
+    required_capabilities: tuple[str, ...] = ()
+    accepted_schema_versions: tuple[str, ...] = ()
+    emitted_schema_versions: tuple[str, ...] = ()
+    determinism: PluginDeterminism = PluginDeterminism.DETERMINISTIC
+    configuration_schema: JsonObject = Field(default_factory=dict)
+    safety_profile: JsonObject = Field(default_factory=dict)
+    enabled_by_default: bool = False
+    description: str | None = None
+    tags: tuple[str, ...] = ()
+
+
+class DemonstrationCasePayload(FrozenModel):
+    case_key: str
+    title: str
+    description: str
+    scenario_template_ref: ArtifactReference
+    scenario_binding_ref: ArtifactReference
+    baseline_run_ref: ArtifactReference | None = None
+    candidate_run_ref: ArtifactReference | None = None
+    comparison_ref: ArtifactReference | None = None
+    policy_refs: tuple[ArtifactReference, ...] = ()
+    benchmark_series_refs: tuple[ArtifactReference, ...] = ()
+    documentation_path: str
+    expected_mechanisms: tuple[str, ...] = ()
+    verified: bool = False
+    tags: tuple[str, ...] = ()
+
+
+class ReleaseManifestPayload(FrozenModel):
+    release_key: str
+    package_version: str
+    status: ReleaseStatus
+    plugin_contract_version: str
+    artifact_schema_versions: tuple[str, ...]
+    package_checksums: dict[str, str] = Field(default_factory=dict)
+    demonstration_case_refs: tuple[ArtifactReference, ...] = ()
+    plugin_manifest_refs: tuple[ArtifactReference, ...] = ()
+    documentation_paths: tuple[str, ...] = ()
+    compatibility: JsonObject = Field(default_factory=dict)
+    validation_summary: JsonObject = Field(default_factory=dict)
+    security_audit_ref: ArtifactReference | None = None
+    trust_report_ref: ArtifactReference | None = None
+    release_notes: tuple[str, ...] = ()
+
+
 # ---------------------------------------------------------------------------
 # Concrete artifacts.
 # ---------------------------------------------------------------------------
@@ -1591,6 +2143,96 @@ class ComparisonReportArtifact(ArtifactDocument[ComparisonReportPayload]):
     artifact_id: str = Field(default_factory=lambda: new_artifact_id("cmp"))
 
 
+class UniverseProfileArtifact(ArtifactDocument[UniverseProfilePayload]):
+    schema_version: Literal["planguard.universe-profile.v1"] = "planguard.universe-profile.v1"
+    artifact_kind: Literal["universe_profile"] = "universe_profile"
+    artifact_id: str = Field(default_factory=lambda: new_artifact_id("univ"))
+
+
+class RepresentativeSetArtifact(ArtifactDocument[RepresentativeSetPayload]):
+    schema_version: Literal["planguard.representative-set.v1"] = "planguard.representative-set.v1"
+    artifact_kind: Literal["representative_set"] = "representative_set"
+    artifact_id: str = Field(default_factory=lambda: new_artifact_id("rset"))
+
+
+class CoverageReportArtifact(ArtifactDocument[CoverageReportPayload]):
+    schema_version: Literal["planguard.coverage-report.v1"] = "planguard.coverage-report.v1"
+    artifact_kind: Literal["coverage_report"] = "coverage_report"
+    artifact_id: str = Field(default_factory=lambda: new_artifact_id("cov"))
+
+
+class NoveltySignatureArtifact(ArtifactDocument[NoveltySignaturePayload]):
+    schema_version: Literal["planguard.novelty-signature.v1"] = "planguard.novelty-signature.v1"
+    artifact_kind: Literal["novelty_signature"] = "novelty_signature"
+    artifact_id: str = Field(default_factory=lambda: new_artifact_id("nov"))
+
+
+class CounterexampleCandidateArtifact(ArtifactDocument[CounterexampleCandidatePayload]):
+    schema_version: Literal["planguard.counterexample-candidate.v1"] = "planguard.counterexample-candidate.v1"
+    artifact_kind: Literal["counterexample_candidate"] = "counterexample_candidate"
+    artifact_id: str = Field(default_factory=lambda: new_artifact_id("cex"))
+
+
+class MinimizationRunArtifact(ArtifactDocument[MinimizationRunPayload]):
+    schema_version: Literal["planguard.minimization-run.v1"] = "planguard.minimization-run.v1"
+    artifact_kind: Literal["minimization_run"] = "minimization_run"
+    artifact_id: str = Field(default_factory=lambda: new_artifact_id("min"))
+
+
+class CorpusPromotionArtifact(ArtifactDocument[CorpusPromotionPayload]):
+    schema_version: Literal["planguard.corpus-promotion.v1"] = "planguard.corpus-promotion.v1"
+    artifact_kind: Literal["corpus_promotion"] = "corpus_promotion"
+    artifact_id: str = Field(default_factory=lambda: new_artifact_id("prom"))
+
+
+class BenchmarkProtocolArtifact(ArtifactDocument[BenchmarkProtocolPayload]):
+    schema_version: Literal["planguard.benchmark-protocol.v1"] = "planguard.benchmark-protocol.v1"
+    artifact_kind: Literal["benchmark_protocol"] = "benchmark_protocol"
+    artifact_id: str = Field(default_factory=lambda: new_artifact_id("bproto"))
+
+
+class ExperimentSeriesArtifact(ArtifactDocument[ExperimentSeriesPayload]):
+    schema_version: Literal["planguard.experiment-series.v1"] = "planguard.experiment-series.v1"
+    artifact_kind: Literal["experiment_series"] = "experiment_series"
+    artifact_id: str = Field(default_factory=lambda: new_artifact_id("expser"))
+
+
+class SecurityAuditArtifact(ArtifactDocument[SecurityAuditPayload]):
+    schema_version: Literal["planguard.security-audit.v1"] = "planguard.security-audit.v1"
+    artifact_kind: Literal["security_audit"] = "security_audit"
+    artifact_id: str = Field(default_factory=lambda: new_artifact_id("secaud"))
+
+
+class ArtifactSanitizationArtifact(ArtifactDocument[ArtifactSanitizationPayload]):
+    schema_version: Literal["planguard.artifact-sanitization.v1"] = "planguard.artifact-sanitization.v1"
+    artifact_kind: Literal["artifact_sanitization"] = "artifact_sanitization"
+    artifact_id: str = Field(default_factory=lambda: new_artifact_id("sanrec"))
+
+
+class ArtifactTrustReportArtifact(ArtifactDocument[ArtifactTrustReportPayload]):
+    schema_version: Literal["planguard.artifact-trust-report.v1"] = "planguard.artifact-trust-report.v1"
+    artifact_kind: Literal["artifact_trust_report"] = "artifact_trust_report"
+    artifact_id: str = Field(default_factory=lambda: new_artifact_id("trust"))
+
+
+class PluginManifestArtifact(ArtifactDocument[PluginManifestPayload]):
+    schema_version: Literal["planguard.plugin-manifest.v1"] = "planguard.plugin-manifest.v1"
+    artifact_kind: Literal["plugin_manifest"] = "plugin_manifest"
+    artifact_id: str = Field(default_factory=lambda: new_artifact_id("plug"))
+
+
+class DemonstrationCaseArtifact(ArtifactDocument[DemonstrationCasePayload]):
+    schema_version: Literal["planguard.demonstration-case.v1"] = "planguard.demonstration-case.v1"
+    artifact_kind: Literal["demonstration_case"] = "demonstration_case"
+    artifact_id: str = Field(default_factory=lambda: new_artifact_id("demo"))
+
+
+class ReleaseManifestArtifact(ArtifactDocument[ReleaseManifestPayload]):
+    schema_version: Literal["planguard.release-manifest.v1"] = "planguard.release-manifest.v1"
+    artifact_kind: Literal["release_manifest"] = "release_manifest"
+    artifact_id: str = Field(default_factory=lambda: new_artifact_id("rel"))
+
+
 AnyArtifact: TypeAlias = Annotated[
     RunManifestArtifact
     | EnvironmentProfileArtifact
@@ -1619,7 +2261,22 @@ AnyArtifact: TypeAlias = Annotated[
     | MutationDefinitionArtifact
     | PlanObservationArtifact
     | PlanCollectionReceiptArtifact
-    | ComparisonReportArtifact,
+    | ComparisonReportArtifact
+    | UniverseProfileArtifact
+    | RepresentativeSetArtifact
+    | CoverageReportArtifact
+    | NoveltySignatureArtifact
+    | CounterexampleCandidateArtifact
+    | MinimizationRunArtifact
+    | CorpusPromotionArtifact
+    | BenchmarkProtocolArtifact
+    | ExperimentSeriesArtifact
+    | SecurityAuditArtifact
+    | ArtifactSanitizationArtifact
+    | ArtifactTrustReportArtifact
+    | PluginManifestArtifact
+    | DemonstrationCaseArtifact
+    | ReleaseManifestArtifact,
     Field(discriminator="artifact_kind"),
 ]
 
@@ -1654,6 +2311,21 @@ ARTIFACT_MODELS: tuple[type[ArtifactDocument[Any]], ...] = (
     PlanObservationArtifact,
     PlanCollectionReceiptArtifact,
     ComparisonReportArtifact,
+    UniverseProfileArtifact,
+    RepresentativeSetArtifact,
+    CoverageReportArtifact,
+    NoveltySignatureArtifact,
+    CounterexampleCandidateArtifact,
+    MinimizationRunArtifact,
+    CorpusPromotionArtifact,
+    BenchmarkProtocolArtifact,
+    ExperimentSeriesArtifact,
+    SecurityAuditArtifact,
+    ArtifactSanitizationArtifact,
+    ArtifactTrustReportArtifact,
+    PluginManifestArtifact,
+    DemonstrationCaseArtifact,
+    ReleaseManifestArtifact,
 )
 
 SelectorExpression.model_rebuild()

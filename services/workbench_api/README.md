@@ -1,15 +1,21 @@
 # PlanGuard Workbench API
 
-Milestone E adds PostgreSQL plan and comparison resources:
+Milestone G adds benchmark, security, plugin, demonstration-case, and release resources while retaining all capture, workload, scenario, plan, comparison, universe, and counterexample APIs.
 
 ```text
-GET  /api/v1/runs/{run_id}/plans
-POST /api/v1/runs/{run_id}/plans/import
-POST /api/v1/runs/{run_id}/plans/collect
-GET  /api/v1/plans/{plan_id}
-GET  /api/v1/comparisons
-POST /api/v1/comparisons/create
-GET  /api/v1/comparisons/{comparison_id}
+GET  /api/v1/benchmarks/protocols
+GET  /api/v1/benchmarks/series
+POST /api/v1/benchmarks/run
+GET  /api/v1/benchmarks/series/{series_id}
+
+POST /api/v1/security/audit
+POST /api/v1/security/sanitize
+POST /api/v1/security/trust
+
+GET  /api/v1/plugins
+GET  /api/v1/demonstrations
+GET  /api/v1/releases
+POST /api/v1/releases/build
 ```
 
-Imported plan analysis is always available. Live database plan collection is disabled unless `PLANGUARD_PLAN_EXECUTION_ENABLED=1`; `EXPLAIN ANALYZE` is additionally constrained by the submitted collection policy and statement safety checks.
+Artifact imports are size-limited, validated before indexing, and quarantined when malformed or over policy limits. Execution-capable benchmark and laboratory operations remain capability-gated. Canonical JSON artifacts remain the source of truth; SQLite is only a rebuildable query projection.

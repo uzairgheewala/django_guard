@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "planguard"
-version = "0.5.0"
-description = "Artifact-first Django/PostgreSQL workload analysis and regression guard"
+version = "0.7.0"
+description = "Artifact-first Django/PostgreSQL workload analysis, benchmarking, security, and regression guard"
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "Apache-2.0" }
@@ -29,11 +29,20 @@ planguard = "planguard.cli:main"
 [project.entry-points.pytest11]
 planguard = "planguard.pytest_plugin.plugin"
 
+
+[project.entry-points."planguard.plugins"]
+academic-lab = "planguard.plugins.builtin:academic_lab_plugin"
+filesystem-store = "planguard.plugins.builtin:filesystem_store_plugin"
+reporters = "planguard.plugins.builtin:reporter_plugin"
+
 [tool.setuptools]
 package-dir = {"" = "packages/planguard-core/src"}
 
 [tool.setuptools.packages.find]
 where = ["packages/planguard-core/src"]
+
+[tool.setuptools.package-data]
+planguard = ["py.typed"]
 
 [tool.pytest.ini_options]
 addopts = "-ra"

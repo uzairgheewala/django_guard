@@ -1,0 +1,8 @@
+{
+  "artifact_id": "sct_f59403d67d075cd9494896d9090f9ea1",
+  "artifact_kind": "scenario_template",
+  "content_hash": "sha256:c7725ce146c9e80b06c54edb0f20f8173fd105df3e78ab678469c8323f43a548",
+  "created_at": "1970-01-01T00:00:00+00:00",
+  "path": "artifacts/sct_f59403d67d075cd9494896d9090f9ea1.json",
+  "schema_version": "planguard.scenario-template.v1"
+}

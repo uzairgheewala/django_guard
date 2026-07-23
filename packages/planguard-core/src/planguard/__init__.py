@@ -1,4 +1,4 @@
-"""PlanGuard developer MVP."""
+"""PlanGuard workload benchmarking, security, and regression platform."""
 
 from .analysis import AnalysisBundle, AnalysisEngine, build_workload, load_analysis_bundle
 from .artifacts.codec import ArtifactCodec, default_codec
@@ -24,6 +24,13 @@ from .artifacts.models import (
     PlanObservationArtifact,
     PlanCollectionReceiptArtifact,
     ComparisonReportArtifact,
+    UniverseProfileArtifact,
+    RepresentativeSetArtifact,
+    CoverageReportArtifact,
+    NoveltySignatureArtifact,
+    CounterexampleCandidateArtifact,
+    MinimizationRunArtifact,
+    CorpusPromotionArtifact,
     WorkloadEpisodeArtifact,
     WorkloadGraphArtifact,
     WorkloadMotifArtifact,
@@ -33,6 +40,15 @@ from .policy import QueryPolicy, evaluate_policy
 from .scenario import OperationResult, ScenarioRegistry, ScenarioRunner, instantiate, scale, contrast
 from .postgres import PlanCollectionPolicy, analyze_plan, collect_plan, import_plan, normalize_postgres_plan, observation_from_raw_plan
 from .comparison import compare_runs
+from .universe import (
+    build_django_postgres_universe, evaluate_coverage, generate_representative_set,
+    evaluate_novelty, create_counterexample, minimize_counterexample,
+    promote_counterexample,
+)
+from .benchmark import BenchmarkMeasurement, BenchmarkRunner, builtin_benchmark_protocols
+from .security import audit_artifacts, sanitize_artifact, verify_artifact_trust
+from .plugins import PluginManager, builtin_plugin_manifests
+from .release import build_release_manifest, verify_demonstration_case
 from .store.filesystem import FilesystemArtifactStore
 from .store.index import ArtifactIndex
 
@@ -65,6 +81,13 @@ __all__ = [
     "PlanObservationArtifact",
     "PlanCollectionReceiptArtifact",
     "ComparisonReportArtifact",
+    "UniverseProfileArtifact",
+    "RepresentativeSetArtifact",
+    "CoverageReportArtifact",
+    "NoveltySignatureArtifact",
+    "CounterexampleCandidateArtifact",
+    "MinimizationRunArtifact",
+    "CorpusPromotionArtifact",
     "PlanCollectionPolicy",
     "ScenarioRegistry",
     "ScenarioRunner",
@@ -86,6 +109,23 @@ __all__ = [
     "normalize_postgres_plan",
     "observation_from_raw_plan",
     "compare_runs",
+    "build_django_postgres_universe",
+    "evaluate_coverage",
+    "generate_representative_set",
+    "evaluate_novelty",
+    "create_counterexample",
+    "minimize_counterexample",
+    "promote_counterexample",
+    "BenchmarkMeasurement",
+    "BenchmarkRunner",
+    "builtin_benchmark_protocols",
+    "audit_artifacts",
+    "sanitize_artifact",
+    "verify_artifact_trust",
+    "PluginManager",
+    "builtin_plugin_manifests",
+    "build_release_manifest",
+    "verify_demonstration_case",
 ]
 
-__version__ = "0.5.0"
+__version__ = "0.7.0"

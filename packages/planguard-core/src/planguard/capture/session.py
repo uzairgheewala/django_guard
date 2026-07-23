@@ -120,7 +120,7 @@ class AnalysisSession:
             hmac_key_id="session-ephemeral",
         )
         self.producer = producer or ProducerIdentity(
-            name="planguard", version="0.5.0", build="milestone-d"
+            name="planguard", version="0.7.0", build="milestone-g"
         )
         self.hmac_key = hmac_key or os.urandom(32)
         self.analyze_enabled = analyze
@@ -358,7 +358,7 @@ class AnalysisSession:
         return tuple(artifacts)
 
     def _environment(self) -> EnvironmentProfileArtifact:
-        components = [RuntimeComponent(name="planguard", version="0.5.0")]
+        components = [RuntimeComponent(name="planguard", version="0.7.0")]
         try:
             import django
 

@@ -1,0 +1,352 @@
+{
+  "$defs": {
+    "ArtifactReference": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "artifact_kind": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Artifact Kind",
+          "type": "string"
+        },
+        "content_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "schema_version": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Schema Version"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "artifact_kind",
+        "content_hash",
+        "schema_version"
+      ],
+      "title": "ArtifactReference",
+      "type": "object"
+    },
+    "PluginComponentType": {
+      "enum": [
+        "detector",
+        "reporter",
+        "family_dimension",
+        "selector_operator",
+        "workload_motif",
+        "plan_extractor",
+        "scenario_adapter",
+        "mutation",
+        "artifact_store",
+        "coverage_strategy"
+      ],
+      "title": "PluginComponentType",
+      "type": "string"
+    },
+    "PluginDeterminism": {
+      "enum": [
+        "deterministic",
+        "environment_dependent",
+        "nondeterministic"
+      ],
+      "title": "PluginDeterminism",
+      "type": "string"
+    },
+    "PluginManifestPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "accepted_schema_versions": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Accepted Schema Versions",
+          "type": "array"
+        },
+        "component_type": {
+          "$ref": "#/$defs/PluginComponentType"
+        },
+        "configuration_schema": {
+          "additionalProperties": true,
+          "title": "Configuration Schema",
+          "type": "object"
+        },
+        "contract_version": {
+          "default": "planguard.plugin.v1",
+          "title": "Contract Version",
+          "type": "string"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "determinism": {
+          "$ref": "#/$defs/PluginDeterminism",
+          "default": "deterministic"
+        },
+        "emitted_schema_versions": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Emitted Schema Versions",
+          "type": "array"
+        },
+        "enabled_by_default": {
+          "default": false,
+          "title": "Enabled By Default",
+          "type": "boolean"
+        },
+        "entry_point_group": {
+          "default": "planguard.plugins",
+          "title": "Entry Point Group",
+          "type": "string"
+        },
+        "entry_point_name": {
+          "title": "Entry Point Name",
+          "type": "string"
+        },
+        "package_name": {
+          "title": "Package Name",
+          "type": "string"
+        },
+        "plugin_key": {
+          "title": "Plugin Key",
+          "type": "string"
+        },
+        "plugin_version": {
+          "title": "Plugin Version",
+          "type": "string"
+        },
+        "required_capabilities": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Required Capabilities",
+          "type": "array"
+        },
+        "safety_profile": {
+          "additionalProperties": true,
+          "title": "Safety Profile",
+          "type": "object"
+        },
+        "tags": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Tags",
+          "type": "array"
+        }
+      },
+      "required": [
+        "accepted_schema_versions",
+        "component_type",
+        "configuration_schema",
+        "contract_version",
+        "description",
+        "determinism",
+        "emitted_schema_versions",
+        "enabled_by_default",
+        "entry_point_group",
+        "entry_point_name",
+        "package_name",
+        "plugin_key",
+        "plugin_version",
+        "required_capabilities",
+        "safety_profile",
+        "tags"
+      ],
+      "title": "PluginManifestPayload",
+      "type": "object"
+    },
+    "ProducerIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "build": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Build"
+        },
+        "name": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "version": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "build",
+        "name",
+        "version"
+      ],
+      "title": "ProducerIdentity",
+      "type": "object"
+    },
+    "Provenance": {
+      "additionalProperties": false,
+      "properties": {
+        "code_revision": {
+          "anyOf": [
+            {
+              "maxLength": 256,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Code Revision"
+        },
+        "configuration_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "derivation_key": {
+          "anyOf": [
+            {
+              "maxLength": 256,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Derivation Key"
+        },
+        "input_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Input Refs",
+          "type": "array"
+        },
+        "notes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "code_revision",
+        "configuration_ref",
+        "derivation_key",
+        "input_refs",
+        "notes"
+      ],
+      "title": "Provenance",
+      "type": "object"
+    }
+  },
+  "$id": "https://planguard.dev/schemas/planguard.plugin-manifest.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifact_id": {
+      "title": "Artifact Id",
+      "type": "string"
+    },
+    "artifact_kind": {
+      "const": "plugin_manifest",
+      "default": "plugin_manifest",
+      "title": "Artifact Kind",
+      "type": "string"
+    },
+    "content_hash": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "title": "Content Hash",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "extensions": {
+      "additionalProperties": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Extensions",
+      "type": "object"
+    },
+    "payload": {
+      "$ref": "#/$defs/PluginManifestPayload"
+    },
+    "producer": {
+      "$ref": "#/$defs/ProducerIdentity"
+    },
+    "provenance": {
+      "$ref": "#/$defs/Provenance"
+    },
+    "schema_version": {
+      "const": "planguard.plugin-manifest.v1",
+      "default": "planguard.plugin-manifest.v1",
+      "title": "Schema Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "artifact_id",
+    "artifact_kind",
+    "content_hash",
+    "created_at",
+    "extensions",
+    "payload",
+    "producer",
+    "provenance",
+    "schema_version"
+  ],
+  "title": "PluginManifestArtifact",
+  "type": "object"
+}

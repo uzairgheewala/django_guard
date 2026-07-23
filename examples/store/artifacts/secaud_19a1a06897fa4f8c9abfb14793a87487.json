@@ -1,0 +1,203 @@
+{
+  "artifact_id": "secaud_19a1a06897fa4f8c9abfb14793a87487",
+  "artifact_kind": "security_audit",
+  "content_hash": "sha256:204b290cff1444a410ad620a90404f6bda5c3608067095d21a98c491a03bb79f",
+  "created_at": "2026-07-23T14:38:17.310619Z",
+  "extensions": {},
+  "payload": {
+    "findings": [
+      {
+        "artifact_ref": {
+          "artifact_id": "cap_b13814964c6540f59dd58c4601ad9296",
+          "artifact_kind": "capture_policy",
+          "content_hash": "sha256:fa0ff1d5711669935f0dfcee85b7ad8b613322826fded97fdd9de899674a4abd",
+          "schema_version": "planguard.capture-policy.v1"
+        },
+        "automatically_redactable": true,
+        "category": "value_pattern",
+        "evidence": "Value matched email-address.v1: security-demonstration@example.com",
+        "finding_key": "email-address.v1:cap_b13814964c6540f59dd58c4601ad9296:$.payload.policy_key",
+        "json_path": "$.payload.policy_key",
+        "recommendation": "Sanitize this field before sharing or exporting the artifact.",
+        "risk_level": "high"
+      },
+      {
+        "artifact_ref": {
+          "artifact_id": "cap_b13814964c6540f59dd58c4601ad9296",
+          "artifact_kind": "capture_policy",
+          "content_hash": "sha256:fa0ff1d5711669935f0dfcee85b7ad8b613322826fded97fdd9de899674a4abd",
+          "schema_version": "planguard.capture-policy.v1"
+        },
+        "automatically_redactable": true,
+        "category": "sql_literal",
+        "evidence": "Raw SQL capture mode preserves statement literals.",
+        "finding_key": "preserved-sql.v1:cap_b13814964c6540f59dd58c4601ad9296:$.payload.raw_sql_mode",
+        "json_path": "$.payload.raw_sql_mode",
+        "recommendation": "Sanitize this field before sharing or exporting the artifact.",
+        "risk_level": "medium"
+      },
+      {
+        "artifact_ref": {
+          "artifact_id": "cap_b13814964c6540f59dd58c4601ad9296",
+          "artifact_kind": "capture_policy",
+          "content_hash": "sha256:fa0ff1d5711669935f0dfcee85b7ad8b613322826fded97fdd9de899674a4abd",
+          "schema_version": "planguard.capture-policy.v1"
+        },
+        "automatically_redactable": true,
+        "category": "value_pattern",
+        "evidence": "Value matched bearer-token.v1: Authorization: Bearer sample.token.for-redaction",
+        "finding_key": "bearer-token.v1:cap_b13814964c6540f59dd58c4601ad9296:$.payload.notes[0]",
+        "json_path": "$.payload.notes[0]",
+        "recommendation": "Sanitize this field before sharing or exporting the artifact.",
+        "risk_level": "critical"
+      },
+      {
+        "artifact_ref": {
+          "artifact_id": "cap_b13814964c6540f59dd58c4601ad9296",
+          "artifact_kind": "capture_policy",
+          "content_hash": "sha256:fa0ff1d5711669935f0dfcee85b7ad8b613322826fded97fdd9de899674a4abd",
+          "schema_version": "planguard.capture-policy.v1"
+        },
+        "automatically_redactable": true,
+        "category": "field_name",
+        "evidence": "Sensitive field name 'api_key'",
+        "finding_key": "credential-field.v1:cap_b13814964c6540f59dd58c4601ad9296:$.extensions.dev.planguard.demo.api_key",
+        "json_path": "$.extensions.dev.planguard.demo.api_key",
+        "recommendation": "Sanitize this field before sharing or exporting the artifact.",
+        "risk_level": "critical"
+      }
+    ],
+    "integrity_failed": 0,
+    "integrity_verified": 3,
+    "limitations": [
+      "Pattern scanning cannot prove the absence of sensitive or identifying information."
+    ],
+    "missing_reference_count": 0,
+    "rules": [
+      {
+        "enabled": true,
+        "kind": "field_name",
+        "pattern": "(?i)(password|passwd|secret|token|api[_-]?key|authorization|cookie|session)",
+        "replacement": "[REDACTED]",
+        "risk_level": "critical",
+        "rule_key": "credential-field.v1"
+      },
+      {
+        "enabled": true,
+        "kind": "value_pattern",
+        "pattern": "(?i)\\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}\\b",
+        "replacement": "[REDACTED]",
+        "risk_level": "high",
+        "rule_key": "email-address.v1"
+      },
+      {
+        "enabled": true,
+        "kind": "value_pattern",
+        "pattern": "(?i)\\bBearer\\s+[A-Za-z0-9._~+/-]+=*",
+        "replacement": "[REDACTED]",
+        "risk_level": "critical",
+        "rule_key": "bearer-token.v1"
+      },
+      {
+        "enabled": true,
+        "kind": "value_pattern",
+        "pattern": "-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----",
+        "replacement": "[REDACTED]",
+        "risk_level": "critical",
+        "rule_key": "private-key.v1"
+      },
+      {
+        "enabled": true,
+        "kind": "value_pattern",
+        "pattern": "\\b(?:\\d[ -]*?){13,19}\\b",
+        "replacement": "[REDACTED]",
+        "risk_level": "high",
+        "rule_key": "payment-card.v1"
+      },
+      {
+        "enabled": true,
+        "kind": "absolute_path",
+        "pattern": "(?:^|[\\s\\\"'])(?:/[A-Za-z0-9_.-]+){2,}|[A-Za-z]:\\\\(?:[^\\\\\\s]+\\\\)+[^\\\\\\s]+",
+        "replacement": "[REDACTED]",
+        "risk_level": "medium",
+        "rule_key": "absolute-path.v1"
+      },
+      {
+        "enabled": true,
+        "kind": "parameter_value",
+        "pattern": null,
+        "replacement": "[REDACTED]",
+        "risk_level": "high",
+        "rule_key": "preserved-parameter.v1"
+      },
+      {
+        "enabled": true,
+        "kind": "sql_literal",
+        "pattern": null,
+        "replacement": "[REDACTED]",
+        "risk_level": "medium",
+        "rule_key": "preserved-sql.v1"
+      }
+    ],
+    "scanned_artifact_count": 3,
+    "scanned_bytes": 19348,
+    "status_counts": {
+      "critical": 2,
+      "high": 1,
+      "medium": 1
+    },
+    "subject_refs": [
+      {
+        "artifact_id": "cap_b13814964c6540f59dd58c4601ad9296",
+        "artifact_kind": "capture_policy",
+        "content_hash": "sha256:fa0ff1d5711669935f0dfcee85b7ad8b613322826fded97fdd9de899674a4abd",
+        "schema_version": "planguard.capture-policy.v1"
+      },
+      {
+        "artifact_id": "bproto_d6c98490e6add23aa8b46fd11ee8e16c",
+        "artifact_kind": "benchmark_protocol",
+        "content_hash": "sha256:ddcb17b20306372212196ba615c4ae3b9c41b21a235cba09e01ab004c41a8dba",
+        "schema_version": "planguard.benchmark-protocol.v1"
+      },
+      {
+        "artifact_id": "expser_bd5874fc9e1141c48217d103380725ae",
+        "artifact_kind": "experiment_series",
+        "content_hash": "sha256:28ed8a760c0bc32aab6ec11134d4dd2032df03be9e67c109a18bfde120275e64",
+        "schema_version": "planguard.experiment-series.v1"
+      }
+    ],
+    "trust_state": "untrusted"
+  },
+  "producer": {
+    "build": "milestone-g-seed",
+    "name": "planguard",
+    "version": "0.7.0"
+  },
+  "provenance": {
+    "code_revision": null,
+    "configuration_ref": null,
+    "derivation_key": "security-audit.v1",
+    "input_refs": [
+      {
+        "artifact_id": "cap_b13814964c6540f59dd58c4601ad9296",
+        "artifact_kind": "capture_policy",
+        "content_hash": "sha256:fa0ff1d5711669935f0dfcee85b7ad8b613322826fded97fdd9de899674a4abd",
+        "schema_version": "planguard.capture-policy.v1"
+      },
+      {
+        "artifact_id": "bproto_d6c98490e6add23aa8b46fd11ee8e16c",
+        "artifact_kind": "benchmark_protocol",
+        "content_hash": "sha256:ddcb17b20306372212196ba615c4ae3b9c41b21a235cba09e01ab004c41a8dba",
+        "schema_version": "planguard.benchmark-protocol.v1"
+      },
+      {
+        "artifact_id": "expser_bd5874fc9e1141c48217d103380725ae",
+        "artifact_kind": "experiment_series",
+        "content_hash": "sha256:28ed8a760c0bc32aab6ec11134d4dd2032df03be9e67c109a18bfde120275e64",
+        "schema_version": "planguard.experiment-series.v1"
+      }
+    ],
+    "notes": []
+  },
+  "schema_version": "planguard.security-audit.v1"
+}

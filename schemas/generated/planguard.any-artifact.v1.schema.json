@@ -262,6 +262,619 @@
       "title": "ArtifactReference",
       "type": "object"
     },
+    "ArtifactSanitizationArtifact": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "artifact_kind": {
+          "const": "artifact_sanitization",
+          "default": "artifact_sanitization",
+          "title": "Artifact Kind",
+          "type": "string"
+        },
+        "content_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "extensions": {
+          "additionalProperties": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Extensions",
+          "type": "object"
+        },
+        "payload": {
+          "$ref": "#/$defs/ArtifactSanitizationPayload"
+        },
+        "producer": {
+          "$ref": "#/$defs/ProducerIdentity"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        },
+        "schema_version": {
+          "const": "planguard.artifact-sanitization.v1",
+          "default": "planguard.artifact-sanitization.v1",
+          "title": "Schema Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "artifact_kind",
+        "content_hash",
+        "created_at",
+        "extensions",
+        "payload",
+        "producer",
+        "provenance",
+        "schema_version"
+      ],
+      "title": "ArtifactSanitizationArtifact",
+      "type": "object"
+    },
+    "ArtifactSanitizationPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "after_bytes": {
+          "default": 0,
+          "minimum": 0,
+          "title": "After Bytes",
+          "type": "integer"
+        },
+        "applied_rule_keys": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Applied Rule Keys",
+          "type": "array"
+        },
+        "before_bytes": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Before Bytes",
+          "type": "integer"
+        },
+        "preserved_structure": {
+          "default": true,
+          "title": "Preserved Structure",
+          "type": "boolean"
+        },
+        "redacted_paths": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Redacted Paths",
+          "type": "array"
+        },
+        "sanitized_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "source_ref": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "status": {
+          "$ref": "#/$defs/WorkflowStatus"
+        },
+        "warnings": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Warnings",
+          "type": "array"
+        }
+      },
+      "required": [
+        "after_bytes",
+        "applied_rule_keys",
+        "before_bytes",
+        "preserved_structure",
+        "redacted_paths",
+        "sanitized_ref",
+        "source_ref",
+        "status",
+        "warnings"
+      ],
+      "title": "ArtifactSanitizationPayload",
+      "type": "object"
+    },
+    "ArtifactTrustReportArtifact": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "artifact_kind": {
+          "const": "artifact_trust_report",
+          "default": "artifact_trust_report",
+          "title": "Artifact Kind",
+          "type": "string"
+        },
+        "content_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "extensions": {
+          "additionalProperties": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Extensions",
+          "type": "object"
+        },
+        "payload": {
+          "$ref": "#/$defs/ArtifactTrustReportPayload"
+        },
+        "producer": {
+          "$ref": "#/$defs/ProducerIdentity"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        },
+        "schema_version": {
+          "const": "planguard.artifact-trust-report.v1",
+          "default": "planguard.artifact-trust-report.v1",
+          "title": "Schema Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "artifact_kind",
+        "content_hash",
+        "created_at",
+        "extensions",
+        "payload",
+        "producer",
+        "provenance",
+        "schema_version"
+      ],
+      "title": "ArtifactTrustReportArtifact",
+      "type": "object"
+    },
+    "ArtifactTrustReportPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "checks": {
+          "additionalProperties": true,
+          "title": "Checks",
+          "type": "object"
+        },
+        "explanation": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Explanation",
+          "type": "array"
+        },
+        "failed_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Failed Refs",
+          "type": "array"
+        },
+        "missing_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Missing Refs",
+          "type": "array"
+        },
+        "quarantined_paths": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Quarantined Paths",
+          "type": "array"
+        },
+        "subject_refs": {
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Subject Refs",
+          "type": "array"
+        },
+        "trust_state": {
+          "$ref": "#/$defs/TrustState"
+        },
+        "verified_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Verified Refs",
+          "type": "array"
+        }
+      },
+      "required": [
+        "checks",
+        "explanation",
+        "failed_refs",
+        "missing_refs",
+        "quarantined_paths",
+        "subject_refs",
+        "trust_state",
+        "verified_refs"
+      ],
+      "title": "ArtifactTrustReportPayload",
+      "type": "object"
+    },
+    "BenchmarkDimension": {
+      "additionalProperties": false,
+      "properties": {
+        "dimension_key": {
+          "title": "Dimension Key",
+          "type": "string"
+        },
+        "ordered": {
+          "default": true,
+          "title": "Ordered",
+          "type": "boolean"
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit"
+        },
+        "values": {
+          "items": {},
+          "title": "Values",
+          "type": "array"
+        }
+      },
+      "required": [
+        "dimension_key",
+        "ordered",
+        "unit",
+        "values"
+      ],
+      "title": "BenchmarkDimension",
+      "type": "object"
+    },
+    "BenchmarkProtocolArtifact": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "artifact_kind": {
+          "const": "benchmark_protocol",
+          "default": "benchmark_protocol",
+          "title": "Artifact Kind",
+          "type": "string"
+        },
+        "content_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "extensions": {
+          "additionalProperties": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Extensions",
+          "type": "object"
+        },
+        "payload": {
+          "$ref": "#/$defs/BenchmarkProtocolPayload"
+        },
+        "producer": {
+          "$ref": "#/$defs/ProducerIdentity"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        },
+        "schema_version": {
+          "const": "planguard.benchmark-protocol.v1",
+          "default": "planguard.benchmark-protocol.v1",
+          "title": "Schema Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "artifact_kind",
+        "content_hash",
+        "created_at",
+        "extensions",
+        "payload",
+        "producer",
+        "provenance",
+        "schema_version"
+      ],
+      "title": "BenchmarkProtocolArtifact",
+      "type": "object"
+    },
+    "BenchmarkProtocolPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "cache_protocol": {
+          "$ref": "#/$defs/CacheProtocol",
+          "default": "uncontrolled"
+        },
+        "concurrency_levels": {
+          "default": [
+            1
+          ],
+          "items": {
+            "type": "integer"
+          },
+          "title": "Concurrency Levels",
+          "type": "array"
+        },
+        "confidence_level": {
+          "default": 0.95,
+          "exclusiveMaximum": 1.0,
+          "exclusiveMinimum": 0.0,
+          "title": "Confidence Level",
+          "type": "number"
+        },
+        "dimensions": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/BenchmarkDimension"
+          },
+          "title": "Dimensions",
+          "type": "array"
+        },
+        "measured_iterations": {
+          "default": 5,
+          "minimum": 1,
+          "title": "Measured Iterations",
+          "type": "integer"
+        },
+        "metrics": {
+          "default": [
+            "wall_time_ms",
+            "database_time_ms",
+            "query_count"
+          ],
+          "items": {
+            "type": "string"
+          },
+          "title": "Metrics",
+          "type": "array"
+        },
+        "notes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "outlier_policy": {
+          "$ref": "#/$defs/OutlierPolicy",
+          "default": "mad"
+        },
+        "protocol_key": {
+          "title": "Protocol Key",
+          "type": "string"
+        },
+        "random_seed": {
+          "default": 1,
+          "title": "Random Seed",
+          "type": "integer"
+        },
+        "randomize_case_order": {
+          "default": false,
+          "title": "Randomize Case Order",
+          "type": "boolean"
+        },
+        "required_environment_fields": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Required Environment Fields",
+          "type": "array"
+        },
+        "timeout_seconds": {
+          "default": 60.0,
+          "exclusiveMinimum": 0.0,
+          "title": "Timeout Seconds",
+          "type": "number"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "warmup_iterations": {
+          "default": 1,
+          "minimum": 0,
+          "title": "Warmup Iterations",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "cache_protocol",
+        "concurrency_levels",
+        "confidence_level",
+        "dimensions",
+        "measured_iterations",
+        "metrics",
+        "notes",
+        "outlier_policy",
+        "protocol_key",
+        "random_seed",
+        "randomize_case_order",
+        "required_environment_fields",
+        "timeout_seconds",
+        "title",
+        "warmup_iterations"
+      ],
+      "title": "BenchmarkProtocolPayload",
+      "type": "object"
+    },
+    "BenchmarkSample": {
+      "additionalProperties": false,
+      "properties": {
+        "analysis_run_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "case_key": {
+          "title": "Case Key",
+          "type": "string"
+        },
+        "completed_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Completed At"
+        },
+        "dimensions": {
+          "additionalProperties": true,
+          "title": "Dimensions",
+          "type": "object"
+        },
+        "excluded_reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Excluded Reason"
+        },
+        "iteration": {
+          "minimum": 0,
+          "title": "Iteration",
+          "type": "integer"
+        },
+        "metrics": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "title": "Metrics",
+          "type": "object"
+        },
+        "scenario_run_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "started_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Started At"
+        },
+        "valid": {
+          "default": true,
+          "title": "Valid",
+          "type": "boolean"
+        },
+        "warmup": {
+          "default": false,
+          "title": "Warmup",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "analysis_run_ref",
+        "case_key",
+        "completed_at",
+        "dimensions",
+        "excluded_reason",
+        "iteration",
+        "metrics",
+        "scenario_run_ref",
+        "started_at",
+        "valid",
+        "warmup"
+      ],
+      "title": "BenchmarkSample",
+      "type": "object"
+    },
+    "BenchmarkStatus": {
+      "enum": [
+        "created",
+        "running",
+        "completed",
+        "degraded",
+        "failed"
+      ],
+      "title": "BenchmarkStatus",
+      "type": "string"
+    },
     "BudgetEvaluationArtifact": {
       "additionalProperties": false,
       "properties": {
@@ -614,6 +1227,17 @@
       ],
       "title": "BundleIntegrity",
       "type": "object"
+    },
+    "CacheProtocol": {
+      "enum": [
+        "uncontrolled",
+        "cold",
+        "warm",
+        "cold_then_warm",
+        "mixed"
+      ],
+      "title": "CacheProtocol",
+      "type": "string"
     },
     "CapabilityGap": {
       "additionalProperties": false,
@@ -1223,6 +1847,365 @@
       "title": "ConstraintEvaluation",
       "type": "object"
     },
+    "CorpusPromotionArtifact": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "artifact_kind": {
+          "const": "corpus_promotion",
+          "default": "corpus_promotion",
+          "title": "Artifact Kind",
+          "type": "string"
+        },
+        "content_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "extensions": {
+          "additionalProperties": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Extensions",
+          "type": "object"
+        },
+        "payload": {
+          "$ref": "#/$defs/CorpusPromotionPayload"
+        },
+        "producer": {
+          "$ref": "#/$defs/ProducerIdentity"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        },
+        "schema_version": {
+          "const": "planguard.corpus-promotion.v1",
+          "default": "planguard.corpus-promotion.v1",
+          "title": "Schema Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "artifact_kind",
+        "content_hash",
+        "created_at",
+        "extensions",
+        "payload",
+        "producer",
+        "provenance",
+        "schema_version"
+      ],
+      "title": "CorpusPromotionArtifact",
+      "type": "object"
+    },
+    "CorpusPromotionPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "candidate_ref": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "minimization_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "promoted_artifact_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Promoted Artifact Refs",
+          "type": "array"
+        },
+        "promotion_key": {
+          "title": "Promotion Key",
+          "type": "string"
+        },
+        "reviewer_notes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Reviewer Notes",
+          "type": "array"
+        },
+        "source_instance_ref": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "status": {
+          "$ref": "#/$defs/WorkflowStatus"
+        },
+        "target_collections": {
+          "items": {
+            "enum": [
+              "detector_fixture",
+              "scenario_corpus",
+              "universe_profile",
+              "mutation_registry",
+              "golden_plan"
+            ],
+            "type": "string"
+          },
+          "title": "Target Collections",
+          "type": "array"
+        }
+      },
+      "required": [
+        "candidate_ref",
+        "minimization_ref",
+        "promoted_artifact_refs",
+        "promotion_key",
+        "reviewer_notes",
+        "source_instance_ref",
+        "status",
+        "target_collections"
+      ],
+      "title": "CorpusPromotionPayload",
+      "type": "object"
+    },
+    "CounterexampleCandidateArtifact": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "artifact_kind": {
+          "const": "counterexample_candidate",
+          "default": "counterexample_candidate",
+          "title": "Artifact Kind",
+          "type": "string"
+        },
+        "content_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "extensions": {
+          "additionalProperties": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Extensions",
+          "type": "object"
+        },
+        "payload": {
+          "$ref": "#/$defs/CounterexampleCandidatePayload"
+        },
+        "producer": {
+          "$ref": "#/$defs/ProducerIdentity"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        },
+        "schema_version": {
+          "const": "planguard.counterexample-candidate.v1",
+          "default": "planguard.counterexample-candidate.v1",
+          "title": "Schema Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "artifact_kind",
+        "content_hash",
+        "created_at",
+        "extensions",
+        "payload",
+        "producer",
+        "provenance",
+        "schema_version"
+      ],
+      "title": "CounterexampleCandidateArtifact",
+      "type": "object"
+    },
+    "CounterexampleCandidatePayload": {
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "$ref": "#/$defs/CounterexampleLabel"
+        },
+        "novelty_signature_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "preserved_predicate": {
+          "$ref": "#/$defs/PreservedPredicate"
+        },
+        "reporter_notes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Reporter Notes",
+          "type": "array"
+        },
+        "scenario_instance_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "source_ref": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "status": {
+          "$ref": "#/$defs/WorkflowStatus",
+          "default": "created"
+        },
+        "tags": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Tags",
+          "type": "array"
+        }
+      },
+      "required": [
+        "label",
+        "novelty_signature_ref",
+        "preserved_predicate",
+        "reporter_notes",
+        "scenario_instance_ref",
+        "source_ref",
+        "status",
+        "tags"
+      ],
+      "title": "CounterexampleCandidatePayload",
+      "type": "object"
+    },
+    "CounterexampleLabel": {
+      "enum": [
+        "false_positive",
+        "false_negative",
+        "unexpected_regression",
+        "unexpected_non_regression",
+        "unclassified"
+      ],
+      "title": "CounterexampleLabel",
+      "type": "string"
+    },
+    "CoverageCell": {
+      "additionalProperties": false,
+      "properties": {
+        "capability_gaps": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Capability Gaps",
+          "type": "array"
+        },
+        "cell_key": {
+          "title": "Cell Key",
+          "type": "string"
+        },
+        "coordinates": {
+          "additionalProperties": true,
+          "title": "Coordinates",
+          "type": "object"
+        },
+        "reasons": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Reasons",
+          "type": "array"
+        },
+        "risk_weight": {
+          "default": 1.0,
+          "minimum": 0.0,
+          "title": "Risk Weight",
+          "type": "number"
+        },
+        "scenario_instance_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Scenario Instance Refs",
+          "type": "array"
+        },
+        "scenario_run_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Scenario Run Refs",
+          "type": "array"
+        },
+        "status": {
+          "$ref": "#/$defs/CoverageCellStatus"
+        },
+        "strategy_keys": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Strategy Keys",
+          "type": "array"
+        }
+      },
+      "required": [
+        "capability_gaps",
+        "cell_key",
+        "coordinates",
+        "reasons",
+        "risk_weight",
+        "scenario_instance_refs",
+        "scenario_run_refs",
+        "status",
+        "strategy_keys"
+      ],
+      "title": "CoverageCell",
+      "type": "object"
+    },
+    "CoverageCellStatus": {
+      "enum": [
+        "covered",
+        "uncovered",
+        "inapplicable",
+        "unsupported",
+        "unknown"
+      ],
+      "title": "CoverageCellStatus",
+      "type": "string"
+    },
     "CoverageObligation": {
       "additionalProperties": false,
       "properties": {
@@ -1259,6 +2242,225 @@
         "parameters"
       ],
       "title": "CoverageObligation",
+      "type": "object"
+    },
+    "CoverageReportArtifact": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "artifact_kind": {
+          "const": "coverage_report",
+          "default": "coverage_report",
+          "title": "Artifact Kind",
+          "type": "string"
+        },
+        "content_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "extensions": {
+          "additionalProperties": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Extensions",
+          "type": "object"
+        },
+        "payload": {
+          "$ref": "#/$defs/CoverageReportPayload"
+        },
+        "producer": {
+          "$ref": "#/$defs/ProducerIdentity"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        },
+        "schema_version": {
+          "const": "planguard.coverage-report.v1",
+          "default": "planguard.coverage-report.v1",
+          "title": "Schema Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "artifact_kind",
+        "content_hash",
+        "created_at",
+        "extensions",
+        "payload",
+        "producer",
+        "provenance",
+        "schema_version"
+      ],
+      "title": "CoverageReportArtifact",
+      "type": "object"
+    },
+    "CoverageReportPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "capability_gaps": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Capability Gaps",
+          "type": "array"
+        },
+        "cells": {
+          "items": {
+            "$ref": "#/$defs/CoverageCell"
+          },
+          "title": "Cells",
+          "type": "array"
+        },
+        "dimension_coverage": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/DimensionCoverage"
+          },
+          "title": "Dimension Coverage",
+          "type": "array"
+        },
+        "evaluated_instance_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Evaluated Instance Refs",
+          "type": "array"
+        },
+        "evaluated_run_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Evaluated Run Refs",
+          "type": "array"
+        },
+        "interaction_coverage": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/InteractionCoverage"
+          },
+          "title": "Interaction Coverage",
+          "type": "array"
+        },
+        "limitations": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Limitations",
+          "type": "array"
+        },
+        "novel_observation_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Novel Observation Refs",
+          "type": "array"
+        },
+        "representative_set_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "status_counts": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Status Counts",
+          "type": "object"
+        },
+        "universe_ref": {
+          "$ref": "#/$defs/ArtifactReference"
+        }
+      },
+      "required": [
+        "capability_gaps",
+        "cells",
+        "dimension_coverage",
+        "evaluated_instance_refs",
+        "evaluated_run_refs",
+        "interaction_coverage",
+        "limitations",
+        "novel_observation_refs",
+        "representative_set_ref",
+        "status_counts",
+        "universe_ref"
+      ],
+      "title": "CoverageReportPayload",
+      "type": "object"
+    },
+    "CoverageStrategyDefinition": {
+      "additionalProperties": false,
+      "properties": {
+        "dimensions": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Dimensions",
+          "type": "array"
+        },
+        "kind": {
+          "enum": [
+            "partition",
+            "boundary",
+            "pairwise",
+            "three_way",
+            "motif",
+            "mutation",
+            "plan_node",
+            "plan_transition",
+            "decision_boundary",
+            "metamorphic",
+            "custom"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "parameters": {
+          "additionalProperties": true,
+          "title": "Parameters",
+          "type": "object"
+        },
+        "priority": {
+          "default": 100,
+          "minimum": 0,
+          "title": "Priority",
+          "type": "integer"
+        },
+        "strategy_key": {
+          "title": "Strategy Key",
+          "type": "string"
+        }
+      },
+      "required": [
+        "dimensions",
+        "kind",
+        "parameters",
+        "priority",
+        "strategy_key"
+      ],
+      "title": "CoverageStrategyDefinition",
       "type": "object"
     },
     "DatabaseIdentity": {
@@ -1448,6 +2650,182 @@
         "tenant_count"
       ],
       "title": "DatasetManifestPayload",
+      "type": "object"
+    },
+    "DemonstrationCaseArtifact": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "artifact_kind": {
+          "const": "demonstration_case",
+          "default": "demonstration_case",
+          "title": "Artifact Kind",
+          "type": "string"
+        },
+        "content_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "extensions": {
+          "additionalProperties": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Extensions",
+          "type": "object"
+        },
+        "payload": {
+          "$ref": "#/$defs/DemonstrationCasePayload"
+        },
+        "producer": {
+          "$ref": "#/$defs/ProducerIdentity"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        },
+        "schema_version": {
+          "const": "planguard.demonstration-case.v1",
+          "default": "planguard.demonstration-case.v1",
+          "title": "Schema Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "artifact_kind",
+        "content_hash",
+        "created_at",
+        "extensions",
+        "payload",
+        "producer",
+        "provenance",
+        "schema_version"
+      ],
+      "title": "DemonstrationCaseArtifact",
+      "type": "object"
+    },
+    "DemonstrationCasePayload": {
+      "additionalProperties": false,
+      "properties": {
+        "baseline_run_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "benchmark_series_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Benchmark Series Refs",
+          "type": "array"
+        },
+        "candidate_run_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "case_key": {
+          "title": "Case Key",
+          "type": "string"
+        },
+        "comparison_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "documentation_path": {
+          "title": "Documentation Path",
+          "type": "string"
+        },
+        "expected_mechanisms": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Expected Mechanisms",
+          "type": "array"
+        },
+        "policy_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Policy Refs",
+          "type": "array"
+        },
+        "scenario_binding_ref": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "scenario_template_ref": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "tags": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Tags",
+          "type": "array"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "verified": {
+          "default": false,
+          "title": "Verified",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "baseline_run_ref",
+        "benchmark_series_refs",
+        "candidate_run_ref",
+        "case_key",
+        "comparison_ref",
+        "description",
+        "documentation_path",
+        "expected_mechanisms",
+        "policy_refs",
+        "scenario_binding_ref",
+        "scenario_template_ref",
+        "tags",
+        "title",
+        "verified"
+      ],
+      "title": "DemonstrationCasePayload",
       "type": "object"
     },
     "DetectorReceiptArtifact": {
@@ -1667,6 +3045,56 @@
         "state"
       ],
       "title": "DimensionAssessment",
+      "type": "object"
+    },
+    "DimensionCoverage": {
+      "additionalProperties": false,
+      "properties": {
+        "axis_key": {
+          "title": "Axis Key",
+          "type": "string"
+        },
+        "covered_values": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Covered Values",
+          "type": "array"
+        },
+        "inapplicable_values": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Inapplicable Values",
+          "type": "array"
+        },
+        "uncovered_values": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Uncovered Values",
+          "type": "array"
+        },
+        "unsupported_values": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Unsupported Values",
+          "type": "array"
+        }
+      },
+      "required": [
+        "axis_key",
+        "covered_values",
+        "inapplicable_values",
+        "uncovered_values",
+        "unsupported_values"
+      ],
+      "title": "DimensionCoverage",
       "type": "object"
     },
     "DistributionSpec": {
@@ -1980,6 +3408,171 @@
         "run_id"
       ],
       "title": "EvidencePayload",
+      "type": "object"
+    },
+    "ExperimentSeriesArtifact": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "artifact_kind": {
+          "const": "experiment_series",
+          "default": "experiment_series",
+          "title": "Artifact Kind",
+          "type": "string"
+        },
+        "content_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "extensions": {
+          "additionalProperties": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Extensions",
+          "type": "object"
+        },
+        "payload": {
+          "$ref": "#/$defs/ExperimentSeriesPayload"
+        },
+        "producer": {
+          "$ref": "#/$defs/ProducerIdentity"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        },
+        "schema_version": {
+          "const": "planguard.experiment-series.v1",
+          "default": "planguard.experiment-series.v1",
+          "title": "Schema Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "artifact_kind",
+        "content_hash",
+        "created_at",
+        "extensions",
+        "payload",
+        "producer",
+        "provenance",
+        "schema_version"
+      ],
+      "title": "ExperimentSeriesArtifact",
+      "type": "object"
+    },
+    "ExperimentSeriesPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "capability_gaps": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Capability Gaps",
+          "type": "array"
+        },
+        "comparability_notes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Comparability Notes",
+          "type": "array"
+        },
+        "distributions": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/MetricDistribution"
+          },
+          "title": "Distributions",
+          "type": "array"
+        },
+        "environment_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Environment Refs",
+          "type": "array"
+        },
+        "independent_dimension": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Independent Dimension"
+        },
+        "limitations": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Limitations",
+          "type": "array"
+        },
+        "protocol_ref": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "samples": {
+          "items": {
+            "$ref": "#/$defs/BenchmarkSample"
+          },
+          "title": "Samples",
+          "type": "array"
+        },
+        "scaling_assessments": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ScalingAssessment"
+          },
+          "title": "Scaling Assessments",
+          "type": "array"
+        },
+        "scenario_series_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "status": {
+          "$ref": "#/$defs/BenchmarkStatus"
+        }
+      },
+      "required": [
+        "capability_gaps",
+        "comparability_notes",
+        "distributions",
+        "environment_refs",
+        "independent_dimension",
+        "limitations",
+        "protocol_ref",
+        "samples",
+        "scaling_assessments",
+        "scenario_series_ref",
+        "status"
+      ],
+      "title": "ExperimentSeriesPayload",
       "type": "object"
     },
     "FamilyAggregates": {
@@ -2467,6 +4060,39 @@
       "title": "InferenceMethod",
       "type": "string"
     },
+    "InteractionCoverage": {
+      "additionalProperties": false,
+      "properties": {
+        "covered": {
+          "minimum": 0,
+          "title": "Covered",
+          "type": "integer"
+        },
+        "ratio": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Ratio",
+          "type": "number"
+        },
+        "strategy_key": {
+          "title": "Strategy Key",
+          "type": "string"
+        },
+        "total": {
+          "minimum": 0,
+          "title": "Total",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "covered",
+        "ratio",
+        "strategy_key",
+        "total"
+      ],
+      "title": "InteractionCoverage",
+      "type": "object"
+    },
     "MetricDelta": {
       "additionalProperties": false,
       "properties": {
@@ -2590,6 +4216,349 @@
         "validity"
       ],
       "title": "MetricDelta",
+      "type": "object"
+    },
+    "MetricDistribution": {
+      "additionalProperties": false,
+      "properties": {
+        "confidence_high": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Confidence High"
+        },
+        "confidence_low": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Confidence Low"
+        },
+        "excluded_count": {
+          "minimum": 0,
+          "title": "Excluded Count",
+          "type": "integer"
+        },
+        "maximum": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum"
+        },
+        "mean": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Mean"
+        },
+        "median": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Median"
+        },
+        "median_absolute_deviation": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Median Absolute Deviation"
+        },
+        "metric_key": {
+          "title": "Metric Key",
+          "type": "string"
+        },
+        "minimum": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum"
+        },
+        "p95": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "P95"
+        },
+        "sample_count": {
+          "minimum": 0,
+          "title": "Sample Count",
+          "type": "integer"
+        },
+        "standard_deviation": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Standard Deviation"
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit"
+        }
+      },
+      "required": [
+        "confidence_high",
+        "confidence_low",
+        "excluded_count",
+        "maximum",
+        "mean",
+        "median",
+        "median_absolute_deviation",
+        "metric_key",
+        "minimum",
+        "p95",
+        "sample_count",
+        "standard_deviation",
+        "unit"
+      ],
+      "title": "MetricDistribution",
+      "type": "object"
+    },
+    "MinimizationRunArtifact": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "artifact_kind": {
+          "const": "minimization_run",
+          "default": "minimization_run",
+          "title": "Artifact Kind",
+          "type": "string"
+        },
+        "content_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "extensions": {
+          "additionalProperties": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Extensions",
+          "type": "object"
+        },
+        "payload": {
+          "$ref": "#/$defs/MinimizationRunPayload"
+        },
+        "producer": {
+          "$ref": "#/$defs/ProducerIdentity"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        },
+        "schema_version": {
+          "const": "planguard.minimization-run.v1",
+          "default": "planguard.minimization-run.v1",
+          "title": "Schema Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "artifact_kind",
+        "content_hash",
+        "created_at",
+        "extensions",
+        "payload",
+        "producer",
+        "provenance",
+        "schema_version"
+      ],
+      "title": "MinimizationRunArtifact",
+      "type": "object"
+    },
+    "MinimizationRunPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "candidate_ref": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "capability_gaps": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Capability Gaps",
+          "type": "array"
+        },
+        "explanation": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Explanation",
+          "type": "array"
+        },
+        "minimized_complexity": {
+          "anyOf": [
+            {
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimized Complexity"
+        },
+        "minimized_instance_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "original_complexity": {
+          "minimum": 0.0,
+          "title": "Original Complexity",
+          "type": "number"
+        },
+        "original_instance_ref": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "preserved_predicate": {
+          "$ref": "#/$defs/PreservedPredicate"
+        },
+        "status": {
+          "$ref": "#/$defs/WorkflowStatus"
+        },
+        "steps": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/MinimizationStep"
+          },
+          "title": "Steps",
+          "type": "array"
+        }
+      },
+      "required": [
+        "candidate_ref",
+        "capability_gaps",
+        "explanation",
+        "minimized_complexity",
+        "minimized_instance_ref",
+        "original_complexity",
+        "original_instance_ref",
+        "preserved_predicate",
+        "status",
+        "steps"
+      ],
+      "title": "MinimizationRunPayload",
+      "type": "object"
+    },
+    "MinimizationStep": {
+      "additionalProperties": false,
+      "properties": {
+        "after": {
+          "additionalProperties": true,
+          "title": "After",
+          "type": "object"
+        },
+        "before": {
+          "additionalProperties": true,
+          "title": "Before",
+          "type": "object"
+        },
+        "explanation": {
+          "title": "Explanation",
+          "type": "string"
+        },
+        "mutation": {
+          "title": "Mutation",
+          "type": "string"
+        },
+        "predicate_preserved": {
+          "title": "Predicate Preserved",
+          "type": "boolean"
+        },
+        "step_index": {
+          "minimum": 0,
+          "title": "Step Index",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "after",
+        "before",
+        "explanation",
+        "mutation",
+        "predicate_preserved",
+        "step_index"
+      ],
+      "title": "MinimizationStep",
       "type": "object"
     },
     "MotifConstraintDefinition": {
@@ -2841,6 +4810,154 @@
       ],
       "title": "MutationDefinitionPayload",
       "type": "object"
+    },
+    "NoveltySignatureArtifact": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "artifact_kind": {
+          "const": "novelty_signature",
+          "default": "novelty_signature",
+          "title": "Artifact Kind",
+          "type": "string"
+        },
+        "content_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "extensions": {
+          "additionalProperties": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Extensions",
+          "type": "object"
+        },
+        "payload": {
+          "$ref": "#/$defs/NoveltySignaturePayload"
+        },
+        "producer": {
+          "$ref": "#/$defs/ProducerIdentity"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        },
+        "schema_version": {
+          "const": "planguard.novelty-signature.v1",
+          "default": "planguard.novelty-signature.v1",
+          "title": "Schema Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "artifact_kind",
+        "content_hash",
+        "created_at",
+        "extensions",
+        "payload",
+        "producer",
+        "provenance",
+        "schema_version"
+      ],
+      "title": "NoveltySignatureArtifact",
+      "type": "object"
+    },
+    "NoveltySignaturePayload": {
+      "additionalProperties": false,
+      "properties": {
+        "corpus_size": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Corpus Size",
+          "type": "integer"
+        },
+        "distance": {
+          "anyOf": [
+            {
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Distance"
+        },
+        "explanation": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Explanation",
+          "type": "array"
+        },
+        "feature_vector": {
+          "additionalProperties": true,
+          "title": "Feature Vector",
+          "type": "object"
+        },
+        "nearest_signature_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Nearest Signature Refs",
+          "type": "array"
+        },
+        "novel_dimensions": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Novel Dimensions",
+          "type": "array"
+        },
+        "signature_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Signature Hash",
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/NoveltyStatus"
+        },
+        "subject_ref": {
+          "$ref": "#/$defs/ArtifactReference"
+        }
+      },
+      "required": [
+        "corpus_size",
+        "distance",
+        "explanation",
+        "feature_vector",
+        "nearest_signature_refs",
+        "novel_dimensions",
+        "signature_hash",
+        "status",
+        "subject_ref"
+      ],
+      "title": "NoveltySignaturePayload",
+      "type": "object"
+    },
+    "NoveltyStatus": {
+      "enum": [
+        "novel",
+        "known",
+        "partial",
+        "not_evaluated"
+      ],
+      "title": "NoveltyStatus",
+      "type": "string"
     },
     "ObservedQueryFamilyArtifact": {
       "additionalProperties": false,
@@ -3101,6 +5218,15 @@
         "full_stack"
       ],
       "title": "OriginCaptureMode",
+      "type": "string"
+    },
+    "OutlierPolicy": {
+      "enum": [
+        "none",
+        "iqr",
+        "mad"
+      ],
+      "title": "OutlierPolicy",
       "type": "string"
     },
     "ParameterCaptureMode": {
@@ -4473,6 +6599,260 @@
       "title": "PlanObservationPayload",
       "type": "object"
     },
+    "PluginComponentType": {
+      "enum": [
+        "detector",
+        "reporter",
+        "family_dimension",
+        "selector_operator",
+        "workload_motif",
+        "plan_extractor",
+        "scenario_adapter",
+        "mutation",
+        "artifact_store",
+        "coverage_strategy"
+      ],
+      "title": "PluginComponentType",
+      "type": "string"
+    },
+    "PluginDeterminism": {
+      "enum": [
+        "deterministic",
+        "environment_dependent",
+        "nondeterministic"
+      ],
+      "title": "PluginDeterminism",
+      "type": "string"
+    },
+    "PluginManifestArtifact": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "artifact_kind": {
+          "const": "plugin_manifest",
+          "default": "plugin_manifest",
+          "title": "Artifact Kind",
+          "type": "string"
+        },
+        "content_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "extensions": {
+          "additionalProperties": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Extensions",
+          "type": "object"
+        },
+        "payload": {
+          "$ref": "#/$defs/PluginManifestPayload"
+        },
+        "producer": {
+          "$ref": "#/$defs/ProducerIdentity"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        },
+        "schema_version": {
+          "const": "planguard.plugin-manifest.v1",
+          "default": "planguard.plugin-manifest.v1",
+          "title": "Schema Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "artifact_kind",
+        "content_hash",
+        "created_at",
+        "extensions",
+        "payload",
+        "producer",
+        "provenance",
+        "schema_version"
+      ],
+      "title": "PluginManifestArtifact",
+      "type": "object"
+    },
+    "PluginManifestPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "accepted_schema_versions": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Accepted Schema Versions",
+          "type": "array"
+        },
+        "component_type": {
+          "$ref": "#/$defs/PluginComponentType"
+        },
+        "configuration_schema": {
+          "additionalProperties": true,
+          "title": "Configuration Schema",
+          "type": "object"
+        },
+        "contract_version": {
+          "default": "planguard.plugin.v1",
+          "title": "Contract Version",
+          "type": "string"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "determinism": {
+          "$ref": "#/$defs/PluginDeterminism",
+          "default": "deterministic"
+        },
+        "emitted_schema_versions": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Emitted Schema Versions",
+          "type": "array"
+        },
+        "enabled_by_default": {
+          "default": false,
+          "title": "Enabled By Default",
+          "type": "boolean"
+        },
+        "entry_point_group": {
+          "default": "planguard.plugins",
+          "title": "Entry Point Group",
+          "type": "string"
+        },
+        "entry_point_name": {
+          "title": "Entry Point Name",
+          "type": "string"
+        },
+        "package_name": {
+          "title": "Package Name",
+          "type": "string"
+        },
+        "plugin_key": {
+          "title": "Plugin Key",
+          "type": "string"
+        },
+        "plugin_version": {
+          "title": "Plugin Version",
+          "type": "string"
+        },
+        "required_capabilities": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Required Capabilities",
+          "type": "array"
+        },
+        "safety_profile": {
+          "additionalProperties": true,
+          "title": "Safety Profile",
+          "type": "object"
+        },
+        "tags": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Tags",
+          "type": "array"
+        }
+      },
+      "required": [
+        "accepted_schema_versions",
+        "component_type",
+        "configuration_schema",
+        "contract_version",
+        "description",
+        "determinism",
+        "emitted_schema_versions",
+        "enabled_by_default",
+        "entry_point_group",
+        "entry_point_name",
+        "package_name",
+        "plugin_key",
+        "plugin_version",
+        "required_capabilities",
+        "safety_profile",
+        "tags"
+      ],
+      "title": "PluginManifestPayload",
+      "type": "object"
+    },
+    "PreservedPredicate": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "finding_present",
+            "finding_absent",
+            "policy_failed",
+            "policy_passed",
+            "plan_transition",
+            "oracle_failed",
+            "custom"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "parameters": {
+          "additionalProperties": true,
+          "title": "Parameters",
+          "type": "object"
+        },
+        "predicate_key": {
+          "title": "Predicate Key",
+          "type": "string"
+        },
+        "subject_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "description",
+        "kind",
+        "parameters",
+        "predicate_key",
+        "subject_ref"
+      ],
+      "title": "PreservedPredicate",
+      "type": "object"
+    },
     "ProducerIdentity": {
       "additionalProperties": false,
       "properties": {
@@ -5131,6 +7511,64 @@
       "title": "RawSqlMode",
       "type": "string"
     },
+    "RedactionRule": {
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "default": true,
+          "title": "Enabled",
+          "type": "boolean"
+        },
+        "kind": {
+          "enum": [
+            "field_name",
+            "value_pattern",
+            "artifact_path",
+            "sql_literal",
+            "parameter_value",
+            "absolute_path",
+            "custom"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "pattern": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Pattern"
+        },
+        "replacement": {
+          "default": "[REDACTED]",
+          "title": "Replacement",
+          "type": "string"
+        },
+        "risk_level": {
+          "$ref": "#/$defs/SecurityRiskLevel",
+          "default": "medium"
+        },
+        "rule_key": {
+          "title": "Rule Key",
+          "type": "string"
+        }
+      },
+      "required": [
+        "enabled",
+        "kind",
+        "pattern",
+        "replacement",
+        "risk_level",
+        "rule_key"
+      ],
+      "title": "RedactionRule",
+      "type": "object"
+    },
     "RelativeRuleEvaluation": {
       "additionalProperties": false,
       "properties": {
@@ -5198,6 +7636,193 @@
       "title": "RelativeRuleEvaluation",
       "type": "object"
     },
+    "ReleaseManifestArtifact": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "artifact_kind": {
+          "const": "release_manifest",
+          "default": "release_manifest",
+          "title": "Artifact Kind",
+          "type": "string"
+        },
+        "content_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "extensions": {
+          "additionalProperties": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Extensions",
+          "type": "object"
+        },
+        "payload": {
+          "$ref": "#/$defs/ReleaseManifestPayload"
+        },
+        "producer": {
+          "$ref": "#/$defs/ProducerIdentity"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        },
+        "schema_version": {
+          "const": "planguard.release-manifest.v1",
+          "default": "planguard.release-manifest.v1",
+          "title": "Schema Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "artifact_kind",
+        "content_hash",
+        "created_at",
+        "extensions",
+        "payload",
+        "producer",
+        "provenance",
+        "schema_version"
+      ],
+      "title": "ReleaseManifestArtifact",
+      "type": "object"
+    },
+    "ReleaseManifestPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_schema_versions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Artifact Schema Versions",
+          "type": "array"
+        },
+        "compatibility": {
+          "additionalProperties": true,
+          "title": "Compatibility",
+          "type": "object"
+        },
+        "demonstration_case_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Demonstration Case Refs",
+          "type": "array"
+        },
+        "documentation_paths": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Documentation Paths",
+          "type": "array"
+        },
+        "package_checksums": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Package Checksums",
+          "type": "object"
+        },
+        "package_version": {
+          "title": "Package Version",
+          "type": "string"
+        },
+        "plugin_contract_version": {
+          "title": "Plugin Contract Version",
+          "type": "string"
+        },
+        "plugin_manifest_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Plugin Manifest Refs",
+          "type": "array"
+        },
+        "release_key": {
+          "title": "Release Key",
+          "type": "string"
+        },
+        "release_notes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Release Notes",
+          "type": "array"
+        },
+        "security_audit_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "status": {
+          "$ref": "#/$defs/ReleaseStatus"
+        },
+        "trust_report_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "validation_summary": {
+          "additionalProperties": true,
+          "title": "Validation Summary",
+          "type": "object"
+        }
+      },
+      "required": [
+        "artifact_schema_versions",
+        "compatibility",
+        "demonstration_case_refs",
+        "documentation_paths",
+        "package_checksums",
+        "package_version",
+        "plugin_contract_version",
+        "plugin_manifest_refs",
+        "release_key",
+        "release_notes",
+        "security_audit_ref",
+        "status",
+        "trust_report_ref",
+        "validation_summary"
+      ],
+      "title": "ReleaseManifestPayload",
+      "type": "object"
+    },
+    "ReleaseStatus": {
+      "enum": [
+        "draft",
+        "candidate",
+        "verified",
+        "rejected"
+      ],
+      "title": "ReleaseStatus",
+      "type": "string"
+    },
     "RemediationGuidance": {
       "additionalProperties": false,
       "properties": {
@@ -5219,6 +7844,185 @@
         "guidance"
       ],
       "title": "RemediationGuidance",
+      "type": "object"
+    },
+    "RepresentativeSelection": {
+      "additionalProperties": false,
+      "properties": {
+        "covered_cell_keys": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Covered Cell Keys",
+          "type": "array"
+        },
+        "marginal_coverage": {
+          "minimum": 0,
+          "title": "Marginal Coverage",
+          "type": "integer"
+        },
+        "rationale": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Rationale",
+          "type": "array"
+        },
+        "scenario_instance_ref": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "score": {
+          "minimum": 0.0,
+          "title": "Score",
+          "type": "number"
+        }
+      },
+      "required": [
+        "covered_cell_keys",
+        "marginal_coverage",
+        "rationale",
+        "scenario_instance_ref",
+        "score"
+      ],
+      "title": "RepresentativeSelection",
+      "type": "object"
+    },
+    "RepresentativeSetArtifact": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "artifact_kind": {
+          "const": "representative_set",
+          "default": "representative_set",
+          "title": "Artifact Kind",
+          "type": "string"
+        },
+        "content_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "extensions": {
+          "additionalProperties": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Extensions",
+          "type": "object"
+        },
+        "payload": {
+          "$ref": "#/$defs/RepresentativeSetPayload"
+        },
+        "producer": {
+          "$ref": "#/$defs/ProducerIdentity"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        },
+        "schema_version": {
+          "const": "planguard.representative-set.v1",
+          "default": "planguard.representative-set.v1",
+          "title": "Schema Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "artifact_kind",
+        "content_hash",
+        "created_at",
+        "extensions",
+        "payload",
+        "producer",
+        "provenance",
+        "schema_version"
+      ],
+      "title": "RepresentativeSetArtifact",
+      "type": "object"
+    },
+    "RepresentativeSetPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "covered_cell_keys": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Covered Cell Keys",
+          "type": "array"
+        },
+        "generation_notes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Generation Notes",
+          "type": "array"
+        },
+        "maximum_cases": {
+          "minimum": 1,
+          "title": "Maximum Cases",
+          "type": "integer"
+        },
+        "seed": {
+          "title": "Seed",
+          "type": "integer"
+        },
+        "selections": {
+          "items": {
+            "$ref": "#/$defs/RepresentativeSelection"
+          },
+          "title": "Selections",
+          "type": "array"
+        },
+        "strategy_keys": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Strategy Keys",
+          "type": "array"
+        },
+        "uncovered_cell_keys": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Uncovered Cell Keys",
+          "type": "array"
+        },
+        "universe_ref": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "unsupported_cell_keys": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Unsupported Cell Keys",
+          "type": "array"
+        }
+      },
+      "required": [
+        "covered_cell_keys",
+        "generation_notes",
+        "maximum_cases",
+        "seed",
+        "selections",
+        "strategy_keys",
+        "uncovered_cell_keys",
+        "universe_ref",
+        "unsupported_cell_keys"
+      ],
+      "title": "RepresentativeSetPayload",
       "type": "object"
     },
     "RoleBinding": {
@@ -5564,6 +8368,89 @@
       ],
       "title": "RuntimeComponent",
       "type": "object"
+    },
+    "ScalingAssessment": {
+      "additionalProperties": false,
+      "properties": {
+        "classification": {
+          "$ref": "#/$defs/ScalingClassification"
+        },
+        "confidence": {
+          "default": 0.0,
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "explanation": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Explanation",
+          "type": "array"
+        },
+        "independent_dimension": {
+          "title": "Independent Dimension",
+          "type": "string"
+        },
+        "metric_key": {
+          "title": "Metric Key",
+          "type": "string"
+        },
+        "sample_points": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Sample Points",
+          "type": "integer"
+        },
+        "slope": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Slope"
+        },
+        "transition_at": {
+          "anyOf": [
+            {},
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Transition At"
+        }
+      },
+      "required": [
+        "classification",
+        "confidence",
+        "explanation",
+        "independent_dimension",
+        "metric_key",
+        "sample_points",
+        "slope",
+        "transition_at"
+      ],
+      "title": "ScalingAssessment",
+      "type": "object"
+    },
+    "ScalingClassification": {
+      "enum": [
+        "approximately_constant",
+        "approximately_linear",
+        "superlinear",
+        "sublinear",
+        "threshold_transition",
+        "inconclusive"
+      ],
+      "title": "ScalingClassification",
+      "type": "string"
     },
     "ScenarioBindingArtifact": {
       "additionalProperties": false,
@@ -6742,6 +9629,232 @@
       "title": "Score",
       "type": "object"
     },
+    "SecurityAuditArtifact": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "artifact_kind": {
+          "const": "security_audit",
+          "default": "security_audit",
+          "title": "Artifact Kind",
+          "type": "string"
+        },
+        "content_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "extensions": {
+          "additionalProperties": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Extensions",
+          "type": "object"
+        },
+        "payload": {
+          "$ref": "#/$defs/SecurityAuditPayload"
+        },
+        "producer": {
+          "$ref": "#/$defs/ProducerIdentity"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        },
+        "schema_version": {
+          "const": "planguard.security-audit.v1",
+          "default": "planguard.security-audit.v1",
+          "title": "Schema Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "artifact_kind",
+        "content_hash",
+        "created_at",
+        "extensions",
+        "payload",
+        "producer",
+        "provenance",
+        "schema_version"
+      ],
+      "title": "SecurityAuditArtifact",
+      "type": "object"
+    },
+    "SecurityAuditPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "findings": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/SecurityFinding"
+          },
+          "title": "Findings",
+          "type": "array"
+        },
+        "integrity_failed": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Integrity Failed",
+          "type": "integer"
+        },
+        "integrity_verified": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Integrity Verified",
+          "type": "integer"
+        },
+        "limitations": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Limitations",
+          "type": "array"
+        },
+        "missing_reference_count": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Missing Reference Count",
+          "type": "integer"
+        },
+        "rules": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/RedactionRule"
+          },
+          "title": "Rules",
+          "type": "array"
+        },
+        "scanned_artifact_count": {
+          "minimum": 0,
+          "title": "Scanned Artifact Count",
+          "type": "integer"
+        },
+        "scanned_bytes": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Scanned Bytes",
+          "type": "integer"
+        },
+        "status_counts": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Status Counts",
+          "type": "object"
+        },
+        "subject_refs": {
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Subject Refs",
+          "type": "array"
+        },
+        "trust_state": {
+          "$ref": "#/$defs/TrustState"
+        }
+      },
+      "required": [
+        "findings",
+        "integrity_failed",
+        "integrity_verified",
+        "limitations",
+        "missing_reference_count",
+        "rules",
+        "scanned_artifact_count",
+        "scanned_bytes",
+        "status_counts",
+        "subject_refs",
+        "trust_state"
+      ],
+      "title": "SecurityAuditPayload",
+      "type": "object"
+    },
+    "SecurityFinding": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "automatically_redactable": {
+          "default": false,
+          "title": "Automatically Redactable",
+          "type": "boolean"
+        },
+        "category": {
+          "title": "Category",
+          "type": "string"
+        },
+        "evidence": {
+          "title": "Evidence",
+          "type": "string"
+        },
+        "finding_key": {
+          "title": "Finding Key",
+          "type": "string"
+        },
+        "json_path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Json Path"
+        },
+        "recommendation": {
+          "title": "Recommendation",
+          "type": "string"
+        },
+        "risk_level": {
+          "$ref": "#/$defs/SecurityRiskLevel"
+        }
+      },
+      "required": [
+        "artifact_ref",
+        "automatically_redactable",
+        "category",
+        "evidence",
+        "finding_key",
+        "json_path",
+        "recommendation",
+        "risk_level"
+      ],
+      "title": "SecurityFinding",
+      "type": "object"
+    },
+    "SecurityRiskLevel": {
+      "enum": [
+        "info",
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
+      "title": "SecurityRiskLevel",
+      "type": "string"
+    },
     "SelectorExpression": {
       "additionalProperties": false,
       "properties": {
@@ -6879,6 +9992,377 @@
       "title": "SourceFrame",
       "type": "object"
     },
+    "TrustState": {
+      "enum": [
+        "trusted",
+        "partial",
+        "untrusted",
+        "quarantined",
+        "unknown"
+      ],
+      "title": "TrustState",
+      "type": "string"
+    },
+    "UniverseAxis": {
+      "additionalProperties": false,
+      "properties": {
+        "axis_key": {
+          "title": "Axis Key",
+          "type": "string"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "domain": {
+          "$ref": "#/$defs/ParameterDomain"
+        },
+        "risk_weight": {
+          "default": 1.0,
+          "minimum": 0.0,
+          "title": "Risk Weight",
+          "type": "number"
+        },
+        "source_key": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Key"
+        },
+        "source_kind": {
+          "default": "scenario_parameter",
+          "enum": [
+            "scenario_parameter",
+            "registry",
+            "derived",
+            "capability",
+            "opaque"
+          ],
+          "title": "Source Kind",
+          "type": "string"
+        },
+        "tags": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Tags",
+          "type": "array"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        }
+      },
+      "required": [
+        "axis_key",
+        "description",
+        "domain",
+        "risk_weight",
+        "source_key",
+        "source_kind",
+        "tags",
+        "title"
+      ],
+      "title": "UniverseAxis",
+      "type": "object"
+    },
+    "UniverseConstraint": {
+      "additionalProperties": false,
+      "properties": {
+        "constraint_key": {
+          "title": "Constraint Key",
+          "type": "string"
+        },
+        "excluded": {
+          "default": false,
+          "title": "Excluded",
+          "type": "boolean"
+        },
+        "explanation": {
+          "title": "Explanation",
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/$defs/UniverseConstraintKind"
+        },
+        "require": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/UniversePredicate"
+          },
+          "title": "Require",
+          "type": "array"
+        },
+        "required_capabilities": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Required Capabilities",
+          "type": "array"
+        },
+        "when": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/UniversePredicate"
+          },
+          "title": "When",
+          "type": "array"
+        }
+      },
+      "required": [
+        "constraint_key",
+        "excluded",
+        "explanation",
+        "kind",
+        "require",
+        "required_capabilities",
+        "when"
+      ],
+      "title": "UniverseConstraint",
+      "type": "object"
+    },
+    "UniverseConstraintKind": {
+      "enum": [
+        "applicability",
+        "exclusion",
+        "implication",
+        "capability"
+      ],
+      "title": "UniverseConstraintKind",
+      "type": "string"
+    },
+    "UniversePredicate": {
+      "additionalProperties": false,
+      "properties": {
+        "field": {
+          "title": "Field",
+          "type": "string"
+        },
+        "operator": {
+          "enum": [
+            "equals",
+            "not_equals",
+            "in",
+            "not_in",
+            "greater_than",
+            "greater_or_equal",
+            "less_than",
+            "less_or_equal",
+            "exists"
+          ],
+          "title": "Operator",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {},
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        }
+      },
+      "required": [
+        "field",
+        "operator",
+        "value"
+      ],
+      "title": "UniversePredicate",
+      "type": "object"
+    },
+    "UniverseProfileArtifact": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "artifact_kind": {
+          "const": "universe_profile",
+          "default": "universe_profile",
+          "title": "Artifact Kind",
+          "type": "string"
+        },
+        "content_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Content Hash",
+          "type": "string"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "extensions": {
+          "additionalProperties": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Extensions",
+          "type": "object"
+        },
+        "payload": {
+          "$ref": "#/$defs/UniverseProfilePayload"
+        },
+        "producer": {
+          "$ref": "#/$defs/ProducerIdentity"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        },
+        "schema_version": {
+          "const": "planguard.universe-profile.v1",
+          "default": "planguard.universe-profile.v1",
+          "title": "Schema Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "artifact_id",
+        "artifact_kind",
+        "content_hash",
+        "created_at",
+        "extensions",
+        "payload",
+        "producer",
+        "provenance",
+        "schema_version"
+      ],
+      "title": "UniverseProfileArtifact",
+      "type": "object"
+    },
+    "UniverseProfilePayload": {
+      "additionalProperties": false,
+      "properties": {
+        "axes": {
+          "items": {
+            "$ref": "#/$defs/UniverseAxis"
+          },
+          "title": "Axes",
+          "type": "array"
+        },
+        "binding_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Binding Refs",
+          "type": "array"
+        },
+        "constraints": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/UniverseConstraint"
+          },
+          "title": "Constraints",
+          "type": "array"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "mutation_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Mutation Refs",
+          "type": "array"
+        },
+        "strategies": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/CoverageStrategyDefinition"
+          },
+          "title": "Strategies",
+          "type": "array"
+        },
+        "tags": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Tags",
+          "type": "array"
+        },
+        "target_capabilities": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Target Capabilities",
+          "type": "array"
+        },
+        "template_refs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          },
+          "title": "Template Refs",
+          "type": "array"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "universe_key": {
+          "title": "Universe Key",
+          "type": "string"
+        },
+        "unknown_axis_policy": {
+          "default": "preserve",
+          "enum": [
+            "preserve",
+            "reject"
+          ],
+          "title": "Unknown Axis Policy",
+          "type": "string"
+        },
+        "unsupported_analysis_policy": {
+          "default": "capability_gap",
+          "enum": [
+            "capability_gap",
+            "reject"
+          ],
+          "title": "Unsupported Analysis Policy",
+          "type": "string"
+        }
+      },
+      "required": [
+        "axes",
+        "binding_refs",
+        "constraints",
+        "description",
+        "mutation_refs",
+        "strategies",
+        "tags",
+        "target_capabilities",
+        "template_refs",
+        "title",
+        "universe_key",
+        "unknown_axis_policy",
+        "unsupported_analysis_policy"
+      ],
+      "title": "UniverseProfilePayload",
+      "type": "object"
+    },
     "VariantBinding": {
       "additionalProperties": false,
       "properties": {
@@ -6903,6 +10387,17 @@
       ],
       "title": "VariantBinding",
       "type": "object"
+    },
+    "WorkflowStatus": {
+      "enum": [
+        "created",
+        "running",
+        "completed",
+        "failed",
+        "rejected"
+      ],
+      "title": "WorkflowStatus",
+      "type": "string"
     },
     "WorkloadEdge": {
       "additionalProperties": false,
@@ -7416,23 +10911,36 @@
   "discriminator": {
     "mapping": {
       "analysis_summary": "#/$defs/AnalysisSummaryArtifact",
+      "artifact_sanitization": "#/$defs/ArtifactSanitizationArtifact",
+      "artifact_trust_report": "#/$defs/ArtifactTrustReportArtifact",
+      "benchmark_protocol": "#/$defs/BenchmarkProtocolArtifact",
       "budget_evaluation": "#/$defs/BudgetEvaluationArtifact",
       "budget_policy": "#/$defs/BudgetPolicyArtifact",
       "capability_gap": "#/$defs/CapabilityGapArtifact",
       "capture_policy": "#/$defs/CapturePolicyArtifact",
       "comparison_report": "#/$defs/ComparisonReportArtifact",
+      "corpus_promotion": "#/$defs/CorpusPromotionArtifact",
+      "counterexample_candidate": "#/$defs/CounterexampleCandidateArtifact",
+      "coverage_report": "#/$defs/CoverageReportArtifact",
       "dataset_manifest": "#/$defs/DatasetManifestArtifact",
+      "demonstration_case": "#/$defs/DemonstrationCaseArtifact",
       "detector_receipt": "#/$defs/DetectorReceiptArtifact",
       "environment_profile": "#/$defs/EnvironmentProfileArtifact",
       "evidence": "#/$defs/EvidenceArtifact",
+      "experiment_series": "#/$defs/ExperimentSeriesArtifact",
       "family_scheme": "#/$defs/FamilySchemeArtifact",
       "finding": "#/$defs/FindingArtifact",
+      "minimization_run": "#/$defs/MinimizationRunArtifact",
       "mutation_definition": "#/$defs/MutationDefinitionArtifact",
+      "novelty_signature": "#/$defs/NoveltySignatureArtifact",
       "observed_query_family": "#/$defs/ObservedQueryFamilyArtifact",
       "plan_collection_receipt": "#/$defs/PlanCollectionReceiptArtifact",
       "plan_observation": "#/$defs/PlanObservationArtifact",
+      "plugin_manifest": "#/$defs/PluginManifestArtifact",
       "query_execution": "#/$defs/QueryExecutionArtifact",
       "query_template": "#/$defs/QueryTemplateArtifact",
+      "release_manifest": "#/$defs/ReleaseManifestArtifact",
+      "representative_set": "#/$defs/RepresentativeSetArtifact",
       "run_manifest": "#/$defs/RunManifestArtifact",
       "scenario_binding": "#/$defs/ScenarioBindingArtifact",
       "scenario_instance": "#/$defs/ScenarioInstanceArtifact",
@@ -7440,6 +10948,8 @@
       "scenario_run": "#/$defs/ScenarioRunArtifact",
       "scenario_series": "#/$defs/ScenarioSeriesArtifact",
       "scenario_template": "#/$defs/ScenarioTemplateArtifact",
+      "security_audit": "#/$defs/SecurityAuditArtifact",
+      "universe_profile": "#/$defs/UniverseProfileArtifact",
       "workload_episode": "#/$defs/WorkloadEpisodeArtifact",
       "workload_graph": "#/$defs/WorkloadGraphArtifact",
       "workload_motif": "#/$defs/WorkloadMotifArtifact"
@@ -7530,6 +11040,51 @@
     },
     {
       "$ref": "#/$defs/ComparisonReportArtifact"
+    },
+    {
+      "$ref": "#/$defs/UniverseProfileArtifact"
+    },
+    {
+      "$ref": "#/$defs/RepresentativeSetArtifact"
+    },
+    {
+      "$ref": "#/$defs/CoverageReportArtifact"
+    },
+    {
+      "$ref": "#/$defs/NoveltySignatureArtifact"
+    },
+    {
+      "$ref": "#/$defs/CounterexampleCandidateArtifact"
+    },
+    {
+      "$ref": "#/$defs/MinimizationRunArtifact"
+    },
+    {
+      "$ref": "#/$defs/CorpusPromotionArtifact"
+    },
+    {
+      "$ref": "#/$defs/BenchmarkProtocolArtifact"
+    },
+    {
+      "$ref": "#/$defs/ExperimentSeriesArtifact"
+    },
+    {
+      "$ref": "#/$defs/SecurityAuditArtifact"
+    },
+    {
+      "$ref": "#/$defs/ArtifactSanitizationArtifact"
+    },
+    {
+      "$ref": "#/$defs/ArtifactTrustReportArtifact"
+    },
+    {
+      "$ref": "#/$defs/PluginManifestArtifact"
+    },
+    {
+      "$ref": "#/$defs/DemonstrationCaseArtifact"
+    },
+    {
+      "$ref": "#/$defs/ReleaseManifestArtifact"
     }
   ],
   "title": "PlanGuard Any Artifact v1"

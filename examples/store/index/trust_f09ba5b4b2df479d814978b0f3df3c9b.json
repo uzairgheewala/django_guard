@@ -1,0 +1,8 @@
+{
+  "artifact_id": "trust_f09ba5b4b2df479d814978b0f3df3c9b",
+  "artifact_kind": "artifact_trust_report",
+  "content_hash": "sha256:50845252e798f054899e6b9c9ea22738e066691e73b89d4eb18b59f0e43b8025",
+  "created_at": "2026-07-23T14:38:17.328656+00:00",
+  "path": "artifacts/trust_f09ba5b4b2df479d814978b0f3df3c9b.json",
+  "schema_version": "planguard.artifact-trust-report.v1"
+}

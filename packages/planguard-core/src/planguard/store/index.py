@@ -29,6 +29,13 @@ from planguard.artifacts.models import (
     PlanObservationArtifact,
     PlanCollectionReceiptArtifact,
     ComparisonReportArtifact,
+    UniverseProfileArtifact,
+    RepresentativeSetArtifact,
+    CoverageReportArtifact,
+    NoveltySignatureArtifact,
+    CounterexampleCandidateArtifact,
+    MinimizationRunArtifact,
+    CorpusPromotionArtifact,
 )
 from planguard.canonical import canonical_data
 from planguard.store.filesystem import FilesystemArtifactStore
@@ -174,6 +181,36 @@ class ArtifactIndex:
             title = f"{payload.baseline_run_ref.artifact_id} → {payload.candidate_run_ref.artifact_id}"
             status = str(payload.status)
             mode = "comparison"
+        if isinstance(artifact, UniverseProfileArtifact):
+            title = payload.title
+            name = payload.universe_key
+            mode = "universe"
+            tags = payload.tags
+        if isinstance(artifact, RepresentativeSetArtifact):
+            title = f"Representative set ({len(payload.selections)} cases)"
+            mode = "coverage"
+            status = "generated"
+        if isinstance(artifact, CoverageReportArtifact):
+            title = "Universe coverage report"
+            mode = "coverage"
+            status = "evaluated"
+        if isinstance(artifact, NoveltySignatureArtifact):
+            title = f"Behavioral novelty: {payload.status}"
+            status = str(payload.status)
+            mode = "novelty"
+        if isinstance(artifact, CounterexampleCandidateArtifact):
+            title = f"Counterexample: {payload.label}"
+            status = str(payload.status)
+            mode = "counterexample"
+            tags = payload.tags
+        if isinstance(artifact, MinimizationRunArtifact):
+            title = "Counterexample minimization"
+            status = str(payload.status)
+            mode = "minimization"
+        if isinstance(artifact, CorpusPromotionArtifact):
+            title = payload.promotion_key
+            status = str(payload.status)
+            mode = "corpus"
 
         material = canonical_data(payload)
         search_text = " ".join(
@@ -392,4 +429,12 @@ class ArtifactIndex:
             templates = int(db.execute("SELECT COUNT(*) FROM artifacts WHERE artifact_kind = 'scenario_template'").fetchone()[0])
             plans = int(db.execute("SELECT COUNT(*) FROM artifacts WHERE artifact_kind = 'plan_observation'").fetchone()[0])
             comparisons = int(db.execute("SELECT COUNT(*) FROM artifacts WHERE artifact_kind = 'comparison_report'").fetchone()[0])
-        return {"total_artifacts": total, "runs": runs, "findings": findings, "episodes": episodes, "scenarios": scenarios, "scenario_templates": templates, "plans": plans, "comparisons": comparisons, "by_kind": kinds}
+            universes = int(db.execute("SELECT COUNT(*) FROM artifacts WHERE artifact_kind = 'universe_profile'").fetchone()[0])
+            coverage_reports = int(db.execute("SELECT COUNT(*) FROM artifacts WHERE artifact_kind = 'coverage_report'").fetchone()[0])
+            counterexamples = int(db.execute("SELECT COUNT(*) FROM artifacts WHERE artifact_kind = 'counterexample_candidate'").fetchone()[0])
+            benchmark_series = int(db.execute("SELECT COUNT(*) FROM artifacts WHERE artifact_kind = 'experiment_series'").fetchone()[0])
+            security_audits = int(db.execute("SELECT COUNT(*) FROM artifacts WHERE artifact_kind = 'security_audit'").fetchone()[0])
+            plugins = int(db.execute("SELECT COUNT(*) FROM artifacts WHERE artifact_kind = 'plugin_manifest'").fetchone()[0])
+            demonstrations = int(db.execute("SELECT COUNT(*) FROM artifacts WHERE artifact_kind = 'demonstration_case'").fetchone()[0])
+            releases = int(db.execute("SELECT COUNT(*) FROM artifacts WHERE artifact_kind = 'release_manifest'").fetchone()[0])
+        return {"total_artifacts": total, "runs": runs, "findings": findings, "episodes": episodes, "scenarios": scenarios, "scenario_templates": templates, "plans": plans, "comparisons": comparisons, "universes": universes, "coverage_reports": coverage_reports, "counterexamples": counterexamples, "benchmark_series": benchmark_series, "security_audits": security_audits, "plugins": plugins, "demonstrations": demonstrations, "releases": releases, "by_kind": kinds}
